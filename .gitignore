@@ -1,0 +1,16 @@
+.vscode
+node_modules
+package-lock.json
+.DS_Store
+*.log
+*.env
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+build/
+TODOS.txt
+yarn.lock
+
+# api
+./api/.env
+./api/src/logs
