@@ -2,7 +2,11 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/sample', function(req, res, next) {
-  res.send('Hello from the API!');
+  const db = req.db;
+  const collection = db.get('sample');
+  collection.find({},{},function(e,docs){
+      res.send(docs);
+  });
 });
 
 router.get('/', function(req, res, next) {

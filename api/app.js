@@ -18,6 +18,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+const monk = require('monk');
+const db = monk('localhost:27017/kids-save-ocean');
+
+app.use(function(req,res,next){
+  req.db = db;
+  next();
+});
+
 app.use('/', indexRouter);
 
 // catch 404 and forward to error handler
