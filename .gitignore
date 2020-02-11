@@ -10,6 +10,7 @@ yarn-error.log*
 build/
 TODOS.txt
 yarn.lock
+*.next
 
 # api
 ./api/.env
