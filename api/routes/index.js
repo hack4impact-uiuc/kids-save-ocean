@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-var validate = require('jsonschema').validate;
+var validate = require('express-jsonschema').validate;
 
 router.get('/sample', function(req, res, next) {
   const db = req.db;
@@ -15,7 +15,6 @@ router.get('/', function(req, res, next) {
 });
 
 var ModelSchema = {
-  id: '/ModelSchema',
   type: 'object',
   properties: {
     name: {
