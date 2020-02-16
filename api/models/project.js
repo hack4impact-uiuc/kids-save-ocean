@@ -17,7 +17,7 @@ const Stage = new mongoose.Schema({
 
 const SDGenum = {
     1: "NO POVERTY",
-    2: "HUNGER",
+    2: "NO HUNGER",
     3: "GOOD HEALTH AND WELL-BEING",
     4: "QUALITY EDUCATION",
     5: "GENDER EQUALITY",
