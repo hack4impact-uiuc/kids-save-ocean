@@ -1,8 +1,22 @@
-.searchBar {
-    display: flex;
-    justify-content: center;
+.search-bar {
+  margin-right: auto;
+  margin-left: auto;
+  padding: 30px;
+  width: 50%;
 }
 
 .input {
-    text-align: center;
+  text-align: center;
+}
+
+.sdg-general-info {
+  padding-bottom: 30px;
+}
+
+.sdg-card {
+  margin: 0px;
+}
+
+.sdg-col {
+  padding: 0px;
 }
