@@ -15,29 +15,15 @@ import {
 import "../public/style.scss";
 
 export default class App extends Component {
-  // sdgNames = [
-  //   "NO POVERTY",
-  //   "HUNGER",
-  //   "GOOD HEALTH AND WELL-BEING",
-  //   "QUALITY EDUCATION",
-  //   "GENDER EQUALITY",
-  //   "CLEAN WATER AND SANITATION",
-  //   "AFFORDABLE AND CLEAN CLEAN ENERGY",
-  //   "DECENT WORK AND ECONOMIC GROWTH",
-  //   "INDUSTRY, INNOVATION, AND INFRASTRUCTURE",
-  //   "REDUCED INEQUALITIES",
-  //   "SUSTAINABLE CITIES AND COMMUNITIES",
-  //   "RESPONSIBLE CONSUMPTION AND PRODUCTION",
-  //   "CLIMATE ACTION",
-  //   "LIFE BELOW WATER",
-  //   "LIFE ON LAND",
-  //   "PEACE, JUSTICE, AND STRONG INSTITUTIONS",
-  //   "PARTNERSHIPS FOR THE GOALS"
-  // ];
-
-  sdgImages = ["../public/3.png"];
+  sdgImages = [];
+  populateImagesArr = sdgImages => {
+    for (let i = 1; i <= 17; i++) {
+      sdgImages.push(`/sdg-images/${i}.png`);
+    }
+  };
 
   render() {
+    this.populateImagesArr(this.sdgImages);
     return (
       <Container>
         <div className="search-bar">
@@ -56,7 +42,7 @@ export default class App extends Component {
                   onClick={() => console.log("clicked")}
                   style={{
                     cursor: "pointer",
-                    width: "200px",
+                    width: "150px",
                     height: "200px",
                     fontSize: "13px"
                   }}
@@ -64,6 +50,7 @@ export default class App extends Component {
                   <CardImg
                     top
                     width="100%"
+                    height="100%"
                     src={sdgImage}
                     alt="Card image cap"
                   />
