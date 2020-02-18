@@ -1,0 +1,62 @@
+name: CI
+
+on: push
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: cd client
+        run: /
+          cd client
+      - name: npm audit
+        run: |
+          npm install
+          npm audit
+
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: npm run format
+        run: |
+          npm install
+          npm run format:check
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: cd client
+        run: /
+          cd client
+      - name: npm run lint
+        run: |
+          npm install
+          npm run lint
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: cd client
+        run: /
+          cd client
+      - name: npm run build
+        run: |
+          npm install
+          npm run build
