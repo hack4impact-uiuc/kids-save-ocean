@@ -10,10 +10,8 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
-      - name: cd client
-        run: /
-          cd client
       - name: npm audit
+        working-directory: ./client
         run: |
           npm install
           npm audit
@@ -25,8 +23,8 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
-
       - name: npm run format
+        working-directory: ./client
         run: |
           npm install
           npm run format:check
@@ -38,10 +36,8 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
-      - name: cd client
-        run: /
-          cd client
       - name: npm run lint
+        working-directory: ./client
         run: |
           npm install
           npm run lint
@@ -53,10 +49,8 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
-      - name: cd client
-        run: /
-          cd client
       - name: npm run build
+        working-directory: ./client
         run: |
           npm install
           npm run build
