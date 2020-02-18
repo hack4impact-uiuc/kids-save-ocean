@@ -18,7 +18,11 @@ export default class App extends Component {
   sdgImages = [];
   populateImagesArr = sdgImages => {
     for (let i = 1; i <= 17; i++) {
-      sdgImages.push(`/sdg-images/${i}.png`);
+      const sdgObject = {
+        id: i,
+        imageLink: `/sdg-images/${i}.png`
+      };
+      sdgImages.push(sdgObject);
     }
   };
 
@@ -26,15 +30,14 @@ export default class App extends Component {
     this.populateImagesArr(this.sdgImages);
     return (
       <Container>
-        <div className="search-bar">
-          <Input type="text" className="input" placeholder="Search" />
-        </div>
-        <div className="sdg-general-info">
-          <p>Description text here!</p>
+        <div className="page-title">
+          <h1 align="center">
+            <strong>FateMaker</strong>
+          </h1>
         </div>
         <Row>
           {this.sdgImages.map(sdgImage => (
-            <Col className="sdg-col" sm="2">
+            <Col key={sdgImage.id} className="sdg-col" sm="2">
               <CardGroup>
                 <Card
                   className="sdg-card"
@@ -42,7 +45,7 @@ export default class App extends Component {
                   onClick={() => console.log("clicked")}
                   style={{
                     cursor: "pointer",
-                    width: "150px",
+                    width: "200px",
                     height: "200px",
                     fontSize: "13px"
                   }}
@@ -51,7 +54,7 @@ export default class App extends Component {
                     top
                     width="100%"
                     height="100%"
-                    src={sdgImage}
+                    src={sdgImage.imageLink}
                     alt="Card image cap"
                   />
                 </Card>
