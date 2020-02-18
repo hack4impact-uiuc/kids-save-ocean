@@ -14,14 +14,16 @@ app.set("view engine", "jade");
 
 app.use(logger("dev"));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({
+  extended: false
+}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 const monk = require("monk");
 const db = monk("localhost:27017/kids-save-ocean");
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   req.db = db;
   next();
 });
@@ -29,12 +31,12 @@ app.use(function(req, res, next) {
 app.use("/", indexRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res) {
+app.use(function (err, req, res) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
