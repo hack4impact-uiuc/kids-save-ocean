@@ -1,11 +1,11 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
 router.get('/sample', function(req, res) {
   const db = req.db;
-  const collection = db.get('sample');
-  collection.find({},{},function(e,docs){
-      res.send(docs);
+  const collection = db.get("sample");
+  collection.find({}, {}, function(e, docs) {
+    res.send(docs);
   });
 });
 

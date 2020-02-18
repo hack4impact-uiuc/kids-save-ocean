@@ -1,4 +1,4 @@
-name: client
+name: api
 
 on: push
 
@@ -11,7 +11,7 @@ jobs:
         with:
           node-version: 12
       - name: npm audit
-        working-directory: ./client
+        working-directory: ./api
         run: |
           npm install
           npm audit
@@ -24,7 +24,7 @@ jobs:
         with:
           node-version: 12
       - name: npm run format
-        working-directory: ./client
+        working-directory: ./api
         run: |
           npm install
           npm run format:check
@@ -37,20 +37,7 @@ jobs:
         with:
           node-version: 12
       - name: npm run lint
-        working-directory: ./client
+        working-directory: ./api
         run: |
           npm install
           npm run lint
-
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 12
-      - name: npm run build
-        working-directory: ./client
-        run: |
-          npm install
-          npm run build
