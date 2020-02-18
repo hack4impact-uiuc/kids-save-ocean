@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-var validate = require('jsonschema').validate;
+var validate = require('express-jsonschema').validate;
 
 
 var ModelSchema = {
@@ -12,7 +12,8 @@ var ModelSchema = {
         required: true
       },
       sdg: {
-        type: 'number',
+        type: 'array',
+        items:{type: 'integer'},
         required: true
       },
       description: {
@@ -54,17 +55,17 @@ var ModelSchema = {
         res.send(docs);
     });
   });
-
-  router.post('/', function(req, res, next) {
+  // TODO; Check Validate 
+  router.post('/', validate({body: ModelSchema}), function(req, res, next) {
     const db = req.db;
     const collection = db.get('modelCollection');
     const data = req.body;
 
     // Check if data includes proper fields
 
-    if (data && "title" in data) {
+    if (data) {
         collection.insert(data, function(err, obj) {});
-        res.json({ success: data.title + " added!"});
+        res.json({ success: data.name + " added!"});
     } else {
         res.sendStatus(403);
     }
@@ -81,6 +82,19 @@ var ModelSchema = {
         } else {
             res.sendStatus(403);
         }
+    })
+  });
+  router.put('/:model_ID',validate({body: ModelSchema}), function(req, res, next) {
+    const db = req.db;
+    let id = req.params.model_ID;
+    const collection = db.get('modelCollection');
+    collection.find({_id: id}, {$exists: true}, function(e,docs) {
+      if (docs) {
+        collection.update({_id:id},{$set: req.body});
+        res.json({success: id + ' updated!'})
+      } else {
+        res.sendStatus(403);
+      }
     })
   });
   
