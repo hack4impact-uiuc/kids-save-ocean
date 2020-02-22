@@ -1,12 +1,12 @@
-const createError = require('http-errors');
-const express = require('express');
-const path = require('path');
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
+const createError = require("http-errors");
+const express = require("express");
+const path = require("path");
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+const logger = require("morgan");
 
-const indexRouter = require('./routes/index');
-const modelRouter = require('./routes/model');
+const indexRouter = require("./routes/index");
+const modelRouter = require("./routes/model");
 
 const app = express();
 
@@ -23,7 +23,7 @@ app.use(
 );
 app.use(cookieParser());
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, "public")));
 
 const monk = require("monk");
 const db = monk("localhost:27017/kids-save-ocean");
@@ -33,8 +33,8 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use('/', indexRouter);
-app.use('/models', modelRouter);
+app.use("/", indexRouter);
+app.use("/models", modelRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
