@@ -10,11 +10,11 @@ roles:
         - guest
     guest: 
 security_questions:
-    - Do you love this shit?
-    - Are you high right now?
-    - Do you ever get nervous?
-    - Are you single?
-    - I heard you fucked your girl, is it true?
+    - What is the name of your first pet?
+    - Which city were you born in?
+    - Which city did you first meet your spouse?
+    - What was the model of your first car?
+    - What is the name of your childhood best friend?
 useGoogleAuth: true
 security_question: true
 gmail: true

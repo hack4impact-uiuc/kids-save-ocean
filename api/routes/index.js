@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-var validate = require('express-jsonschema').validate;
+const validate = require('express-jsonschema').validate;
 
 router.get("/sample", function(req, res) {
   const db = req.db;
@@ -14,7 +14,7 @@ router.get("/", function(req, res) {
   res.send("Kids Save Ocean");
 });
 
-var ModelSchema = {
+const ModelSchema = {
   type: 'object',
   properties: {
     name: {
