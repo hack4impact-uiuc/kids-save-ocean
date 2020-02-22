@@ -2,7 +2,56 @@ body {
   font-family: "Source Sans Pro", sans-serif;
   font-family: "Open Sans", sans-serif;
 }
-
+.home-block-1 {
+  background-image: radial-gradient(
+      50% 141%,
+      rgba(10, 10, 0, 0.6) 1%,
+      rgba(10, 20, 0, 0.6) 100%
+    ),
+    url("/asset/images/splash.jpg");
+  background-size: cover;
+  background-position: center;
+  height: 60vh;
+  width: auto;
+  opacity: 1;
+  align-content: middle;
+}
+.home-block-col {
+  margin: auto;
+}
+.header-row {
+  margin-top: 10px;
+  height: 1vh;
+}
+.header2-text {
+  color: black;
+  font-weight: bold;
+  font-size: 10vh;
+  text-align: middle;
+}
+.text-link {
+  color: darkblue;
+  text-align: left;
+}
+.header-text {
+  color: black;
+  font-weight: bold;
+  text-align: left;
+}
+.header-img {
+  width: 80%;
+  height: auto;
+}
+.header-img:hover {
+  cursor: pointer;
+}
+.body-text {
+  color: darkgrey;
+  font-size: 20px;
+  height: auto;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
 .page-title {
   padding: 30px;
 }
@@ -27,9 +76,16 @@ body {
 }
 
 .sdg-card {
-  margin: 0px;
+  margin: 0.5px;
 }
-
+.sdg-card:hover {
+  border-width: 2px;
+  border-color: black;
+  margin: 1.5px;
+}
+.sdg-row {
+  margin-top: 50px;
+}
 .sdg-col {
   padding: 0px;
 }
