@@ -5,8 +5,8 @@ body {
 .home-block-1 {
   background-image: radial-gradient(
       50% 141%,
-      rgba(10, 10, 0, 0.6) 1%,
-      rgba(10, 20, 0, 0.6) 100%
+      rgba(11, 47, 129, 0.6) 1%,
+      rgba(43, 134, 161, 0.651) 100%
     ),
     url("/asset/images/splash.jpg");
   background-size: cover;
@@ -46,7 +46,7 @@ body {
   cursor: pointer;
 }
 .body-text {
-  color: darkgrey;
+  color: white;
   font-size: 20px;
   height: auto;
   margin-top: 30px;
