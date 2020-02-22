@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const validate = require('express-jsonschema').validate;
+const validate = require("express-jsonschema").validate;
 
 router.get("/sample", function(req, res) {
   const db = req.db;
@@ -15,40 +15,40 @@ router.get("/", function(req, res) {
 });
 
 const ModelSchema = {
-  type: 'object',
+  type: "object",
   properties: {
     name: {
-      type: 'string',
+      type: "string",
       required: true
     },
     sdg: {
-      type: 'number',
+      type: "number",
       required: true
     },
     description: {
-      type: 'string',
+      type: "string",
       required: true
     },
     stages: {
-      type: 'object',
+      type: "object",
       patternProperties: {
         ".*": {
-          type: 'object',
+          type: "object",
           properties: {
             stakeholders: {
-              type: 'array',
-              items: {type: 'string'}
+              type: "array",
+              items: { type: "string" }
             },
             challenges: {
-              type: 'array',
-              items: {type: 'string'}
+              type: "array",
+              items: { type: "string" }
             },
             insights: {
-              type: 'array',
-              items: {type: 'string'}
+              type: "array",
+              items: { type: "string" }
             },
             description: {
-              type: 'string'
+              type: "string"
             }
           }
         }
@@ -57,7 +57,11 @@ const ModelSchema = {
   }
 };
 
-router.post('/model', validate({body: ModelSchema}), function(req, res, next) {
+router.post("/model", validate({ body: ModelSchema }), function(
+  req,
+  res,
+  next
+) {
   res.send(req.body);
 });
 
