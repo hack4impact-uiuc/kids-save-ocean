@@ -13,10 +13,12 @@ import {
 
 import "../public/style.scss";
 
-const populateImages = () => {
-  const images = new Array(19);
+const numSDGs = 17;
 
-  for (let i = 1; i <= 17; i++) {
+const populateImages = () => {
+  const images = new Array(numSDGs + 1);
+
+  for (let i = 1; i <= numSDGs; i++) {
     const sdgObject = {
       id: i,
       imageLink: `/sdg-images/${i}.png`
@@ -25,10 +27,10 @@ const populateImages = () => {
   }
 
   const sdgObject = {
-    id: 18,
+    id: numSDGs + 1,
     imageLink: `/sdg-images/sdg.png`
   };
-  images[18] = sdgObject;
+  images[numSDGs] = sdgObject;
 
   return images;
 };
