@@ -21,6 +21,44 @@ export const getModels = () => {
       };
     });
 };
+export const getModelsByID = (Model_ID) => {
+  /**
+   * Returns all models
+   * Returns GET_MODEL_FAIL upon failure
+   */
+  const requestString = `${BASE_URL}/models/${Model_ID}`;
+  return axios
+    .get(requestString, {
+      headers: {
+        "Content-Type": "application/JSON"
+      }
+    })
+    .catch(error => {
+      return {
+        type: "GET_MODEL_FAIL",
+        error
+      };
+    });
+};
+export const getModelsBySDG = (SDG_ID) => {
+  /**
+   * Returns all models
+   * Returns GET_MODEL_FAIL upon failure
+   */
+  const requestString = `${BASE_URL}/models/sdg/${SDG_ID}`;
+  return axios
+    .get(requestString, {
+      headers: {
+        "Content-Type": "application/JSON"
+      }
+    })
+    .catch(error => {
+      return {
+        type: "GET_MODEL_FAIL",
+        error
+      };
+    });
+};
 export const addModel = (data) => {
   /**
    * Adds a form
