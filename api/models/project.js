@@ -2,14 +2,14 @@ const mongoose = require('mongoose');
 
 const Project = new mongoose.Schema({
     name : {type: String, required: true},
-    description: {type: String, required: true},
+    description: {type: String, required: false},
     SDG: {type: SDGenum, required: true},
     stage: {type: [Stage], required: false}
 })
 
 const Stage = new mongoose.Schema({
     name: {type: String, required = true},
-    description: {type: String, required: true},
+    description: {type: String, required: false},
     stakeholders: {type: [String], required: false},
     challenges: {type: [String], required: false},
     insights: {type: [String], required: false}
