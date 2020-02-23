@@ -55,7 +55,7 @@ const ModelSchema = {
   }
 };
 
-router.get("/", function (req, res, next) {
+router.get("/", function (req, res) {
   const db = req.db;
   const collection = db.get("modelCollection");
   collection.find({}, {}, function (e, docs) {
@@ -63,7 +63,7 @@ router.get("/", function (req, res, next) {
   });
 });
 
-router.get("/:model_ID", function (req, res, next) {
+router.get("/:model_ID", function (req, res) {
   const db = req.db;
   let id = req.params.model_ID;
   const collection = db.get("modelCollection");
@@ -82,20 +82,15 @@ router.get("/:model_ID", function (req, res, next) {
   );
 });
 //GET models by SDG
-router.get("/sdg/:sdg_num", function (req, res, next) {
+router.get("/sdg/:sdg_num", function (req, res) {
   const db = req.db;
   let sdg_num = parseInt(req.params.sdg_num);
-  if (sdg_num == NaN) {
+  if (isNaN(sdg_num)) {
     res.sendStatus(400);
   }
   const collection = db.get("modelCollection");
   collection.find({
-      sdg: {
-        $elemMatch: {
-          $gte: sdg_num,
-          $lt: sdg_num + 1
-        }
-      }
+      sdg: sdg_num
     }, {
       $exists: true
     },
@@ -133,7 +128,7 @@ router.post(
   }
 );
 
-router.delete("/:model_ID", function (req, res, next) {
+router.delete("/:model_ID", function (req, res) {
   const db = req.db;
   let id = req.params.model_ID;
   const collection = db.get("modelCollection");
@@ -163,7 +158,7 @@ router.put(
   validate({
     body: ModelSchema
   }),
-  function (req, res, next) {
+  function (req, res) {
     const db = req.db;
     let id = req.params.model_ID;
     const collection = db.get("modelCollection");
