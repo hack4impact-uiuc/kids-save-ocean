@@ -17,7 +17,6 @@
     "express-jsonschema": "^1.1.6",
     "http-errors": "~1.6.3",
     "mongodb": "^3.5.3",
-    "mongoose": "^5.9.2",
     "monk": "^7.1.2",
     "morgan": "~1.9.1"
   },

@@ -1,10 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const validate = require("express-jsonschema").validate;
-//schema
 
-const ProjectSchema = {
-  id: "/ProjectSchema",
+const ModelSchema = {
+  id: "/ModelSchema",
   type: "object",
   properties: {
     name: {
@@ -48,8 +47,6 @@ const ProjectSchema = {
   }
 };
 
-
-//GET all models
 router.get("/", function(req, res, next) {
   const db = req.db;
   const collection = db.get("modelCollection");
@@ -90,21 +87,17 @@ router.get("/sdg/:sdg_num", function(req, res, next) {
     }
   );
 });
-//POST
-router.post("/", validate({ body: ProjectSchema }), function(req, res, next) {
+router.post("/", validate({ body: ModelSchema }), function(req, res, next) {
   const db = req.db;
   const collection = db.get("modelCollection");
   const data = req.body;
   collection.insert(data, function(err, obj) {
     if (err) {
       res.sendStatus(500);
-    } else {
-      res.json({ success: data.name + " added!" });
     }
   });
-  
+  res.json({ success: data.name + " added!" });
 });
-//DELETE
 router.delete("/:model_ID", function(req, res, next) {
   const db = req.db;
   let id = req.params.model_ID;
@@ -118,8 +111,7 @@ router.delete("/:model_ID", function(req, res, next) {
     }
   });
 });
-//UPDATE
-router.put("/:model_ID", validate({ body: ProjectSchema }), function(
+router.put("/:model_ID", validate({ body: ModelSchema }), function(
   req,
   res,
   next
