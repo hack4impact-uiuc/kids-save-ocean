@@ -36,31 +36,21 @@ export default class App extends Component {
     this.populateImagesArr(this.sdgImages);
     return (
       <Container>
-        <Row className="header-row" xs="15" justify="center" align="middle">
-          <Col>
+        <Row className="header-row" justify="center" align="middle">
+          <Col xs="1">
             <img className="header-img" src="/homepage-images/menu-icon.png" />
           </Col>
-          <Col>
+          <Col xs="1">
             <img className="header-img" src="/homepage-images/kso-icon.png" />
           </Col>
-          <Col></Col>
-          <Col></Col>
-          <Col></Col>
-          <Col></Col>
-          <Col></Col>
-          <Col></Col>
-          <Col></Col>
-          <Col></Col>
-          <Col></Col>
-          <Col></Col>
-          <Col>
+          <Col xs={{ size: 1, offset: 8 }}>
             <img
               className="header-img"
               src="/homepage-images/notification-icon.png"
             />
           </Col>
-          <Col>
-            <img className="header-img" src="/homepage-images/user3-icon.png" />
+          <Col xs="1">
+            <img className="header-img" src="/homepage-images/user-icon.png" />
           </Col>
         </Row>
         <div className="page-title">
