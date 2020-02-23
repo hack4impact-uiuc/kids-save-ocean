@@ -55,24 +55,26 @@ const ModelSchema = {
   }
 };
 
-router.get("/", function (req, res) {
+router.get("/", function(req, res) {
   const db = req.db;
   const collection = db.get("modelCollection");
-  collection.find({}, {}, function (e, docs) {
+  collection.find({}, {}, function(e, docs) {
     res.send(docs);
   });
 });
 
-router.get("/:model_ID", function (req, res) {
+router.get("/:model_ID", function(req, res) {
   const db = req.db;
   let id = req.params.model_ID;
   const collection = db.get("modelCollection");
-  collection.find({
+  collection.find(
+    {
       _id: id
-    }, {
+    },
+    {
       $exists: true
     },
-    function (e, docs) {
+    function(e, docs) {
       if (docs) {
         res.send(docs);
       } else {
@@ -82,19 +84,21 @@ router.get("/:model_ID", function (req, res) {
   );
 });
 //GET models by SDG
-router.get("/sdg/:sdg_num", function (req, res) {
+router.get("/sdg/:sdg_num", function(req, res) {
   const db = req.db;
   let sdg_num = parseInt(req.params.sdg_num);
   if (isNaN(sdg_num)) {
     res.sendStatus(400);
   }
   const collection = db.get("modelCollection");
-  collection.find({
+  collection.find(
+    {
       sdg: sdg_num
-    }, {
+    },
+    {
       $exists: true
     },
-    function (e, docs) {
+    function(e, docs) {
       if (docs) {
         res.send(docs);
       } else {
@@ -110,42 +114,43 @@ router.post(
   validate({
     body: ModelSchema
   }),
-  function (req, res, next) {
+  function(req, res) {
     const db = req.db;
     const collection = db.get("modelCollection");
     const data = req.body;
 
     // Check if data includes proper fields
-    collection.insert(data, function (err, obj) {
+    collection.insert(data, function(err) {
       if (err) {
         res.sendStatus(500);
       } else {
         res.json({
-          success: data.name + " added!"
+          // `Hello, ${name}!`
+          success: `${data.name} added!`
         });
       }
     });
   }
 );
 
-router.delete("/:model_ID", function (req, res) {
+router.delete("/:model_ID", function(req, res) {
   const db = req.db;
   let id = req.params.model_ID;
   const collection = db.get("modelCollection");
-  collection.find({
+  collection.find(
+    {
       _id: id
-    }, {
+    },
+    {
       $exists: true
     },
-    function (e, docs) {
+    function(e, docs) {
       if (docs) {
         collection.remove({
-            _id: id
-          },
-          function (err, obj) {}
-        );
+          _id: id
+        });
         res.json({
-          success: id + " deleted!"
+          success: `${id} deleted!`
         });
       } else {
         res.sendStatus(400);
@@ -158,24 +163,29 @@ router.put(
   validate({
     body: ModelSchema
   }),
-  function (req, res) {
+  function(req, res) {
     const db = req.db;
     let id = req.params.model_ID;
     const collection = db.get("modelCollection");
-    collection.find({
+    collection.find(
+      {
         _id: id
-      }, {
+      },
+      {
         $exists: true
       },
-      function (e, docs) {
+      function(e, docs) {
         if (docs) {
-          collection.update({
-            _id: id
-          }, {
-            $set: req.body
-          });
+          collection.update(
+            {
+              _id: id
+            },
+            {
+              $set: req.body
+            }
+          );
           res.json({
-            success: id + " updated!"
+            success: `${id} updated!`
           });
         } else {
           res.sendStatus(400);

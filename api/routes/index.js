@@ -1,8 +1,8 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-router.get('/', function (req, res) {
-  res.send('Kids Save Ocean');
+router.get("/", function(req, res) {
+  res.send("Kids Save Ocean");
 });
 
 module.exports = router;
