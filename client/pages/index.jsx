@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Head } from "../components/Head";
+import { Head } from "../components";
 import {
   Button,
   Card,
