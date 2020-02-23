@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import { Component } from "react";
 import { Head } from "../components/Head";
 import ReactPlayer from "react-player";
 import {
@@ -95,12 +95,12 @@ export default class App extends Component {
                   className="sdg-card"
                   tag="a"
                   onClick={() => console.log("clicked")}
-                  style={{
-                    cursor: "pointer",
-                    width: "200px",
-                    height: "200px",
-                    fontSize: "13px"
-                  }}
+                  // style={{
+                  //   cursor: "pointer",
+                  //   width: "200px",
+                  //   height: "200px",
+                  //   fontSize: "13px"
+                  // }}
                 >
                   <CardImg
                     top

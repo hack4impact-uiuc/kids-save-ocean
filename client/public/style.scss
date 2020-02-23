@@ -77,6 +77,10 @@ body {
 
 .sdg-card {
   margin: 0.5px;
+  cursor: pointer;
+  width: 200px;
+  height: 200px;
+  font-size: 13px;
 }
 .sdg-card:hover {
   border-width: 2px;
