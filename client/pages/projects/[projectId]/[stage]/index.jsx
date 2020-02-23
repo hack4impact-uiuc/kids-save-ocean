@@ -1,5 +1,5 @@
-import { Stage } from "../components/Head.jsx";
+import { Stage } from "../../../../components";
 
-const StagePage = props => {
+export default function(props) {
   return <Stage title="Ideation"></Stage>;
-};
+}
