@@ -12,7 +12,6 @@
     "express": "~4.16.1",
     "express-jsonschema": "^1.1.6",
     "http-errors": "~1.6.3",
-    "jade": "^1.11.0",
     "mongodb": "^3.5.2",
     "monk": "^7.1.2",
     "morgan": "~1.9.1"

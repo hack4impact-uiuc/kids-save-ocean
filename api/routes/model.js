@@ -1,53 +1,52 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const validate = require('express-jsonschema').validate;
-
+const validate = require("express-jsonschema").validate;
 
 const ModelSchema = {
-  id: '/ModelSchema',
-  type: 'object',
+  id: "/ModelSchema",
+  type: "object",
   properties: {
     name: {
-      type: 'string',
+      type: "string",
       required: true
     },
     sdg: {
-      type: 'array',
+      type: "array",
       items: {
-        type: 'integer'
+        type: "integer"
       },
       required: true
     },
     description: {
-      type: 'string',
+      type: "string",
       required: true
     },
     stages: {
-      type: 'object',
+      type: "object",
       patternProperties: {
         ".*": {
-          type: 'object',
+          type: "object",
           properties: {
             stakeholders: {
-              type: 'array',
+              type: "array",
               items: {
-                type: 'string'
+                type: "string"
               }
             },
             challenges: {
-              type: 'array',
+              type: "array",
               items: {
-                type: 'string'
+                type: "string"
               }
             },
             insights: {
-              type: 'array',
+              type: "array",
               items: {
-                type: 'string'
+                type: "string"
               }
             },
             description: {
-              type: 'string'
+              type: "string"
             }
           }
         }
@@ -56,9 +55,9 @@ const ModelSchema = {
   }
 };
 
-router.get('/', function (req, res, next) {
+router.get("/", function (req, res, next) {
   const db = req.db;
-  const collection = db.get('modelCollection');
+  const collection = db.get("modelCollection");
   collection.find({}, {}, function (e, docs) {
     res.send(docs);
   });
@@ -69,16 +68,18 @@ router.get("/:model_ID", function (req, res, next) {
   let id = req.params.model_ID;
   const collection = db.get("modelCollection");
   collection.find({
-    _id: id
-  }, {
-    $exists: true
-  }, function (e, docs) {
-    if (docs) {
-      res.send(docs);
-    } else {
-      res.sendStatus(400);
+      _id: id
+    }, {
+      $exists: true
+    },
+    function (e, docs) {
+      if (docs) {
+        res.send(docs);
+      } else {
+        res.sendStatus(400);
+      }
     }
-  });
+  );
 });
 //GET models by SDG
 router.get("/sdg/:sdg_num", function (req, res, next) {
@@ -108,71 +109,85 @@ router.get("/sdg/:sdg_num", function (req, res, next) {
   );
 });
 
+// TODO; Check Validate
+router.post(
+  "/",
+  validate({
+    body: ModelSchema
+  }),
+  function (req, res, next) {
+    const db = req.db;
+    const collection = db.get("modelCollection");
+    const data = req.body;
 
-// TODO; Check Validate 
-router.post('/', validate({
-  body: ModelSchema
-}), function (req, res, next) {
-  const db = req.db;
-  const collection = db.get('modelCollection');
-  const data = req.body;
-
-  // Check if data includes proper fields
-  collection.insert(data, function (err, obj) {});
-  if (err) {
-    res.sendStatus(500);
-  } else {
-    res.json({
-      success: data.name + " added!"
+    // Check if data includes proper fields
+    collection.insert(data, function (err, obj) {
+      if (err) {
+        res.sendStatus(500);
+      } else {
+        res.json({
+          success: data.name + " added!"
+        });
+      }
     });
   }
-});
+);
 
-router.delete('/:model_ID', function (req, res, next) {
-  const db = req.db
-  let id = req.params.model_ID;
-  const collection = db.get('modelCollection');
-  collection.find({
-    _id: id
-  }, {
-    $exists: true
-  }, function (e, docs) {
-    if (docs) {
-      collection.remove({
-        _id: id
-      }, function (err, obj) {});
-      res.json({
-        success: id + ' deleted!'
-      });
-    } else {
-      res.sendStatus(400);
-    }
-  })
-});
-router.put('/:model_ID', validate({
-  body: ModelSchema
-}), function (req, res, next) {
+router.delete("/:model_ID", function (req, res, next) {
   const db = req.db;
   let id = req.params.model_ID;
-  const collection = db.get('modelCollection');
+  const collection = db.get("modelCollection");
   collection.find({
-    _id: id
-  }, {
-    $exists: true
-  }, function (e, docs) {
-    if (docs) {
-      collection.update({
+      _id: id
+    }, {
+      $exists: true
+    },
+    function (e, docs) {
+      if (docs) {
+        collection.remove({
+            _id: id
+          },
+          function (err, obj) {}
+        );
+        res.json({
+          success: id + " deleted!"
+        });
+      } else {
+        res.sendStatus(400);
+      }
+    }
+  );
+});
+router.put(
+  "/:model_ID",
+  validate({
+    body: ModelSchema
+  }),
+  function (req, res, next) {
+    const db = req.db;
+    let id = req.params.model_ID;
+    const collection = db.get("modelCollection");
+    collection.find({
         _id: id
       }, {
-        $set: req.body
-      });
-      res.json({
-        success: id + ' updated!'
-      })
-    } else {
-      res.sendStatus(400);
-    }
-  })
-});
+        $exists: true
+      },
+      function (e, docs) {
+        if (docs) {
+          collection.update({
+            _id: id
+          }, {
+            $set: req.body
+          });
+          res.json({
+            success: id + " updated!"
+          });
+        } else {
+          res.sendStatus(400);
+        }
+      }
+    );
+  }
+);
 
 module.exports = router;
