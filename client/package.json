@@ -6,11 +6,7 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start",
-    "format": "prettier --write \"./**/*.{js,jsx,json,md}\"",
-    "format:check": "prettier --check \"./**/*.{js,jsx,json,md}\"",
-    "lint": "eslint \"./**/*.{js,ts,tsx}\"",
-    "lint:fix": "eslint --fix \"./**/*.{js,jsx}\""
+    "start": "next start"
   },
   "keywords": [],
   "author": "",
@@ -22,10 +18,5 @@
     "node-sass": "^4.13.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0"
-  },
-  "devDependencies": {
-    "@h4iuiuc/eslint-plugin": "^1.0.12",
-    "eslint": "^6.8.0",
-    "prettier": "^1.19.1"
   }
 }

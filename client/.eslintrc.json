@@ -1,4 +1,0 @@
-{
-  "plugins": ["@h4iuiuc"],
-  "extends": ["plugin:@h4iuiuc/recommended"]
-}
