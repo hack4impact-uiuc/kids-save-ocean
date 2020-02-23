@@ -1,8 +1,11 @@
 const nodemailer = require("nodemailer");
 async function sendMail(mail_body) {
   let auth = {
+    type: "OAuth2",
     user: process.env.INFRA_EMAIL,
-    pass: 'kso2020!'
+    clientId: process.env.INFRA_CLIENT_ID,
+    clientSecret: process.env.INFRA_CLIENT_SECRET,
+    refreshToken: process.env.INFRA_REFRESH_TOKEN
   }
   let transporter = nodemailer.createTransport({
     service: "gmail",
