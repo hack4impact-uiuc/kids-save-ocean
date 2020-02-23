@@ -50,7 +50,7 @@ export default class App extends Component {
             />
           </Col>
           <Col xs="1">
-            <img className="header-img" src="/homepage-images/usericon.png" />
+            <img className="header-img" src="/homepage-images/user-icon.png" />
           </Col>
         </Row>
         <div className="page-title">
