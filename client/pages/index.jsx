@@ -1,10 +1,8 @@
-import { Component } from "react";
-import { Head } from "../components/Head";
+import { Head } from "../components";
 import ReactPlayer from "react-player";
 import {
   Button,
   Card,
-  CardBody,
   CardGroup,
   CardImg,
   Col,
@@ -15,26 +13,31 @@ import {
 
 import "../public/style.scss";
 
-export default class App extends Component {
-  sdgImages = [];
-  populateImagesArr = sdgImages => {
-    for (let i = 1; i <= 17; i++) {
-      const sdgObject = {
-        id: i,
-        imageLink: `/sdg-images/${i}.png`
-      };
-      sdgImages.push(sdgObject);
-    }
-    const sdgObject = {
-      id: 18,
-      imageLink: `/sdg-images/sdg.png`
-    };
-    sdgImages.push(sdgObject);
-  };
+const populateImages = () => {
+  const images = new Array(19);
 
-  render() {
-    this.populateImagesArr(this.sdgImages);
-    return (
+  for (let i = 1; i <= 17; i++) {
+    const sdgObject = {
+      id: i,
+      imageLink: `/sdg-images/${i}.png`
+    };
+    images[i] = sdgObject;
+  }
+
+  const sdgObject = {
+    id: 18,
+    imageLink: `/sdg-images/sdg.png`
+  };
+  images[18] = sdgObject;
+
+  return images;
+};
+
+export default function() {
+  const images = populateImages();
+  return (
+    <>
+      <Head />
       <Container>
         <Row className="header-row" justify="center" align="middle">
           <Col xs="1">
@@ -88,19 +91,13 @@ export default class App extends Component {
           </Col>
         </Row>
         <Row className="sdg-row">
-          {this.sdgImages.map(sdgImage => (
+          {images.map(sdgImage => (
             <Col key={sdgImage.id} className="sdg-col" sm="2">
               <CardGroup>
                 <Card
                   className="sdg-card"
                   tag="a"
                   onClick={() => console.log("clicked")}
-                  // style={{
-                  //   cursor: "pointer",
-                  //   width: "200px",
-                  //   height: "200px",
-                  //   fontSize: "13px"
-                  // }}
                 >
                   <CardImg
                     top
@@ -116,6 +113,6 @@ export default class App extends Component {
         </Row>
         <img src="/homepage-images/filler-map.png" />
       </Container>
-    );
-  }
+    </>
+  );
 }
