@@ -21,7 +21,7 @@ export const getModels = () => {
       };
     });
 };
-export const getModelsByID = (Model_ID) => {
+export const getModelsByID = Model_ID => {
   /**
    * Returns all models
    * Returns GET_MODEL_FAIL upon failure
@@ -40,7 +40,7 @@ export const getModelsByID = (Model_ID) => {
       };
     });
 };
-export const getModelsBySDG = (SDG_ID) => {
+export const getModelsBySDG = SDG_ID => {
   /**
    * Returns all models
    * Returns GET_MODEL_FAIL upon failure
@@ -82,7 +82,7 @@ export const addModel = (data) => {
       };
     });
 };
-export const editModel = (data) => {
+export const editModel = (data, Model_ID) => {
   /**
    * Edits a form
    * Returns PUT_FORM_DATA_FAIL upon failure
