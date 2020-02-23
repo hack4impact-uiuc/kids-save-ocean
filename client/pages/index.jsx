@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Head } from "../components/Head";
+import { Head } from "../components";
 import ReactPlayer from "react-player";
 import {
   Button,
@@ -35,97 +35,107 @@ export default class App extends Component {
   render() {
     this.populateImagesArr(this.sdgImages);
     return (
-      <Container>
-        <Row className="header-row" xs="15" justify="center" align="middle">
-          <Col>
-            <img className="header-img" src="/homepage-images/menu-icon.png" />
-          </Col>
-          <Col>
-            <img className="header-img" src="/homepage-images/kso-icon.png" />
-          </Col>
-          <Col></Col>
-          <Col></Col>
-          <Col></Col>
-          <Col></Col>
-          <Col></Col>
-          <Col></Col>
-          <Col></Col>
-          <Col></Col>
-          <Col></Col>
-          <Col></Col>
-          <Col>
-            <img
-              className="header-img"
-              src="/homepage-images/notification-icon.png"
-            />
-          </Col>
-          <Col>
-            <img className="header-img" src="/homepage-images/user3-icon.png" />
-          </Col>
-        </Row>
-        <div className="page-title">
-          <h1 className="header2-text" align="center">
-            <strong>FateMaker</strong>
-          </h1>
-        </div>
-        <Row className="home-block-1" type="flex" justify="center" xs="2">
-          <Col className="home-block-col">
-            <ReactPlayer url="https://youtu.be/dQw4w9WgXcQ" />
-          </Col>
-          <Col className="home-block-col">
-            <a className="text-link" href="about us">
-              ABOUT US
-            </a>
-            <h1 className="header-text">Change the World,</h1>
-            <h1 className="header-text" mode="single">
-              one step at a time.
-            </h1>
-            <p className="body-text">
-              The barred ratio flips under the proved nail. An umbrella brushes
-              a loading ash. An anarchy purchases the compromise against the
-              simulated cheek. The village parades beneath the breakdown.
-            </p>
-            <Row type="flex">
-              <Col span={18}>
-                <Button type="primary">
-                  <strong>Find Projects</strong>
-                </Button>{" "}
-                <Button type="primary">
-                  <strong>Start a Project</strong>
-                </Button>
-              </Col>
-            </Row>
-          </Col>
-        </Row>
-        <Row className="sdg-row">
-          {this.sdgImages.map(sdgImage => (
-            <Col key={sdgImage.id} className="sdg-col" sm="2">
-              <CardGroup>
-                <Card
-                  className="sdg-card"
-                  tag="a"
-                  onClick={() => console.log("clicked")}
-                  style={{
-                    cursor: "pointer",
-                    width: "200px",
-                    height: "200px",
-                    fontSize: "13px"
-                  }}
-                >
-                  <CardImg
-                    top
-                    width="100%"
-                    height="100%"
-                    src={sdgImage.imageLink}
-                    alt="Card image cap"
-                  />
-                </Card>
-              </CardGroup>
+      <>
+        <Head />
+        <Container>
+          <Row className="header-row" xs="15" justify="center" align="middle">
+            <Col>
+              <img
+                className="header-img"
+                src="/homepage-images/menu-icon.png"
+              />
             </Col>
-          ))}
-        </Row>
-        <img src="/homepage-images/filler-map.png" />
-      </Container>
+            <Col>
+              <img className="header-img" src="/homepage-images/kso-icon.png" />
+            </Col>
+            <Col></Col>
+            <Col></Col>
+            <Col></Col>
+            <Col></Col>
+            <Col></Col>
+            <Col></Col>
+            <Col></Col>
+            <Col></Col>
+            <Col></Col>
+            <Col></Col>
+            <Col>
+              <img
+                className="header-img"
+                src="/homepage-images/notification-icon.png"
+              />
+            </Col>
+            <Col>
+              <img
+                className="header-img"
+                src="/homepage-images/user3-icon.png"
+              />
+            </Col>
+          </Row>
+          <div className="page-title">
+            <h1 className="header2-text" align="center">
+              <strong>FateMaker</strong>
+            </h1>
+          </div>
+          <Row className="home-block-1" type="flex" justify="center" xs="2">
+            <Col className="home-block-col">
+              <ReactPlayer url="https://youtu.be/dQw4w9WgXcQ" />
+            </Col>
+            <Col className="home-block-col">
+              <a className="text-link" href="about us">
+                ABOUT US
+              </a>
+              <h1 className="header-text">Change the World,</h1>
+              <h1 className="header-text" mode="single">
+                one step at a time.
+              </h1>
+              <p className="body-text">
+                The barred ratio flips under the proved nail. An umbrella
+                brushes a loading ash. An anarchy purchases the compromise
+                against the simulated cheek. The village parades beneath the
+                breakdown.
+              </p>
+              <Row type="flex">
+                <Col span={18}>
+                  <Button type="primary">
+                    <strong>Find Projects</strong>
+                  </Button>{" "}
+                  <Button type="primary">
+                    <strong>Start a Project</strong>
+                  </Button>
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+          <Row className="sdg-row">
+            {this.sdgImages.map(sdgImage => (
+              <Col key={sdgImage.id} className="sdg-col" sm="2">
+                <CardGroup>
+                  <Card
+                    className="sdg-card"
+                    tag="a"
+                    onClick={() => console.log("clicked")}
+                    style={{
+                      cursor: "pointer",
+                      width: "200px",
+                      height: "200px",
+                      fontSize: "13px"
+                    }}
+                  >
+                    <CardImg
+                      top
+                      width="100%"
+                      height="100%"
+                      src={sdgImage.imageLink}
+                      alt="Card image cap"
+                    />
+                  </Card>
+                </CardGroup>
+              </Col>
+            ))}
+          </Row>
+          <img src="/homepage-images/filler-map.png" />
+        </Container>
+      </>
     );
   }
 }
