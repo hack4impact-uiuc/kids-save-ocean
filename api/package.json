@@ -18,7 +18,6 @@
     "express-jsonschema": "^1.1.6",
     "http-errors": "~1.6.3",
     "isomorphic-fetch": "^2.2.1",
-    "jade": "~1.11.0",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.5.3",
     "monk": "^7.1.2",
