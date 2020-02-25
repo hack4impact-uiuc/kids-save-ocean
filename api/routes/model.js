@@ -46,56 +46,147 @@ var ModelSchema = {
         }
       }
     }
-  };
+  }
+};
 
-  router.get('/', function(req, res, next) {
-    const db = req.db;
-    const collection = db.get('modelCollection');
-    collection.find({},{},function(e,docs){
-        res.send(docs);
-    });
+router.get("/", function(req, res) {
+  const db = req.db;
+  const collection = db.get("modelCollection");
+  collection.find({}, {}, function(e, docs) {
+    res.send(docs);
   });
-  // TODO; Check Validate 
-  router.post('/', validate({body: ModelSchema}), function(req, res, next) {
+});
+
+router.get("/:model_ID", function(req, res) {
+  const db = req.db;
+  let id = req.params.model_ID;
+  const collection = db.get("modelCollection");
+  collection.find(
+    {
+      _id: id
+    },
+    {
+      $exists: true
+    },
+    function(e, docs) {
+      if (docs) {
+        res.send(docs);
+      } else {
+        res.sendStatus(400);
+      }
+    }
+  );
+});
+//GET models by SDG
+router.get("/sdg/:sdg_num", function(req, res) {
+  const db = req.db;
+  let sdg_num = parseInt(req.params.sdg_num);
+  if (isNaN(sdg_num)) {
+    res.sendStatus(400);
+  }
+  const collection = db.get("modelCollection");
+  collection.find(
+    {
+      sdg: sdg_num
+    },
+    {
+      $exists: true
+    },
+    function(e, docs) {
+      if (docs) {
+        res.send(docs);
+      } else {
+        res.sendStatus(400);
+      }
+    }
+  );
+});
+
+// TODO; Check Validate
+router.post(
+  "/",
+  validate({
+    body: ModelSchema
+  }),
+  function(req, res) {
     const db = req.db;
-    const collection = db.get('modelCollection');
+    const collection = db.get("modelCollection");
     const data = req.body;
 
     // Check if data includes proper fields
+    collection.insert(data, function(err) {
+      if (err) {
+        res.sendStatus(500);
+      } else {
+        res.json({
+          // `Hello, ${name}!`
+          success: `${data.name} added!`
+        });
+      }
+    });
+  }
+);
 
-    if (data) {
-        collection.insert(data, function(err, obj) {});
-        res.json({ success: data.name + " added!"});
-    } else {
-        res.sendStatus(403);
+router.delete("/:model_ID", function(req, res) {
+  const db = req.db;
+  let id = req.params.model_ID;
+  const collection = db.get("modelCollection");
+  collection.find(
+    {
+      _id: id
+    },
+    {
+      $exists: true
+    },
+    function(e, docs) {
+      if (docs) {
+        collection.remove({
+          _id: id
+        });
+        res.json({
+          success: `${id} deleted!`
+        });
+      } else {
+        res.sendStatus(400);
+      }
     }
-  });
-
-  router.delete('/:model_ID', function (req, res, next) {
-    const db = req.db
-    let id = req.params.model_ID;
-    const collection = db.get('modelCollection');
-    collection.find({_id: id}, {$exists: true}, function(e,docs) {
-        if (docs) {
-            collection.remove({_id: id}, function(err, obj) {});
-            res.json({success: id + ' deleted!'});
-        } else {
-            res.sendStatus(403);
-        }
-    })
-  });
-  router.put('/:model_ID',validate({body: ModelSchema}), function(req, res, next) {
+  );
+});
+router.put(
+  "/:model_ID",
+  validate({
+    body: ModelSchema
+  }),
+  function(req, res) {
     const db = req.db;
     let id = req.params.model_ID;
-    const collection = db.get('modelCollection');
-    collection.find({_id: id}, {$exists: true}, function(e,docs) {
-      if (docs) {
-        collection.update({_id:id},{$set: req.body});
-        res.json({success: id + ' updated!'})
-      } else {
-        res.sendStatus(403);
+    const collection = db.get("modelCollection");
+    collection.find(
+      {
+        _id: id
+      },
+      {
+        $exists: true
+      },
+      function(e, docs) {
+        if (docs) {
+          collection.update(
+            {
+              _id: id
+            },
+            {
+              $set: req.body
+            }
+          );
+          res.json({
+            success: `${id} updated!`
+          });
+        } else {
+          res.sendStatus(400);
+        }
       }
-    })
-  });
-  
-  module.exports = router;
+    );
+  }
+);
+
+module.exports = router;
