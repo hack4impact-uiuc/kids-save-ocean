@@ -1,4 +1,11 @@
-# Kids Save Ocean
+<h1 align="center">
+  <b>FateMaker</b>
+  <br/>
+  <sub>
+    <a href="https://uiuc.hack4impact.org/"> Hack4Impact UIUC</a> ×
+    <a href="https://www.kidssaveocean.com/">Kids Save Ocean</a>
+  </sub>
+</h1>
 
 ## A sustainability project accelerator 🚀
 
