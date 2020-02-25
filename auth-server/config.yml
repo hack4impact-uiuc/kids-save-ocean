@@ -1,0 +1,21 @@
+roles:
+    root: 
+        - admin
+        - supervisor
+        - guest
+    admin: 
+        - supervisor
+        - guest
+    supervisor: 
+        - guest
+    guest: 
+security_questions:
+    - What is the name of your first pet?
+    - Which city were you born in?
+    - Which city did you first meet your spouse?
+    - What was the model of your first car?
+    - What is the name of your childhood best friend?
+useGoogleAuth: true
+security_question: true
+gmail: true
+expire_after_hrs: 1
