@@ -1,8 +1,9 @@
+const fetch = require("isomorphic-fetch");
 const router = require("express").Router();
-const { sendResponse } = require("./../utils/sendResponse");
+const { SERVER_URL } = require("./../utils/globalServerUrl");
 
 router.post("/changePassword", async function(req, res) {
-  const results = await fetch("http://localhost:8000/changePassword", {
+  const results = await fetch(`${SERVER_URL}/changePassword`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

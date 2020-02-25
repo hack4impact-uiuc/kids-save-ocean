@@ -1,7 +1,7 @@
+const fetch = require("isomorphic-fetch");
 const router = require("express").Router();
-const cors = require("cors");
-const jwt = require("jsonwebtoken");
 const { sendResponse } = require("./../utils/sendResponse");
+const { SERVER_URL } = require("./../utils/globalServerUrl");
 
 router.post("/register", async function(req, res) {
   const body = {
@@ -11,7 +11,7 @@ router.post("/register", async function(req, res) {
     questionIdx: req.body.questionIdx,
     answer: req.body.answer
   };
-  const results = await fetch("http://localhost:8000/register/", {
+  const results = await fetch(`${SERVER_URL}/register/`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"

@@ -1,9 +1,9 @@
-const SERVER_URL = require("./../utils/globalServerUrl");
+const fetch = require("isomorphic-fetch");
+const { SERVER_URL } = require("./../utils/globalServerUrl");
 const router = require("express").Router();
-const { sendResponse } = require("./../utils/sendResponse");
 
 router.post("/google", async function(req, res) {
-  const results = await fetch("http://localhost:8000/google", {
+  const results = await fetch(`${SERVER_URL}/google`, {
     // change this to actual server
     method: "POST",
     headers: {

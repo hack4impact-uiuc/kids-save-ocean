@@ -5,11 +5,10 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
-const fetch = require("isomorphic-fetch");
 
 const indexRouter = require("./routes/index");
+const modelRouter = require("./routes/model");
 const authRouter = require("./auth/api/index");
-
 
 const app = express();
 
