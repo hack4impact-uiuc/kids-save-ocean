@@ -1,4 +1,5 @@
 const createError = require("http-errors");
+const cors = require("cors");
 const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
@@ -7,6 +8,7 @@ const logger = require("morgan");
 
 const indexRouter = require("./routes/index");
 const modelRouter = require("./routes/model");
+const authRouter = require("./auth/api/index");
 
 const app = express();
 
@@ -22,6 +24,8 @@ app.use(
 );
 app.use(cookieParser());
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
 app.use(express.static(path.join(__dirname, "public")));
 
 const monk = require("monk");
@@ -32,6 +36,7 @@ app.use(function(req, res, next) {
   next();
 });
 
+app.use("/auth/", authRouter);
 app.use("/", indexRouter);
 app.use("/models", modelRouter);
 
