@@ -2,9 +2,9 @@ name: client
 
 on:
   push:
-    paths-ignore:
-      - "README.md"
-      - "LICENSE"
+    paths:
+      - "!README.md"
+      - "!LICENSE"
 
 jobs:
   audit:
