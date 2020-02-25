@@ -23,7 +23,8 @@ const populateImages = () => {
       id: i,
       imageLink: `/sdg-images/${i}.png`
     };
-    images[i] = sdgObject;
+    console.log(i);
+    images[i - 1] = sdgObject;
   }
 
   const sdgObject = {
