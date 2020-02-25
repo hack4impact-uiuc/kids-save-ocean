@@ -4,20 +4,15 @@ import Head from "./Head";
 import "../public/stage-component.scss";
 
 export default function(props) {
-  const {
-    title,
-    descripton,
-    frameworks,
-    interviews,
-    stakeholders,
-    resources,
-    insights
-  } = props;
+  const { info } = props;
 
   return (
     <>
       <Head />
-      <h1 className="stage-title">{title}</h1>
+      <h1 className="stage-title">{info.title}</h1>
+      <video className="stage-video" controls>
+        <source src={info.videoUrl}></source>
+      </video>
     </>
   );
 }
