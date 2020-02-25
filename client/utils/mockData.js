@@ -1,6 +1,5 @@
 /**
  * 1 Model for each SDG (1-16)
- *
  */
 
 /* eslint-disable no-magic-numbers */
