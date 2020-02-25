@@ -1,13 +1,40 @@
+.page-title {
+  padding-top: 20px;
+  text-align: center;
+}
+
 .stage-video {
   text-align: center;
-  padding: 30px;
+  padding-bottom: 30px;
 }
 
 .stage-title {
-  padding: 20px;
-  text-align: center;
+  padding-top: 20px;
 }
 
-.stage-content {
-  text-align: center;
+.stage-description {
+  text-align: justify;
+}
+
+.icon {
+  font-size: 10px;
+  font-weight: 1;
+}
+
+span {
+  display: block;
+}
+
+i {
+  padding: 10px;
+}
+
+.stage-cols {
+  display: flex;
+  justify-content: space-evenly;
+  padding-bottom: 50px;
+}
+
+.stage-card {
+  width: 300px;
 }
