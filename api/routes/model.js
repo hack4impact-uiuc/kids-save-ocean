@@ -92,29 +92,29 @@ router.get("/:model_ID", function(req, res) {
   );
 });
 //GET models by SDG
-router.get("/sdg/:sdg_num", function(req, res) {
-  const db = req.db;
-  let sdg_num = parseInt(req.params.sdg_num);
-  if (isNaN(sdg_num)) {
-    res.sendStatus(400);
-  }
-  const collection = db.get("modelCollection");
-  collection.find(
-    {
-      sdg: sdg_num
-    },
-    {
-      $exists: true
-    },
-    function(e, docs) {
-      if (docs) {
-        res.send(docs);
-      } else {
-        res.sendStatus(400);
-      }
-    }
-  );
-});
+// router.get("/sdg/:sdg_num", function(req, res) {
+//   const db = req.db;
+//   let sdg_num = parseInt(req.params.sdg_num);
+//   if (isNaN(sdg_num)) {
+//     res.sendStatus(400);
+//   }
+//   const collection = db.get("modelCollection");
+//   collection.find(
+//     {
+//       sdg: sdg_num
+//     },
+//     {
+//       $exists: true
+//     },
+//     function(e, docs) {
+//       if (docs) {
+//         res.send(docs);
+//       } else {
+//         res.sendStatus(400);
+//       }
+//     }
+//   );
+// });
 
 // TODO; Check Validate
 router.post(
