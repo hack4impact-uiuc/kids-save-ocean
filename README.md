@@ -112,3 +112,7 @@ The platform will be gamified, incorporating an engine of the world's most power
     </td>
   </tr>
 </table>
+
+## License
+
+FateMaker is released under the [MIT License](LICENSE).
