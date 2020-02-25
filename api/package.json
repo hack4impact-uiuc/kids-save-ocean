@@ -3,11 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node bin/www",
     "format": "prettier --write \"./**/*.{js,jsx,json,md}\"",
     "format:check": "prettier --check \"./**/*.{js,jsx,json,md}\"",
     "lint": "eslint \"./**/*.{js,ts,tsx}\"",
-    "lint:fix": "eslint --fix \"./**/*.{js,jsx}\""
+    "lint:fix": "eslint --fix \"./**/*.{js,jsx}\"",
+    "start": "node bin/www"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
