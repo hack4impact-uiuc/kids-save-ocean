@@ -56,11 +56,19 @@ const ModelSchema = {
 };
 
 router.get("/", function(req, res) {
+  var sdg_par = req.query.sdg;
+  var sdg_num = parseInt(sdg_par);
   const db = req.db;
   const collection = db.get("modelCollection");
-  collection.find({}, {}, function(e, docs) {
-    res.send(docs);
-  });
+  if (sdg_par && !isNaN(sdg_num)) {
+    collection.find({ sdg: sdg_num }, { $exists: true }, function(e, docs) {
+      res.send(docs);
+    });
+  } else {
+    collection.find({}, {}, function(e, docs) {
+      res.send(docs);
+    });
+  }
 });
 
 router.get("/:model_ID", function(req, res) {
