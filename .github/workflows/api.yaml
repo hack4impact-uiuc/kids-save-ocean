@@ -1,6 +1,10 @@
 name: api
 
-on: push
+on:
+  push:
+    paths-ignore:
+      - "README.md"
+      - "LICENSE"
 
 jobs:
   audit:
