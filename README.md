@@ -14,7 +14,7 @@ The platform will be gamified, incorporating an engine of the world's most power
       <a href="https://www.linkedin.com/in/arpanlaha/" target="_blank">
         <img
           src="https://raw.githubusercontent.com/hack4impact-uiuc/uiuc.hack4impact.org/master/static/images/people/arpan_laha.jpg"
-          width="300px"
+          width="500px"
         />
         <br />
         <b>Arpan Laha</b>
@@ -26,7 +26,7 @@ The platform will be gamified, incorporating an engine of the world's most power
       <a href="http://www.linkedin.com/in/yousef-a/" target="_blank">
         <img
           src="https://raw.githubusercontent.com/hack4impact-uiuc/uiuc.hack4impact.org/master/static/images/people/yousef_ahmed.jpg"
-          width="300px"
+          width="500px"
         />
         <br />
         <b>Yousef Ahmed</b>
@@ -38,7 +38,7 @@ The platform will be gamified, incorporating an engine of the world's most power
       <a href="https://www.linkedin.com/in/zayyanfaizal/" target="_blank">
         <img
           src="https://raw.githubusercontent.com/hack4impact-uiuc/uiuc.hack4impact.org/master/static/images/people/zayyan_faizal.jpg"
-          width="300px"
+          width="500px"
         />
         <br />
         <b>Zayyan Faizal</b>
@@ -50,7 +50,7 @@ The platform will be gamified, incorporating an engine of the world's most power
       <a href="https://www.linkedin.com/in/alicesf2/" target="_blank">
         <img
           src="https://raw.githubusercontent.com/hack4impact-uiuc/uiuc.hack4impact.org/master/static/images/people/alice_fang.jpg"
-          width="300px"
+          width="500px"
         />
         <br />
         <b>Alice Fang</b>
@@ -64,7 +64,7 @@ The platform will be gamified, incorporating an engine of the world's most power
       <a href="http://linkedin.com/in/brandonw4/" target="_blank">
         <img
           src="https://raw.githubusercontent.com/hack4impact-uiuc/uiuc.hack4impact.org/master/static/images/people/brandon_wang.jpg"
-          width="300px"
+          width="500px"
         />
         <br />
         <b>Brandon Wang</b>
@@ -76,7 +76,7 @@ The platform will be gamified, incorporating an engine of the world's most power
       <a href="https://www.linkedin.com/in/ashankbehara/" target="_blank">
         <img
           src="https://raw.githubusercontent.com/hack4impact-uiuc/uiuc.hack4impact.org/master/static/images/people/ashank_behara.jpg"
-          width="300px"
+          width="500px"
         />
         <br />
         <b>Ashank Behara</b>
@@ -88,7 +88,7 @@ The platform will be gamified, incorporating an engine of the world's most power
       <a href="https://www.linkedin.com/in/ashwinsax/ target="_blank"">
         <img
           src="https://raw.githubusercontent.com/hack4impact-uiuc/uiuc.hack4impact.org/master/static/images/people/ashwin_saxena.jpg"
-          width="300px"
+          width="500px"
         />
         <br />
         <b>Ashwin Saxena</b>
@@ -100,7 +100,7 @@ The platform will be gamified, incorporating an engine of the world's most power
       <a href="http://linkedin.com/in/sahithimuthyala/" target="_blank">
         <img
           src="https://raw.githubusercontent.com/hack4impact-uiuc/uiuc.hack4impact.org/master/static/images/people/sahithi_muthyala.jpg"
-          width="300px"
+          width="500px"
         />
         <br />
         <b>Sahithi Muthyala</b>
