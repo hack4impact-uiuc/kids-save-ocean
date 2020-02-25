@@ -2,7 +2,7 @@ import axios from "axios";
 
 const BASE_URL = "http://localhost:5000";
 
-export const getModels = (sdg_query=null) => {
+export const getModels = (sdg_query = null) => {
   /**
    * Returns all models
    * Returns GET_MODEL_FAIL upon failure
@@ -27,7 +27,7 @@ export const getModels = (sdg_query=null) => {
       };
     });
 };
-export const getModelsByID = (Model_ID) => {
+export const getModelsByID = Model_ID => {
   /**
    * Returns all models
    * Returns GET_MODEL_FAIL upon failure
@@ -47,26 +47,22 @@ export const getModelsByID = (Model_ID) => {
     });
 };
 
-export const addModel = (data) => {
+export const addModel = data => {
   /**
    * Adds a form
    * Returns POST_FORM_DATA_FAIL upon failure
    */
   const requestString = `${BASE_URL}/models`;
   return axios
-    .post(
-      requestString,
-      data,
-      {
-        headers: {
-          'Content-Type': 'application/JSON',
-        },
-      },
-    )
+    .post(requestString, data, {
+      headers: {
+        "Content-Type": "application/JSON"
+      }
+    })
     .catch(error => {
       return {
-        type: 'POST_MODEL_FAIL',
-        error,
+        type: "POST_MODEL_FAIL",
+        error
       };
     });
 };
@@ -77,23 +73,19 @@ export const editModel = (data, Model_ID) => {
    */
   const requestString = `${BASE_URL}/models/${Model_ID}`;
   return axios
-    .put(
-      requestString,
-      data,
-      {
-        headers: {
-          'Content-Type': 'application/JSON',
-        },
-      },
-    )
+    .put(requestString, data, {
+      headers: {
+        "Content-Type": "application/JSON"
+      }
+    })
     .catch(error => {
       return {
-        type: 'UPDATE_MODEL_FAIL',
-        error,
+        type: "UPDATE_MODEL_FAIL",
+        error
       };
     });
 };
-export const deleteForm = (Model_ID) => {
+export const deleteForm = Model_ID => {
   /**
    * Deletes a form
    * Returns POST_FORM_DATA_FAIL upon failure
@@ -101,13 +93,12 @@ export const deleteForm = (Model_ID) => {
   const requestString = `${BASE_URL}/models/${Model_ID}`;
   return axios
     .delete(requestString, {
-      headers: {
-      },
+      headers: {}
     })
     .catch(error => {
       return {
-        type: 'DELETE_MODEL_FAIL',
-        error,
+        type: "DELETE_MODEL_FAIL",
+        error
       };
     });
 };
