@@ -1,13 +1,19 @@
 import axios from "axios";
 
-const BASE_URL = "https://localhost:5000";
+const BASE_URL = "http://localhost:5000";
 
-export const getModels = () => {
+export const getModels = (sdg_query=null) => {
   /**
    * Returns all models
    * Returns GET_MODEL_FAIL upon failure
    */
-  const requestString = `${BASE_URL}/models`;
+
+  let requestString = ``;
+  if (sdg_query) {
+    requestString = `${BASE_URL}/models?sdg=${sdg_query}`;
+  } else {
+    requestString = `${BASE_URL}/models`;
+  }
   return axios
     .get(requestString, {
       headers: {
@@ -21,7 +27,7 @@ export const getModels = () => {
       };
     });
 };
-export const getModelsByID = Model_ID => {
+export const getModelsByID = (Model_ID) => {
   /**
    * Returns all models
    * Returns GET_MODEL_FAIL upon failure
@@ -40,25 +46,7 @@ export const getModelsByID = Model_ID => {
       };
     });
 };
-export const getModelsBySDG = SDG_ID => {
-  /**
-   * Returns all models
-   * Returns GET_MODEL_FAIL upon failure
-   */
-  const requestString = `${BASE_URL}/models/sdg/${SDG_ID}`;
-  return axios
-    .get(requestString, {
-      headers: {
-        "Content-Type": "application/JSON"
-      }
-    })
-    .catch(error => {
-      return {
-        type: "GET_MODEL_FAIL",
-        error
-      };
-    });
-};
+
 export const addModel = (data) => {
   /**
    * Adds a form
@@ -105,7 +93,7 @@ export const editModel = (data, Model_ID) => {
       };
     });
 };
-export const deleteForm = Model_ID => {
+export const deleteForm = (Model_ID) => {
   /**
    * Deletes a form
    * Returns POST_FORM_DATA_FAIL upon failure

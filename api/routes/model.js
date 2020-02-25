@@ -46,8 +46,7 @@ var ModelSchema = {
         }
       }
     }
-  }
-};
+  };
 
 router.get("/", function(req, res) {
   var sdg_par = req.query.sdg;
