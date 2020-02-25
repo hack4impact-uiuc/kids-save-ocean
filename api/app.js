@@ -56,4 +56,6 @@ app.use(function(err, req, res) {
   res.json(err);
 });
 
+console.log("test");
+
 module.exports = app;
