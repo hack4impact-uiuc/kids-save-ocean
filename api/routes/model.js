@@ -50,11 +50,19 @@ var ModelSchema = {
 };
 
 router.get("/", function(req, res) {
+  var sdg_par = req.query.sdg;
+  var sdg_num = parseInt(sdg_par);
   const db = req.db;
   const collection = db.get("modelCollection");
-  collection.find({}, {}, function(e, docs) {
-    res.send(docs);
-  });
+  if (sdg_par && !isNaN(sdg_num)) {
+    collection.find({ sdg: sdg_num }, { $exists: true }, function(e, docs) {
+      res.send(docs);
+    });
+  } else {
+    collection.find({}, {}, function(e, docs) {
+      res.send(docs);
+    });
+  }
 });
 
 router.get("/:model_ID", function(req, res) {
@@ -64,30 +72,6 @@ router.get("/:model_ID", function(req, res) {
   collection.find(
     {
       _id: id
-    },
-    {
-      $exists: true
-    },
-    function(e, docs) {
-      if (docs) {
-        res.send(docs);
-      } else {
-        res.sendStatus(400);
-      }
-    }
-  );
-});
-//GET models by SDG
-router.get("/sdg/:sdg_num", function(req, res) {
-  const db = req.db;
-  let sdg_num = parseInt(req.params.sdg_num);
-  if (isNaN(sdg_num)) {
-    res.sendStatus(400);
-  }
-  const collection = db.get("modelCollection");
-  collection.find(
-    {
-      sdg: sdg_num
     },
     {
       $exists: true
