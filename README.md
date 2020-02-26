@@ -9,11 +9,11 @@
 
 ## A sustainability project accelerator 🚀
 
-We will create an online platform that helps youth (as a primary target in a wider audience) both understand sustainability issues and build real-life solutions: ones that can be used as best-practice models by others around the world.
+FateMaker will be platform designed to guide students through solving sustainability issues by coaching them through the Human-Centered Design process and helping them build real-life solutions. These projects will be posted on the platform so that other users can provide feedback or use them for inspiration as best-practice models to solve their own sustainability issues. FateMaker will be both fun and informational for its users, helping to inspire and empower a future generation of changemakers.
 
-The platform will be gamified, incorporating an engine of the world's most powerful solution-building approaches (human-centered design and Silicon Valley business strategies) to empower young people to help protect our planet and its future.
+## Kids Save Ocean
 
-## Nonprofit Background
+Kids Save Ocean is an environmental nonprofit aiming to empower children to have their voices heard in the discussion about the planet's environment. So far, their efforts have been focused on developing FateChanger, an app which educates and allows students to interact with their local government and other institutions to bring about policy change. With FateChanger launching in early 2020, FateMaker will be Kids Save Ocean's next application, with initial release targeted for Summer 2020.
 
 ## Team
 
