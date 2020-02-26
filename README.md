@@ -7,19 +7,15 @@
   </sub>
 </h1>
 
-## A sustainability project accelerator 🚀
+<h2 align="center">A sustainability project accelerator 🚀</h2>
 
 FateMaker will be platform designed to guide students through solving sustainability issues by coaching them through the Human-Centered Design process and helping them build real-life solutions. These projects will be posted on the platform so that other users can provide feedback or use them for inspiration as best-practice models to solve their own sustainability issues. FateMaker will be both fun and informational for its users, helping to inspire and empower a future generation of changemakers.
 
-## Kids Save Ocean
+<h2 align="center">Kids Save Ocean</h2>
 
 Kids Save Ocean is an environmental nonprofit aiming to empower children to have their voices heard in the discussion about the planet's environment. So far, their efforts have been focused on developing FateChanger, an app which educates and allows students to interact with their local government and other institutions to bring about policy change. With FateChanger launching in early 2020, FateMaker will be Kids Save Ocean's next application, with initial release targeted for Summer 2020.
 
-## Architecture
-
-FateMaker uses React.js and Next.js for the frontend and Express.js and MongoDB for the backend, with Hack4Impact UIUC's [Product Infrastructure authentification server](https://github.com/hack4impact-uiuc/infra-authentication-server) used as wel.
-
-## The team
+<h2 align="center">The Team</h2>
 
 <table align="center">
   <tr>
@@ -124,6 +120,10 @@ FateMaker uses React.js and Next.js for the frontend and Express.js and MongoDB 
   </tr>
 </table>
 
-## License
+<h3 align="center">Architecture</h3>
+
+FateMaker uses React.js and Next.js for the frontend and Express.js and MongoDB for the backend, with Hack4Impact UIUC's [Product Infrastructure authentification server](https://github.com/hack4impact-uiuc/infra-authentication-server) used as well.
+
+<h3 align="center">License</h3>
 
 FateMaker is released under the [MIT License](LICENSE).
