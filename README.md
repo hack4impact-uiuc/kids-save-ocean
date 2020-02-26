@@ -15,7 +15,11 @@ FateMaker will be platform designed to guide students through solving sustainabi
 
 Kids Save Ocean is an environmental nonprofit aiming to empower children to have their voices heard in the discussion about the planet's environment. So far, their efforts have been focused on developing FateChanger, an app which educates and allows students to interact with their local government and other institutions to bring about policy change. With FateChanger launching in early 2020, FateMaker will be Kids Save Ocean's next application, with initial release targeted for Summer 2020.
 
-## Team
+## Architecture
+
+FateMaker uses React.js and Next.js for the frontend and Express.js and MongoDB for the backend, with Hack4Impact UIUC's [Product Infrastructure authentification server](https://github.com/hack4impact-uiuc/infra-authentication-server) used as wel.
+
+## The team
 
 <table align="center">
   <tr>
