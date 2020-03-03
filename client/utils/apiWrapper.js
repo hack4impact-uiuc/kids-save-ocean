@@ -28,8 +28,8 @@ export const getModels = (sdg_query = null) => {
 };
 export const getModelsByID = Model_ID => {
   /**
-   * Returns all models
-   * Returns GET_MODEL_FAIL upon failure
+   * Returns model given ID
+   * Returns GET_MODEL_ID_FAIL upon failure
    */
   const requestString = `${BASE_URL}/models/${Model_ID}`;
   return axios
@@ -40,7 +40,7 @@ export const getModelsByID = Model_ID => {
     })
     .catch(error => {
       ({
-        type: "GET_MODEL_FAIL",
+        type: "GET_MODEL_ID_FAIL",
         error
       });
     });
@@ -48,8 +48,8 @@ export const getModelsByID = Model_ID => {
 
 export const addModel = data => {
   /**
-   * Adds a form
-   * Returns POST_FORM_DATA_FAIL upon failure
+   * Adds a model
+   * Returns POST_MODEL_FAIL upon failure
    */
   const requestString = `${BASE_URL}/models`;
   return axios
@@ -67,8 +67,8 @@ export const addModel = data => {
 };
 export const editModel = (data, Model_ID) => {
   /**
-   * Edits a form
-   * Returns PUT_FORM_DATA_FAIL upon failure
+   * Edits a model
+   * Returns UPDATE_MODEL_FAIL upon failure
    */
   const requestString = `${BASE_URL}/models/${Model_ID}`;
   return axios
@@ -86,8 +86,8 @@ export const editModel = (data, Model_ID) => {
 };
 export const deleteForm = Model_ID => {
   /**
-   * Deletes a form
-   * Returns POST_FORM_DATA_FAIL upon failure
+   * Deletes a model
+   * Returns DELETE_MODEL_FAIL upon failure
    */
   const requestString = `${BASE_URL}/models/${Model_ID}`;
   return axios

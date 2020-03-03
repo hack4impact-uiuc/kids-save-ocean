@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
-var validate = require("express-jsonschema").validate;
+const validate = require("express-jsonschema").validate;
 
-var ModelSchema = {
+const ModelSchema = {
   id: "/ModelSchema",
   type: "object",
   properties: {
