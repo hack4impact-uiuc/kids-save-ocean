@@ -39,11 +39,11 @@ export default function(props) {
               <CardTitle>Stakeholders</CardTitle>
 
               <span>
-                <i class="fa fa-user-circle-o fa-lg" aria-hidden="true"></i>
+                <i className="fa fa-user-circle-o fa-lg" aria-hidden="true"></i>
                 Stakeholder 1
               </span>
               <span>
-                <i class="fa fa-user-circle-o fa-lg" aria-hidden="true"></i>
+                <i className="fa fa-user-circle-o fa-lg" aria-hidden="true"></i>
                 Stakeholder 2
               </span>
             </CardBody>

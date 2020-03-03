@@ -28,6 +28,7 @@
     "node-sass": "^4.13.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
+    "react-google-charts": "^3.0.15",
     "react-player": "^1.15.2",
     "reactstrap": "^8.4.1"
   },
