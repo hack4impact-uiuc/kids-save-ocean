@@ -1,6 +1,10 @@
 name: client
 
-on: push
+on:
+  push:
+    paths:
+      - "client/**"
+      - "!**/README.md"
 
 jobs:
   audit:
