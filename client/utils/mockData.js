@@ -4,6 +4,84 @@
 
 /* eslint-disable no-magic-numbers */
 
+/*
+Shape:
+{
+  name: string,
+  description: string,
+  stages: [
+    {
+      name: string,
+      section: enum("Inspiration", "Ideation", "Implementation"),
+      duration: number,
+      description: string,
+    }
+  ],
+  sections: {
+    inspiration: {
+      stakeholders: [
+        {
+          name: string,
+          description: string
+        }
+      ],
+      challenges: [
+        {
+          name: string,
+          description: string
+        }
+      ],
+      insights: [
+        {
+          name: string,
+          description: string
+        }
+      ],
+    },
+    ideation: {
+      stakeholders: [
+        {
+          name: string,
+          description: string
+        }
+      ],
+      challenges: [
+        {
+          name: string,
+          description: string
+        }
+      ],
+      insights: [
+        {
+          name: string,
+          description: string
+        }
+      ],
+    },
+    implementation: {
+      stakeholders: [
+        {
+          name: string,
+          description: string
+        }
+      ],
+      challenges: [
+        {
+          name: string,
+          description: string
+        }
+      ],
+      insights: [
+        {
+          name: string,
+          description: string
+        }
+      ],
+    },
+  }
+}
+*/
+
 export default [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17].map(
   sdg => ({
     name: `Test ${sdg}`,
