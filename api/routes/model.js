@@ -1,52 +1,51 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-var validate = require('express-jsonschema').validate;
-
+var validate = require("express-jsonschema").validate;
 
 var ModelSchema = {
-    id: '/ModelSchema',
-    type: 'object',
-    properties: {
-      name: {
-        type: 'string',
-        required: true
-      },
-      sdg: {
-        type: 'array',
-        items:{type: 'integer'},
-        required: true
-      },
-      description: {
-        type: 'string',
-        required: true
-      },
-      stages: {
-        type: 'object',
-        patternProperties: {
-          ".*": {
-            type: 'object',
-            properties: {
-              stakeholders: {
-                type: 'array',
-                items: {type: 'string'}
-              },
-              challenges: {
-                type: 'array',
-                items: {type: 'string'}
-              },
-              insights: {
-                type: 'array',
-                items: {type: 'string'}
-              },
-              description: {
-                type: 'string'
-              }
+  id: "/ModelSchema",
+  type: "object",
+  properties: {
+    name: {
+      type: "string",
+      required: true
+    },
+    sdg: {
+      type: "array",
+      items: { type: "integer" },
+      required: true
+    },
+    description: {
+      type: "string",
+      required: true
+    },
+    stages: {
+      type: "object",
+      patternProperties: {
+        ".*": {
+          type: "object",
+          properties: {
+            stakeholders: {
+              type: "array",
+              items: { type: "string" }
+            },
+            challenges: {
+              type: "array",
+              items: { type: "string" }
+            },
+            insights: {
+              type: "array",
+              items: { type: "string" }
+            },
+            description: {
+              type: "string"
             }
           }
         }
       }
     }
-  };
+  }
+};
 
 router.get("/", function(req, res) {
   var sdg_par = req.query.sdg;
