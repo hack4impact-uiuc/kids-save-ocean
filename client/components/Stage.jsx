@@ -3,7 +3,7 @@ import { Container, Card, CardBody, CardTitle } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle, faUser } from "@fortawesome/free-solid-svg-icons";
 
-import "../public/stage-component.scss";
+import "../public/styles/stage-component.scss";
 
 export default function(props) {
   const { data } = props;

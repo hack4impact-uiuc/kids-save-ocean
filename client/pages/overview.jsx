@@ -1,11 +1,13 @@
 import { Chart } from "react-google-charts";
+import mockData from "../utils/mockData";
 
 export default function(props) {
   return (
     <div className="gantt-container">
       <Chart
-        width={"100%"}
-        height={"400px"}
+        className="gantt-chart"
+        width="100%"
+        height="400px"
         chartType="Gantt"
         loader={<div>Loading Chart</div>}
         data={[
@@ -144,8 +146,7 @@ export default function(props) {
           height: 400,
           gantt: {
             trackHeight: 30
-          },
-          explorer: { axis: "horizontal" }
+          }
         }}
         rootProps={{ "data-testid": "2" }}
       />

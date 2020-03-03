@@ -11,7 +11,7 @@ import {
   Row
 } from "reactstrap";
 
-import "../public/style.scss";
+import "../public/styles/style.scss";
 
 const numSDGs = 17;
 
