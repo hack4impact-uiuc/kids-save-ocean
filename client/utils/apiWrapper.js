@@ -7,7 +7,6 @@ export const getModels = (sdg_query = null) => {
    * Returns all models
    * Returns GET_MODEL_FAIL upon failure
    */
-
   let requestString = ``;
   if (sdg_query) {
     requestString = `${BASE_URL}/models?sdg=${sdg_query}`;
@@ -21,7 +20,7 @@ export const getModels = (sdg_query = null) => {
       }
     })
     .catch(error => {
-      return ({
+      ({
         type: "GET_MODEL_FAIL",
         error
       });
@@ -40,10 +39,10 @@ export const getModelsByID = Model_ID => {
       }
     })
     .catch(error => {
-      return {
+      ({
         type: "GET_MODEL_FAIL",
         error
-      };
+      });
     });
 };
 
@@ -60,10 +59,10 @@ export const addModel = data => {
       }
     })
     .catch(error => {
-      return {
+      ({
         type: "POST_MODEL_FAIL",
         error
-      };
+      });
     });
 };
 export const editModel = (data, Model_ID) => {
@@ -79,10 +78,10 @@ export const editModel = (data, Model_ID) => {
       }
     })
     .catch(error => {
-      return {
+      ({
         type: "UPDATE_MODEL_FAIL",
         error
-      };
+      });
     });
 };
 export const deleteForm = Model_ID => {
@@ -96,9 +95,9 @@ export const deleteForm = Model_ID => {
       headers: {}
     })
     .catch(error => {
-      return {
+      ({
         type: "DELETE_MODEL_FAIL",
         error
-      };
+      });
     });
 };
