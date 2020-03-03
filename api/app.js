@@ -35,15 +35,13 @@ const Grid = require('gridfs-stream');
 
 const DATABASE_NAME = 'kids-save-ocean';
 const db = monk(`localhost:27017/${DATABASE_NAME}`);
-let mongoDB;
 let gfs;
 mongo.MongoClient.connect('mongodb://127.0.0.1:27017', (err, database) => {
   if (err) {
     console.log('MongoDB Connection Error. Please make sure that MongoDB is running.');
     process.exit(1);
   }
-  mongoDB = database.db(DATABASE_NAME);;
-  gfs = Grid(mongoDB, mongo);
+  gfs = Grid(database.db(DATABASE_NAME), mongo);
 });
 
 app.use(function(req, res, next) {
@@ -56,7 +54,6 @@ app.use("/", indexRouter);
 app.use("/models", modelRouter);
 
 app.use(function(req, res, next) {
-  req.mongoDB = mongoDB;
   req.gfs = gfs;
   next();
 });
