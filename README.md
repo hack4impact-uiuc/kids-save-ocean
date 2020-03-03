@@ -122,7 +122,7 @@ Kids Save Ocean is an environmental nonprofit aiming to empower children to have
 
 <h3 align="center">Architecture</h3>
 
-FateMaker uses React.js and Next.js for the frontend and Express.js and MongoDB for the backend, with Hack4Impact UIUC's [Product Infrastructure authentification server](https://github.com/hack4impact-uiuc/infra-authentication-server) used as well.
+FateMaker uses React.js and Next.js for the frontend and Express.js and MongoDB for the backend, with Hack4Impact UIUC's [Product Infrastructure authentication server](https://github.com/hack4impact-uiuc/infra-authentication-server) used as well.
 
 <h3 align="center">License</h3>
 
