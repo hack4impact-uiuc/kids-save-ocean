@@ -21,10 +21,10 @@ export const getModels = (sdg_query = null) => {
       }
     })
     .catch(error => {
-      return {
+      return ({
         type: "GET_MODEL_FAIL",
         error
-      };
+      });
     });
 };
 export const getModelsByID = Model_ID => {
