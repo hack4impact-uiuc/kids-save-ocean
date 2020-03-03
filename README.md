@@ -9,7 +9,7 @@
 
 <h2 align="center">A sustainability project accelerator 🚀</h2>
 
-FateMaker will be platform designed to guide students through solving sustainability issues by coaching them through the Human-Centered Design process and helping them build real-life solutions. These projects will be posted on the platform so that other users can provide feedback or use them for inspiration as best-practice models to solve their own sustainability issues. FateMaker will be both fun and informational for its users, helping to inspire and empower a future generation of changemakers.
+FateMaker will be a platform designed to guide students through solving sustainability challenges by coaching them through the Human-Centered Design process and helping them build real-life solutions. These projects will be posted on the platform so that other users can provide feedback or use them for inspiration as best-practice models to solve their own sustainability challenges. FateMaker will be both fun and informational for its users, helping to inspire and empower a future generation of changemakers.
 
 <h2 align="center">Kids Save Ocean</h2>
 
