@@ -12,9 +12,7 @@ const ModelSchema = {
     },
     sdg: {
       type: "array",
-      items: {
-        type: "integer"
-      },
+      items: { type: "integer" },
       required: true
     },
     description: {
@@ -29,21 +27,15 @@ const ModelSchema = {
           properties: {
             stakeholders: {
               type: "array",
-              items: {
-                type: "string"
-              }
+              items: { type: "string" }
             },
             challenges: {
               type: "array",
-              items: {
-                type: "string"
-              }
+              items: { type: "string" }
             },
             insights: {
               type: "array",
-              items: {
-                type: "string"
-              }
+              items: { type: "string" }
             },
             description: {
               type: "string"
