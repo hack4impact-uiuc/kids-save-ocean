@@ -3,6 +3,14 @@ const router = express.Router();
 const { Readable } = require('stream');
 const multer = require('multer');
 
+router.get('/:filename', (req, res) => {
+  const filename = req.params.filename;
+  const readStream = req.gfs.createReadStream({ filename }).on('error', err => {
+    res.send(err);
+  });
+  readStream.pipe(res);
+});
+
 router.post('/', (req, res) => {
   const upload = multer({ });
   upload.single('file')(req, res, (err) => {
