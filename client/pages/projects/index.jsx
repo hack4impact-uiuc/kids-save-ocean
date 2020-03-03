@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import { useState } from "react";
 import { Head } from "../../components";
 import PropTypes from "prop-types";
+import Select from "react-select";
 import SelectSearch from "react-select-search";
+
 import "../../public/style.scss";
 import countryData from "../../utils/countries";
 import {
@@ -100,10 +102,9 @@ export default function(props) {
             </ButtonDropdown>
           </div>
           <div className="dropdown-locations">
-            <SelectSearch
+            <Select
+              className="country"
               options={locations}
-              value="sv"
-              name="country"
               placeholder="Search country"
             />
           </div>
