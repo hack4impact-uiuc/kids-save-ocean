@@ -1,12 +1,12 @@
-import Head from "./Head";
+import { Head, Tips } from "./index";
 import { Container, Card, CardBody, CardTitle } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle, faUser } from "@fortawesome/free-solid-svg-icons";
 
 import "../public/styles/stage-component.scss";
 
-export default function(props) {
-  const data = props;
+export default function Stage(props) {
+  const { data } = props;
 
   return (
     <>
@@ -23,18 +23,10 @@ export default function(props) {
         <div className="stage-description">
           <p>{data.description}</p>
         </div>
-        <div className="stage-content">
-          <h2 className="stage-title">Create Frameworks</h2>
-          <p>{data.frameworks}</p>
-        </div>
-        <div className="stage-content">
-          <h2 className="stage-title">Interviews</h2>
-          <p>{data.interviews}</p>
-        </div>
-        <div className="stage-content">
-          <h2 className="stage-title">Challenges</h2>
-          <p>{data.interviews}</p>
-        </div>
+        <Tips title="Stakeholders" tips={data.stakeholders} />
+        <Tips title="Challenges" tips={data.challenges} />
+        <Tips title="Insights" tips={data.insights} />
+
         <div className="stage-cols">
           <Card className="stage-card">
             <CardBody>

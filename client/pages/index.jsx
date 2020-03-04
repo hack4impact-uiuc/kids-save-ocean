@@ -35,7 +35,7 @@ const populateImages = () => {
   return images;
 };
 
-export default function() {
+export default function App() {
   const images = populateImages();
   return (
     <>

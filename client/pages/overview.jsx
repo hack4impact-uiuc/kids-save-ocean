@@ -1,7 +1,7 @@
 import { Chart } from "react-google-charts";
 import mockData from "../utils/mockData";
 
-export default function(props) {
+export default function Overview(props) {
   return (
     <div className="gantt-container">
       <Chart

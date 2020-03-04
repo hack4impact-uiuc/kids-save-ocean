@@ -1,7 +1,8 @@
 import { Stage } from "../../../../components";
 import { useRouter } from "next/router";
+import mockData from "../../../../utils/mockData";
 
-export default function(props) {
+export default function StagePage(props) {
   const router = useRouter();
   const { projectId, stage } = router.query;
   const stageInfo = {
@@ -15,5 +16,5 @@ export default function(props) {
     insights: ["insight1", "insight2"]
   };
 
-  return <Stage info={stageInfo}></Stage>;
+  return <Stage data={mockData[0].sections.inspiration}></Stage>;
 }

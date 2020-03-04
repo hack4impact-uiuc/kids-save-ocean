@@ -1,6 +1,6 @@
 import { Stage } from "../components";
 import mockData from "../utils/mockData";
 
-export default function(props) {
-  return <Stage data={mockData[0]}></Stage>;
+export default function Inspiration(props) {
+  return <Stage data={mockData[0].sections.inspiration}></Stage>;
 }
