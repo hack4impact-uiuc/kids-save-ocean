@@ -6,18 +6,20 @@ import { faUserCircle, faUser } from "@fortawesome/free-solid-svg-icons";
 import "../public/styles/stage-component.scss";
 
 export default function(props) {
-  const { data } = props;
+  const data = props;
 
   return (
     <>
       <Head />
       <Container>
         <h1 className="page-title">Inspiration</h1>
-        <div className="stage-video">
-          <video height="400px" controls>
-            <source src={data.videoUrl}></source>
-          </video>
-        </div>
+        {data.videoUrl && (
+          <div className="stage-video">
+            <video height="400px" controls>
+              <source src={data.videoUrl}></source>
+            </video>
+          </div>
+        )}
         <div className="stage-description">
           <p>{data.description}</p>
         </div>

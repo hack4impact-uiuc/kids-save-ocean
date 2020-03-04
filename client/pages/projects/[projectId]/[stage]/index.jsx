@@ -1,7 +1,9 @@
 import { Stage } from "../../../../components";
+import { useRouter } from "next/router";
 
 export default function(props) {
-  const { projectId, stage } = this.props.router.query;
+  const router = useRouter();
+  const { projectId, stage } = router.query;
   const stageInfo = {
     title: "Ideation",
     videoUrl: "https://www.youtube.com/watch?v=bBBtNQnebGQ",
