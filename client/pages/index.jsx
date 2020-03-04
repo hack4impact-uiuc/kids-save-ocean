@@ -10,7 +10,6 @@ import {
   Input,
   Row
 } from "reactstrap";
-
 import "../public/style.scss";
 
 const numSDGs = 17;
