@@ -30,15 +30,17 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, "public")));
 
 const monk = require("monk");
-const mongo = require('mongodb');
-const Grid = require('gridfs-stream');
+const mongo = require("mongodb");
+const Grid = require("gridfs-stream");
 
-const DATABASE_NAME = 'kids-save-ocean';
+const DATABASE_NAME = "kids-save-ocean";
 const db = monk(`localhost:27017/${DATABASE_NAME}`);
 let gfs;
-mongo.MongoClient.connect('mongodb://127.0.0.1:27017', (err, database) => {
+mongo.MongoClient.connect("mongodb://127.0.0.1:27017", (err, database) => {
   if (err) {
-    console.log('MongoDB Connection Error. Please make sure that MongoDB is running.');
+    console.log(
+      "MongoDB Connection Error. Please make sure that MongoDB is running."
+    );
     process.exit(1);
   }
   gfs = Grid(database.db(DATABASE_NAME), mongo);
