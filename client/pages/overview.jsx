@@ -1,6 +1,8 @@
 import { Chart } from "react-google-charts";
 import mockData from "../utils/mockData";
 
+import "../public/styles/overview.scss";
+
 const ganttData = mockData[0].stages.map(stage => [
   `${stage.name} (${stage.section})`,
   stage.name,
@@ -17,8 +19,8 @@ export default function Overview(props) {
     <div className="gantt-container">
       <Chart
         className="gantt-chart"
-        width="100%"
-        height="400px"
+        height={`${ganttData.length * 30 + 50}px`}
+        width="1000px"
         chartType="Gantt"
         loader={<div>Loading Chart</div>}
         data={[
@@ -35,7 +37,6 @@ export default function Overview(props) {
           ...ganttData
         ]}
         options={{
-          height: 400,
           gantt: {
             trackHeight: 30
           }

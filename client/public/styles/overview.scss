@@ -1,10 +1,12 @@
 .gantt-container {
-  overflow-x: scroll;
-  overflow-y: hidden;
   white-space: nowrap;
+  width: 50vw;
+  overflow-x: scroll;
 }
 
 .gantt-chart {
   display: inline-block;
-  width: 125%;
+  // overflow-y: scroll;
+  // height: 80vh;
+  // width: 125%;
 }
