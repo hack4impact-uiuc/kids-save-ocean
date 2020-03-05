@@ -20,10 +20,11 @@
     "@zeit/next-sass": "^1.0.1",
     "axios": "^0.19.2",
     "css-loader": "^3.4.2",
+    "draft-js": "^0.11.4",
     "next": "^9.2.1",
     "node-sass": "^4.13.1",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0",
     "react-player": "^1.15.2",
     "reactstrap": "^8.4.1"
   },
