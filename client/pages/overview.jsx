@@ -44,17 +44,7 @@ export default function Overview(props) {
   const [activeStage, setActiveStage] = useState(null);
   const [modal, setModal] = useState(false);
 
-  const toggleActivePhase = phase => {
-    if (activePhase !== phase) {
-      setActivePhase(phase);
-    }
-  };
-
-  const toggleActiveStage = stage => setActiveStage(stage);
-
-  const toggleModal = () => {
-    setModal(!modal);
-  };
+  const toggleModal = () => setModal(!modal);
 
   if (process.browser) {
     useEffect(() => setWidth(document.body.clientWidth), [
@@ -87,7 +77,7 @@ export default function Overview(props) {
               <NavLink
                 className={classnames({ active: activePhase === phase }, "tab")}
                 onClick={() => {
-                  toggleActivePhase(phase);
+                  setActivePhase(phase);
                 }}
               >
                 {phase}
@@ -121,7 +111,7 @@ export default function Overview(props) {
               callback: ({ chartWrapper }) => {
                 const selection = chartWrapper.getChart().getSelection();
                 if ((selection.length = 1)) {
-                  toggleActiveStage(
+                  setActiveStage(
                     mockData[0][activePhase.toLowerCase()].stages[
                       selection[0].row
                     ]
