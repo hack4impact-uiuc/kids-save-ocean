@@ -11,7 +11,6 @@ import {
   Row
 } from "reactstrap";
 import "../public/style.scss";
-import TestWrapper from "../pages/TestWrapper.js";
 
 const numSDGs = 17;
 
@@ -40,7 +39,6 @@ export default function() {
   return (
     <>
       <Head />
-      <TestWrapper/>
       <Container>
         <Row className="header-row" justify="center" align="middle">
           <Col xs="1">
