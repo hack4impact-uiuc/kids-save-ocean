@@ -1,3 +1,5 @@
+/* eslint-disable no-magic-numbers */
+
 /*
 Shape:
 {
