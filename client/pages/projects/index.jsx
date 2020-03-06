@@ -1,3 +1,3 @@
-export default function ProjectsPage(props) {
+export default function ProjectsPage() {
   return <>Temporary Page</>;
 }

@@ -6,26 +6,30 @@ import { faUserCircle, faUser } from "@fortawesome/free-solid-svg-icons";
 import "../public/styles/stage-component.scss";
 
 export default function Stage(props) {
-  const { data } = props;
+  const { stage } = props;
 
   return (
     <>
       <Head />
       <Container>
-        <h1 className="page-title">Inspiration</h1>
-        {data.videoUrl && (
+        <h1 className="page-title">{stage.name}</h1>
+        {stage.videoUrl && (
           <div className="stage-video">
             <video height="400px" controls>
-              <source src={data.videoUrl}></source>
+              <source src={stage.videoUrl}></source>
             </video>
           </div>
         )}
         <div className="stage-description">
-          <p>{data.description}</p>
+          <p>{stage.description}</p>
         </div>
-        <Tips title="Stakeholders" tips={data.stakeholders} />
-        <Tips title="Challenges" tips={data.challenges} />
-        <Tips title="Insights" tips={data.insights} />
+        {/* <Tips
+          key="stakeholders"
+          title="Stakeholders"
+          tips={data.stakeholders}
+        />
+        <Tips key="challenges" title="Challenges" tips={data.challenges} />
+        <Tips key="insights" title="Insights" tips={data.insights} /> */}
 
         <div className="stage-cols">
           <Card className="stage-card">
@@ -47,11 +51,11 @@ export default function Stage(props) {
               <CardTitle>Resources</CardTitle>
 
               <span>
-                <i class="fa fa-tag fa-lg" aria-hidden="true"></i>
+                <i className="fa fa-tag fa-lg" aria-hidden="true"></i>
                 Resource 1
               </span>
               <span>
-                <i class="fa fa-tag fa-lg" aria-hidden="true"></i>
+                <i className="fa fa-tag fa-lg" aria-hidden="true"></i>
                 Resource 2
               </span>
             </CardBody>
@@ -60,11 +64,11 @@ export default function Stage(props) {
             <CardBody>
               <CardTitle>Insights</CardTitle>
               <span>
-                <i class="fa fa-lightbulb-o fa-lg" aria-hidden="true"></i>
+                <i className="fa fa-lightbulb-o fa-lg" aria-hidden="true"></i>
                 Insight 1
               </span>
               <span>
-                <i class="fa fa-lightbulb-o fa-lg" aria-hidden="true"></i>
+                <i className="fa fa-lightbulb-o fa-lg" aria-hidden="true"></i>
                 Insight 2
               </span>
             </CardBody>

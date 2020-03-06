@@ -21,7 +21,7 @@ import "../../../public/styles/overview.scss";
 const TRACK_HEIGHT = 50;
 const DESCRIPTION_LENGTH = 400;
 
-export default function Overview(props) {
+export default function Overview() {
   const [width, setWidth] = useState(null);
   const [activePhase, setActivePhase] = useState("Inspiration");
   const [activeStage, setActiveStage] = useState(null);
@@ -65,22 +65,29 @@ export default function Overview(props) {
 
   return (
     <>
-      <Head title="Overview" />
+      <Head title={project?.name} />
 
-      <Modal isOpen={modal} toggle={toggleModal}>
-        <ModalHeader>{activeStage?.name}</ModalHeader>
-        <ModalBody>{`${activeStage?.description.slice(0, DESCRIPTION_LENGTH)}${
-          activeStage?.description.length > DESCRIPTION_LENGTH ? "..." : ""
-        }`}</ModalBody>
-        <ModalFooter>
-          <a>
-            <Button color="primary">See more</Button>
-          </a>
-          <Button onClick={toggleModal} color="danger">
-            Exit
-          </Button>
-        </ModalFooter>
-      </Modal>
+      {activeStage && (
+        <Modal isOpen={modal} toggle={toggleModal}>
+          <ModalHeader>{activeStage.name}</ModalHeader>
+          <ModalBody>{`${activeStage.description.slice(0, DESCRIPTION_LENGTH)}${
+            activeStage.description.length > DESCRIPTION_LENGTH ? "..." : ""
+          }`}</ModalBody>
+          <ModalFooter>
+            <a>
+              <Button
+                color="primary"
+                href={`/projects/${projectId}/${activePhase.toLowerCase()}-${activeStage.name.toLowerCase()}`}
+              >
+                See more
+              </Button>
+            </a>
+            <Button onClick={toggleModal} color="danger">
+              Exit
+            </Button>
+          </ModalFooter>
+        </Modal>
+      )}
 
       {ganttData && (
         <div className="gantt-container">
@@ -126,8 +133,14 @@ export default function Overview(props) {
                 eventName: "select",
                 callback: ({ chartWrapper }) => {
                   const selection = chartWrapper.getChart().getSelection();
+                  console.log(selection);
+                  console.log(project);
                   if ((selection.length = 1)) {
-                    setActiveStage(project.stages[selection[0].row]);
+                    setActiveStage(
+                      project[activePhase.toLowerCase()].stages[
+                        selection[0].row
+                      ]
+                    );
                     toggleModal();
                   }
                 }
