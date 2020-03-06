@@ -4,6 +4,9 @@ import { Head } from "../../../components";
 import { Chart } from "react-google-charts";
 import {
   Button,
+  Card,
+  CardBody,
+  CardTitle,
   Modal,
   ModalBody,
   ModalFooter,
@@ -17,6 +20,7 @@ import classnames from "classnames";
 import mockData from "../../../utils/mockData";
 
 import "../../../public/styles/overview.scss";
+import "../../../public/styles/stage-component.scss";
 
 const TRACK_HEIGHT = 50;
 const DESCRIPTION_LENGTH = 400;
@@ -152,6 +156,52 @@ export default function Overview() {
               }
             }}
           />
+        </div>
+      )}
+
+      {project && (
+        <div className="stage-cols">
+          <Card className="stage-card">
+            <CardBody>
+              <CardTitle>Stakeholders</CardTitle>
+
+              <span>
+                <i className="fa fa-user-circle-o fa-lg" aria-hidden="true"></i>
+                Stakeholder 1
+              </span>
+              <span>
+                <i className="fa fa-user-circle-o fa-lg" aria-hidden="true"></i>
+                Stakeholder 2
+              </span>
+            </CardBody>
+          </Card>
+          <Card className="stage-card">
+            <CardBody>
+              <CardTitle>Resources</CardTitle>
+
+              <span>
+                <i className="fa fa-tag fa-lg" aria-hidden="true"></i>
+                Resource 1
+              </span>
+              <span>
+                <i className="fa fa-tag fa-lg" aria-hidden="true"></i>
+                Resource 2
+              </span>
+            </CardBody>
+          </Card>
+          <Card className="stage-card">
+            <CardBody>
+              <CardTitle>Insights</CardTitle>
+              <span>
+                <i className="fa fa-lightbulb-o fa-lg" aria-hidden="true"></i>
+                Insight 1
+              </span>
+              <span>
+                <i className="fa fa-lightbulb-o fa-lg" aria-hidden="true"></i>
+                Insight 2
+              </span>
+            </CardBody>
+          </Card>
         </div>
       )}
     </>

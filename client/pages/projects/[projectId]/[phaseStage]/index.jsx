@@ -10,7 +10,7 @@ export default function StagePage() {
   const { projectId, phaseStage } = router.query;
 
   useEffect(() => {
-    if (phaseStage) {
+    if (projectId && phaseStage) {
       const [phase, stageName] = phaseStage.split("-");
       setStage(
         mockData[projectId][phase].stages.find(
