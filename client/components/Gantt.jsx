@@ -1,7 +1,5 @@
 import { Chart } from "react-google-charts";
 
-import "../public/styles/gantt.scss";
-
 export default function Gantt(props) {
   const { data, trackHeight, width, selectCallback } = props;
 
