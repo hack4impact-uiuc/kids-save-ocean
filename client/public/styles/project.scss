@@ -1,0 +1,30 @@
+.page-title {
+  padding: 20px;
+  text-align: center;
+}
+
+.page-description {
+  padding-left: 10vw;
+  padding-right: 10vw;
+}
+
+hr {
+  border-width: 3px;
+  width: 84vw;
+}
+
+.tab {
+  cursor: pointer;
+}
+
+.gantt-container {
+  width: 80vw;
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+
+.tipcard-cols {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 50px;
+}

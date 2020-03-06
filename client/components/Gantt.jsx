@@ -5,7 +5,6 @@ export default function Gantt(props) {
 
   return (
     <Chart
-      className="gantt-chart"
       height={`${data.length * trackHeight + 50}px`}
       width={`${width * 0.8}px`}
       chartType="Gantt"

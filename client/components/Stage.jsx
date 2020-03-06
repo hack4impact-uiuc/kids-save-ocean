@@ -1,6 +1,6 @@
 import Head from "./Head";
 
-import "../public/styles/stage-component.scss";
+import "../public/styles/stage.scss";
 
 export default function Stage(props) {
   const { stage } = props;

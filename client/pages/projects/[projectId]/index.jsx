@@ -15,16 +15,18 @@ import classnames from "classnames";
 
 import mockData from "../../../utils/mockData";
 
-import "../../../public/styles/overview.scss";
-import "../../../public/styles/stage-component.scss";
+import "../../../public/styles/project.scss";
 
 const DESCRIPTION_LENGTH = 400;
+
+const capitalize = str =>
+  str.length > 0 ? str.charAt(0).toUpperCase() + str.slice(1) : str;
 
 export default function ProjectPage() {
   const { projects } = mockData;
 
   const [width, setWidth] = useState(null);
-  const [activePhase, setActivePhase] = useState("Inspiration");
+  const [activePhase, setActivePhase] = useState("inspiration");
   const [activeStage, setActiveStage] = useState(null);
   const [modal, setModal] = useState(false);
   const [project, setProject] = useState(null);
@@ -46,24 +48,24 @@ export default function ProjectPage() {
     }
   }, [projectId]);
 
+  const mapGanttData = phase =>
+    project.sections[phase.toLowerCase()]?.stages.map(stage => [
+      `${stage.name}-${phase}-${stage.description}`,
+      stage.name,
+      phase,
+      new Date(stage.startdate),
+      new Date(stage.enddate),
+      null,
+      Math.random() * 100,
+      null
+    ]);
+
   useEffect(() => {
     if (project) {
-      const mapGanttData = phase =>
-        project.sections[phase.toLowerCase()]?.stages.map(stage => [
-          `${stage.name}-${phase}-${stage.description}`,
-          stage.name,
-          phase,
-          new Date(stage.startdate),
-          new Date(stage.enddate),
-          null,
-          Math.random() * 100,
-          null
-        ]);
-
       setGanttData({
-        Inspiration: mapGanttData("Inspiration") ?? [],
-        Ideation: mapGanttData("Ideation") ?? [],
-        Implementation: mapGanttData("Implementation") ?? []
+        inspiration: mapGanttData("inspiration"),
+        ideation: mapGanttData("ideation"),
+        implementation: mapGanttData("implementation")
       });
     }
   }, [project]);
@@ -82,7 +84,7 @@ export default function ProjectPage() {
             <a>
               <Button
                 color="primary"
-                href={`/projects/${projectId}/${activePhase.toLowerCase()}-${activeStage.name
+                href={`/projects/${projectId}/${activePhase}-${activeStage.name
                   .toLowerCase()
                   .replace(" ", "-")}`}
               >
@@ -97,9 +99,12 @@ export default function ProjectPage() {
       )}
       {project && (
         <>
+          <h1 className="page-title">{project.name}</h1>
+          <p className="page-description">{project.description}</p>
+          <hr />
           <div className="gantt-container">
             <Nav tabs>
-              {["Inspiration", "Ideation", "Implementation"].map(phase => (
+              {Object.keys(project.sections).map(phase => (
                 <NavItem key={phase}>
                   <NavLink
                     className={classnames(
@@ -110,41 +115,39 @@ export default function ProjectPage() {
                       setActivePhase(phase);
                     }}
                   >
-                    {phase}
+                    {capitalize(phase)}
                   </NavLink>
                 </NavItem>
               ))}
             </Nav>
-            {ganttData && ganttData[activePhase].length > 0 && (
+            {ganttData && (
               <Gantt
                 data={ganttData[activePhase]}
                 trackHeight={50}
                 width={width}
                 selectCallback={selection => {
                   setActiveStage(
-                    project.sections[activePhase.toLowerCase()].stages[
-                      selection[0].row
-                    ]
+                    project.sections[activePhase].stages[selection[0].row]
                   );
                   toggleModal();
                 }}
               />
             )}
           </div>
-          <div className="stage-cols">
+          <div className="tipcard-cols">
             <TipCard
               title="Stakeholders"
-              tips={project.sections[activePhase.toLowerCase()]?.stakeholders}
+              tips={project.sections[activePhase]?.stakeholders}
               icon="fa-user-circle-o"
             />
             <TipCard
               title="Challenges"
-              tips={project.sections[activePhase.toLowerCase()]?.challenges}
+              tips={project.sections[activePhase]?.challenges}
               icon="fa-tag"
             />
             <TipCard
               title="Insights"
-              tips={project.sections[activePhase.toLowerCase()]?.insights}
+              tips={project.sections[activePhase]?.insights}
               icon="fa-lightbulb-o"
             />
           </div>

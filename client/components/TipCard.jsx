@@ -10,7 +10,7 @@ import {
   ModalFooter
 } from "reactstrap";
 
-import "../public/styles/stage-component.scss";
+import "../public/styles/tipcard.scss";
 
 export default function TipCard(props) {
   const [modal, setModal] = useState(false);
@@ -32,7 +32,7 @@ export default function TipCard(props) {
           </ModalFooter>
         </Modal>
       )}
-      <Card className="stage-card">
+      <Card className="tipcard">
         <CardBody>
           <CardTitle>{title}</CardTitle>
           {tips &&
