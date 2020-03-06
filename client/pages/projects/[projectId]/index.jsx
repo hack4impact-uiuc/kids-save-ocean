@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { Head, TipCard } from "../../../components";
-import { Chart } from "react-google-charts";
+import { Gantt, Head, TipCard } from "../../../components";
 import {
   Button,
   Modal,
@@ -19,7 +18,6 @@ import mockData from "../../../utils/mockData";
 import "../../../public/styles/overview.scss";
 import "../../../public/styles/stage-component.scss";
 
-const TRACK_HEIGHT = 50;
 const DESCRIPTION_LENGTH = 400;
 
 export default function ProjectPage() {
@@ -118,46 +116,17 @@ export default function ProjectPage() {
               ))}
             </Nav>
             {ganttData && ganttData[activePhase].length > 0 && (
-              <Chart
-                className="gantt-chart"
-                height={`${ganttData[activePhase].length * TRACK_HEIGHT +
-                  50}px`}
-                width={`${width * 0.8}px`}
-                chartType="Gantt"
-                loader={<div>Loading Chart</div>}
-                data={[
-                  [
-                    { type: "string", label: "Task ID" },
-                    { type: "string", label: "Task Name" },
-                    { type: "string", label: "Resource" },
-                    { type: "date", label: "Start Date" },
-                    { type: "date", label: "End Date" },
-                    { type: "number", label: "Duration" },
-                    { type: "number", label: "Percent Complete" },
-                    { type: "string", label: "Dependencies" }
-                  ],
-                  ...ganttData[activePhase]
-                ]}
-                chartEvents={[
-                  {
-                    eventName: "select",
-                    callback: ({ chartWrapper }) => {
-                      const selection = chartWrapper.getChart().getSelection();
-                      if ((selection.length = 1)) {
-                        setActiveStage(
-                          project.sections[activePhase.toLowerCase()].stages[
-                            selection[0].row
-                          ]
-                        );
-                        toggleModal();
-                      }
-                    }
-                  }
-                ]}
-                options={{
-                  gantt: {
-                    trackHeight: TRACK_HEIGHT
-                  }
+              <Gantt
+                data={ganttData[activePhase]}
+                trackHeight={50}
+                width={width}
+                selectCallback={selection => {
+                  setActiveStage(
+                    project.sections[activePhase.toLowerCase()].stages[
+                      selection[0].row
+                    ]
+                  );
+                  toggleModal();
                 }}
               />
             )}
