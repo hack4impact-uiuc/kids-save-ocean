@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { Head } from "../../../components";
+import { Head, TipCard } from "../../../components";
 import { Chart } from "react-google-charts";
 import {
   Button,
@@ -25,7 +25,7 @@ import "../../../public/styles/stage-component.scss";
 const TRACK_HEIGHT = 50;
 const DESCRIPTION_LENGTH = 400;
 
-export default function Overview() {
+export default function ProjectPage() {
   const [width, setWidth] = useState(null);
   const [activePhase, setActivePhase] = useState("Inspiration");
   const [activeStage, setActiveStage] = useState(null);
@@ -92,7 +92,6 @@ export default function Overview() {
           </ModalFooter>
         </Modal>
       )}
-
       {ganttData && (
         <div className="gantt-container">
           <Nav tabs>
@@ -112,7 +111,6 @@ export default function Overview() {
               </NavItem>
             ))}
           </Nav>
-
           <Chart
             className="gantt-chart"
             height={`${ganttData[activePhase].length * TRACK_HEIGHT + 50}px`}
@@ -158,50 +156,45 @@ export default function Overview() {
           />
         </div>
       )}
-
       {project && (
         <div className="stage-cols">
-          <Card className="stage-card">
+          <TipCard
+            title="Stakeholders"
+            tips={project[activePhase.toLowerCase()].stakeholders}
+            icon="fa-user-circle-o"
+          />
+          <TipCard
+            title="Challenges"
+            tips={project[activePhase.toLowerCase()].challenges}
+            icon="fa-tag"
+          />
+          <TipCard
+            title="Insights"
+            tips={project[activePhase.toLowerCase()].insights}
+            icon="fa-lightbulb-o"
+          />
+          {/* <Card className="stage-card">
             <CardBody>
-              <CardTitle>Stakeholders</CardTitle>
-
-              <span>
-                <i className="fa fa-user-circle-o fa-lg" aria-hidden="true"></i>
-                Stakeholder 1
-              </span>
-              <span>
-                <i className="fa fa-user-circle-o fa-lg" aria-hidden="true"></i>
-                Stakeholder 2
-              </span>
-            </CardBody>
-          </Card>
-          <Card className="stage-card">
-            <CardBody>
-              <CardTitle>Resources</CardTitle>
-
-              <span>
-                <i className="fa fa-tag fa-lg" aria-hidden="true"></i>
-                Resource 1
-              </span>
-              <span>
-                <i className="fa fa-tag fa-lg" aria-hidden="true"></i>
-                Resource 2
-              </span>
+              <CardTitle>Challenges</CardTitle>
+              {project[activePhase.toLowerCase()].challenges.map(challenge => (
+                <span>
+                  <i className="fa fa-tag fa-lg" aria-hidden="true"></i>
+                  {challenge.name}
+                </span>
+              ))}
             </CardBody>
           </Card>
           <Card className="stage-card">
             <CardBody>
               <CardTitle>Insights</CardTitle>
-              <span>
-                <i className="fa fa-lightbulb-o fa-lg" aria-hidden="true"></i>
-                Insight 1
-              </span>
-              <span>
-                <i className="fa fa-lightbulb-o fa-lg" aria-hidden="true"></i>
-                Insight 2
-              </span>
+              {project[activePhase.toLowerCase()].insights.map(insight => (
+                <span>
+                  <i className="fa fa-lightbulb-o fa-lg" aria-hidden="true"></i>
+                  {insight.name}
+                </span>
+              ))}
             </CardBody>
-          </Card>
+          </Card> */}
         </div>
       )}
     </>

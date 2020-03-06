@@ -1,5 +1,5 @@
 import Head from "./Head";
 import Stage from "./Stage";
-import Tips from "./Tips";
+import TipCard from "./TipCard";
 
-export { Head, Stage, Tips };
+export { Head, Stage, TipCard };
