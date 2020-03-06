@@ -4,9 +4,6 @@ import { Head, TipCard } from "../../../components";
 import { Chart } from "react-google-charts";
 import {
   Button,
-  Card,
-  CardBody,
-  CardTitle,
   Modal,
   ModalBody,
   ModalFooter,
@@ -135,8 +132,6 @@ export default function ProjectPage() {
                 eventName: "select",
                 callback: ({ chartWrapper }) => {
                   const selection = chartWrapper.getChart().getSelection();
-                  console.log(selection);
-                  console.log(project);
                   if ((selection.length = 1)) {
                     setActiveStage(
                       project[activePhase.toLowerCase()].stages[
@@ -173,28 +168,6 @@ export default function ProjectPage() {
             tips={project[activePhase.toLowerCase()].insights}
             icon="fa-lightbulb-o"
           />
-          {/* <Card className="stage-card">
-            <CardBody>
-              <CardTitle>Challenges</CardTitle>
-              {project[activePhase.toLowerCase()].challenges.map(challenge => (
-                <span>
-                  <i className="fa fa-tag fa-lg" aria-hidden="true"></i>
-                  {challenge.name}
-                </span>
-              ))}
-            </CardBody>
-          </Card>
-          <Card className="stage-card">
-            <CardBody>
-              <CardTitle>Insights</CardTitle>
-              {project[activePhase.toLowerCase()].insights.map(insight => (
-                <span>
-                  <i className="fa fa-lightbulb-o fa-lg" aria-hidden="true"></i>
-                  {insight.name}
-                </span>
-              ))}
-            </CardBody>
-          </Card> */}
         </div>
       )}
     </>

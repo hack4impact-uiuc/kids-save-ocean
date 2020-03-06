@@ -12,7 +12,7 @@ import {
 
 import "../public/styles/stage-component.scss";
 
-export default function Tips(props) {
+export default function TipCard(props) {
   const [modal, setModal] = useState(false);
   const [activeTip, setActiveTip] = useState(null);
   const { title, tips, icon } = props;
