@@ -1,6 +1,4 @@
 import Head from "./Head";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserCircle, faUser } from "@fortawesome/free-solid-svg-icons";
 
 import "../public/styles/stage-component.scss";
 

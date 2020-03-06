@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Stage } from "../../../../components";
+import { Button } from "reactstrap";
 import { useRouter } from "next/router";
 import mockData from "../../../../utils/mockData";
 
@@ -23,5 +24,12 @@ export default function StagePage() {
     }
   }, [projectId, stageInfo]);
 
-  return stage ? <Stage stage={stage}></Stage> : null;
+  return (
+    <>
+      {stage && <Stage stage={stage}></Stage>}
+      <a href={`/projects/${projectId}`}>
+        <Button color="danger">Return</Button>
+      </a>
+    </>
+  );
 }
