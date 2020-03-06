@@ -35,18 +35,20 @@ export default function TipCard(props) {
       <Card className="stage-card">
         <CardBody>
           <CardTitle>{title}</CardTitle>
-          {tips.map(tip => (
-            <span
-              className="tip"
-              onClick={() => {
-                setActiveTip(tip);
-                toggleModal();
-              }}
-            >
-              <i className={`fa ${icon} fa-lg`} aria-hidden="true"></i>
-              {tip.name}
-            </span>
-          ))}
+          {tips &&
+            tips.map(tip => (
+              <span
+                key={tip.name}
+                className="tip"
+                onClick={() => {
+                  setActiveTip(tip);
+                  toggleModal();
+                }}
+              >
+                <i className={`fa ${icon} fa-lg`} aria-hidden="true"></i>
+                {tip.name}
+              </span>
+            ))}
         </CardBody>
       </Card>
     </>

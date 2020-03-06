@@ -4,21 +4,24 @@ import { useRouter } from "next/router";
 import mockData from "../../../../utils/mockData";
 
 export default function StagePage() {
+  const { projects } = mockData;
+
   const router = useRouter();
   const [stage, setStage] = useState(null);
 
-  const { projectId, phaseStage } = router.query;
+  const { projectId, stageInfo } = router.query;
 
   useEffect(() => {
-    if (projectId && phaseStage) {
-      const [phase, stageName] = phaseStage.split("-");
+    if (projectId && stageInfo && projectId < projects.length) {
+      let [phase, stageName] = stageInfo.split("-");
+      stageName = stageName.replace("-", " ");
       setStage(
-        mockData[projectId][phase].stages.find(
+        projects[projectId].sections[phase].stages.find(
           stage => stage.name.toLowerCase() === stageName
         )
       );
     }
-  }, [projectId, phaseStage]);
+  }, [projectId, stageInfo]);
 
   return stage ? <Stage stage={stage}></Stage> : null;
 }
