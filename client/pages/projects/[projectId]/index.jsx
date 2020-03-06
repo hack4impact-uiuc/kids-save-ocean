@@ -9,7 +9,9 @@ import {
   ModalHeader,
   Nav,
   NavItem,
-  NavLink
+  NavLink,
+  TabContent,
+  TabPane
 } from "reactstrap";
 import classnames from "classnames";
 
@@ -103,7 +105,7 @@ export default function ProjectPage() {
           <p className="page-description">{project.description}</p>
           <hr />
           <div className="gantt-container">
-            <Nav tabs>
+            <Nav tabs justified>
               {Object.keys(project.sections).map(phase => (
                 <NavItem key={phase}>
                   <NavLink
@@ -121,17 +123,23 @@ export default function ProjectPage() {
               ))}
             </Nav>
             {ganttData && (
-              <Gantt
-                data={ganttData[activePhase]}
-                trackHeight={50}
-                width={width}
-                selectCallback={selection => {
-                  setActiveStage(
-                    project.sections[activePhase].stages[selection[0].row]
-                  );
-                  toggleModal();
-                }}
-              />
+              <TabContent activeTab={activePhase}>
+                {Object.keys(project.sections).map(phase => (
+                  <TabPane key={phase} tabId={phase}>
+                    <Gantt
+                      data={ganttData[phase]}
+                      trackHeight={60}
+                      width={width}
+                      selectCallback={selection => {
+                        setActiveStage(
+                          project.sections[activePhase].stages[selection[0].row]
+                        );
+                        toggleModal();
+                      }}
+                    />
+                  </TabPane>
+                ))}
+              </TabContent>
             )}
           </div>
           <div className="tipcard-cols">

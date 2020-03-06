@@ -10,11 +10,16 @@
 
 hr {
   border-width: 3px;
+  border-radius: 2px;
   width: 84vw;
+  border-top-color: #bbb;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .tab {
   cursor: pointer;
+  font-size: 24px;
 }
 
 .gantt-container {
@@ -25,6 +30,8 @@ hr {
 
 .tipcard-cols {
   display: flex;
+  width: 80vw;
+  margin: 20px 50% 20px 50%;
+  transform: translateX(-50%);
   justify-content: space-evenly;
-  padding: 50px;
 }

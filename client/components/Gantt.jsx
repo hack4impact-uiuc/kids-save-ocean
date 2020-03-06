@@ -1,5 +1,7 @@
 import { Chart } from "react-google-charts";
 
+import "../public/styles/gantt.scss";
+
 export default function Gantt(props) {
   const { data, trackHeight, width, selectCallback } = props;
 
@@ -35,7 +37,11 @@ export default function Gantt(props) {
       ]}
       options={{
         gantt: {
-          trackHeight
+          trackHeight,
+          labelStyle: {
+            fontName: "Open Sans",
+            fontSize: 16
+          }
         }
       }}
     />
