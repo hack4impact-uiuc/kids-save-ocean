@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import Link from "next/link";
 import { Gantt, Head, TipCard } from "../../../components";
 import {
   Button,
@@ -81,16 +82,13 @@ export default function ProjectPage() {
             activeStage.description.length > DESCRIPTION_LENGTH ? "..." : ""
           }`}</ModalBody>
           <ModalFooter>
-            <a>
-              <Button
-                color="primary"
-                href={`/projects/${projectId}/${activePhase}-${activeStage.name
-                  .toLowerCase()
-                  .replace(" ", "-")}`}
-              >
-                See more
-              </Button>
-            </a>
+            <Link
+              href={`/projects/${projectId}/${activePhase}-${activeStage.name
+                .toLowerCase()
+                .replace(" ", "-")}`}
+            >
+              <Button color="primary">See more</Button>
+            </Link>
             <Button onClick={toggleModal} color="danger">
               Exit
             </Button>

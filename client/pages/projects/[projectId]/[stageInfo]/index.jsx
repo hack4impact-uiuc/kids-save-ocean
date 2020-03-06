@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import Link from "next/link";
 import { Stage } from "../../../../components";
 import { Button } from "reactstrap";
 import mockData from "../../../../utils/mockData";
@@ -28,9 +29,9 @@ export default function StagePage() {
   return (
     <div className="stage">
       {stage && <Stage stage={stage}></Stage>}
-      <a href={`/projects/${projectId}`}>
+      <Link href={`/projects/${projectId}`}>
         <Button color="danger">Return</Button>
-      </a>
+      </Link>
     </div>
   );
 }
