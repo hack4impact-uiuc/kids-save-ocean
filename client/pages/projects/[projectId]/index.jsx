@@ -14,7 +14,6 @@ import {
   TabPane
 } from "reactstrap";
 import classnames from "classnames";
-
 import mockData from "../../../utils/mockData";
 
 import "../../../public/styles/project.scss";
@@ -25,16 +24,16 @@ const capitalize = str =>
   str.length > 0 ? str.charAt(0).toUpperCase() + str.slice(1) : str;
 
 export default function ProjectPage() {
-  const { projects } = mockData;
-
   const [width, setWidth] = useState(null);
   const [activePhase, setActivePhase] = useState("inspiration");
   const [activeStage, setActiveStage] = useState(null);
   const [modal, setModal] = useState(false);
   const [project, setProject] = useState(null);
   const [ganttData, setGanttData] = useState(null);
+
   const router = useRouter();
   const { projectId } = router.query;
+  const { projects } = mockData;
 
   const toggleModal = () => setModal(!modal);
 
@@ -75,7 +74,6 @@ export default function ProjectPage() {
   return (
     <>
       <Head title={project?.name} />
-
       {activeStage && (
         <Modal isOpen={modal} toggle={toggleModal}>
           <ModalHeader>{activeStage.name}</ModalHeader>

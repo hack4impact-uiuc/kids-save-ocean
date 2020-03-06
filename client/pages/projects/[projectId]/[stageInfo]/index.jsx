@@ -1,18 +1,17 @@
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import { Stage } from "../../../../components";
 import { Button } from "reactstrap";
-import { useRouter } from "next/router";
 import mockData from "../../../../utils/mockData";
 
 import "../../../../public/styles/stage.scss";
 
 export default function StagePage() {
-  const { projects } = mockData;
-
-  const router = useRouter();
   const [stage, setStage] = useState(null);
 
+  const router = useRouter();
   const { projectId, stageInfo } = router.query;
+  const { projects } = mockData;
 
   useEffect(() => {
     if (projectId && stageInfo && projectId < projects.length) {
