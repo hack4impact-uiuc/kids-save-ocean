@@ -63,17 +63,30 @@ body {
 .search-bar {
   margin-right: auto;
   margin-left: auto;
+  text-align: center;
   padding: 30px;
   width: 50%;
 }
 
 .dropdowns {
   display: flex;
+  flex-shrink: 3;
   justify-content: space-between;
+}
+
+.un-goals-list,
+.country-list,
+.grp-sizes-list,
+.difficulty-list {
+  table-layout: fixed;
+  width: 200px;
+  flex-shrink: 3;
+  max-width: 100%;
 }
 
 .input {
   text-align: center;
+  flex-shrink: 3;
 }
 
 .sdg-general-info {
