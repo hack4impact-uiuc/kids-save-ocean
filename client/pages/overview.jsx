@@ -51,22 +51,10 @@ export default function Overview(props) {
       document.body.clientWidth
     ]);
   }
-
-  /* add once backend connected
-
-  const [project, setProject] = useState(null);
-  const { projectId } = router.query;
-  useEffect(async () => {
-    const project = await getProjectById(projectId);
-    if (project) {
-      setProject(project);
-    }
-  })
-  */
-
   return (
     <>
-      <Head title="Overview" /> {/* title={project?.name} */}
+      <Head title="Overview" />
+
       <Modal isOpen={modal} toggle={toggleModal}>
         <ModalHeader>{activeStage?.name}</ModalHeader>
         <ModalBody>{`${activeStage?.description.slice(0, DESCRIPTION_LENGTH)}${
@@ -81,17 +69,13 @@ export default function Overview(props) {
           </Button>
         </ModalFooter>
       </Modal>
+
       <div className="gantt-container">
         <Nav tabs>
           {["Inspiration", "Ideation", "Implementation"].map(phase => (
-            <NavItem key={phase}>
+            <NavItem>
               <NavLink
-                className={classnames(
-                  {
-                    active: activePhase === phase
-                  },
-                  "tab"
-                )}
+                className={classnames({ active: activePhase === phase }, "tab")}
                 onClick={() => {
                   setActivePhase(phase);
                 }}
@@ -110,38 +94,14 @@ export default function Overview(props) {
           loader={<div>Loading Chart</div>}
           data={[
             [
-              {
-                type: "string",
-                label: "Task ID"
-              },
-              {
-                type: "string",
-                label: "Task Name"
-              },
-              {
-                type: "string",
-                label: "Resource"
-              },
-              {
-                type: "date",
-                label: "Start Date"
-              },
-              {
-                type: "date",
-                label: "End Date"
-              },
-              {
-                type: "number",
-                label: "Duration"
-              },
-              {
-                type: "number",
-                label: "Percent Complete"
-              },
-              {
-                type: "string",
-                label: "Dependencies"
-              }
+              { type: "string", label: "Task ID" },
+              { type: "string", label: "Task Name" },
+              { type: "string", label: "Resource" },
+              { type: "date", label: "Start Date" },
+              { type: "date", label: "End Date" },
+              { type: "number", label: "Duration" },
+              { type: "number", label: "Percent Complete" },
+              { type: "string", label: "Dependencies" }
             ],
             ...ganttData[activePhase]
           ]}
