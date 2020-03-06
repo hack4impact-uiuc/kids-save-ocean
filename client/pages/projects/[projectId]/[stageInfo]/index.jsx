@@ -4,6 +4,8 @@ import { Button } from "reactstrap";
 import { useRouter } from "next/router";
 import mockData from "../../../../utils/mockData";
 
+import "../../../../public/styles/stage.scss";
+
 export default function StagePage() {
   const { projects } = mockData;
 
@@ -25,11 +27,11 @@ export default function StagePage() {
   }, [projectId, stageInfo]);
 
   return (
-    <>
+    <div className="stage">
       {stage && <Stage stage={stage}></Stage>}
       <a href={`/projects/${projectId}`}>
         <Button color="danger">Return</Button>
       </a>
-    </>
+    </div>
   );
 }

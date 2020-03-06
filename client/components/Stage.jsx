@@ -8,7 +8,7 @@ export default function Stage(props) {
   return (
     <>
       <Head />
-      <h1 className="page-title">{stage.name}</h1>
+      <h1 className="stage-title">{stage.name}</h1>
       {stage.videoUrl && (
         <div className="stage-video">
           <video height="400px" controls>

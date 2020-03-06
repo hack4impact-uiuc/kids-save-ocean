@@ -1,3 +1,9 @@
+.stage {
+  width: 80vw;
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
+
 .stage-title {
   padding-top: 20px;
   text-align: center;
@@ -10,4 +16,5 @@
 
 .stage-description {
   text-align: justify;
+  padding-top: 20px;
 }

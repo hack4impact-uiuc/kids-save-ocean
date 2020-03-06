@@ -100,48 +100,46 @@ export default function ProjectPage() {
         </Modal>
       )}
       {project && (
-        <>
-          <h1 className="page-title">{project.name}</h1>
-          <p className="page-description">{project.description}</p>
+        <div className="project">
+          <h1 className="project-info">{project.name}</h1>
+          <p className="project-info">{project.description}</p>
           <hr />
-          <div className="gantt-container">
-            <Nav tabs justified>
+          <Nav tabs justified>
+            {Object.keys(project.sections).map(phase => (
+              <NavItem key={phase}>
+                <NavLink
+                  className={classnames(
+                    { active: activePhase === phase },
+                    "tab"
+                  )}
+                  onClick={() => {
+                    setActivePhase(phase);
+                  }}
+                >
+                  {capitalize(phase)}
+                </NavLink>
+              </NavItem>
+            ))}
+          </Nav>
+          {ganttData && (
+            <TabContent activeTab={activePhase}>
               {Object.keys(project.sections).map(phase => (
-                <NavItem key={phase}>
-                  <NavLink
-                    className={classnames(
-                      { active: activePhase === phase },
-                      "tab"
-                    )}
-                    onClick={() => {
-                      setActivePhase(phase);
+                <TabPane key={phase} tabId={phase}>
+                  <Gantt
+                    data={ganttData[phase]}
+                    trackHeight={60}
+                    width={width}
+                    selectCallback={selection => {
+                      setActiveStage(
+                        project.sections[activePhase].stages[selection[0].row]
+                      );
+                      toggleModal();
                     }}
-                  >
-                    {capitalize(phase)}
-                  </NavLink>
-                </NavItem>
+                  />
+                </TabPane>
               ))}
-            </Nav>
-            {ganttData && (
-              <TabContent activeTab={activePhase}>
-                {Object.keys(project.sections).map(phase => (
-                  <TabPane key={phase} tabId={phase}>
-                    <Gantt
-                      data={ganttData[phase]}
-                      trackHeight={60}
-                      width={width}
-                      selectCallback={selection => {
-                        setActiveStage(
-                          project.sections[activePhase].stages[selection[0].row]
-                        );
-                        toggleModal();
-                      }}
-                    />
-                  </TabPane>
-                ))}
-              </TabContent>
-            )}
-          </div>
+            </TabContent>
+          )}
           <div className="tipcard-cols">
             <TipCard
               title="Stakeholders"
@@ -159,7 +157,7 @@ export default function ProjectPage() {
               icon="fa-lightbulb-o"
             />
           </div>
-        </>
+        </div>
       )}
     </>
   );

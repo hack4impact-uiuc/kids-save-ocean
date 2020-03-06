@@ -1,18 +1,17 @@
-.page-title {
-  padding: 20px;
-  text-align: center;
+.project {
+  width: 80vw;
+  margin-left: 50%;
+  transform: translateX(-50%);
 }
 
-.page-description {
-  padding-left: 10vw;
-  padding-right: 10vw;
+.project-info {
+  text-align: center;
+  margin-top: 20px;
 }
 
 hr {
   border-width: 3px;
   border-radius: 2px;
-  width: 84vw;
-  border-top-color: #bbb;
   margin-top: 20px;
   margin-bottom: 20px;
 }
@@ -22,16 +21,9 @@ hr {
   font-size: 24px;
 }
 
-.gantt-container {
-  width: 80vw;
-  margin-left: 50%;
-  transform: translateX(-50%);
-}
-
 .tipcard-cols {
   display: flex;
-  width: 80vw;
-  margin: 20px 50% 20px 50%;
-  transform: translateX(-50%);
+  width: 100%;
+  margin: 20px 0 20px 0;
   justify-content: space-evenly;
 }
