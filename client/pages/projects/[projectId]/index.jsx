@@ -53,7 +53,7 @@ export default function ProjectPage() {
     project.sections[phase.toLowerCase()]?.stages.map(stage => [
       `${stage.name}-${phase}-${stage.description}`,
       stage.name,
-      phase,
+      capitalize(phase),
       new Date(stage.startdate),
       new Date(stage.enddate),
       null,
