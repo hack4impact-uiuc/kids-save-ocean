@@ -3,16 +3,15 @@ import { useState } from "react";
 import { Head } from "../../components";
 import PropTypes from "prop-types";
 import Select from "react-select";
-import SelectSearch from "react-select-search";
 
 import "../../public/style.scss";
 import countryData from "../../utils/countries";
 import UNGoalData from "../../utils/goals";
 import groupSizeData from "../../utils/groups";
 import levelData from "../../utils/levels";
+import { IconButton } from "@material/react-icon-button";
 import {
   Button,
-  DropdownItem,
   Card,
   CardBody,
   CardGroup,
@@ -89,9 +88,10 @@ export default function(props) {
         </div>
         <div className="dropdowns">
           <Select
+            isMulti
             className="un-goals-list"
             options={populateUNGoals()}
-            placeholder="Search UN Goals"
+            placeholder="Select UN Goals"
           />
           <Select
             className="country-list"
@@ -109,6 +109,7 @@ export default function(props) {
             placeholder="Select difficulty"
           />
         </div>
+        <div className="project-cards"></div>
       </Container>
     </>
   );
