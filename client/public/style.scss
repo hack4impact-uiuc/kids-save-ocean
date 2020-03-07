@@ -94,7 +94,7 @@ body {
 }
 
 .sdg-card {
-  margin: 0.5px;
+  margin: 1.5px;
   cursor: pointer;
   width: 200px;
   height: 200px;
@@ -102,8 +102,8 @@ body {
 }
 .sdg-card:hover {
   border-width: 2px;
-  border-color: black;
-  margin: 1.5px;
+  border-color: darkblue;
+  margin: 0.5px;
 }
 .sdg-row {
   margin-top: 50px;
