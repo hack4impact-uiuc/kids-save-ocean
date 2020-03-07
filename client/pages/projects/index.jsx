@@ -23,12 +23,6 @@ import {
 } from "reactstrap";
 
 export default function ProjectsPage(props) {
-  const [dropdownOpen3, setOpen3] = useState(false);
-  const toggle3 = () => setOpen3(!dropdownOpen3);
-
-  const [dropdownOpen4, setOpen4] = useState(false);
-  const toggle4 = () => setOpen4(!dropdownOpen4);
-
   return (
     <>
       <Head title="Project Explorer" />
