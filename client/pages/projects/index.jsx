@@ -22,60 +22,12 @@ import {
   Row
 } from "reactstrap";
 
-export default function(props) {
+export default function ProjectsPage(props) {
   const [dropdownOpen3, setOpen3] = useState(false);
   const toggle3 = () => setOpen3(!dropdownOpen3);
 
   const [dropdownOpen4, setOpen4] = useState(false);
   const toggle4 = () => setOpen4(!dropdownOpen4);
-
-  const populateUNGoals = () => {
-    let goals = new Array(17);
-
-    for (let i = 0; i < 17; i++) {
-      goals.push({
-        label: UNGoalData[i]["label"]
-      });
-    }
-
-    return goals;
-  };
-
-  const populateLocations = () => {
-    let locations = new Array(244);
-
-    for (let i = 0; i < 244; i++) {
-      locations.push({
-        label: countryData[i]["label"]
-      });
-    }
-
-    return locations;
-  };
-
-  const populateGroupOptions = () => {
-    let groups = new Array(5);
-
-    for (let i = 0; i < 5; i++) {
-      groups.push({
-        label: groupSizeData[i]["label"]
-      });
-    }
-
-    return groups;
-  };
-
-  const populateLevels = () => {
-    let levels = new Array(3);
-
-    for (let i = 0; i < 3; i++) {
-      levels.push({
-        label: levelData[i]["label"]
-      });
-    }
-
-    return levels;
-  };
 
   return (
     <>
@@ -90,22 +42,22 @@ export default function(props) {
           <Select
             isMulti
             className="un-goals-list"
-            options={populateUNGoals()}
+            options={UNGoalData}
             placeholder="Select UN Goals"
           />
           <Select
             className="country-list"
-            options={populateLocations()}
+            options={countryData}
             placeholder="Search country"
           />
           <Select
             className="grp-sizes-list"
-            options={populateGroupOptions()}
+            options={groupSizeData}
             placeholder="Select group size"
           />
           <Select
             className="difficulty-list"
-            options={populateLevels()}
+            options={levelData}
             placeholder="Select difficulty"
           />
         </div>
