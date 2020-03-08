@@ -3,7 +3,8 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { Head } from "../../../../components";
 import { Button } from "reactstrap";
-import mockData from "../../../../utils/mockData";
+// import mockData from "../../../../utils/mockData";
+import { getModelsByID } from "../../../../utils/apiWrapper";
 
 import "../../../../public/styles/stage.scss";
 
@@ -12,17 +13,29 @@ export default function StagePage() {
 
   const router = useRouter();
   const { projectId, stageInfo } = router.query;
-  const { projects } = mockData;
 
   useEffect(() => {
-    if (projectId && stageInfo && projectId < projects.length) {
+    if (projectId && stageInfo) {
       let [phase, stageName] = stageInfo.split("-");
       stageName = stageName.replace("-", " ");
-      setStage(
-        projects[projectId].sections[phase].stages.find(
-          stage => stage.name.toLowerCase() === stageName
-        )
-      );
+
+      const loadModel = async (id, phase, stage) => {
+        const model = await getModelsByID(id);
+        if (model && model.data.length === 1) {
+          setStage(
+            model.data[0].phases[phase].stages.find(
+              stage => stage.name.toLowerCase() === stageName
+            )
+          );
+        }
+      };
+
+      // setStage(
+      //   projects[projectId].sections[phase].stages.find(
+      //     stage => stage.name.toLowerCase() === stageName
+      //   )
+      // );
+      loadModel(projectId, phase, stageName);
     }
   }, [projectId, stageInfo]);
 
