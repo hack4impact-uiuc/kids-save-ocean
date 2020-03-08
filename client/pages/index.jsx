@@ -1,5 +1,6 @@
 import { Head } from "../components";
 import { ProjectForm } from "../components";
+import Link from "next/link";
 import ReactPlayer from "react-player";
 import React, { Component } from "react";
 import {
@@ -13,7 +14,8 @@ import {
   Row
 } from "reactstrap";
 
-import "../public/style.scss";
+import "../public/styles/home.scss";
+
 const numSDGs = 17;
 
 const populateImages = () => {

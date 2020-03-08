@@ -10,7 +10,7 @@ import {
   Input
 } from "reactstrap";
 import Select from "react-select";
-
+import "../public/styles/home.scss";
 const customStyles = {
   content: {
     top: "50%",
