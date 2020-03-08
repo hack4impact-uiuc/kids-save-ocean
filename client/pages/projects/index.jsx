@@ -68,7 +68,7 @@ export default function ProjectsPage(props) {
         </Row>
         <div className="dropdowns">
           <Select
-            isMulti={true}
+            isMulti
             className="un-goals-list"
             options={UNGoalData}
             placeholder="Select UN Goals"
