@@ -4,7 +4,8 @@ import { Head } from "../../components";
 import PropTypes from "prop-types";
 import Select from "react-select";
 
-import "../../public/style.scss";
+import "../../public/styles/home.scss";
+//import "../../public/styles/project.scss";
 import countryData from "../../utils/countries";
 import UNGoalData from "../../utils/goals";
 import groupSizeData from "../../utils/groups";
@@ -27,11 +28,20 @@ export default function ProjectsPage(props) {
     <>
       <Head title="Project Explorer" />
       <Container>
-        <div class="form-inline">
+        <Row className="projects-top-row">
           <div className="search-bar">
             <Input type="text" className="input" placeholder="Find a project" />
           </div>
-        </div>
+          <Button
+            className="notifications-btn"
+            onClick={() => console.log("clicked")}
+          >
+            Notifications
+          </Button>
+          <Button className="user-btn" onClick={() => console.log("clicked")}>
+            User
+          </Button>
+        </Row>
         <div className="dropdowns">
           <Select
             isMulti
@@ -59,8 +69,9 @@ export default function ProjectsPage(props) {
           <Row className="project-row">
             <Col className="project-col">
               <CardGroup>
-                <Card className="project-card"></Card>
-                <CardImg></CardImg>
+                <Card className="project-card">
+                  <CardImg top width="100%" height="100%" />
+                </Card>
               </CardGroup>
             </Col>
           </Row>
@@ -68,3 +79,4 @@ export default function ProjectsPage(props) {
       </Container>
     </>
   );
+}
