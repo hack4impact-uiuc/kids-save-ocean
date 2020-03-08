@@ -68,4 +68,3 @@ export default function ProjectsPage(props) {
       </Container>
     </>
   );
-}
