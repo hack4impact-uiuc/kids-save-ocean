@@ -30,11 +30,6 @@ export default function StagePage() {
         }
       };
 
-      // setStage(
-      //   projects[projectId].sections[phase].stages.find(
-      //     stage => stage.name.toLowerCase() === stageName
-      //   )
-      // );
       loadModel(projectId, phase, stageName);
     }
   }, [projectId, stageInfo]);
