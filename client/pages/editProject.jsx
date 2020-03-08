@@ -68,7 +68,7 @@ export default function() {
         </Col>
       </Row>
       {/* Blue block and such */}
-      <Row style={{}}>
+      <Row>
         <Col classname="home-block-col">
           <Row className="home-block-1-ep">
             <div className="div-1-ep">
@@ -159,7 +159,7 @@ export default function() {
           </h2>
         </Row>
         <Row className="inspo-des">
-          <h4 style={{ marginLeft: "10%", marginRight: "10%" }}>
+          <h4 className="header2-text-ep-other">
             Morbi sit amet rutrum leo. Maecenas molestie, odio eu condimentum
             elementum, enim ante posuere ante, nec suscipit tellus erat quis mi.
             Suspendisse vehicula finibus leo, ut molestie lacus eleifend non.
