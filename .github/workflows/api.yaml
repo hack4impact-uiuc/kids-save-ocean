@@ -1,10 +1,6 @@
 name: api
 
-on:
-  push:
-    paths:
-      - "api/**"
-      - "!**/README.md"
+on: push
 
 jobs:
   audit:
