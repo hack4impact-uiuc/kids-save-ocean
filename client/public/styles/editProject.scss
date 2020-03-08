@@ -1,55 +1,70 @@
 .header-row-ep {
-    margin-right: "15%";
-    margin-left: "15%";
-    margin-bottom: "2.5%"
+    margin-right: 5%;
+    margin-left: 5%;
+    margin-bottom: 2.5%;
 }
 .home-block-1-ep {
-    margin-right: "11%";
-    margin-left: "11%";
-    margin-top: "5%";
+    margin-right: 5%;
+    margin-left: 5%;
+    margin-top: 5%;
+    background-image: radial-gradient(
+      50% 141%,
+      rgba(11, 47, 129, 0.6) 1%,
+      rgba(43, 134, 161, 0.651) 100%
+    ),
+    url("/asset/images/splash.jpg");
+    background-size: cover;
+    background-position: center;
+    height: auto;
+    width: auto;
+    opacity: 1;
+    align-content: middle;
 }
 .div-1-ep {
-    padding-bottom: "5%";
-    padding-top: "5%";
+    padding-bottom: 5%;
+    padding-top: 5%;
 }
 .header2-text-ep{
-    margin-left: "10%";
-    padding-bottom: "2.5%";
+    margin-left: 5%;
+    padding-bottom: 2.5%;
 }
 .header3 {
-    margin-left: "10%";
-    margin-right: "10%";
-    color: "white";
+    margin-left: 5%;
+    margin-right: 5%;
+    color: white;
 }
 .label {
-    margin-left: "11%";
+    margin-left: 11%;
 }
 .input {
-    margin-left: "1%"; 
+    margin-left: 1%; 
 }
 .other-row{
-    margin-right: "15%";
-    margin-left: "15%";
-    margin-bottom: "2.5%";
-    margin-top: "2.5%";
+    margin-right: 5%;
+    margin-left: 5%;
+    margin-bottom: 2.5%;
+    margin-top: 2.5%;
 }
 .header2-text-ep-other {
-    margin-left: "10%";
-    margin-right: "10%";
+    margin-left: 5%;
+    margin-right: 5%;
 }
 .inspo-des{
-    margin-right: "15%";
-    margin-left: "15%";
-    margin-bottom: "1%";
-    margin-top: "2.5%";
+    margin-right: 5%;
+    margin-left: 5%;
+    margin-bottom: 1%;
+    margin-top: 2.5%;
 }
 .divider-stage {
-    margin-right: "25%";
-    margin-left: "25%";
-    margin-bottom: "0%";
+    margin-right: 25%;
+    margin-left: 25%;
+    margin-bottom: 0%;
 }
 .column {
-    margin-left: "25%";
-    margin-right: "25%";
-    margin-bottom: "1%";
+    margin-left: 15%;
+    margin-right: 15%;
+    margin-bottom: 1%;
+}
+.dropdown {
+    margin-left: 5%;
 }
