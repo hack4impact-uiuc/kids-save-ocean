@@ -35,7 +35,7 @@ const populateProjects = () => {
   for (let i = 1; i <= numProjects; i++) {
     const projObject = {
       id: i,
-      projName: "- Project " + i + ": ",
+      projName: "- Project " + i + ": " + mockData.projects[i],
       projDescrip: "- Description: "
     };
     projectsToReturn[i - 1] = projObject;
