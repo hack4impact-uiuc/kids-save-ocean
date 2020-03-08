@@ -91,7 +91,7 @@ export default function ProjectsPage() {
                 <Col key={proj._id} className="project-col">
                   <CardGroup>
                     <Link href={`projects/${proj._id}`}>
-                      <Card className="card" className="project-card">
+                      <Card className="project-card">
                         <CardText top width="100%" height="100%">
                           <h3>{proj.name}</h3>
                           <br />
