@@ -10,6 +10,9 @@ const indexRouter = require("./routes/index");
 const modelRouter = require("./routes/model");
 const authRouter = require("./auth/api/index");
 
+const dotenv = require('dotenv');
+dotenv.config();
+
 const app = express();
 
 // view engine setup
@@ -29,7 +32,7 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, "public")));
 
 const monk = require("monk");
-const db = monk("localhost:27017/kids-save-ocean");
+const db = monk(process.env.MONGO_DATABASE);
 
 app.use(function(req, res, next) {
   req.db = db;
