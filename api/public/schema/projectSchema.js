@@ -26,7 +26,7 @@ const schema = {
       type: "string",
       required: false
     },
-    sections: {
+    phases: {
       type: "object",
       required: true,
       properties: {
