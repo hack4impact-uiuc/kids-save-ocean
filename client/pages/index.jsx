@@ -1,4 +1,5 @@
 import { Head } from "../components";
+import Link from "next/link";
 import ReactPlayer from "react-player";
 import {
   Button,
@@ -11,7 +12,7 @@ import {
   Row
 } from "reactstrap";
 
-import "../public/style.scss";
+import "../public/styles/home.scss";
 
 const numSDGs = 17;
 
@@ -35,7 +36,7 @@ const populateImages = () => {
   return images;
 };
 
-export default function() {
+export default function App() {
   const images = populateImages();
   return (
     <>
@@ -68,9 +69,9 @@ export default function() {
             <ReactPlayer url="https://youtu.be/dQw4w9WgXcQ" />
           </Col>
           <Col className="home-block-col">
-            <a className="text-link" href="about us">
-              ABOUT US
-            </a>
+            <Link className="text-link" href="#about us">
+              <a>ABOUT US</a>
+            </Link>
             <h1 className="header-text">Change the World,</h1>
             <h1 className="header-text" mode="single">
               one step at a time.
