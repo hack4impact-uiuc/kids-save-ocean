@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import Select from "react-select";
 
 import "../../public/styles/home.scss";
-//import "../../public/styles/project.scss";
+import "../../public/styles/project.scss";
 import countryData from "../../utils/countries";
 import UNGoalData from "../../utils/goals";
 import groupSizeData from "../../utils/groups";
@@ -35,10 +35,10 @@ const populateProjects = () => {
   for (let i = 1; i <= numProjects; i++) {
     const projObject = {
       id: i,
-      projName: "- Project " + i + ": " + mockData.projects[i].name,
+      projName: "- Project Name: " + mockData.projects[i].name,
       projDescrip:
         "- Description: " +
-        mockData.projects[i].description.substring(0, 600) +
+        mockData.projects[i].description.substring(0, 200) +
         "..."
     };
     projectsToReturn[i - 1] = projObject;
@@ -49,6 +49,9 @@ const populateProjects = () => {
 
 export default function ProjectsPage(props) {
   const projects = populateProjects();
+
+  const router = useRouter();
+
   return (
     <>
       <Head title="Project Explorer" />
