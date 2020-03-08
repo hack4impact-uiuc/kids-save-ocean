@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import { Head } from "../../components";
 import PropTypes from "prop-types";
 import Select from "react-select";
@@ -26,36 +27,21 @@ import {
   Row
 } from "reactstrap";
 
-const numProjects = 21;
-
-const populateProjectDescriptions = () => {
-  const projDescriptions = new Array(numProjects);
-
-  for (let i = 1; i <= numProjects; i++) {
-    const projDescripObj = {
-      id: i,
-      text: mockData.projects.splice(0, 21, ["name"][i])
-    };
-    projDescriptions[i - 1] = projDescripObj;
-  }
-
-  return projDescriptions;
-};
-
 const populateProjects = () => {
-  const projects = new Array(numProjects);
-  const projDescriptions = populateProjectDescriptions();
+  const numProjects = 21;
+
+  const projectsToReturn = new Array(numProjects).slice(numProjects);
 
   for (let i = 1; i <= numProjects; i++) {
-    const projDescription = projDescriptions[i];
     const projObject = {
       id: i,
-      text: "Project " + i + ": " + projDescription
+      projName: "- Project " + i + ": ",
+      projDescrip: "- Description: "
     };
-    projects[i - 1] = projObject;
+    projectsToReturn[i - 1] = projObject;
   }
 
-  return projects;
+  return projectsToReturn;
 };
 
 export default function ProjectsPage(props) {
@@ -108,8 +94,8 @@ export default function ProjectsPage(props) {
         </div>
         <div className="project-cards">
           <Row className="project-row">
-            {projects.map(text => (
-              <Col key={text.id} className="project-col">
+            {projects.map(proj => (
+              <Col key={proj.id} className="project-col">
                 <CardGroup>
                   <Card
                     class="card"
@@ -117,7 +103,11 @@ export default function ProjectsPage(props) {
                     onClick={() => console.log("clicked")}
                   >
                     <CardText top width="100%" height="100%">
-                      {text.text}
+                      <br />
+                      {proj.projName}
+                      <br />
+                      <br />
+                      {proj.projDescrip}
                     </CardText>
                   </Card>
                 </CardGroup>

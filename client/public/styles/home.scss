@@ -57,6 +57,7 @@
 }
 
 .search-bar {
+  display: flex;
   margin-right: auto;
   margin-left: auto;
   text-align: center;
@@ -76,16 +77,17 @@
 .difficulty-list {
   table-layout: fixed;
   width: 200px;
-  flex-shrink: 3;
   max-width: 100%;
 }
 
 .input {
+  display: flex;
   text-align: center;
   flex-shrink: 3;
 }
 
 .notifications-icon {
+  display: flex;
   vertical-align: middle;
   margin-top: 35px;
   margin-right: -20px;
@@ -93,6 +95,7 @@
 }
 
 .user-icon {
+  display: flex;
   vertical-align: middle;
   margin-top: 35px;
   margin-left: 50px;
@@ -101,6 +104,7 @@
 }
 
 .project-card {
+  display: flex;
   height: 300px;
   width: 350px;
   cursor: pointer;
