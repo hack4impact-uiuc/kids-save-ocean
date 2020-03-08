@@ -20,7 +20,7 @@ export default function() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [title, setTitle] = useState("Loading");
   const [description, setDescription] = useState("Loading");
-  //Stages
+  //Stage
   let ideationStages = [
     ["Stage 1", "Description 1"],
     ["Stage 2", "Description 2"],
