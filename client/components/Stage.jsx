@@ -1,24 +1,18 @@
-import Head from "./Head";
-
-import "../public/styles/stage.scss";
-
-export default function Stage(props) {
-  const { stage } = props;
-
+import { Input, FormGroup, Label } from "reactstrap";
+// import "../public/styles/stage.scss";
+import "../public/styles/style.scss";
+import "../public/styles/phase-stage.scss";
+export default function(props) {
   return (
     <>
-      <Head />
-      <h1 className="stage-title">{stage.name}</h1>
-      {stage.videoUrl && (
-        <div className="stage-video">
-          <video height="400px" controls>
-            <source src={stage.videoUrl}></source>
-          </video>
-        </div>
-      )}
-      <div className="stage-description">
-        <p>{stage.description}</p>
-      </div>
+      <FormGroup className="title">
+        <Label for="exampleText">
+          <h5 classname="header2-text">
+            <strong>{props.props[0]}</strong>
+          </h5>
+        </Label>
+        <Input type="textarea" name="text" id="exampleText" />
+      </FormGroup>
     </>
   );
 }
