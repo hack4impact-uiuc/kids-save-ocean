@@ -30,10 +30,12 @@ Shape:
           }
         ],
         stages: [
-          name: string,
-          description: string (link to draft.js doc),
-          startdate: string,
-          enddate: string
+          {
+            name: string,
+            description: string (link to draft.js doc),
+            startdate: string,
+            enddate: string
+          }
         ]
       },
       implementation: {
