@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { Stage } from "../../../../components";
+import { Head } from "../../../../components";
 import { Button } from "reactstrap";
 import mockData from "../../../../utils/mockData";
 
@@ -28,7 +28,22 @@ export default function StagePage() {
 
   return (
     <div className="stage">
-      {stage && <Stage stage={stage}></Stage>}
+      {stage && (
+        <>
+          <Head title={stage.name} />
+          <h1 className="stage-title">{stage.name}</h1>
+          {stage.videoUrl && (
+            <div className="stage-video">
+              <video height="400px" controls>
+                <source src={stage.videoUrl}></source>
+              </video>
+            </div>
+          )}
+          <div className="stage-description">
+            <p>{stage.description}</p>
+          </div>
+        </>
+      )}
       <Link href={`/projects/${projectId}`}>
         <Button color="danger">Return</Button>
       </Link>
