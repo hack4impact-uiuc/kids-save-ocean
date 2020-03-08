@@ -89,6 +89,7 @@
   vertical-align: middle;
   margin-top: 35px;
   margin-right: -20px;
+  color: grey;
 }
 
 .user-icon {
@@ -96,6 +97,7 @@
   margin-top: 35px;
   margin-left: 50px;
   margin-right: -100px;
+  color: grey;
 }
 
 .project-card {
@@ -104,6 +106,10 @@
   cursor: pointer;
   margin-top: 50px;
   font-size: 13px;
+}
+
+.padding {
+  margin-top: 30px;
 }
 
 .sdg-general-info {

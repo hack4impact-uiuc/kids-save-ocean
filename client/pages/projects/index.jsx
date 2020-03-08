@@ -10,6 +10,7 @@ import countryData from "../../utils/countries";
 import UNGoalData from "../../utils/goals";
 import groupSizeData from "../../utils/groups";
 import levelData from "../../utils/levels";
+import mockData from "../../utils/mockData";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBell } from "@fortawesome/free-solid-svg-icons";
 import {
@@ -25,14 +26,31 @@ import {
   Row
 } from "reactstrap";
 
-const populateProjects = () => {
-  var numProjects = 21;
-  const projects = new Array(numProjects);
+const numProjects = 21;
+
+const populateProjectDescriptions = () => {
+  const projDescriptions = new Array(numProjects);
 
   for (let i = 1; i <= numProjects; i++) {
+    const projDescripObj = {
+      id: i,
+      text: mockData.projects.splice(0, 21, ["name"][i])
+    };
+    projDescriptions[i - 1] = projDescripObj;
+  }
+
+  return projDescriptions;
+};
+
+const populateProjects = () => {
+  const projects = new Array(numProjects);
+  const projDescriptions = populateProjectDescriptions();
+
+  for (let i = 1; i <= numProjects; i++) {
+    const projDescription = projDescriptions[i];
     const projObject = {
       id: i,
-      text: "Project " + i
+      text: "Project " + i + ": " + projDescription
     };
     projects[i - 1] = projObject;
   }
@@ -64,7 +82,7 @@ export default function ProjectsPage(props) {
         </Row>
         <div className="dropdowns">
           <Select
-            isMulti
+            isMulti={true}
             className="un-goals-list"
             options={UNGoalData}
             placeholder="Select UN Goals"
@@ -73,16 +91,19 @@ export default function ProjectsPage(props) {
             className="country-list"
             options={countryData}
             placeholder="Search country"
+            isClearable={true}
           />
           <Select
             className="grp-sizes-list"
             options={groupSizeData}
             placeholder="Select group size"
+            isClearable={true}
           />
           <Select
             className="difficulty-list"
             options={levelData}
             placeholder="Select difficulty"
+            isClearable={true}
           />
         </div>
         <div className="project-cards">
@@ -91,15 +112,11 @@ export default function ProjectsPage(props) {
               <Col key={text.id} className="project-col">
                 <CardGroup>
                   <Card
+                    class="card"
                     className="project-card"
                     onClick={() => console.log("clicked")}
                   >
-                    <CardText
-                      top
-                      width="100%"
-                      height="100%"
-                      alt="Card image cap"
-                    >
+                    <CardText top width="100%" height="100%">
                       {text.text}
                     </CardText>
                   </Card>
@@ -109,6 +126,7 @@ export default function ProjectsPage(props) {
           </Row>
         </div>
       </Container>
+      <div className="padding"></div>
     </>
   );
 }
