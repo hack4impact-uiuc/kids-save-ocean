@@ -10,20 +10,38 @@ import countryData from "../../utils/countries";
 import UNGoalData from "../../utils/goals";
 import groupSizeData from "../../utils/groups";
 import levelData from "../../utils/levels";
-import { IconButton } from "@material/react-icon-button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBell } from "@fortawesome/free-solid-svg-icons";
 import {
   Button,
   Card,
   CardBody,
   CardGroup,
   CardImg,
+  CardText,
   Col,
   Container,
   Input,
   Row
 } from "reactstrap";
 
+const populateProjects = () => {
+  var numProjects = 21;
+  const projects = new Array(numProjects);
+
+  for (let i = 1; i <= numProjects; i++) {
+    const projObject = {
+      id: i,
+      text: "project" + i
+    };
+    projects[i - 1] = projObject;
+  }
+
+  return projects;
+};
+
 export default function ProjectsPage(props) {
+  const projects = populateProjects();
   return (
     <>
       <Head title="Project Explorer" />
@@ -32,15 +50,17 @@ export default function ProjectsPage(props) {
           <div className="search-bar">
             <Input type="text" className="input" placeholder="Find a project" />
           </div>
-          <Button
-            className="notifications-btn"
-            onClick={() => console.log("clicked")}
+          <a
+            class="asoc"
+            href="https://www.google.com"
+            className="notifications-icon"
           >
-            Notifications
-          </Button>
-          <Button className="user-btn" onClick={() => console.log("clicked")}>
-            User
-          </Button>
+            <i class="fa fa-bell" aria-hidden="true"></i>
+          </a>
+
+          <a class="asoc" href="https://www.google.com" className="user-icon">
+            <i class="fa fa-user" aria-hidden="true"></i>
+          </a>
         </Row>
         <div className="dropdowns">
           <Select
@@ -67,13 +87,18 @@ export default function ProjectsPage(props) {
         </div>
         <div className="project-cards">
           <Row className="project-row">
-            <Col className="project-col">
-              <CardGroup>
-                <Card className="project-card">
-                  <CardImg top width="100%" height="100%" />
-                </Card>
-              </CardGroup>
-            </Col>
+            {projects.map(text => (
+              <Col key={text.id} className="project-col">
+                <CardGroup>
+                  <Card
+                    className="project-card"
+                    onClick={() => console.log("clicked")}
+                  >
+                    <CardText top width="100%" height="100%" />
+                  </Card>
+                </CardGroup>
+              </Col>
+            ))}
           </Row>
         </div>
       </Container>

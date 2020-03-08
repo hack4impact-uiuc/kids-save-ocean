@@ -85,19 +85,24 @@
   flex-shrink: 3;
 }
 
-.notifications-btn {
-  height: 50%;
+.notifications-icon {
   vertical-align: middle;
-  margin-top: 30px;
-  margin-right: 80px;
+  margin-top: 35px;
+  margin-right: -20px;
 }
 
-.user-btn {
-  height: 50%;
+.user-icon {
   vertical-align: middle;
-  margin-top: 30px;
+  margin-top: 35px;
   margin-left: 50px;
   margin-right: -100px;
+}
+
+.project-card {
+  height: 300px;
+  width: 350px;
+  cursor: pointer;
+  margin-top: 50px;
 }
 
 .sdg-general-info {
