@@ -1,3 +1,3 @@
 import Head from "./Head";
-
-export { Head };
+import Stage from "./Stage";
+export { Head, Stage };
