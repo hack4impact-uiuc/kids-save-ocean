@@ -32,7 +32,7 @@ const populateProjects = () => {
   for (let i = 1; i <= numProjects; i++) {
     const projObject = {
       id: i,
-      text: "project" + i
+      text: "Project " + i
     };
     projects[i - 1] = projObject;
   }
@@ -94,7 +94,14 @@ export default function ProjectsPage(props) {
                     className="project-card"
                     onClick={() => console.log("clicked")}
                   >
-                    <CardText top width="100%" height="100%" />
+                    <CardText
+                      top
+                      width="100%"
+                      height="100%"
+                      alt="Card image cap"
+                    >
+                      {text.text}
+                    </CardText>
                   </Card>
                 </CardGroup>
               </Col>
