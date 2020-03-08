@@ -23,25 +23,29 @@ class DraftPage extends Component {
     };
 
     this.onChange = (editorState) => {
-      this.setState({ editorState });
+      this.setState({ editorState: editorState });
     };
 
     this.refsEditor = React.createRef();
   }
 
-  // calcSerializedState() {
-  //   const contentState = this.state.editorState.getCurrentContent();
-  //   return JSON.stringify(convertToRaw(contentState));
-  // }
-
-  // loadState() {
-  //   this.setState({
-  //     editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(content)))
-  //   });
-  // }
+  componentDidUpdate() {
+    const contentState = this.state.editorState.getCurrentContent();
+    const json = JSON.stringify(convertToRaw(contentState));
+    localStorage.setItem('content', json);
+  }
 
   componentDidMount() {
     this.refsEditor.current.focus();
+
+    const content = localStorage.getItem('content');
+    console.log(content);
+
+    if (content) {
+      this.setState({
+        editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(content)))
+      });
+    }
   }
 
   render() {
