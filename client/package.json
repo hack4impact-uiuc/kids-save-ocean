@@ -28,6 +28,7 @@
     "axios": "^0.19.2",
     "classnames": "^2.2.6",
     "css-loader": "^3.4.2",
+    "medium-draft": "^0.5.18",
     "next": "^9.2.1",
     "next-page-transitions": "^1.0.0-beta.2",
     "node-sass": "^4.13.1",
