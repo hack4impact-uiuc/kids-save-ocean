@@ -35,8 +35,11 @@ const populateProjects = () => {
   for (let i = 1; i <= numProjects; i++) {
     const projObject = {
       id: i,
-      projName: "- Project " + i + ": " + mockData.projects[i],
-      projDescrip: "- Description: "
+      projName: "- Project " + i + ": " + mockData.projects[i].name,
+      projDescrip:
+        "- Description: " +
+        mockData.projects[i].description.substring(0, 600) +
+        "..."
     };
     projectsToReturn[i - 1] = projObject;
   }
@@ -68,7 +71,7 @@ export default function ProjectsPage(props) {
         </Row>
         <div className="dropdowns">
           <Select
-            isMulti
+            isMulti={true}
             className="un-goals-list"
             options={UNGoalData}
             placeholder="Select UN Goals"
