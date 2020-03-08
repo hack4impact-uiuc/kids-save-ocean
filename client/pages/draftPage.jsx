@@ -1,51 +1,52 @@
 import React, { Component } from "react";
 import { Head } from "../components";
-import { Editor, EditorState, RichUtils } from "draft-js";
 import { Row, Col, Container } from "reactstrap";
 
-import "../public/draft.scss";
+import DraftAddImage from "../components/DraftAddImage.jsx";
+
+// import "../public/draft.scss";
+import "../public/medium-draft.scss";
+
+import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
+import {
+  Editor,
+  createEditorState,
+
+} from 'medium-draft';
 
 class DraftPage extends Component {
   constructor(props) {
     super(props);
-    this.state = { editorState: EditorState.createEmpty() };
+
+    this.state = {
+      editorState: createEditorState(),
+    };
+
+    this.onChange = (editorState) => {
+      this.setState({ editorState });
+    };
+
+    this.refsEditor = React.createRef();
   }
-  onChange = editorState => {
-    this.setState({ editorState });
-  };
-  handleKeyCommand = command => {
-    const newState = RichUtils.handleKeyCommand(
-      this.state.editorState,
-      command
-    );
 
-    if (newState) {
-      this.onChange(newState);
-      return "handled";
-    }
+  // calcSerializedState() {
+  //   const contentState = this.state.editorState.getCurrentContent();
+  //   return JSON.stringify(convertToRaw(contentState));
+  // }
 
-    return "not-handled";
-  };
-  onBoldClick = () => {
-    this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, "BOLD"));
-  };
-  onItalicClick = () => {
-    this.onChange(
-      RichUtils.toggleInlineStyle(this.state.editorState, "ITALIC")
-    );
-  };
-  onUnderlineClick = () => {
-    this.onChange(
-      RichUtils.toggleInlineStyle(this.state.editorState, "UNDERLINE")
-    );
-  };
+  // loadState() {
+  //   this.setState({
+  //     editorState: EditorState.createWithContent(convertFromRaw(JSON.parse(content)))
+  //   });
+  // }
 
-  onToggleCode = () => {
-    this.onChange(RichUtils.toggleCode(this.state.editorState, "CODE"));
-  };
+  componentDidMount() {
+    this.refsEditor.current.focus();
+  }
+
   render() {
     return (
-      <>
+      <div>
         <Head />
         <Container>
           <Row className="header-row" justify="center" align="middle">
@@ -76,18 +77,18 @@ class DraftPage extends Component {
               <strong>Draft Your Project! or some shit</strong>
             </h1>
           </div>
-          <button onClick={this.onBoldClick}>Bold</button>
-          <button onClick={this.onItalicClick}>Italic</button>
-          <button onClick={this.onUnderlineClick}>Underline</button>
-          <button onClick={this.onToggleCode}>Code Block</button>
+          <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"/>
+
           <Editor
-            className="editor"
+            ref={this.refsEditor}
             editorState={this.state.editorState}
-            handleKeyCommand={this.handleKeyCommand}
             onChange={this.onChange}
-          />
+            sideButtons={[{
+              title: 'Image',
+              component: DraftAddImage,
+            }]} />
         </Container>
-      </>
+      </div>
     );
   }
 }
