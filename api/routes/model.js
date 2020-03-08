@@ -1,51 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const validate = require("express-jsonschema").validate;
+const schema = require("../public/schema/projectSchema.js");
 
-const ModelSchema = {
-  id: "/ModelSchema",
-  type: "object",
-  properties: {
-    name: {
-      type: "string",
-      required: true
-    },
-    sdg: {
-      type: "array",
-      items: { type: "integer" },
-      required: true
-    },
-    description: {
-      type: "string",
-      required: true
-    },
-    stages: {
-      type: "object",
-      patternProperties: {
-        ".*": {
-          type: "object",
-          properties: {
-            stakeholders: {
-              type: "array",
-              items: { type: "string" }
-            },
-            challenges: {
-              type: "array",
-              items: { type: "string" }
-            },
-            insights: {
-              type: "array",
-              items: { type: "string" }
-            },
-            description: {
-              type: "string"
-            }
-          }
-        }
-      }
-    }
-  }
-};
+const ModelSchema = schema.projectSchema;
 
 router.get("/", function(req, res) {
   var sdg_par = req.query.sdg;
@@ -53,9 +11,17 @@ router.get("/", function(req, res) {
   const db = req.db;
   const collection = db.get("modelCollection");
   if (sdg_par && !isNaN(sdg_num)) {
-    collection.find({ sdg: sdg_num }, { $exists: true }, function(e, docs) {
-      res.send(docs);
-    });
+    collection.find(
+      {
+        sdg: sdg_num
+      },
+      {
+        $exists: true
+      },
+      function(e, docs) {
+        res.send(docs);
+      }
+    );
   } else {
     collection.find({}, {}, function(e, docs) {
       res.send(docs);
