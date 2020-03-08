@@ -56,15 +56,80 @@
   padding: 30px;
 }
 
+.home-page-btns {
+  display: flex;
+}
+
+.primary-btn,
+.second-btn {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.primary-btn {
+  display: flex;
+  margin-right: 80px;
+  margin-left: 50px;
+}
+
 .search-bar {
+  display: flex;
   margin-right: auto;
   margin-left: auto;
+  text-align: center;
   padding: 30px;
   width: 50%;
 }
 
+.dropdowns {
+  display: flex;
+  flex-shrink: 3;
+  justify-content: space-between;
+}
+
+.un-goals-list,
+.country-list,
+.grp-sizes-list,
+.difficulty-list {
+  table-layout: fixed;
+  width: 200px;
+  max-width: 100%;
+}
+
 .input {
+  display: flex;
   text-align: center;
+  flex-shrink: 3;
+}
+
+.notifications-icon {
+  display: flex;
+  vertical-align: middle;
+  margin-top: 35px;
+  margin-right: -20px;
+  color: grey;
+}
+
+.user-icon {
+  display: flex;
+  vertical-align: middle;
+  margin-top: 35px;
+  margin-left: 50px;
+  margin-right: -100px;
+  color: grey;
+}
+
+.project-card {
+  display: flex;
+  height: 300px;
+  width: 350px;
+  cursor: pointer;
+  margin-top: 50px;
+  font-size: 13px;
+}
+
+.padding {
+  margin-top: 30px;
 }
 
 .sdg-general-info {
