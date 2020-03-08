@@ -5,42 +5,38 @@ const schema = require("../public/schema/projectSchema.js");
 
 const ModelSchema = schema.projectSchema;
 
-router.get("/", function(req, res) {
+router.get("/", function (req, res) {
   var sdg_par = req.query.sdg;
   var sdg_num = parseInt(sdg_par);
   const db = req.db;
-  const collection = db.get("modelCollection");
+  const collection = db.get("projects");
   if (sdg_par && !isNaN(sdg_num)) {
-    collection.find(
-      {
+    collection.find({
         sdg: sdg_num
-      },
-      {
+      }, {
         $exists: true
       },
-      function(e, docs) {
+      function (e, docs) {
         res.send(docs);
       }
     );
   } else {
-    collection.find({}, {}, function(e, docs) {
+    collection.find({}, {}, function (e, docs) {
       res.send(docs);
     });
   }
 });
 
-router.get("/:model_ID", function(req, res) {
+router.get("/:model_ID", function (req, res) {
   const db = req.db;
   let id = req.params.model_ID;
-  const collection = db.get("modelCollection");
-  collection.find(
-    {
+  const collection = db.get("projects");
+  collection.find({
       _id: id
-    },
-    {
+    }, {
       $exists: true
     },
-    function(e, docs) {
+    function (e, docs) {
       if (docs) {
         res.send(docs);
       } else {
@@ -56,13 +52,13 @@ router.post(
   validate({
     body: ModelSchema
   }),
-  function(req, res) {
+  function (req, res) {
     const db = req.db;
-    const collection = db.get("modelCollection");
+    const collection = db.get("projects");
     const data = req.body;
 
     // Check if data includes proper fields
-    collection.insert(data, function(err) {
+    collection.insert(data, function (err) {
       if (err) {
         res.sendStatus(500);
       } else {
@@ -75,18 +71,16 @@ router.post(
   }
 );
 
-router.delete("/:model_ID", function(req, res) {
+router.delete("/:model_ID", function (req, res) {
   const db = req.db;
   let id = req.params.model_ID;
-  const collection = db.get("modelCollection");
-  collection.find(
-    {
+  const collection = db.get("projects");
+  collection.find({
       _id: id
-    },
-    {
+    }, {
       $exists: true
     },
-    function(e, docs) {
+    function (e, docs) {
       if (docs) {
         collection.remove({
           _id: id
@@ -105,27 +99,22 @@ router.put(
   validate({
     body: ModelSchema
   }),
-  function(req, res) {
+  function (req, res) {
     const db = req.db;
     let id = req.params.model_ID;
-    const collection = db.get("modelCollection");
-    collection.find(
-      {
+    const collection = db.get("projects");
+    collection.find({
         _id: id
-      },
-      {
+      }, {
         $exists: true
       },
-      function(e, docs) {
+      function (e, docs) {
         if (docs) {
-          collection.update(
-            {
-              _id: id
-            },
-            {
-              $set: req.body
-            }
-          );
+          collection.update({
+            _id: id
+          }, {
+            $set: req.body
+          });
           res.json({
             success: `${id} updated!`
           });
