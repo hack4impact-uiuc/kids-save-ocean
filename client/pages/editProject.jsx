@@ -28,7 +28,8 @@ import {
   getModelsByID,
   getModels
 } from "../utils/apiWrapper";
-import "../public/style.scss";
+import "../public/styles/home.scss";
+import "../public/styles/style.scss";
 import { Head, Stage } from "../components";
 import { useState } from "react";
 export default function() {

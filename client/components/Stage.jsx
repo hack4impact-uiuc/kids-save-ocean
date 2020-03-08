@@ -21,9 +21,9 @@ import {
   FormGroup,
   Label
 } from "reactstrap";
-import "../public/style.scss";
+import "../public/styles/stage.scss";
+import "../public/styles/style.scss";
 import { Head } from ".";
-import { useState } from "react";
 export default function(props) {
   console.log("props.value");
   console.log(props);
