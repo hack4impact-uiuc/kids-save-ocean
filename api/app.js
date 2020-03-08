@@ -10,8 +10,7 @@ const indexRouter = require("./routes/index");
 const modelRouter = require("./routes/model");
 const authRouter = require("./auth/api/index");
 
-const dotenv = require('dotenv');
-dotenv.config();
+require("dotenv").config();
 
 const app = express();
 
