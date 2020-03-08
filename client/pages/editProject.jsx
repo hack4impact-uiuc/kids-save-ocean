@@ -7,10 +7,11 @@ import {
   DropdownToggle,
   DropdownMenu,
   FormGroup,
-  Label
+  Label,
+  Container
 } from "reactstrap";
 import { getModelsByID } from "../utils/apiWrapper";
-import "../public/styles/home.scss";
+// import "../public/styles/home.scss";
 import "../public/styles/editProject.scss";
 import "../public/styles/style.scss";
 import { Head, Stage } from "../components";
@@ -50,6 +51,7 @@ export default function() {
     <>
       <Head title={title} />
       {/* Icons and buttons and such */}
+      <Container>
       <Row className="header-row-ep" justify="center" align="middle">
         <Col xs="1">
           <img className="header-img" src="/homepage-images/menu-icon.png" />
@@ -69,16 +71,16 @@ export default function() {
       </Row>
       {/* Blue block and such */}
       <Row>
-        <Col classname="home-block-col">
+        <Col className="home-block-col">
           <Row className="home-block-1-ep">
             <div className="div-1-ep">
-              <h1 classname="header2-text">
+              <h1 className="header2-text-ep-other">
                 <strong>{title}</strong>
               </h1>
-              <h3 classname="header3">{description}</h3>
+              <h3 className="header3">{description}</h3>
 
               <Dropdown
-                style={{ marginLeft: "10%" }}
+                className="dropdown"
                 isOpen={dropdownOpen}
                 toggle={toggle}
               >
@@ -153,7 +155,7 @@ export default function() {
       </Row>
       <Col>
         <Row className="other-row">
-          <h2 classname="header2-text-ep-other">
+          <h2 className="header2-text-ep-other">
             {" "}
             <strong> Inspiration </strong>{" "}
           </h2>
@@ -171,7 +173,7 @@ export default function() {
             Add Stage
           </Button>
         </Row>
-        <hr className="dvider-stage" />
+        <hr className="divider-stage" />
         <Col className="column">
           {ideationStages.map(value => {
             return <Stage props={value} />;
@@ -181,7 +183,7 @@ export default function() {
       </Col>
       <Col>
         <Row className="other-row">
-          <h2 classname="header2-text-ep-other">
+          <h2 className="header2-text-ep-other">
             {" "}
             <strong> Ideation </strong>{" "}
           </h2>
@@ -201,13 +203,13 @@ export default function() {
       </Col>
       <Col>
         <Row className="other-row">
-          <h2 classname="header2-text-ep-other">
+          <h2 className="header2-text-ep-other">
             {" "}
             <strong> Implementation </strong>{" "}
           </h2>
         </Row>
         <Row className="other-row">
-          <h4 classname="header2-text-ep-other">
+          <h4 className="header2-text-ep-other">
             Morbi sit amet rutrum leo. Maecenas molestie, odio eu condimentum
             elementum, enim ante posuere ante, nec suscipit tellus erat quis mi.
             Suspendisse vehicula finibus leo, ut molestie lacus eleifend non.
@@ -215,10 +217,11 @@ export default function() {
           </h4>
         </Row>
         <Row className="header-row-ep">
-          <Button classname="header2-text-ep-other">Add Stage</Button>
+          <Button className="header2-text-ep-other">Add Stage</Button>
         </Row>
         <hr className="header-row-ep" />
       </Col>
+      </Container>
     </>
   );
 }
