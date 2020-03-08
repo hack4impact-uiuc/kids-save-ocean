@@ -1,6 +1,6 @@
 import NextHead from "next/head";
 
-export default function(props) {
+export default function Head(props) {
   const { description, keywords, title } = props;
   return (
     <NextHead>
