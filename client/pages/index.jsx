@@ -85,11 +85,11 @@ export default function App() {
               <Col span={18}>
                 <div className="home-page-btns">
                   <Link href={"/projects"}>
-                    <Button type="primary">
+                    <Button type="primary" className="primary-btn">
                       <strong>Find Projects</strong>
                     </Button>
                   </Link>
-                  <Button type="primary">
+                  <Button type="primary" className="second-btn">
                     <strong>Start a Project</strong>
                   </Button>
                 </div>

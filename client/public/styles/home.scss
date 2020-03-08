@@ -57,7 +57,19 @@
 }
 
 .home-page-btns {
-  justify-content: space-between;
+  display: flex;
+}
+
+.primary-btn,
+.second-btn {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.primary-btn {
+  display: flex;
+  margin-right: 80px;
+  margin-left: 50px;
 }
 
 .search-bar {
