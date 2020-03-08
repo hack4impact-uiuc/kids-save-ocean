@@ -55,7 +55,16 @@ export default function ProjectsPage(props) {
             placeholder="Select difficulty"
           />
         </div>
-        <div className="project-cards"></div>
+        <div className="project-cards">
+          <Row className="project-row">
+            <Col className="project-col">
+              <CardGroup>
+                <Card className="project-card"></Card>
+                <CardImg></CardImg>
+              </CardGroup>
+            </Col>
+          </Row>
+        </div>
       </Container>
     </>
   );
