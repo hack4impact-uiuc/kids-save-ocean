@@ -15,7 +15,7 @@ import {
   TabPane
 } from "reactstrap";
 import classnames from "classnames";
-import mockData from "../../../utils/mockData";
+import { getModelsByID } from "../../../utils/apiWrapper";
 
 import "../../../public/styles/project.scss";
 
@@ -34,7 +34,6 @@ export default function ProjectPage() {
 
   const router = useRouter();
   const { projectId } = router.query;
-  const { projects } = mockData;
 
   const toggleModal = () => setModal(!modal);
 
@@ -45,13 +44,20 @@ export default function ProjectPage() {
   }
 
   useEffect(() => {
-    if (projectId < projects.length) {
-      setProject(projects[projectId]);
-    }
+    const loadModel = async id => {
+      if (id) {
+        const model = await getModelsByID(id);
+        if (model && model.data.length === 1) {
+          setProject(model.data[0]);
+        }
+      }
+    };
+
+    loadModel(projectId);
   }, [projectId]);
 
   const mapGanttData = phase =>
-    project.sections[phase.toLowerCase()]?.stages.map(stage => [
+    project.phases[phase.toLowerCase()]?.stages.map(stage => [
       `${stage.name}-${phase}-${stage.description}`,
       stage.name,
       capitalize(phase),
@@ -101,7 +107,7 @@ export default function ProjectPage() {
           <p className="project-info">{project.description}</p>
           <hr />
           <Nav tabs justified>
-            {Object.keys(project.sections).map(phase => (
+            {Object.keys(project.phases).map(phase => (
               <NavItem key={phase}>
                 <NavLink
                   className={classnames(
@@ -119,7 +125,7 @@ export default function ProjectPage() {
           </Nav>
           {ganttData && (
             <TabContent activeTab={activePhase}>
-              {Object.keys(project.sections).map(phase => (
+              {Object.keys(project.phases).map(phase => (
                 <TabPane key={phase} tabId={phase}>
                   <Gantt
                     data={ganttData[phase]}
@@ -127,7 +133,7 @@ export default function ProjectPage() {
                     width={width}
                     selectCallback={selection => {
                       setActiveStage(
-                        project.sections[activePhase].stages[selection[0].row]
+                        project.phases[activePhase].stages[selection[0].row]
                       );
                       toggleModal();
                     }}
@@ -139,17 +145,17 @@ export default function ProjectPage() {
           <div className="tipcard-cols">
             <TipCard
               title="Stakeholders"
-              tips={project.sections[activePhase]?.stakeholders}
+              tips={project.phases[activePhase]?.stakeholders}
               icon="fa-user-circle-o"
             />
             <TipCard
               title="Challenges"
-              tips={project.sections[activePhase]?.challenges}
+              tips={project.phases[activePhase]?.challenges}
               icon="fa-tag"
             />
             <TipCard
               title="Insights"
-              tips={project.sections[activePhase]?.insights}
+              tips={project.phases[activePhase]?.insights}
               icon="fa-lightbulb-o"
             />
           </div>
