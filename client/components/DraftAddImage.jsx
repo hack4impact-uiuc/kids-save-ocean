@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 import { addNewBlock } from "medium-draft";
-
 
 export default class ImageButton extends Component {
   constructor(props) {
@@ -20,18 +19,21 @@ export default class ImageButton extends Component {
   onChange(e) {
     // e.preventDefault();
     const file = e.target.files[0];
-    if (file.type.indexOf('image/') === 0) {
+    if (file.type.indexOf("image/") === 0) {
       let reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
         const src = reader.result;
-        const newState = addNewBlock(this.props.getEditorState(), 'atomic:image', { src });
+        const newState = addNewBlock(
+          this.props.getEditorState(),
+          "atomic:image",
+          { src }
+        );
         this.props.setEditorState(newState);
       };
     }
     this.props.close();
   }
-
 
   render() {
     return (
@@ -45,9 +47,11 @@ export default class ImageButton extends Component {
         <input
           type="file"
           accept="image/*"
-          ref={(c) => { this.input = c; }}
+          ref={c => {
+            this.input = c;
+          }}
           onChange={this.onChange}
-          style={{ display: 'none' }}
+          style={{ display: "none" }}
         />
       </button>
     );
