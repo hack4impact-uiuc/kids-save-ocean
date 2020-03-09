@@ -5,6 +5,7 @@ import { Row, Col, Container } from "reactstrap";
 import DraftAddImage from "../components/DraftAddImage.jsx";
 
 import "../public/medium-draft.scss";
+import "../public/styles/home.scss";
 
 import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
 import { Editor, createEditorState } from "medium-draft";
