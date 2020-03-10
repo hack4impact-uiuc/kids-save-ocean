@@ -1,56 +1,38 @@
-import React, { Component } from "react";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import Link from "next/link";
 import { Head } from "../../components";
-import PropTypes from "prop-types";
 import Select from "react-select";
-
-import "../../public/styles/home.scss";
-import "../../public/styles/project.scss";
 import countryData from "../../utils/countries";
 import UNGoalData from "../../utils/goals";
 import groupSizeData from "../../utils/groups";
 import levelData from "../../utils/levels";
-import mockData from "../../utils/mockData";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBell } from "@fortawesome/free-solid-svg-icons";
+import { getModels } from "../../utils/apiWrapper";
 import {
-  Button,
   Card,
-  CardBody,
   CardGroup,
-  CardImg,
   CardText,
   Col,
   Container,
   Input,
   Row
 } from "reactstrap";
+import "../../public/styles/home.scss";
+import "../../public/styles/project.scss";
+import "../../public/styles/projects.scss";
 
-const populateProjects = () => {
-  const numProjects = 21;
+export default function ProjectsPage() {
+  const [projects, setProjects] = useState(null);
 
-  const projectsToReturn = new Array(numProjects).slice(numProjects);
+  useEffect(() => {
+    const populateProjects = async () => {
+      const numProjects = 21;
 
-  for (let i = 1; i <= numProjects; i++) {
-    const projObject = {
-      id: i,
-      projName: "- Project Name: " + mockData.projects[i].name,
-      projDescrip:
-        "- Description: " +
-        mockData.projects[i].description.substring(0, 200) +
-        "..."
+      const models = await getModels();
+      setProjects(models.data.slice(numProjects));
     };
-    projectsToReturn[i - 1] = projObject;
-  }
 
-  return projectsToReturn;
-};
-
-export default function ProjectsPage(props) {
-  const projects = populateProjects();
-
-  const router = useRouter();
+    populateProjects();
+  }, []);
 
   return (
     <>
@@ -61,15 +43,19 @@ export default function ProjectsPage(props) {
             <Input type="text" className="input" placeholder="Find a project" />
           </div>
           <a
-            class="asoc"
+            className="asoc"
             href="https://www.google.com"
             className="notifications-icon"
           >
-            <i class="fa fa-bell" aria-hidden="true"></i>
+            <i className="fa fa-bell" aria-hidden="true"></i>
           </a>
 
-          <a class="asoc" href="https://www.google.com" className="user-icon">
-            <i class="fa fa-user" aria-hidden="true"></i>
+          <a
+            className="asoc"
+            href="https://www.google.com"
+            className="user-icon"
+          >
+            <i className="fa fa-user" aria-hidden="true"></i>
           </a>
         </Row>
         <div className="dropdowns">
@@ -100,25 +86,23 @@ export default function ProjectsPage(props) {
         </div>
         <div className="project-cards">
           <Row className="project-row">
-            {projects.map(proj => (
-              <Col key={proj.id} className="project-col">
-                <CardGroup>
-                  <Card
-                    class="card"
-                    className="project-card"
-                    onClick={() => console.log("clicked")}
-                  >
-                    <CardText top width="100%" height="100%">
-                      <br />
-                      {proj.projName}
-                      <br />
-                      <br />
-                      {proj.projDescrip}
-                    </CardText>
-                  </Card>
-                </CardGroup>
-              </Col>
-            ))}
+            {projects &&
+              projects.map(proj => (
+                <Col key={proj._id} className="project-col">
+                  <CardGroup>
+                    <Link href={`projects/${proj._id}`}>
+                      <Card className="project-card">
+                        <CardText top width="100%" height="100%">
+                          <h3>{proj.name}</h3>
+                          <br />
+                          <p>{`${proj.description.slice(0, 200)}${proj
+                            .description.length > 200 && "..."}`}</p>
+                        </CardText>
+                      </Card>
+                    </Link>
+                  </CardGroup>
+                </Col>
+              ))}
           </Row>
         </div>
       </Container>
