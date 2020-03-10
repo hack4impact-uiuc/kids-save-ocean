@@ -1,5 +1,6 @@
 import { Input, FormGroup, Label } from "reactstrap";
 import "../public/styles/phase-stage.scss";
+
 export default function(props) {
   return (
     <>

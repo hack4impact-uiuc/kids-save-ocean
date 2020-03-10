@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:5000";
-// const BASE_URL = "http://52.240.158.249:5000"; // leave this in, this is Arpan's url
+// const BASE_URL = "http://localhost:5000";
+const BASE_URL = "http://52.240.158.249:5000"; // leave this in, this is Arpan's url
 
 export const getModels = (sdg_query = null) => {
   /**
