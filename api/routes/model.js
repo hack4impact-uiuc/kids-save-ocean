@@ -1,9 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const validate = require("express-jsonschema").validate;
-const schema = require("../public/schema/projectSchema.js");
+const ObjectId = require('mongodb').ObjectID;
 
-const ModelSchema = schema.projectSchema;
+const ModelSchema = require("../public/schema/projectSchema.js").projectSchema;
+const SaveDescriptionSchema = require("../public/schema/saveDescriptionSchema.js").saveDescriptionSchema;
 
 router.get("/", function(req, res) {
   var sdg_par = req.query.sdg;
@@ -100,6 +101,7 @@ router.delete("/:model_ID", function(req, res) {
     }
   );
 });
+
 router.put(
   "/:model_ID",
   validate({
@@ -131,6 +133,35 @@ router.put(
           });
         } else {
           res.sendStatus(400);
+        }
+      }
+    );
+  }
+);
+
+router.post(
+  "/saveDescription",
+  validate({
+    body: SaveDescriptionSchema
+  }),
+  function(req, res) {
+    const db = req.db;
+    const collection = db.get("projects");
+    const { id, phaseName, stageName, description } = req.body;
+    // assert phaseName in ["inspiration", "ideation", "implementation"]
+
+    // Check if data includes proper fields
+    const query = { "_id": new ObjectId(id), [`phases.${phaseName}.stages.name`]: stageName };
+    console.log(`phases.${phaseName}.stages.name`);
+    collection.update(query,
+      {"$set": { [`phases.${phaseName}.stages.$.description`]: description } },
+      function(err) {
+        if (err) {
+          res.sendStatus(500);
+        } else {
+          res.json({
+            success: `${stageName} description updated!`
+          });
         }
       }
     );

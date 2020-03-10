@@ -14,8 +14,9 @@ import { getModelsByID } from "../utils/apiWrapper";
 import "../public/styles/home.scss";
 import "../public/styles/editProject.scss";
 import "../public/styles/style.scss";
-import { Head, Stage } from "../components";
+import { Head, Stage, Draft } from "../components";
 import { useState } from "react";
+
 export default function() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [title, setTitle] = useState("Loading");
