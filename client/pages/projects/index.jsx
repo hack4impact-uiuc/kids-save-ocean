@@ -16,8 +16,7 @@ import {
   Input,
   Row
 } from "reactstrap";
-import "../../public/styles/home.scss";
-import "../../public/styles/project.scss";
+
 import "../../public/styles/projects.scss";
 
 export default function ProjectsPage() {
@@ -38,26 +37,9 @@ export default function ProjectsPage() {
     <>
       <Head title="Project Explorer" />
       <Container>
-        <Row className="projects-top-row">
-          <div className="search-bar">
-            <Input type="text" className="input" placeholder="Find a project" />
-          </div>
-          <a
-            className="asoc"
-            href="https://www.google.com"
-            className="notifications-icon"
-          >
-            <i className="fa fa-bell" aria-hidden="true"></i>
-          </a>
-
-          <a
-            className="asoc"
-            href="https://www.google.com"
-            className="user-icon"
-          >
-            <i className="fa fa-user" aria-hidden="true"></i>
-          </a>
-        </Row>
+        <div className="search-bar">
+          <Input type="text" className="input" placeholder="Find a project" />
+        </div>
         <div className="dropdowns">
           <Select
             isMulti={true}

@@ -42,23 +42,6 @@ export default function App() {
     <>
       <Head />
       <Container>
-        <Row className="header-row" justify="center" align="middle">
-          <Col xs="1">
-            <img className="header-img" src="/homepage-images/menu-icon.png" />
-          </Col>
-          <Col xs="1">
-            <img className="header-img" src="/homepage-images/kso-icon.png" />
-          </Col>
-          <Col xs={{ size: 1, offset: 8 }}>
-            <img
-              className="header-img"
-              src="/homepage-images/notification-icon.png"
-            />
-          </Col>
-          <Col xs="1">
-            <img className="header-img" src="/homepage-images/user-icon.png" />
-          </Col>
-        </Row>
         <div className="page-title">
           <h1 className="header2-text" align="center">
             <strong>FateMaker</strong>
@@ -69,8 +52,8 @@ export default function App() {
             <ReactPlayer url="https://youtu.be/dQw4w9WgXcQ" />
           </Col>
           <Col className="home-block-col">
-            <Link className="text-link" href="#about us">
-              <a>ABOUT US</a>
+            <Link href="#about us">
+              <a className="text-link">ABOUT US</a>
             </Link>
             <h1 className="header-text">Change the World,</h1>
             <h1 className="header-text" mode="single">
