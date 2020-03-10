@@ -17,7 +17,7 @@ import "../public/styles/editProject.scss";
 
 export default function() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const id = "5e653b729a1cbfaba98adc5b"
+  const id = "5e653b729a1cbfaba98adc5b";
   //Stage
   let ideationStages = [
     ["Stage 1", "Description 1"],
