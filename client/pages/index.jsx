@@ -1,4 +1,4 @@
-import { Head, NavBar } from "../components";
+import { Head } from "../components";
 import Link from "next/link";
 import ReactPlayer from "react-player";
 import {
@@ -42,7 +42,6 @@ export default function App() {
     <>
       <Head />
       <Container>
-        <NavBar />
         <div className="page-title">
           <h1 className="header2-text" align="center">
             <strong>FateMaker</strong>
