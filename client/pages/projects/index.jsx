@@ -25,10 +25,10 @@ export default function ProjectsPage() {
 
   useEffect(() => {
     const populateProjects = async () => {
-      const numProjects = 21;
+      const numProjects = 20;
 
       const models = await getModels();
-      setProjects(models.data.slice(numProjects));
+      setProjects(models.data.slice(0, numProjects));
     };
 
     populateProjects();
