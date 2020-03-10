@@ -1,61 +1,27 @@
 const express = require("express");
 const router = express.Router();
 const validate = require("express-jsonschema").validate;
+const schema = require("../public/schema/projectSchema.js");
 
-const ModelSchema = {
-  id: "/ModelSchema",
-  type: "object",
-  properties: {
-    name: {
-      type: "string",
-      required: true
-    },
-    sdg: {
-      type: "array",
-      items: { type: "integer" },
-      required: true
-    },
-    description: {
-      type: "string",
-      required: true
-    },
-    stages: {
-      type: "object",
-      patternProperties: {
-        ".*": {
-          type: "object",
-          properties: {
-            stakeholders: {
-              type: "array",
-              items: { type: "string" }
-            },
-            challenges: {
-              type: "array",
-              items: { type: "string" }
-            },
-            insights: {
-              type: "array",
-              items: { type: "string" }
-            },
-            description: {
-              type: "string"
-            }
-          }
-        }
-      }
-    }
-  }
-};
+const ModelSchema = schema.projectSchema;
 
 router.get("/", function(req, res) {
   var sdg_par = req.query.sdg;
   var sdg_num = parseInt(sdg_par);
   const db = req.db;
-  const collection = db.get("modelCollection");
+  const collection = db.get("projects");
   if (sdg_par && !isNaN(sdg_num)) {
-    collection.find({ sdg: sdg_num }, { $exists: true }, function(e, docs) {
-      res.send(docs);
-    });
+    collection.find(
+      {
+        sdg: sdg_num
+      },
+      {
+        $exists: true
+      },
+      function(e, docs) {
+        res.send(docs);
+      }
+    );
   } else {
     collection.find({}, {}, function(e, docs) {
       res.send(docs);
@@ -66,7 +32,7 @@ router.get("/", function(req, res) {
 router.get("/:model_ID", function(req, res) {
   const db = req.db;
   let id = req.params.model_ID;
-  const collection = db.get("modelCollection");
+  const collection = db.get("projects");
   collection.find(
     {
       _id: id
@@ -92,7 +58,7 @@ router.post(
   }),
   function(req, res) {
     const db = req.db;
-    const collection = db.get("modelCollection");
+    const collection = db.get("projects");
     const data = req.body;
 
     // Check if data includes proper fields
@@ -112,7 +78,7 @@ router.post(
 router.delete("/:model_ID", function(req, res) {
   const db = req.db;
   let id = req.params.model_ID;
-  const collection = db.get("modelCollection");
+  const collection = db.get("projects");
   collection.find(
     {
       _id: id
@@ -142,7 +108,7 @@ router.put(
   function(req, res) {
     const db = req.db;
     let id = req.params.model_ID;
-    const collection = db.get("modelCollection");
+    const collection = db.get("projects");
     collection.find(
       {
         _id: id

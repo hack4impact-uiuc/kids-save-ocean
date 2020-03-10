@@ -83,12 +83,16 @@ export default function App() {
             </p>
             <Row type="flex">
               <Col span={18}>
-                <Button type="primary">
-                  <strong>Find Projects</strong>
-                </Button>{" "}
-                <Button type="primary">
-                  <strong>Start a Project</strong>
-                </Button>
+                <div className="home-page-btns">
+                  <Link href={"/projects"}>
+                    <Button type="primary" className="primary-btn">
+                      <strong>Find Projects</strong>
+                    </Button>
+                  </Link>
+                  <Button type="primary" className="second-btn">
+                    <strong>Start a Project</strong>
+                  </Button>
+                </div>
               </Col>
             </Row>
           </Col>
