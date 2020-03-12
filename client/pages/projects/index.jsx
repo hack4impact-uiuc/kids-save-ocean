@@ -14,7 +14,8 @@ import {
   Col,
   Container,
   Input,
-  Row
+  Row,
+  CardBody
 } from "reactstrap";
 
 import "../../public/styles/projects.scss";
@@ -67,10 +68,10 @@ export default function ProjectsPage() {
           />
         </div>
         <div className="project-cards">
-          <Row className="project-row">
+          <Row>
             {projects &&
               projects.map(proj => (
-                <Col key={proj._id} className="project-col">
+                <Col key={proj._id} xs="4">
                   <CardGroup>
                     <Link href={`projects/${proj._id}`}>
                       <Card className="project-card">

@@ -45,6 +45,10 @@
   max-width: 100%;
 }
 
+.project-cards {
+  display: flex;
+}
+
 .project-card {
   padding: 2em;
   display: flex;
@@ -54,4 +58,8 @@
   cursor: pointer;
   margin-top: 50px;
   font-size: 13px;
+}
+
+.padding {
+  margin-top: 30px;
 }
