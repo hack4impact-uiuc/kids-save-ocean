@@ -102,3 +102,14 @@ export const deleteForm = Model_ID => {
       });
     });
 };
+
+export const saveDescription = (model_id, phaseName, stageName, description) => {
+  const requestString = `${BASE_URL}/models/${model_id}/${phaseName}/${stageName}/description`;
+  return axios
+    .post(requestString, { description },{
+      headers: {
+        "Content-Type": "application/JSON"
+      }
+    })
+    .catch(error => {})
+}

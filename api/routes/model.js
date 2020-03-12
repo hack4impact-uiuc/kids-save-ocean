@@ -4,7 +4,6 @@ const validate = require("express-jsonschema").validate;
 const ObjectId = require('mongodb').ObjectID;
 
 const ModelSchema = require("../public/schema/projectSchema.js").projectSchema;
-const SaveDescriptionSchema = require("../public/schema/saveDescriptionSchema.js").saveDescriptionSchema;
 
 router.get("/", function(req, res) {
   var sdg_par = req.query.sdg;
@@ -140,19 +139,18 @@ router.put(
 );
 
 router.post(
-  "/saveDescription",
-  validate({
-    body: SaveDescriptionSchema
-  }),
+  "/:model_ID/:phaseName/:stageName/description",
   function(req, res) {
     const db = req.db;
     const collection = db.get("projects");
-    const { id, phaseName, stageName, description } = req.body;
-    // assert phaseName in ["inspiration", "ideation", "implementation"]
+    const { model_ID, phaseName, stageName } = req.params;
+    const description = req.body.description;
+    if (description === undefined) {
+      res.sendStatus(500);
+    }
 
-    // Check if data includes proper fields
-    const query = { "_id": new ObjectId(id), [`phases.${phaseName}.stages.name`]: stageName };
-    console.log(`phases.${phaseName}.stages.name`);
+    const query = { "_id": new ObjectId(model_ID), [`phases.${phaseName}.stages.name`]: stageName };
+
     collection.update(query,
       {"$set": { [`phases.${phaseName}.stages.$.description`]: description } },
       function(err) {
@@ -167,5 +165,8 @@ router.post(
     );
   }
 );
+
+// router.get(
+//   "/:model_ID/description")
 
 module.exports = router;

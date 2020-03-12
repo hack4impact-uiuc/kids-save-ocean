@@ -10,10 +10,14 @@ export default function(props) {
       <FormGroup className="title">
         <Label for="exampleText">
           <h5 className="header2-text">
-            <strong>{props.props[0]}</strong>
+            <strong>{props.description}</strong>
           </h5>
         </Label>
-        <Draft />
+        <Draft
+          id={props.id}
+          phaseName={props.phaseName}
+          stageName={props.stageName}
+        />
       </FormGroup>
     </>
   );
