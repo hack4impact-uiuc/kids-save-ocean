@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const validate = require("express-jsonschema").validate;
-const ObjectId = require('mongodb').ObjectID;
 
 const ModelSchema = require("../public/schema/projectSchema.js").projectSchema;
 
@@ -149,7 +148,7 @@ router.post(
       res.sendStatus(500);
     }
 
-    const query = { "_id": new ObjectId(model_ID), [`phases.${phaseName}.stages.name`]: stageName };
+    const query = { _id: model_ID, [`phases.${phaseName}.stages.name`]: stageName };
 
     collection.update(query,
       {"$set": { [`phases.${phaseName}.stages.$.description`]: description } },
@@ -166,7 +165,34 @@ router.post(
   }
 );
 
-// router.get(
-//   "/:model_ID/description")
+router.get(
+  "/:model_ID/:phaseName/:stageName/description",
+  function(req, res) {
+    const db = req.db;
+    const collection = db.get("projects");
+    const { model_ID, phaseName, stageName } = req.params;
+
+    collection.findOne(
+      {
+        _id: model_ID
+      },
+      {
+        $exists: true
+      },
+      function(e, docs) {
+        if (e) {
+          res.sendStatus(500);
+        } else {
+          const stages = docs['phases'][phaseName]['stages'];
+          const stage = stages.filter(s => s.name === stageName)[0];
+          console.log(stages);
+          res.json({
+            description: stage.description,
+          });
+        }
+      }
+    );
+  }
+)
 
 module.exports = router;

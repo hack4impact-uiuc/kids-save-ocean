@@ -23,9 +23,7 @@ export default function() {
   const [description, setDescription] = useState("Loading");
   //Stage
   let ideationStages = [
-    ["Stage 1", "Description 1"],
-    ["Stage 2", "Description 2"],
-    ["Stage 3", "Description 3"]
+    ["Stage 1", "Description 1"]
   ];
   const addStage = () => {
     ideationStages.push(["Added Stage Title", "Added Stage Description"]);
