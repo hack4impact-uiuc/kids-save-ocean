@@ -8,7 +8,8 @@ import {
   DropdownMenu,
   FormGroup,
   Label,
-  Container
+  Container,
+  Alert
 } from "reactstrap";
 import { getModelsByID } from "../utils/apiWrapper";
 import { Head, Stage } from "../components";
@@ -27,19 +28,29 @@ export default function() {
   //Dropdown
   const toggle = () => setDropdownOpen(prevState => !prevState);
   //Get Title
-  const [title, setTitle] = useState("Loading");
+  let [visAlert, setAlert] = useState(false);
+  let [title, setTitle] = useState("");
   const getTitle = async () => {
     const project = await getModelsByID(id);
-    return project.data[0].name;
+    
+    if(project === null) {
+      setAlert(true);
+      console.log(visAlert);
+    } else {
+      console.log(project)
+      setAlert(false);
+      //return project.data[0].name;
+    }
+
   };
   getTitle().then(name => {
-    name = setTitle(name);
+    setTitle(name);
   });
   //Set Description
-  const [description, setDescription] = useState("Loading");
+  let [description, setDescription] = useState("");
   const getDescription = async () => {
     const project = await getModelsByID(id);
-    return project.data[0].description;
+    if (project != null)return project.data[0].description;
   };
   getDescription().then(description => {
     description = setDescription(description);
@@ -48,6 +59,12 @@ export default function() {
     <>
       <Head title={title} />
       <Container>
+        {visAlert && <Alert color="danger" >
+          <div  justify="center" align="middle">
+            Load Failed
+          </div>
+        </Alert>}
+        
         <Row>
           <Col className="home-block-col">
             <Row className="home-block-1-ep">
@@ -148,10 +165,8 @@ export default function() {
           </Row>
           <Row className="header-row-ep">
             <Button
-              className="header2-text-ep-other"
-              onClick={() => addStage()}
-            >
-              Add Stage
+              className="button-add">
+            Add Stage
             </Button>
           </Row>
           <hr className="divider-stage" />
@@ -180,7 +195,7 @@ export default function() {
             </h4>
           </Row>
           <Row className="header-row-ep">
-            <Button className="header2-text-ep-other">Add Stage</Button>
+            <Button className="button-add">Add Stage</Button>
           </Row>
           <hr className="header-row-ep" />
         </Col>
@@ -200,7 +215,7 @@ export default function() {
             </h4>
           </Row>
           <Row className="header-row-ep">
-            <Button className="header2-text-ep-other">Add Stage</Button>
+            <Button className="button-add">Add Stage</Button>
           </Row>
           <hr className="header-row-ep" />
         </Col>
