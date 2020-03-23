@@ -7,15 +7,12 @@
     },
     "builds": [
       {
-        "src": "api/*.js",
-        "use": "@now/node"
+        "src": "client/package.json",
+        "use": "@now/next"
       },
       {
-        "src": "client/package.json",
-        "use": "@now/next",
-        "config": {
-          "distDir": "build"
-        }
+        "src": "api/*.js",
+        "use": "@now/node"
       }
     ],
     "routes": [
@@ -25,21 +22,6 @@
           "cache-control": "s-maxage=0"
         },
         "dest": "api/app.js"
-      },
-      {
-        "src": "/static/(.*)",
-        "headers": {
-          "cache-control": "s-maxage=31536000,immutable"
-        },
-        "dest": "client/static/$1"
-      },
-      {
-        "src": "/manifest.json",
-        "dest": "client/manifest.json"
-      },
-      {
-        "src": "/(.*)",
-        "dest": "client/index.html"
       }
     ]
   }
