@@ -22,6 +22,10 @@
           "cache-control": "s-maxage=0"
         },
         "dest": "api/app.js"
+      },
+      {
+        "src": "/",
+        "dest": "/client"
       }
     ]
   }
