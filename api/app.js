@@ -48,7 +48,6 @@ mongo.MongoClient.connect(process.env.MONGO_DATABASE, (err, database) => {
   gfs = Grid(database.db(DATABASE_NAME), mongo);
 });
 
-
 app.use(function(req, res, next) {
   req.db = db;
   next();
