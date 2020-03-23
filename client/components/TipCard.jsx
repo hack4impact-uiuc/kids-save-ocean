@@ -9,7 +9,6 @@ import {
   ModalBody,
   ModalFooter
 } from "reactstrap";
-
 import "../public/styles/tipcard.scss";
 
 export default function TipCard(props) {

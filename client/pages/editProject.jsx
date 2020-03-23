@@ -10,21 +10,16 @@ import {
   Label,
   Container
 } from "reactstrap";
-import { getModelsByID } from "../utils/apiWrapper";
-import "../public/styles/home.scss";
-import "../public/styles/editProject.scss";
-import "../public/styles/style.scss";
-import { Head, Stage, Draft } from "../components";
+import { Head, Stage } from "../components";
 import { useState } from "react";
+import "../public/styles/editProject.scss";
 
 export default function() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [title, setTitle] = useState("Loading");
   const [description, setDescription] = useState("Loading");
   //Stage
-  let ideationStages = [
-    ["Stage 1", "Description 1"]
-  ];
+  let ideationStages = [["Stage 1", "Description 1"]];
   const addStage = () => {
     ideationStages.push(["Added Stage Title", "Added Stage Description"]);
   };
@@ -49,26 +44,7 @@ export default function() {
   return (
     <>
       <Head title={title} />
-      {/* Icons and buttons and such */}
       <Container>
-        <Row className="header-row-ep" justify="center" align="middle">
-          <Col xs="1">
-            <img className="header-img" src="/homepage-images/menu-icon.png" />
-          </Col>
-          <Col xs="1">
-            <img className="header-img" src="/homepage-images/kso-icon.png" />
-          </Col>
-          <Col xs={{ size: 1, offset: 8 }}>
-            <img
-              className="header-img"
-              src="/homepage-images/notification-icon.png"
-            />
-          </Col>
-          <Col xs="1">
-            <img className="header-img" src="/homepage-images/user-icon.png" />
-          </Col>
-        </Row>
-        {/* Blue block and such */}
         <Row>
           <Col className="home-block-col">
             <Row className="home-block-1-ep">

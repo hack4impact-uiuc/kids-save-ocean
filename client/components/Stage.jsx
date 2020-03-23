@@ -1,6 +1,4 @@
 import { Input, FormGroup, Label } from "reactstrap";
-// import "../public/styles/stage.scss";
-import "../public/styles/style.scss";
 import "../public/styles/phase-stage.scss";
 import { Draft } from "../components";
 
