@@ -28,11 +28,11 @@
         "headers": {
           "cache-control": "s-maxage=31536000,immutable"
         },
-        "dest": "client/_next/static/$1"
+        "dest": "/client/_next/static/$1"
       },
       {
-        "src": "/",
-        "dest": "/client"
+        "src": "/(.*)",
+        "dest": "/client/$1"
       }
     ]
   }
