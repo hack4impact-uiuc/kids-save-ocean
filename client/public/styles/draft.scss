@@ -1,0 +1,65 @@
+body {
+  margin: 0;
+  padding: 2em;
+  background: #fff;
+  font-family: sans-serif;
+}
+.header-row {
+  margin-top: 10px;
+  height: 1vh;
+}
+.header2-text {
+  color: black;
+  font-weight: bold;
+  font-size: 10vh;
+  text-align: middle;
+}
+.page-title {
+  padding: 30px;
+}
+.header-img {
+  width: 70%;
+  height: auto;
+}
+.header-img:hover {
+  cursor: pointer;
+}
+.DraftEditor-root {
+  background-color: rgb(255, 255, 255);
+  border-radius: 0.6em;
+  border-color: black;
+  border-width: 10em;
+  padding: 1em;
+}
+
+button {
+  background: #999;
+  color: #fff;
+  border: none;
+  padding: 0.5em;
+  cursor: pointer;
+  margin-bottom: 1em;
+  margin-right: 1em;
+  border-radius: 0.2em;
+}
+
+button:hover {
+  background: #888;
+}
+
+pre {
+  border: 1px solid #ccc;
+  background: #f0f0f0;
+  border-radius: 0.2em;
+  padding: 0.5em;
+  margin: 0;
+}
+
+pre > pre {
+  background: none;
+  border: none;
+  padding: 0;
+}
+.editor {
+  background-color: black;
+}

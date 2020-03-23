@@ -11,6 +11,8 @@ const modelRouter = require("./routes/model");
 const filestoreRouter = require("./routes/filestore");
 const authRouter = require("./auth/api/index");
 
+require("dotenv").config();
+
 const app = express();
 
 // view engine setup
@@ -34,9 +36,9 @@ const mongo = require("mongodb");
 const Grid = require("gridfs-stream");
 
 const DATABASE_NAME = "kids-save-ocean";
-const db = monk(`localhost:27017/${DATABASE_NAME}`);
+const db = monk(process.env.MONGO_DATABASE);
 let gfs;
-mongo.MongoClient.connect("mongodb://127.0.0.1:27017", (err, database) => {
+mongo.MongoClient.connect(process.env.MONGO_DATABASE, (err, database) => {
   if (err) {
     console.log(
       "MongoDB Connection Error. Please make sure that MongoDB is running."
@@ -46,21 +48,21 @@ mongo.MongoClient.connect("mongodb://127.0.0.1:27017", (err, database) => {
   gfs = Grid(database.db(DATABASE_NAME), mongo);
 });
 
+
 app.use(function(req, res, next) {
   req.db = db;
   next();
 });
 
-app.use("/auth/", authRouter);
-app.use("/", indexRouter);
-app.use("/models", modelRouter);
+app.use("/api/auth/", authRouter);
+app.use("/api/", indexRouter);
+app.use("/api/models", modelRouter);
+app.use("/api/upload", filestoreRouter);
 
 app.use(function(req, res, next) {
   req.gfs = gfs;
   next();
 });
-
-app.use("/upload", filestoreRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
