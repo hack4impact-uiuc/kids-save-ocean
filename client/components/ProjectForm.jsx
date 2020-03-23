@@ -12,6 +12,7 @@ import {
   ModalFooter,
   Row
 } from "reactstrap";
+import sdgs from "../utils/goals";
 
 import "../public/styles/home.scss";
 
@@ -27,13 +28,8 @@ const customStyles = {
   }
 };
 
-const options = [
-  { value: "No Poverty", label: "No Poverty" },
-  { value: "Quality Education", label: "Quality Education" }
-];
-
 export default function ProjectForm() {
-  const [sdg, setSdg] = useState(options[0].value);
+  const [sdg, setSdg] = useState(1);
   const [modalIsOpen, setIsOpen] = useState(false);
 
   function toggleModal() {
@@ -94,7 +90,7 @@ export default function ProjectForm() {
                     value={sdg}
                     onChange={e => setSdg(e.target.value)}
                   >
-                    {options.map(option => (
+                    {sdgs.map(option => (
                       <option
                         label={option.label}
                         value={option.value}

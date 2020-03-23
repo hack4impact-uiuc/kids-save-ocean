@@ -1,5 +1,5 @@
 .header-row {
-  height: 10vh;
+  height: 5em;
   background-image: radial-gradient(
       50% 141%,
       rgba(11, 47, 129, 0.6) 1%,
@@ -7,7 +7,7 @@
     ),
     url("/asset/images/splash.jpg");
   vertical-align: top;
-  padding: 1vh;
+  padding: 0.5em;
 
   .col-1 {
     display: flex;
@@ -17,8 +17,7 @@
 }
 
 .header-img {
-  // width: 70%;
-  height: 8vh;
+  height: 3em;
   width: auto;
 }
 .header-img:hover {
