@@ -1,23 +1,14 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 
 import { addNewBlock } from "medium-draft";
 
-export default class Draft extends Component {
-  constructor(props) {
-    super(props);
+export default function Draft(props) {
+  const [input, setInput] = useState(null);
 
-    this.onClick = this.onClick.bind(this);
-    this.onChange = this.onChange.bind(this);
-  }
+  const handleClick = () => input.click();
 
-  onClick() {
-    this.input.value = null;
-    this.input.click();
-  }
-
-  onChange(e) {
-    const { close, getEditorState, setEditorState } = this.props;
-
+  const handleChange = e => {
+    const { close, getEditorState, setEditorState } = props;
     const file = e.target.files[0];
     if (file.type.indexOf("image/") === 0) {
       let reader = new FileReader();
@@ -29,27 +20,23 @@ export default class Draft extends Component {
       };
     }
     close();
-  }
+  };
 
-  render() {
-    return (
-      <button
-        className="md-sb-button md-sb-img-button"
-        type="button"
-        onClick={this.onClick}
-        title="Add an Image"
-      >
-        <i className="fa fa-image" />
-        <input
-          type="file"
-          accept="image/*"
-          ref={c => {
-            this.input = c;
-          }}
-          onChange={this.onChange}
-          style={{ display: "none" }}
-        />
-      </button>
-    );
-  }
+  return (
+    <button
+      className="md-sb-button md-sb-img-button"
+      type="button"
+      onClick={handleClick}
+      title="Add an Image"
+    >
+      <i className="fa fa-image" />
+      <input
+        type="file"
+        accept="image/*"
+        ref={c => setInput(c)}
+        onChange={handleChange}
+        style={{ display: "none" }}
+      />
+    </button>
+  );
 }

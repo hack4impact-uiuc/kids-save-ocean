@@ -1,80 +1,60 @@
-import React, { Component } from "react";
+import React, { createRef, useState, useEffect } from "react";
 import { Head, Draft } from "../components";
 import { Container } from "reactstrap";
-
 import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
 import { Editor, createEditorState } from "medium-draft";
 
 import "../public/styles/medium-draft.scss";
 
-class DraftPage extends Component {
-  constructor(props) {
-    super(props);
+export default function DraftPage() {
+  const [editorState, setEditorState] = useState(createEditorState());
 
-    this.state = {
-      editorState: createEditorState()
-    };
+  const refsEditor = createRef();
 
-    this.onChange = editorState => {
-      this.setState({ editorState: editorState });
-    };
+  const handleChange = newState => setEditorState(newState);
 
-    this.refsEditor = React.createRef();
-  }
+  useEffect(() => {
+    refsEditor.current.focus();
+    const content = localStorage.getItem("content");
+    if (content !== null) {
+      setEditorState(
+        EditorState.createWithContent(convertFromRaw(JSON.parse(content)))
+      );
+    }
+  }, [refsEditor, setEditorState]);
 
-  componentDidUpdate() {
-    const { editorState } = this.state;
+  useEffect(() => {
     const contentState = editorState.getCurrentContent();
     const json = JSON.stringify(convertToRaw(contentState));
     localStorage.setItem("content", json);
-  }
+  }, [editorState]);
 
-  componentDidMount() {
-    this.refsEditor.current.focus();
+  return (
+    <div>
+      <Head />
+      <Container>
+        <div className="page-title">
+          <h1 className="header2-text" align="center">
+            <strong>Draft Your Project! or some shit</strong>
+          </h1>
+        </div>
+        <link
+          rel="stylesheet"
+          href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"
+        />
 
-    const content = localStorage.getItem("content");
-    console.log(content);
-
-    if (content) {
-      this.setState({
-        editorState: EditorState.createWithContent(
-          convertFromRaw(JSON.parse(content))
-        )
-      });
-    }
-  }
-
-  render() {
-    const { editorState } = this.state;
-    return (
-      <div>
-        <Head />
-        <Container>
-          <div className="page-title">
-            <h1 className="header2-text" align="center">
-              <strong>Draft Your Project! or some shit</strong>
-            </h1>
-          </div>
-          <link
-            rel="stylesheet"
-            href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"
-          />
-
-          <Editor
-            ref={this.refsEditor}
-            editorState={editorState}
-            onChange={this.onChange}
-            sideButtons={[
-              {
-                title: "Image",
-                component: Draft
-              }
-            ]}
-          />
-        </Container>
-      </div>
-    );
-  }
+        <Editor
+          ref={refsEditor}
+          editorState={editorState}
+          onChange={handleChange}
+          sideButtons={[
+            {
+              title: "Image",
+              component: Draft
+            }
+          ]}
+        />
+      </Container>
+    </div>
+  );
 }
-
-export default DraftPage;
