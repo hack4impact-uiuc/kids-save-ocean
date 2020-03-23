@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Col,
@@ -8,43 +9,56 @@ import {
   DropdownMenu,
   FormGroup,
   Label,
-  Container
+  Container,
+  Alert
 } from "reactstrap";
+import { getModelsByID } from "../utils/apiWrapper";
 import { Head, Stage } from "../components";
-import { useState } from "react";
 import "../public/styles/editProject.scss";
 
-export default function() {
+export default function EditProjectPage() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [title, setTitle] = useState("Loading");
-  const [description, setDescription] = useState("Loading");
-  //Stage
-  let ideationStages = [["Stage 1", "Description 1"]];
-  const addStage = () => {
-    ideationStages.push(["Added Stage Title", "Added Stage Description"]);
-  };
-  //Dropdown
+  const [visAlert, setAlert] = useState(false);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const id = "5e653b729a1cbfaba98adc5b";
+  const ideationStages = [
+    ["Stage 1", "Description 1"],
+    ["Stage 2", "Description 2"],
+    ["Stage 3", "Description 3"]
+  ];
   const toggle = () => setDropdownOpen(prevState => !prevState);
-  //Set Title
-  // const getTitle = async () => {
-  //   const project = await getModelsByID("5e653b729a1cbfaba98adc5c");
-  //   return project.data[0].name;
-  // };
-  // getTitle().then(name => {
-  //   name = setTitle(name);
-  // });
-  // //Set Description
-  // const getDescription = async () => {
-  //   const project = await getModelsByID("5e653b729a1cbfaba98adc5c");
-  //   return project.data[0].description;
-  // };
-  // getDescription().then(description => {
-  //   description = setDescription(description);
-  // });
+
+  useEffect(() => {
+    const loadProject = async () => {
+      const project = await getModelsByID(id);
+
+      if (project === null) {
+        console.log(project);
+        setAlert(false);
+        setTitle(project.data[0].name);
+        setDescription(project.data[0].description);
+      } else {
+        setAlert(true);
+        console.log(visAlert);
+      }
+    };
+
+    loadProject();
+  }, [visAlert]);
+
   return (
     <>
       <Head title={title} />
       <Container>
+        {visAlert && (
+          <Alert color="danger">
+            <div justify="center" align="middle">
+              Load Failed
+            </div>
+          </Alert>
+        )}
+
         <Row>
           <Col className="home-block-col">
             <Row className="home-block-1-ep">
@@ -62,7 +76,6 @@ export default function() {
                   <DropdownToggle caret>Choose SDG's</DropdownToggle>
                   <DropdownMenu>
                     <FormGroup check>
-                      {/* <Label for="exampleSelectMulti">Select Multiple</Label> */}
                       <Row>
                         <Label className="label" for="exampleCheck" check>
                           No Poverty
@@ -144,26 +157,20 @@ export default function() {
             </h4>
           </Row>
           <Row className="header-row-ep">
-            <Button
-              className="header2-text-ep-other"
-              onClick={() => addStage()}
-            >
-              Add Stage
-            </Button>
+            <Button className="button-add">Add Stage</Button>
           </Row>
           <hr className="divider-stage" />
-          {/* <Col className="column"> */}
           <div className="stages">
-            {ideationStages.map(value => (
+            {ideationStages.map((value, idx) => (
               <Stage
                 stageName={value[0]}
                 description={value[1]}
                 phaseName={"inspiration"}
                 id={"5e66f5600689eb59ef2c8ef3"}
+                key={idx}
               />
             ))}
           </div>
-          {/* </Col> */}
           <hr className="header-row-ep" />
         </Col>
         <Col>
@@ -182,7 +189,7 @@ export default function() {
             </h4>
           </Row>
           <Row className="header-row-ep">
-            <Button className="header2-text-ep-other">Add Stage</Button>
+            <Button className="button-add">Add Stage</Button>
           </Row>
           <hr className="header-row-ep" />
         </Col>
@@ -202,7 +209,7 @@ export default function() {
             </h4>
           </Row>
           <Row className="header-row-ep">
-            <Button className="header2-text-ep-other">Add Stage</Button>
+            <Button className="button-add">Add Stage</Button>
           </Row>
           <hr className="header-row-ep" />
         </Col>

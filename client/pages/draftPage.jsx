@@ -1,13 +1,11 @@
 import React, { Component } from "react";
-import { Head } from "../components";
-import { Row, Col, Container } from "reactstrap";
-
-import { Draft } from "../components";
-
-import "../public/medium-draft.scss";
+import { Head, Draft } from "../components";
+import { Container } from "reactstrap";
 
 import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
 import { Editor, createEditorState } from "medium-draft";
+
+import "../public/styles/medium-draft.scss";
 
 class DraftPage extends Component {
   constructor(props) {
@@ -25,7 +23,8 @@ class DraftPage extends Component {
   }
 
   componentDidUpdate() {
-    const contentState = this.state.editorState.getCurrentContent();
+    const { editorState } = this.state;
+    const contentState = editorState.getCurrentContent();
     const json = JSON.stringify(convertToRaw(contentState));
     localStorage.setItem("content", json);
   }
@@ -46,6 +45,7 @@ class DraftPage extends Component {
   }
 
   render() {
+    const { editorState } = this.state;
     return (
       <div>
         <Head />
@@ -62,7 +62,7 @@ class DraftPage extends Component {
 
           <Editor
             ref={this.refsEditor}
-            editorState={this.state.editorState}
+            editorState={editorState}
             onChange={this.onChange}
             sideButtons={[
               {
