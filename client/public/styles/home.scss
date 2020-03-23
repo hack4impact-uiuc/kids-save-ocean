@@ -42,16 +42,7 @@ body {
   border-radius: 10px;
   height: 10em;
 }
-.header-row {
-  height: 4em;
-  background-image: radial-gradient(
-      50% 141%,
-      rgba(11, 47, 129, 0.6) 1%,
-      rgba(43, 134, 161, 0.651) 100%
-    ),
-    url("/asset/images/splash.jpg");
-  vertical-align: top;
-}
+
 .first-row {
   height: 0.75em;
   background-image: radial-gradient(
@@ -83,13 +74,7 @@ body {
   text-align: center;
   align-content: center;
 }
-.header-img {
-  width: auto;
-  height: 3em;
-}
-.header-img:hover {
-  cursor: pointer;
-}
+
 .body-text {
   color: white;
   font-size: 20px;
@@ -105,15 +90,80 @@ body {
   padding: 30px;
 }
 
+.home-page-btns {
+  display: flex;
+}
+
+.primary-btn,
+.second-btn {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.primary-btn {
+  display: flex;
+  margin-right: 80px;
+  margin-left: 50px;
+}
+
 .search-bar {
+  display: flex;
   margin-right: auto;
   margin-left: auto;
+  text-align: center;
   padding: 30px;
   width: 50%;
 }
 
+.dropdowns {
+  display: flex;
+  flex-shrink: 3;
+  justify-content: space-between;
+}
+
+.un-goals-list,
+.country-list,
+.grp-sizes-list,
+.difficulty-list {
+  table-layout: fixed;
+  width: 200px;
+  max-width: 100%;
+}
+
 .input {
+  display: flex;
   text-align: center;
+  flex-shrink: 3;
+}
+
+.notifications-icon {
+  display: flex;
+  vertical-align: middle;
+  margin-top: 35px;
+  margin-right: -20px;
+  color: grey;
+}
+
+.user-icon {
+  display: flex;
+  vertical-align: middle;
+  margin-top: 35px;
+  margin-left: 50px;
+  margin-right: -100px;
+  color: grey;
+}
+
+.project-card {
+  display: flex;
+  height: 300px;
+  width: 350px;
+  cursor: pointer;
+  margin-top: 50px;
+  font-size: 13px;
+}
+
+.padding {
+  margin-top: 30px;
 }
 
 .sdg-general-info {
@@ -159,4 +209,13 @@ body {
 .button-design-2:hover {
   background-color: rgba(5, 46, 143, 0.6);
   border-color: rgba(12, 46, 240, 0.685);
+}
+
+.project-form-modal {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  .modal-content {
+    padding: 2em;
+  }
 }

@@ -1,14 +1,6 @@
-import React from "react";
-import Modal from "react-modal";
-import {
-  Row,
-  Col,
-  Button,
-  InputGroup,
-  InputGroupAddon,
-  InputGroupText,
-  Input
-} from "reactstrap";
+import React, { useState } from "react";
+// import Modal from "react-modal";
+import { Row, Col, Button, Modal, Input } from "reactstrap";
 import Select from "react-select";
 import "../public/styles/home.scss";
 const customStyles = {
@@ -34,42 +26,33 @@ const MyComponent = () => <Select options={options} />;
 // Modal.setAppElement("#root");
 
 export default function ProjectForm() {
-  var subtitle;
-  var sdg;
-  const [modalIsOpen, setIsOpen] = React.useState(false);
-  function openModal() {
-    setIsOpen(true);
-  }
+  const [sdg, setSdg] = useState(null);
+  const [modalIsOpen, setIsOpen] = useState(false);
 
-  function afterOpenModal() {}
-
-  function closeModal() {
-    setIsOpen(false);
-  }
-
-  function selectSDG(sdg_chosen) {
-    sdg = sdg_chosen;
+  function toggleModal() {
+    setIsOpen(!modalIsOpen);
   }
 
   return (
     <div>
-      <Button className="button-design" type="primary" onClick={openModal}>
+      <Button className="button-design" type="primary" onClick={toggleModal}>
         <strong>Get Started</strong>
       </Button>
       <Modal
         isOpen={modalIsOpen}
-        onAfterOpen={afterOpenModal}
-        onRequestClose={closeModal}
+        toggle={toggleModal}
         style={customStyles}
-        contentLabel="Example Modal"
+        className="project-form-modal"
       >
         <Row className="modal-row">
-          <Col xs="1"></Col>
+          <Col xs="2"></Col>
           <Col>
             <h3 className="header-modal-text">Create a Project</h3>
           </Col>
-          <Col xs="1">
-            <button onClick={closeModal}>X</button>
+          <Col xs="2">
+            <Button color="danger" onClick={toggleModal}>
+              X
+            </Button>
           </Col>
         </Row>
         <Row className="modal-row">
@@ -107,7 +90,7 @@ export default function ProjectForm() {
                 SDG
                 <Select
                   className="select-sdg"
-                  onChange={selectSDG(sdg)}
+                  onChange={() => setSdg(sdg)}
                   value={sdg}
                   options={options}
                 />
