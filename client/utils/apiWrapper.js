@@ -120,10 +120,16 @@ export const saveDescription = (
         }
       }
     )
-    .catch(error => {});
+    .catch(error => ({
+      type: "SAVE_DESCRIPTION_FAIL",
+      error
+    }));
 };
 
 export const getDescription = (model_id, phaseName, stageName) => {
   const requestString = `${BASE_URL}/models/${model_id}/${phaseName}/${stageName}/description`;
-  return axios.get(requestString).catch(err => {});
+  return axios.get(requestString).catch(error => ({
+    type: "GET_DESCRIPTION_FAIL",
+    error
+  }));
 };
