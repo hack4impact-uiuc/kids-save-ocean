@@ -24,6 +24,13 @@
         "dest": "api/app.js"
       },
       {
+        "src": "_next/static/(.*)",
+        "headers": {
+          "cache-control": "s-maxage=31536000,immutable"
+        },
+        "dest": "client/_next/static/$1"
+      },
+      {
         "src": "/",
         "dest": "/client"
       }
