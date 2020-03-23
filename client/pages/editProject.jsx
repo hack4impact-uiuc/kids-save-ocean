@@ -19,11 +19,7 @@ export default function() {
   const [title, setTitle] = useState("Loading");
   const [description, setDescription] = useState("Loading");
   //Stage
-  let ideationStages = [
-    ["Stage 1", "Description 1"],
-    ["Stage 2", "Description 2"],
-    ["Stage 3", "Description 3"]
-  ];
+  let ideationStages = [["Stage 1", "Description 1"]];
   const addStage = () => {
     ideationStages.push(["Added Stage Title", "Added Stage Description"]);
   };
@@ -31,7 +27,7 @@ export default function() {
   const toggle = () => setDropdownOpen(prevState => !prevState);
   //Set Title
   // const getTitle = async () => {
-  //   const project = await getModelsByID("5e5f20e2f182430b94c8c66d");
+  //   const project = await getModelsByID("5e653b729a1cbfaba98adc5c");
   //   return project.data[0].name;
   // };
   // getTitle().then(name => {
@@ -39,7 +35,7 @@ export default function() {
   // });
   // //Set Description
   // const getDescription = async () => {
-  //   const project = await getModelsByID("5e5f20e2f182430b94c8c66d");
+  //   const project = await getModelsByID("5e653b729a1cbfaba98adc5c");
   //   return project.data[0].description;
   // };
   // getDescription().then(description => {
@@ -159,7 +155,12 @@ export default function() {
           {/* <Col className="column"> */}
           <div className="stages">
             {ideationStages.map(value => (
-              <Stage props={value} />
+              <Stage
+                stageName={value[0]}
+                description={value[1]}
+                phaseName={"inspiration"}
+                id={"5e66f5600689eb59ef2c8ef3"}
+              />
             ))}
           </div>
           {/* </Col> */}

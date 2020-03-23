@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Head } from "../components";
 import { Row, Col, Container } from "reactstrap";
 
-import DraftAddImage from "../components/DraftAddImage.jsx";
+import { Draft } from "../components";
 
 import "../public/medium-draft.scss";
 
@@ -67,7 +67,7 @@ class DraftPage extends Component {
             sideButtons={[
               {
                 title: "Image",
-                component: DraftAddImage
+                component: Draft
               }
             ]}
           />
