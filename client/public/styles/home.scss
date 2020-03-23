@@ -73,6 +73,7 @@ body {
   font-size: 2em;
   text-align: center;
   align-content: center;
+  width: 100%;
 }
 
 .body-text {
@@ -215,7 +216,20 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  align-items: center;
+  max-width: none;
+
   .modal-content {
     padding: 2em;
+    width: 40vw;
+    margin: 0;
+  }
+
+  .modal-header {
+    justify-content: center;
+  }
+
+  .modal-footer {
+    justify-content: center;
   }
 }

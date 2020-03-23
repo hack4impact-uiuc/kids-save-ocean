@@ -1,6 +1,15 @@
 import React, { useState } from "react";
 // import Modal from "react-modal";
-import { Row, Col, Button, Modal, Input } from "reactstrap";
+import {
+  Row,
+  Col,
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Input
+} from "reactstrap";
 import Select from "react-select";
 import "../public/styles/home.scss";
 const customStyles = {
@@ -19,11 +28,6 @@ const options = [
   { value: "No Poverty", label: "No Poverty" },
   { value: "Quality Education", label: "Quality Education" }
 ];
-
-const MyComponent = () => <Select options={options} />;
-
-// Make sure to bind modal to your appElement (http://reactcommunity.org/react-modal/accessibility/)
-// Modal.setAppElement("#root");
 
 export default function ProjectForm() {
   const [sdg, setSdg] = useState(null);
@@ -44,75 +48,75 @@ export default function ProjectForm() {
         style={customStyles}
         className="project-form-modal"
       >
-        <Row className="modal-row">
-          <Col xs="2"></Col>
-          <Col>
-            <h3 className="header-modal-text">Create a Project</h3>
-          </Col>
-          <Col xs="2">
-            <Button color="danger" onClick={toggleModal}>
-              X
-            </Button>
-          </Col>
-        </Row>
-        <Row className="modal-row">
-          <Col>
-            <form className="modal-form">
-              <label>Project Title</label>
-              <Input className="form-input" placeholder="Input text..." />
-            </form>
-          </Col>
-        </Row>
-        <Row className="modal-row">
-          <Col>
-            <form className="modal-form">
-              <label>Description</label>
-              <Input
-                className="form-input-description"
-                placeholder="Input text..."
-                rowSpan="10px"
-              />
-            </form>
-          </Col>
-        </Row>
-        <Row className="modal-row">
-          <Col>
-            <form className="modal-form">
-              <label>
-                Date
-                <Input className="form-input" placeholder="MM/DD/YYYY" />
-              </label>
-            </form>
-          </Col>
-          <Col>
-            <form className="modal-form">
-              <label className="label-sdg">
-                SDG
-                <Select
-                  className="select-sdg"
-                  onChange={() => setSdg(sdg)}
-                  value={sdg}
-                  options={options}
-                />
-              </label>
-            </form>
-          </Col>
-        </Row>
-        <Row className="modal-row">
-          <Col>
-            <form className="modal-form">
-              <label>Country</label>
-              <Input className="form-input" placeholder="United States" />
-            </form>
-          </Col>
-        </Row>
-        <Row className="bottom-row">
-          <Col align="center">
-            <Button className="button-design-2" type="primary">
-              <strong>Start</strong>
-            </Button>
-          </Col>
-        </Row>
+        <ModalHeader>
+          <h3 className="header-modal-text">Create a Project</h3>
+        </ModalHeader>
+        <ModalBody>
+          <Row className="modal-row">
+            <Col>
+              <form className="modal-form">
+                <label>
+                  Project Title
+                  <Input className="form-input" placeholder="Input text..." />
+                </label>
+              </form>
+            </Col>
+          </Row>
+          <Row className="modal-row">
+            <Col>
+              <form className="modal-form">
+                <label>
+                  Description
+                  <Input
+                    className="form-input-description"
+                    placeholder="Input text..."
+                    rowSpan="10px"
+                  />
+                </label>
+              </form>
+            </Col>
+          </Row>
+          <Row className="modal-row">
+            <Col>
+              <form className="modal-form">
+                <label>
+                  Date
+                  <Input className="form-input" placeholder="MM/DD/YYYY" />
+                </label>
+              </form>
+            </Col>
+            <Col>
+              <form className="modal-form">
+                <label className="label-sdg">
+                  SDG
+                  <Select
+                    className="select-sdg"
+                    onChange={() => setSdg(sdg)}
+                    value={sdg}
+                    options={options}
+                  />
+                </label>
+              </form>
+            </Col>
+          </Row>
+          <Row className="modal-row">
+            <Col>
+              <form className="modal-form">
+                <label>Country</label>
+                <Input className="form-input" placeholder="United States" />
+              </form>
+            </Col>
+          </Row>
+        </ModalBody>
+
+        <ModalFooter>
+          <Button className="button-design-2" type="primary">
+            <strong>Exit</strong>
+          </Button>
+          <Button className="button-design-2" type="primary">
+            <strong>Start</strong>
+          </Button>
+        </ModalFooter>
       </Modal>
     </div>
   );

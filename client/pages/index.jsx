@@ -1,6 +1,5 @@
 import React from "react";
-import { Head } from "../components";
-import { ProjectForm } from "../components";
+import { Head, ProjectForm } from "../components";
 import Link from "next/link";
 import ReactPlayer from "react-player";
 import {
@@ -36,8 +35,10 @@ const populateImages = () => {
 
   return images;
 };
+
 const images = populateImages();
-export default function() {
+
+export default function Home() {
   return (
     <Container>
       <Head />
@@ -52,7 +53,9 @@ export default function() {
         </Col>
         <Col className="home-block-col">
           <Link href="#about-us">
-            <a className="text-link">ABOUT US</a>
+            <a className="text-link" href="#about-us">
+              ABOUT US
+            </a>
           </Link>
 
           <h1 className="header-text">Change the World,</h1>
