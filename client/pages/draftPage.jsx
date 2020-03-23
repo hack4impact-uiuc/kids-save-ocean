@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Head } from "../components";
-import { Row, Col, Container } from "reactstrap";
+import { Container } from "reactstrap";
 
 import DraftAddImage from "../components/DraftAddImage.jsx";
 

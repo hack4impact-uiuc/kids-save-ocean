@@ -8,7 +8,7 @@
     "dev": "next",
     "format": "prettier --write \"./**/*.{js,jsx,json,md}\"",
     "format:check": "prettier --check \"./**/*.{js,jsx,json,md}\"",
-    "lint": "eslint \"./**/*.{js,ts,tsx}\"",
+    "lint": "eslint \"./**/*.{js,jsx}\"",
     "lint:fix": "eslint --fix \"./**/*.{js,jsx}\"",
     "start": "next start"
   },
@@ -41,7 +41,7 @@
     "reactstrap": "^8.4.1"
   },
   "devDependencies": {
-    "@h4iuiuc/eslint-plugin": "^1.0.12",
+    "@h4iuiuc/eslint-plugin": "^1.1.6",
     "eslint": "^6.8.0",
     "prettier": "^1.19.1"
   }

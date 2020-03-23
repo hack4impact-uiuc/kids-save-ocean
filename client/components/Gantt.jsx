@@ -1,12 +1,15 @@
+import React from "react";
 import { Chart } from "react-google-charts";
 
 export default function Gantt(props) {
   const { data, trackHeight, width, selectCallback } = props;
+  const bottomHeight = 50;
+  const widthAdjust = 0.8;
 
   return (
     <Chart
-      height={`${data.length * trackHeight + 50}px`}
-      width={`${width * 0.8}px`}
+      height={`${data.length * trackHeight + bottomHeight}px`}
+      width={`${width * widthAdjust}px`}
       chartType="Gantt"
       loader={<div>Loading Chart</div>}
       data={[
@@ -27,7 +30,7 @@ export default function Gantt(props) {
           eventName: "select",
           callback: ({ chartWrapper }) => {
             const selection = chartWrapper.getChart().getSelection();
-            if ((selection.length = 1)) {
+            if (selection.length === 1) {
               selectCallback(selection);
             }
           }

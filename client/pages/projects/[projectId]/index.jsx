@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { Gantt, Head, TipCard } from "../../../components";
@@ -20,6 +20,7 @@ import { getModelsByID } from "../../../utils/apiWrapper";
 import "../../../public/styles/project.scss";
 
 const DESCRIPTION_LENGTH = 400;
+const HUNDRED = 100;
 
 const capitalize = str =>
   str.length > 0 ? str.charAt(0).toUpperCase() + str.slice(1) : str;
@@ -64,7 +65,7 @@ export default function ProjectPage() {
       new Date(stage.startdate),
       new Date(stage.enddate),
       null,
-      Math.random() * 100,
+      Math.random() * HUNDRED,
       null
     ]);
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { Head } from "../../components";
 import Select from "react-select";
@@ -18,6 +18,8 @@ import {
 } from "reactstrap";
 
 import "../../public/styles/projects.scss";
+
+const DESCRIPTION_LENGTH = 200;
 
 export default function ProjectsPage() {
   const [projects, setProjects] = useState(null);
@@ -77,8 +79,11 @@ export default function ProjectsPage() {
                         <CardText top width="100%" height="100%">
                           <h3>{proj.name}</h3>
                           <br />
-                          <p>{`${proj.description.slice(0, 200)}${proj
-                            .description.length > 200 && "..."}`}</p>
+                          <p>{`${proj.description.slice(
+                            0,
+                            DESCRIPTION_LENGTH
+                          )}${proj.description.length > DESCRIPTION_LENGTH &&
+                            "..."}`}</p>
                         </CardText>
                       </Card>
                     </Link>

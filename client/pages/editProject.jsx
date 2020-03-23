@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Col,
@@ -13,14 +14,16 @@ import {
 } from "reactstrap";
 import { getModelsByID } from "../utils/apiWrapper";
 import { Head, Stage } from "../components";
-import { useState } from "react";
 import "../public/styles/editProject.scss";
 
-export default function() {
+export default function EditProjectPage() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [visAlert, setAlert] = useState(false);
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const id = "5e653b729a1cbfaba98adc5b";
   //Stage
-  let ideationStages = [
+  const ideationStages = [
     ["Stage 1", "Description 1"],
     ["Stage 2", "Description 2"],
     ["Stage 3", "Description 3"]
@@ -28,43 +31,37 @@ export default function() {
   //Dropdown
   const toggle = () => setDropdownOpen(prevState => !prevState);
   //Get Title
-  let [visAlert, setAlert] = useState(false);
-  let [title, setTitle] = useState("");
-  const getTitle = async () => {
-    const project = await getModelsByID(id);
-    
-    if(project === null) {
-      setAlert(true);
-      console.log(visAlert);
-    } else {
-      console.log(project)
-      setAlert(false);
-      //return project.data[0].name;
-    }
 
-  };
-  getTitle().then(name => {
-    setTitle(name);
-  });
-  //Set Description
-  let [description, setDescription] = useState("");
-  const getDescription = async () => {
-    const project = await getModelsByID(id);
-    if (project != null)return project.data[0].description;
-  };
-  getDescription().then(description => {
-    description = setDescription(description);
-  });
+  useEffect(() => {
+    const loadProject = async () => {
+      const project = await getModelsByID(id);
+
+      if (project === null) {
+        console.log(project);
+        setAlert(false);
+        setTitle(project.data[0].name);
+        setDescription(project.data[0].description);
+      } else {
+        setAlert(true);
+        console.log(visAlert);
+      }
+    };
+
+    loadProject();
+  }, []);
+
   return (
     <>
       <Head title={title} />
       <Container>
-        {visAlert && <Alert color="danger" >
-          <div  justify="center" align="middle">
-            Load Failed
-          </div>
-        </Alert>}
-        
+        {visAlert && (
+          <Alert color="danger">
+            <div justify="center" align="middle">
+              Load Failed
+            </div>
+          </Alert>
+        )}
+
         <Row>
           <Col className="home-block-col">
             <Row className="home-block-1-ep">
@@ -164,16 +161,13 @@ export default function() {
             </h4>
           </Row>
           <Row className="header-row-ep">
-            <Button
-              className="button-add">
-            Add Stage
-            </Button>
+            <Button className="button-add">Add Stage</Button>
           </Row>
           <hr className="divider-stage" />
           {/* <Col className="column"> */}
           <div className="stages">
-            {ideationStages.map(value => (
-              <Stage props={value} />
+            {ideationStages.map((value, idx) => (
+              <Stage props={value} key={idx} />
             ))}
           </div>
           {/* </Col> */}

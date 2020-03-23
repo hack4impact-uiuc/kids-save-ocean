@@ -1,3 +1,4 @@
+import React from "react";
 import { Head } from "../components";
 import Link from "next/link";
 import ReactPlayer from "react-player";
@@ -8,7 +9,6 @@ import {
   CardImg,
   Col,
   Container,
-  Input,
   Row
 } from "reactstrap";
 
@@ -53,7 +53,9 @@ export default function App() {
           </Col>
           <Col className="home-block-col">
             <Link href="#about us">
-              <a className="text-link">ABOUT US</a>
+              <a className="text-link" href="/">
+                ABOUT US
+              </a>
             </Link>
             <h1 className="header-text">Change the World,</h1>
             <h1 className="header-text" mode="single">
@@ -101,7 +103,7 @@ export default function App() {
             </Col>
           ))}
         </Row>
-        <img src="/homepage-images/filler-map.png" />
+        <img src="/homepage-images/filler-map.png" alt="Map" />
       </Container>
     </>
   );
