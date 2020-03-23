@@ -1,17 +1,20 @@
 import React, { useState } from "react";
-// import Modal from "react-modal";
 import {
-  Row,
-  Col,
   Button,
+  Col,
+  Form,
+  FormGroup,
+  Input,
+  Label,
   Modal,
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Input
+  Row
 } from "reactstrap";
-import Select from "react-select";
+
 import "../public/styles/home.scss";
+
 const customStyles = {
   content: {
     top: "50%",
@@ -30,7 +33,7 @@ const options = [
 ];
 
 export default function ProjectForm() {
-  const [sdg, setSdg] = useState(null);
+  const [sdg, setSdg] = useState(options[0].value);
   const [modalIsOpen, setIsOpen] = useState(false);
 
   function toggleModal() {
@@ -51,72 +54,81 @@ export default function ProjectForm() {
         <ModalHeader>
           <h3 className="header-modal-text">Create a Project</h3>
         </ModalHeader>
-        <ModalBody>
-          <Row className="modal-row">
-            <Col>
-              <form className="modal-form">
-                <label>
-                  Project Title
-                  <Input className="form-input" placeholder="Input text..." />
-                </label>
-              </form>
-            </Col>
-          </Row>
-          <Row className="modal-row">
-            <Col>
-              <form className="modal-form">
-                <label>
-                  Description
+        <Form>
+          <ModalBody>
+            <FormGroup>
+              <Label for="project-title">Project Title</Label>
+              <Input
+                className="form-input"
+                id="project-title"
+                placeholder="Add a title..."
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for="project-description">Description</Label>
+              <Input
+                className="form-input-description"
+                id="project-description"
+                placeholder="Add a description..."
+                rowSpan="10px"
+              />
+            </FormGroup>
+            <Row>
+              <Col>
+                <FormGroup>
+                  <Label for="project-date">Date</Label>
                   <Input
-                    className="form-input-description"
-                    placeholder="Input text..."
-                    rowSpan="10px"
+                    className="form-input"
+                    id="project-date"
+                    placeholder="MM/DD/YYYY"
                   />
-                </label>
-              </form>
-            </Col>
-          </Row>
-          <Row className="modal-row">
-            <Col>
-              <form className="modal-form">
-                <label>
-                  Date
-                  <Input className="form-input" placeholder="MM/DD/YYYY" />
-                </label>
-              </form>
-            </Col>
-            <Col>
-              <form className="modal-form">
-                <label className="label-sdg">
-                  SDG
-                  <Select
+                </FormGroup>
+              </Col>
+              <Col>
+                <FormGroup>
+                  <Label for="project-sdg">SDG</Label>
+                  <Input
                     className="select-sdg"
-                    onChange={() => setSdg(sdg)}
+                    id="project-sdg"
+                    type="select"
                     value={sdg}
-                    options={options}
-                  />
-                </label>
-              </form>
-            </Col>
-          </Row>
-          <Row className="modal-row">
-            <Col>
-              <form className="modal-form">
-                <label>Country</label>
-                <Input className="form-input" placeholder="United States" />
-              </form>
-            </Col>
-          </Row>
-        </ModalBody>
+                    onChange={e => setSdg(e.target.value)}
+                  >
+                    {options.map(option => (
+                      <option
+                        label={option.label}
+                        value={option.value}
+                        key={option.value}
+                      />
+                    ))}
+                  </Input>
+                </FormGroup>
+              </Col>
+            </Row>
 
-        <ModalFooter>
-          <Button className="button-design-2" type="primary">
-            <strong>Exit</strong>
-          </Button>
-          <Button className="button-design-2" type="primary">
-            <strong>Start</strong>
-          </Button>
-        </ModalFooter>
+            <FormGroup>
+              <Label for="project-country">Country</Label>
+              <Input
+                className="form-input"
+                id="project-country"
+                placeholder="United States"
+              />
+            </FormGroup>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button
+              className="button-design-2"
+              type="primary"
+              onClick={toggleModal}
+            >
+              <strong>Exit</strong>
+            </Button>
+            <Button className="button-design-2" type="submit">
+              <strong>Start</strong>
+            </Button>
+          </ModalFooter>
+        </Form>
       </Modal>
     </div>
   );
