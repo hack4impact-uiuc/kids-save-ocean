@@ -36,6 +36,7 @@
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-google-charts": "^3.0.15",
+    "react-modal": "^3.11.2",
     "react-player": "^1.15.2",
     "react-select": "^3.0.8",
     "react-select-search": "^0.10.2",
