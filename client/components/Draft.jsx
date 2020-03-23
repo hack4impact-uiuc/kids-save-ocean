@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import { addNewBlock } from "medium-draft";
 
-export default class DraftAddImage extends Component {
+export default class Draft extends Component {
   constructor(props) {
     super(props);
 
