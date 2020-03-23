@@ -22,15 +22,12 @@ export default function EditProjectPage() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const id = "5e653b729a1cbfaba98adc5b";
-  //Stage
   const ideationStages = [
     ["Stage 1", "Description 1"],
     ["Stage 2", "Description 2"],
     ["Stage 3", "Description 3"]
   ];
-  //Dropdown
   const toggle = () => setDropdownOpen(prevState => !prevState);
-  //Get Title
 
   useEffect(() => {
     const loadProject = async () => {
@@ -79,7 +76,6 @@ export default function EditProjectPage() {
                   <DropdownToggle caret>Choose SDG's</DropdownToggle>
                   <DropdownMenu>
                     <FormGroup check>
-                      {/* <Label for="exampleSelectMulti">Select Multiple</Label> */}
                       <Row>
                         <Label className="label" for="exampleCheck" check>
                           No Poverty
@@ -164,13 +160,17 @@ export default function EditProjectPage() {
             <Button className="button-add">Add Stage</Button>
           </Row>
           <hr className="divider-stage" />
-          {/* <Col className="column"> */}
           <div className="stages">
             {ideationStages.map((value, idx) => (
-              <Stage props={value} key={idx} />
+              <Stage
+                stageName={value[0]}
+                description={value[1]}
+                phaseName={"inspiration"}
+                id={"5e66f5600689eb59ef2c8ef3"}
+                key={idx}
+              />
             ))}
           </div>
-          {/* </Col> */}
           <hr className="header-row-ep" />
         </Col>
         <Col>

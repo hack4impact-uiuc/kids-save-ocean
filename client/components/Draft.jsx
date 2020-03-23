@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import { addNewBlock } from "medium-draft";
 
-export default class ImageButton extends Component {
+export default class Draft extends Component {
   constructor(props) {
     super(props);
 
@@ -11,28 +11,24 @@ export default class ImageButton extends Component {
   }
 
   onClick() {
-    console.log("clickycliky");
     this.input.value = null;
     this.input.click();
   }
 
   onChange(e) {
-    // e.preventDefault();
+    const { close, getEditorState, setEditorState } = this.props;
+
     const file = e.target.files[0];
     if (file.type.indexOf("image/") === 0) {
       let reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
         const src = reader.result;
-        const newState = addNewBlock(
-          this.props.getEditorState(),
-          "atomic:image",
-          { src }
-        );
-        this.props.setEditorState(newState);
+        const newState = addNewBlock(getEditorState(), "atomic:image", { src });
+        setEditorState(newState);
       };
     }
-    this.props.close();
+    close();
   }
 
   render() {
