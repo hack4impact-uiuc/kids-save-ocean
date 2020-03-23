@@ -23,7 +23,7 @@ export default function NavBar() {
         <img
           className="header-img"
           src="/homepage-images/notification-icon.png"
-          alt="Motifications"
+          alt="Notifications"
         />
       </Col>
       <Col xs="1">

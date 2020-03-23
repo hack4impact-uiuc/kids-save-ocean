@@ -44,7 +44,7 @@ export default function ProjectsPage() {
         </div>
         <div className="dropdowns">
           <Select
-            isMulti={true}
+            isMulti
             className="un-goals-list"
             options={UNGoalData}
             placeholder="Select UN Goals"
@@ -53,19 +53,19 @@ export default function ProjectsPage() {
             className="country-list"
             options={countryData}
             placeholder="Search country"
-            isClearable={true}
+            isClearable
           />
           <Select
             className="grp-sizes-list"
             options={groupSizeData}
             placeholder="Select group size"
-            isClearable={true}
+            isClearable
           />
           <Select
             className="difficulty-list"
             options={levelData}
             placeholder="Select difficulty"
-            isClearable={true}
+            isClearable
           />
         </div>
         <div className="project-cards">

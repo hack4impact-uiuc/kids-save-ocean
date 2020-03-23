@@ -38,11 +38,11 @@ export default function ProjectPage() {
 
   const toggleModal = () => setModal(!modal);
 
-  if (process.browser) {
-    useEffect(() => setWidth(document.body.clientWidth), [
-      document.body.clientWidth
-    ]);
-  }
+  useEffect(() => {
+    if (process.browser) {
+      setWidth(document.body.clientWidth);
+    }
+  }, [setWidth]);
 
   useEffect(() => {
     const loadModel = async id => {
@@ -57,19 +57,19 @@ export default function ProjectPage() {
     loadModel(projectId);
   }, [projectId]);
 
-  const mapGanttData = phase =>
-    project.phases[phase.toLowerCase()]?.stages.map(stage => [
-      `${stage.name}-${phase}-${stage.description}`,
-      stage.name,
-      capitalize(phase),
-      new Date(stage.startdate),
-      new Date(stage.enddate),
-      null,
-      Math.random() * HUNDRED,
-      null
-    ]);
-
   useEffect(() => {
+    const mapGanttData = phase =>
+      project.phases[phase.toLowerCase()]?.stages.map(stage => [
+        `${stage.name}-${phase}-${stage.description}`,
+        stage.name,
+        capitalize(phase),
+        new Date(stage.startdate),
+        new Date(stage.enddate),
+        null,
+        Math.random() * HUNDRED,
+        null
+      ]);
+
     if (project) {
       setGanttData({
         inspiration: mapGanttData("inspiration"),

@@ -48,7 +48,7 @@ export default function EditProjectPage() {
     };
 
     loadProject();
-  }, []);
+  }, [visAlert]);
 
   return (
     <>
