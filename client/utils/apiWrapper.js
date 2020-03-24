@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:5000/api";
+const BASE_URL = "https://kids-save-ocean.now.sh/api";
 // const BASE_URL = "http://52.240.158.249:5000/api"; // leave this in, this is Arpan's url
 
 export const getModels = (sdg_query = null) => {
