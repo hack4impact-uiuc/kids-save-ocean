@@ -196,6 +196,10 @@ body {
 .button-design {
   background-color: rgba(5, 7, 126, 0.616);
   border-color: rgba(12, 46, 240, 0.685);
+
+  a {
+    color: #fff;
+  }
 }
 .button-design:hover {
   background-color: rgba(5, 46, 143, 0.6);

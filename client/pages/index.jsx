@@ -72,7 +72,9 @@ export default function Home() {
             <Col xs="2.5">
               <Link href="/projects">
                 <Button type="primary" className="button-design">
-                  <strong>Explore</strong>
+                  <a href="/projects">
+                    <strong>Explore</strong>
+                  </a>
                 </Button>
               </Link>
             </Col>
