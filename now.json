@@ -1,31 +1,33 @@
 {
-    "version": 2,
-    "name": "kids-save-ocean",
-    "alias": ["kids-save-ocean.now.sh", "fatemaker.now.sh"],
-    "env": {
-      "MONGO_DATABASE": "@kso_db_uri"
+  "version": 2,
+  "name": "kids-save-ocean",
+  "alias": ["kids-save-ocean.now.sh", "fatemaker.now.sh"],
+  "env": {
+    "MONGO_DATABASE": "@kso_db_uri",
+    "BACKEND_URL": "/api"
+  },
+  "builds": [
+    {
+      "src": "client/package.json",
+      "use": "@now/next"
     },
-    "builds": [
-      {
-        "src": "client/package.json",
-        "use": "@now/next"
+    {
+      "src": "api/*.js",
+      "use": "@now/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "headers": {
+        "cache-control": "s-maxage=0"
       },
-      {
-        "src": "api/*.js",
-        "use": "@now/node"
-      }
-    ],
-    "routes": [
-      {
-        "src": "/api/(.*)",
-        "headers": {
-          "cache-control": "s-maxage=0"
-        },
-        "dest": "api/app.js"
-      },
-      {
-        "src": "/(.*)",
-        "dest": "/client/$1"
-      }
-    ]
-  }
+      "dest": "api/app.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/client/$1",
+      "continue": true
+    }
+  ]
+}
