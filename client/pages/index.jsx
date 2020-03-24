@@ -70,9 +70,11 @@ export default function Home() {
           <Row>
             <Col xs="3"></Col>
             <Col xs="2.5">
-              <Button type="primary" className="button-design">
-                <strong>Explore</strong>
-              </Button>
+              <Link href="/projects">
+                <Button type="primary" className="button-design">
+                  <strong>Explore</strong>
+                </Button>
+              </Link>
             </Col>
             <Col>
               <ProjectForm></ProjectForm>
