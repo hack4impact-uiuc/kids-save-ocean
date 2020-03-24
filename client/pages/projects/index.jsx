@@ -75,7 +75,7 @@ export default function ProjectsPage() {
                 <Col key={proj._id} className="project-col">
                   <CardGroup>
                     <Link
-                      href="projects/[projectId].jsx"
+                      href="projects/[projectId]"
                       as={`projects/${proj._id}`}
                     >
                       <Card className="project-card">
