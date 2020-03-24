@@ -90,7 +90,8 @@ export default function ProjectPage() {
           }`}</ModalBody>
           <ModalFooter>
             <Link
-              href={`/projects/${projectId}/${activePhase}-${activeStage.name
+              href="/projects/[projectId]/[stageInfo]"
+              as={`/projects/${projectId}/${activePhase}-${activeStage.name
                 .toLowerCase()
                 .replace(" ", "-")}`}
             >

@@ -74,7 +74,10 @@ export default function ProjectsPage() {
               projects.map(proj => (
                 <Col key={proj._id} className="project-col">
                   <CardGroup>
-                    <Link href={`projects/${proj._id}`}>
+                    <Link
+                      href="projects/[projectId].jsx"
+                      as={`projects/${proj._id}`}
+                    >
                       <Card className="project-card">
                         <CardText top width="100%" height="100%">
                           <h3>{proj.name}</h3>
