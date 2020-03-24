@@ -4,7 +4,7 @@
   "alias": ["kids-save-ocean.now.sh", "fatemaker.now.sh"],
   "env": {
     "MONGO_DATABASE": "@kso_db_uri",
-    "BACKEND_URL": "/api"
+    "BACKEND_URL": "@kso_backend_url"
   },
   "builds": [
     {
