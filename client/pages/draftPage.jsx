@@ -1,5 +1,5 @@
 import React, { createRef, useState, useEffect } from "react";
-import { Head, Draft } from "../components";
+import { Head, DraftAddImage } from "../components";
 import { Container } from "reactstrap";
 import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
 import { Editor, createEditorState } from "medium-draft";
@@ -50,7 +50,7 @@ export default function DraftPage() {
           sideButtons={[
             {
               title: "Image",
-              component: Draft
+              component: DraftAddImage
             }
           ]}
         />
