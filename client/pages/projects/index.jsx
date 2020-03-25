@@ -75,20 +75,25 @@ export default function ProjectsPage() {
                 <Col key={project._id} className="project-col">
                   <CardGroup>
                     <Link
-                      href="projects/[projectId]"
-                      as={`projects/${project._id}`}
+                      href="/projects/[projectId]"
+                      as={`/projects/${project._id}`}
+                      passHref
                     >
-                      <Card className="project-card">
-                        <CardText top width="100%" height="100%">
-                          <h3>{project.name}</h3>
-                          <br />
-                          <p>{`${project.description.slice(
-                            0,
-                            DESCRIPTION_LENGTH
-                          )}${project.description.length > DESCRIPTION_LENGTH &&
-                            "..."}`}</p>
-                        </CardText>
-                      </Card>
+                      <a>
+                        <Card className="project-card">
+                          <CardText width="100%" height="100%">
+                            <div className="project-card-name">
+                              {project.name}
+                            </div>
+                            <br />
+                            {`${project.description.slice(
+                              0,
+                              DESCRIPTION_LENGTH
+                            )}${project.description.length >
+                              DESCRIPTION_LENGTH && "..."}`}
+                          </CardText>
+                        </Card>
+                      </a>
                     </Link>
                   </CardGroup>
                 </Col>

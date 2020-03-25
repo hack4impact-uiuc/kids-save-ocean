@@ -51,8 +51,10 @@ export default function StagePage() {
           </div>
         </>
       )}
-      <Link href="projects/[projectId]" as={`projects/${projectId}`}>
-        <Button color="danger">Return</Button>
+      <Link href="/projects/[projectId]" as={`/projects/${projectId}`} passHref>
+        <a>
+          <Button color="danger">Return</Button>
+        </a>
       </Link>
     </div>
   );
