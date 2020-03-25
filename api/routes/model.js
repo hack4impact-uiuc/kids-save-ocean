@@ -184,10 +184,13 @@ router.get("/:model_ID/:phaseName/:stageName/description", function(req, res) {
       } else {
         const stages = docs["phases"][phaseName]["stages"];
         const stage = stages.filter(s => s.name === stageName)[0];
-        console.log(stage);
-        res.json({
-          description: stage.description
-        });
+        if (stage === undefined) {
+          res.sendStatus(404);
+        } else {
+          res.json({
+            description: stage.description
+          });
+        }
       }
     }
   );

@@ -13,12 +13,11 @@ export default function Draft(props) {
   const [editorState, setEditorState] = useState(createEditorState());
   const [unsaved, setUnsaved] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [prevContent, setPrevContent] = useState(null);
 
   const refsEditor = createRef();
   
-  const debounceSave = React.useCallback(debounce( newState => {
-    const contentState = newState.getCurrentContent();
-    const json = JSON.stringify(convertToRaw(contentState));
+  const debounceSave = React.useCallback(debounce( json => {
     const { id, phaseName, stageName } = props;
     saveDescription(id, phaseName, stageName, json);
     setUnsaved(false);
@@ -27,8 +26,14 @@ export default function Draft(props) {
   const handleChange = newState => {
     if (!loading) {
       setEditorState(newState);
-      debounceSave(newState);
-      setUnsaved(true);
+      
+      const contentState = newState.getCurrentContent();
+      const json = JSON.stringify(convertToRaw(contentState));
+      if (json !== prevContent) {
+        debounceSave(json);
+        setUnsaved(true);
+        setPrevContent(json);
+      }
     }
   };
 
@@ -37,12 +42,13 @@ export default function Draft(props) {
     const { id, phaseName, stageName } = props;
     getDescription(id, phaseName, stageName).then(data => {
       const description = data.data.description;
-      if (description !== null) {
-        setEditorState(
-          EditorState.createWithContent(convertFromRaw(JSON.parse(description)))
-        );
-        setLoading(false);
-      }
+      setEditorState(
+        EditorState.createWithContent(convertFromRaw(JSON.parse(description)))
+      );
+      setLoading(false);
+      setPrevContent(description);
+    }).catch(() => {
+      setLoading(false);
     });
   }, []);
 
@@ -55,7 +61,7 @@ export default function Draft(props) {
 
       <Row>
         <Col sm="9"></Col>
-        <Col sm="3" style={{color: "#aaa", 'text-align': "right"}}>{unsaved ? 'Saving...' : 'Saved'}</Col>
+        <Col sm="3" style={{color: "#aaa", 'text-align': "right"}}>{loading ? 'Loading...' : unsaved ? 'Saving...' : 'Saved'}</Col>
       </Row>
       <Editor
         ref={refsEditor}
