@@ -71,21 +71,21 @@ export default function ProjectsPage() {
         <div className="project-cards">
           <Row className="project-row">
             {projects &&
-              projects.map(proj => (
-                <Col key={proj._id} className="project-col">
+              projects.map(project => (
+                <Col key={project._id} className="project-col">
                   <CardGroup>
                     <Link
                       href="projects/[projectId]"
-                      as={`projects/${proj._id}`}
+                      as={`projects/${project._id}`}
                     >
                       <Card className="project-card">
                         <CardText top width="100%" height="100%">
-                          <h3>{proj.name}</h3>
+                          <h3>{project.name}</h3>
                           <br />
-                          <p>{`${proj.description.slice(
+                          <p>{`${project.description.slice(
                             0,
                             DESCRIPTION_LENGTH
-                          )}${proj.description.length > DESCRIPTION_LENGTH &&
+                          )}${project.description.length > DESCRIPTION_LENGTH &&
                             "..."}`}</p>
                         </CardText>
                       </Card>
