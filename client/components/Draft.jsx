@@ -51,7 +51,7 @@ export default function Draft(props) {
   };
 
   useEffect(() => {
-    console.log('h');
+    console.log("h");
     refsEditor.current.focus();
     const { id, phaseName, stageName } = props;
     getDescription(id, phaseName, stageName)
