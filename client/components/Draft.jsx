@@ -1,4 +1,4 @@
-import React, { createRef, useState, useEffect } from "react";
+import React, { createRef, useState, useEffect, useCallback } from "react";
 import { DraftAddImage } from "../components";
 import { Row, Col } from "reactstrap";
 import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
@@ -18,14 +18,12 @@ export default function Draft(props) {
   const refsEditor = createRef();
 
   const saveInterval = 1000;
-  const debounceSave = React.useCallback(
-    debounce(json => {
-      const { id, phaseName, stageName } = props;
-      saveDescription(id, phaseName, stageName, json);
-      setUnsaved(false);
-    }, saveInterval),
-    []
-  );
+  const debounceSave = json => {
+    const { id, phaseName, stageName } = props;
+    saveDescription(id, phaseName, stageName, json);
+    setUnsaved(false);
+  };
+  const saveCallback = useCallback(debounce(debounceSave, saveInterval), []);
 
   const handleChange = newState => {
     if (!loading) {
@@ -34,7 +32,7 @@ export default function Draft(props) {
       const contentState = newState.getCurrentContent();
       const json = JSON.stringify(convertToRaw(contentState));
       if (json !== prevContent) {
-        debounceSave(json);
+        saveCallback(json);
         setUnsaved(true);
         setPrevContent(json);
       }
@@ -51,7 +49,6 @@ export default function Draft(props) {
   };
 
   useEffect(() => {
-    console.log("h");
     refsEditor.current.focus();
     const { id, phaseName, stageName } = props;
     getDescription(id, phaseName, stageName)
@@ -77,7 +74,7 @@ export default function Draft(props) {
 
       <Row>
         <Col sm="9"></Col>
-        <Col sm="3" style={{ color: "#aaa", textAlign: "right" }}>
+        <Col sm="3" className="draft-status">
           {status()}
         </Col>
       </Row>

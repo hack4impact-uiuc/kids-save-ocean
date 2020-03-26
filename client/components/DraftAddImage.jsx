@@ -11,7 +11,7 @@ export default function DraftAddImage(props) {
     const { close, getEditorState, setEditorState } = props;
     const file = e.target.files[0];
     if (file.type.indexOf("image/") === 0) {
-      let reader = new FileReader();
+      const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
         const src = reader.result;
