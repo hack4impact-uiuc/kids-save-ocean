@@ -1,5 +1,5 @@
 import React, { createRef, useState, useEffect } from "react";
-import { Head, DraftAddImage } from "../components";
+import { DraftAddImage } from "../components";
 import { Row, Col } from "reactstrap";
 import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
 import { Editor, createEditorState } from "medium-draft";
@@ -17,12 +17,13 @@ export default function Draft(props) {
 
   const refsEditor = createRef();
 
+  const saveInterval = 1000;
   const debounceSave = React.useCallback(
     debounce(json => {
       const { id, phaseName, stageName } = props;
       saveDescription(id, phaseName, stageName, json);
       setUnsaved(false);
-    }, 1000),
+    }, saveInterval),
     []
   );
 
@@ -40,7 +41,17 @@ export default function Draft(props) {
     }
   };
 
+  const status = () => {
+    if (loading) {
+      return "Loading...";
+    } else if (unsaved) {
+      return "Saving...";
+    }
+    return "Saved";
+  };
+
   useEffect(() => {
+    console.log('h');
     refsEditor.current.focus();
     const { id, phaseName, stageName } = props;
     getDescription(id, phaseName, stageName)
@@ -55,7 +66,7 @@ export default function Draft(props) {
       .catch(() => {
         setLoading(false);
       });
-  });
+  }, []);
 
   return (
     <div>
@@ -66,8 +77,8 @@ export default function Draft(props) {
 
       <Row>
         <Col sm="9"></Col>
-        <Col sm="3" style={{ color: "#aaa", "text-align": "right" }}>
-          {loading ? "Loading..." : unsaved ? "Saving..." : "Saved"}
+        <Col sm="3" style={{ color: "#aaa", textAlign: "right" }}>
+          {status()}
         </Col>
       </Row>
       <Editor
