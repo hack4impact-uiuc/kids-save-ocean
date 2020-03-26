@@ -34,13 +34,11 @@ export default function EditProjectPage() {
       const project = await getModelsByID(id);
 
       if (project === null) {
-        console.log(project);
         setAlert(false);
         setTitle(project.data[0].name);
         setDescription(project.data[0].description);
       } else {
         setAlert(true);
-        console.log(visAlert);
       }
     };
 
