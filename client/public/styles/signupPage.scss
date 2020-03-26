@@ -1,0 +1,22 @@
+.home-block-1-ep {
+    margin-right: 5%;
+    margin-left: 5%;
+    margin-top: 5%;
+    background-image: radial-gradient(
+        50% 141%,
+        rgba(11, 47, 129, 0.6) 1%,
+        rgba(43, 134, 161, 0.651) 100%
+      ),
+      url("/asset/images/splash.jpg");
+    background-size: cover;
+    background-position: center;
+    height: auto;
+    width: auto;
+    opacity: 1;
+    align-content: middle;
+  }
+.stock-photo{
+    margin-top: 1%;
+    background-color: blue;
+    height: 5%;
+}
