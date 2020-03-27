@@ -71,21 +71,29 @@ export default function ProjectsPage() {
         <div className="project-cards">
           <Row className="project-row">
             {projects &&
-              projects.map(proj => (
-                <Col key={proj._id} className="project-col">
+              projects.map(project => (
+                <Col key={project._id} className="project-col">
                   <CardGroup>
-                    <Link href={`projects/${proj._id}`}>
-                      <Card className="project-card">
-                        <CardText top width="100%" height="100%">
-                          <h3>{proj.name}</h3>
-                          <br />
-                          <p>{`${proj.description.slice(
-                            0,
-                            DESCRIPTION_LENGTH
-                          )}${proj.description.length > DESCRIPTION_LENGTH &&
-                            "..."}`}</p>
-                        </CardText>
-                      </Card>
+                    <Link
+                      href="/projects/[projectId]"
+                      as={`/projects/${project._id}`}
+                      passHref
+                    >
+                      <a>
+                        <Card className="project-card">
+                          <CardText width="100%" height="100%">
+                            <div className="project-card-name">
+                              {project.name}
+                            </div>
+                            <br />
+                            {`${project.description.slice(
+                              0,
+                              DESCRIPTION_LENGTH
+                            )}${project.description.length >
+                              DESCRIPTION_LENGTH && "..."}`}
+                          </CardText>
+                        </Card>
+                      </a>
                     </Link>
                   </CardGroup>
                 </Col>

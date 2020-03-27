@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { Head } from "../../../../components";
 import { Button } from "reactstrap";
-// import mockData from "../../../../utils/mockData";
 import { getModelsByID } from "../../../../utils/apiWrapper";
 
 import "../../../../public/styles/stage.scss";
@@ -52,8 +51,10 @@ export default function StagePage() {
           </div>
         </>
       )}
-      <Link href={`/projects/${projectId}`}>
-        <Button color="danger">Return</Button>
+      <Link href="/projects/[projectId]" as={`/projects/${projectId}`} passHref>
+        <a>
+          <Button color="danger">Return</Button>
+        </a>
       </Link>
     </div>
   );
