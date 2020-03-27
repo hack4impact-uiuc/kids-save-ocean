@@ -23,9 +23,9 @@ export default function EditProjectPage() {
   const [description, setDescription] = useState("");
   const id = "5e653b729a1cbfaba98adc5b";
   const ideationStages = [
-    ["Stage 1", "Description 1"],
-    ["Stage 2", "Description 2"],
-    ["Stage 3", "Description 3"]
+    ["Stage 1", "Description 1"]
+    // ["Stage 2", "Description 2"],
+    // ["Stage 3", "Description 3"]
   ];
   const toggle = () => setDropdownOpen(prevState => !prevState);
 
