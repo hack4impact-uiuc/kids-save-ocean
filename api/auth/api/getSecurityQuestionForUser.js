@@ -3,7 +3,7 @@ const { SERVER_URL } = require("./../utils/globalServerUrl");
 const router = require("express").Router();
 
 router.post("/getSecurityQuestionForUser", async function(req, res) {
-  const results = await fetch(`${SERVER_URL}/getSecurityQuestionForUser`, {
+  const results = await fetch(`${SERVER_URL}/securityQuestionForUser`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
