@@ -108,7 +108,7 @@ export const deleteForm = Model_ID => {
 
 export const register = (emailInput, passwordInput, questionIdx, answer) => {
   try {
-    return fetch(`http://localhost:5000/auth/register/`, {
+    return fetch(`${BASE_URL}/auth/register/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -127,7 +127,7 @@ export const register = (emailInput, passwordInput, questionIdx, answer) => {
 
 export const login = (emailInput, passwordInput) => {
   try {
-    return fetch(`http://localhost:5000/auth/login`, {
+    return fetch(`${BASE_URL}/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -142,7 +142,7 @@ export const login = (emailInput, passwordInput) => {
 
 export const verify = () => {
   try {
-    return fetch(`http://localhost:5000/auth/verify/`, {
+    return fetch(`${BASE_URL}/auth/verify/`, {
       method: "POST",
       headers: { "Content-Type": "application/json", token: getCookie("token") }
     });
@@ -153,7 +153,7 @@ export const verify = () => {
 
 export const getSecurityQuestions = () => {
   try {
-    return fetch("http://localhost:5000/auth/getSecurityQuestions", {
+    return fetch(`${BASE_URL}/auth/getSecurityQuestions`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -167,7 +167,7 @@ export const getSecurityQuestions = () => {
 
 export const setSecurityQuestion = (questionIdx, answer, password) => {
   try {
-    return fetch(`http://localhost:5000/auth/addSecurityQuestionAnswer`, {
+    return fetch(`${BASE_URL}/auth/addSecurityQuestionAnswer`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -186,7 +186,7 @@ export const setSecurityQuestion = (questionIdx, answer, password) => {
 
 export const getSecurityQuestionForUser = email => {
   try {
-    return fetch(`http://localhost:5000/auth/getSecurityQuestionForUser`, {
+    return fetch(`${BASE_URL}/auth/getSecurityQuestionForUser`, {
       method: "POST",
       body: JSON.stringify({
         email
@@ -200,7 +200,7 @@ export const getSecurityQuestionForUser = email => {
 
 export const submitSecurityQuestionAnswer = (email, answer, questionIdx) => {
   try {
-    return fetch(`http://localhost:5000/auth/forgotPassword`, {
+    return fetch(`${BASE_URL}/auth/forgotPassword`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -216,7 +216,7 @@ export const submitSecurityQuestionAnswer = (email, answer, questionIdx) => {
 
 export const resetPassword = (pin, email, password, answer) => {
   try {
-    return fetch(`http://localhost:5000/auth/passwordReset`, {
+    return fetch(`${BASE_URL}/auth/passwordReset`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -233,7 +233,7 @@ export const resetPassword = (pin, email, password, answer) => {
 
 export const changePassword = (currentPassword, newPassword) => {
   try {
-    return fetch(`http://localhost:5000/auth/changePassword`, {
+    return fetch(`${BASE_URL}/auth/changePassword`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -251,7 +251,7 @@ export const changePassword = (currentPassword, newPassword) => {
 
 export const getUsersForRolesPage = () => {
   try {
-    return fetch(`http://localhost:5000/auth/roles`, {
+    return fetch(`${BASE_URL}/auth/roles`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -266,7 +266,7 @@ export const getUsersForRolesPage = () => {
 
 export const changeRole = (userEmail, newRole, password) => {
   try {
-    return fetch(`http://localhost:5000/auth/roleschange`, {
+    return fetch(`${BASE_URL}/auth/roleschange`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -286,7 +286,7 @@ export const changeRole = (userEmail, newRole, password) => {
 
 export const google = tokenId => {
   try {
-    return fetch(`http://localhost:5000/auth/google`, {
+    return fetch(`${BASE_URL}/auth/google`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -303,7 +303,7 @@ export const google = tokenId => {
 
 export const verifyPIN = pin => {
   try {
-    return fetch(`http://localhost:5000/auth/verifyEmail`, {
+    return fetch(`${BASE_URL}/auth/verifyEmail`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -320,7 +320,7 @@ export const verifyPIN = pin => {
 
 export const resendPIN = () => {
   try {
-    return fetch(`http://localhost:5000/auth/resendVerificationEmail`, {
+    return fetch(`${BASE_URL}/auth/resendVerificationEmail`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -334,7 +334,7 @@ export const resendPIN = () => {
 
 export const userInfo = () => {
   try {
-    return fetch(`http://localhost:5000/auth/getUser`, {
+    return fetch(`${BASE_URL}/auth/getUser`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
