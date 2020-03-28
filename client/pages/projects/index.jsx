@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { Head } from "../../components";
 import Select from "react-select";
@@ -16,9 +16,10 @@ import {
   Input,
   Row
 } from "reactstrap";
-import "../../public/styles/home.scss";
-import "../../public/styles/project.scss";
+
 import "../../public/styles/projects.scss";
+
+const DESCRIPTION_LENGTH = 200;
 
 export default function ProjectsPage() {
   const [projects, setProjects] = useState(null);
@@ -38,29 +39,12 @@ export default function ProjectsPage() {
     <>
       <Head title="Project Explorer" />
       <Container>
-        <Row className="projects-top-row">
-          <div className="search-bar">
-            <Input type="text" className="input" placeholder="Find a project" />
-          </div>
-          <a
-            className="asoc"
-            href="https://www.google.com"
-            className="notifications-icon"
-          >
-            <i className="fa fa-bell" aria-hidden="true"></i>
-          </a>
-
-          <a
-            className="asoc"
-            href="https://www.google.com"
-            className="user-icon"
-          >
-            <i className="fa fa-user" aria-hidden="true"></i>
-          </a>
-        </Row>
+        <div className="search-bar">
+          <Input type="text" className="input" placeholder="Find a project" />
+        </div>
         <div className="dropdowns">
           <Select
-            isMulti={true}
+            isMulti
             className="un-goals-list"
             options={UNGoalData}
             placeholder="Select UN Goals"
@@ -69,19 +53,19 @@ export default function ProjectsPage() {
             className="country-list"
             options={countryData}
             placeholder="Search country"
-            isClearable={true}
+            isClearable
           />
           <Select
             className="grp-sizes-list"
             options={groupSizeData}
             placeholder="Select group size"
-            isClearable={true}
+            isClearable
           />
           <Select
             className="difficulty-list"
             options={levelData}
             placeholder="Select difficulty"
-            isClearable={true}
+            isClearable
           />
         </div>
         <div className="project-cards">
@@ -95,8 +79,11 @@ export default function ProjectsPage() {
                         <CardText top width="100%" height="100%">
                           <h3>{proj.name}</h3>
                           <br />
-                          <p>{`${proj.description.slice(0, 200)}${proj
-                            .description.length > 200 && "..."}`}</p>
+                          <p>{`${proj.description.slice(
+                            0,
+                            DESCRIPTION_LENGTH
+                          )}${proj.description.length > DESCRIPTION_LENGTH &&
+                            "..."}`}</p>
                         </CardText>
                       </Card>
                     </Link>
