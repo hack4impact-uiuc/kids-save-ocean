@@ -18,6 +18,8 @@ import {
 } from "reactstrap";
 import { setCookie } from "./../utils/cookie";
 import Router from "next/router";
+import { Head } from "../components";
+import "../public/styles/auth.scss";
 
 const EMAIL_REGEX =
   "([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)@([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+).([a-zA-Z]{2,3}).?([a-zA-Z]{0,3})";
@@ -47,6 +49,7 @@ class ForgotPasswordPage extends Component {
     console.log(email);
     const result = await getSecurityQuestionForUser(email);
     const resp = await result.json();
+    console.log(result);
     if (resp.question) {
       this.setState({ question: resp.question, errorMessage: "" });
     } else {
@@ -100,74 +103,77 @@ class ForgotPasswordPage extends Component {
     } = this.state;
     return (
       <div>
+        <Head />
         {errorMessage !== "" && <Alert color="danger">{errorMessage}</Alert>}
         {submitNewPassword ? (
-          <Card
-            className="interview-card"
-            style={{ width: "400px", height: "60%" }}
-          >
-            <CardTitle>
-              <h3 style={{ textAlign: "center", paddingTop: "10px" }}>
-                Reset Password
-              </h3>
-            </CardTitle>
-
-            <CardBody>
-              <Form>
-                <FormGroup>
-                  <Label>Pin</Label>
-                  <Input
-                    name="pin"
-                    value={pin}
-                    onChange={this.handleChange}
-                    required
-                  />
-                </FormGroup>
-                <FormGroup>
-                  <Label>Password</Label>
-                  <Input
-                    type="password"
-                    name="password"
-                    minLength="8"
-                    maxLength="64"
-                    value={password}
-                    onChange={this.handleChange}
-                    required
-                  />
-                </FormGroup>
-                <FormGroup>
-                  <Label>Confirm Password</Label>
-                  <Input
-                    type="password"
-                    name="password2"
-                    minLength="8"
-                    maxLength="64"
-                    value={password2}
-                    onChange={this.handleChange}
-                    required
-                  />
-                </FormGroup>
-                <Button
-                  color="success"
-                  size="lg"
-                  onClick={this.handleSubmitNewPassword}
-                  style={{ float: "left", width: "100%" }}
-                >
+          <div className="auth-card-wrapper">
+            <Card
+              className="auth-card"
+              style={{ width: "400px", height: "60%" }}
+            >
+              <CardTitle>
+                <h3 style={{ textAlign: "center", paddingTop: "10px" }}>
                   Reset Password
-                </Button>{" "}
-              </Form>
-            </CardBody>
-            <div style={{ textAlign: "center" }}>
-              <Link prefetch href="/login">
-                <a>Back to login page</a>
-              </Link>
-            </div>
-          </Card>
+                </h3>
+              </CardTitle>
+
+              <CardBody>
+                <Form>
+                  <FormGroup>
+                    <Label>Pin</Label>
+                    <Input
+                      name="pin"
+                      value={pin}
+                      onChange={this.handleChange}
+                      required
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <Label>Password</Label>
+                    <Input
+                      type="password"
+                      name="password"
+                      minLength="8"
+                      maxLength="64"
+                      value={password}
+                      onChange={this.handleChange}
+                      required
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <Label>Confirm Password</Label>
+                    <Input
+                      type="password"
+                      name="password2"
+                      minLength="8"
+                      maxLength="64"
+                      value={password2}
+                      onChange={this.handleChange}
+                      required
+                    />
+                  </FormGroup>
+                  <Button
+                    color="success"
+                    size="lg"
+                    onClick={this.handleSubmitNewPassword}
+                    style={{ float: "left", width: "100%" }}
+                  >
+                    Reset Password
+                  </Button>{" "}
+                </Form>
+              </CardBody>
+              <div style={{ textAlign: "center" }}>
+                <Link prefetch href="/login">
+                  <a>Back to login page</a>
+                </Link>
+              </div>
+            </Card>
+          </div>
         ) : (
-          <div>
+          <div className="auth-card-wrapper">
             {question === "" ? (
               <Card
-                className="interview-card"
+                className="auth-card"
                 style={{ width: "400px", height: "60%" }}
               >
                 <CardTitle>
@@ -211,7 +217,7 @@ class ForgotPasswordPage extends Component {
               </Card>
             ) : (
               <Card
-                className="interview-card"
+                className="auth-card"
                 style={{ width: "400px", height: "60%" }}
               >
                 <CardTitle>
