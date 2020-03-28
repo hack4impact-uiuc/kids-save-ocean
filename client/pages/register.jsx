@@ -5,8 +5,7 @@ import {
   verifyPIN,
   resendPIN,
   google,
-  getSecurityQuestions,
-  setSecurityQuestion
+  getSecurityQuestions
 } from "../utils/apiWrapper";
 import {
   Form,
@@ -81,6 +80,7 @@ export default class extends Component {
   async componentDidMount() {
     this.setState({ loading: true });
     const resp = await getSecurityQuestions();
+    console.log(resp);
     if (!resp) {
       this.setState({ error: "unable to load data" });
       return;
