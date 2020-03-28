@@ -5,9 +5,9 @@ import Select from "react-select";
 import React from "react";
 export default function() {
   const options = [
-    { value: "chocolate", label: "Chocolate" },
-    { value: "strawberry", label: "Strawberry" },
-    { value: "vanilla", label: "Vanilla" }
+    { value: "student", label: "Student" },
+    { value: "teacher", label: "Teacher" },
+    { value: "stakeholder", label: "Stakeholder" }
   ];
   return (
     <>
