@@ -1,21 +1,57 @@
+body {
+  font-family: "Source Sans Pro", sans-serif;
+  font-family: "Open Sans", sans-serif;
+}
 .home-block-1 {
+  background-image: radial-gradient(
+      50% 141%,
+      rgba(12, 64, 184, 0.6) 1%,
+      rgba(36, 167, 149, 0.651) 100%
+    ),
+    url("/asset/images/splash.jpg");
+  background-size: cover;
+  background-position: center;
+  height: 60vh;
+  width: auto;
+  opacity: 0.99;
+  align-content: middle;
+}
+.home-block-col {
+  margin: auto;
+}
+.modal-row {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+.bottom-row {
+  margin-top: 3em;
+}
+.modal-form {
+  color: black;
+  text-align: left;
+  font-size: 1.15em;
+}
+.modal-form-2 {
+  color: black;
+  font-size: 1.15em;
+}
+.form-input {
+  border-radius: 10px;
+}
+.form-input-description {
+  border-radius: 10px;
+  height: 10em;
+}
+
+.first-row {
+  height: 0.75em;
   background-image: radial-gradient(
       50% 141%,
       rgba(11, 47, 129, 0.6) 1%,
       rgba(43, 134, 161, 0.651) 100%
     ),
     url("/asset/images/splash.jpg");
-  background-size: cover;
-  background-position: center;
-  height: auto;
-  width: auto;
-  opacity: 1;
-  align-content: middle;
 }
-.home-block-col {
-  margin: auto;
-}
-
 .header2-text {
   color: black;
   font-weight: bold;
@@ -31,6 +67,14 @@
   font-weight: bold;
   text-align: left;
 }
+.header-modal-text {
+  color: black;
+  font-weight: bold;
+  font-size: 2em;
+  text-align: center;
+  align-content: center;
+  width: 100%;
+}
 
 .body-text {
   color: white;
@@ -40,7 +84,7 @@
   margin-bottom: 30px;
 }
 .page-title {
-  padding: 30px;
+  padding: 1.5em;
 }
 
 .padded-container {
@@ -74,6 +118,10 @@
   height: 200px;
   font-size: 13px;
 }
+.select-sdg {
+  width: 10em;
+  border-radius: 10em;
+}
 .sdg-card:hover {
   border-width: 2px;
   border-color: darkblue;
@@ -84,4 +132,48 @@
 }
 .sdg-col {
   padding: 0px;
+}
+.button-design {
+  background-color: rgba(5, 7, 126, 0.616);
+  border-color: rgba(12, 46, 240, 0.685);
+
+  a {
+    color: #fff;
+  }
+}
+.button-design:hover {
+  background-color: rgba(5, 46, 143, 0.6);
+  border-color: rgba(12, 46, 240, 0.685);
+}
+.button-design-2 {
+  background-color: rgba(5, 7, 126, 0.616);
+  border-color: rgba(12, 46, 240, 0.685);
+  border-radius: 1em;
+  width: 30%;
+}
+.button-design-2:hover {
+  background-color: rgba(5, 46, 143, 0.6);
+  border-color: rgba(12, 46, 240, 0.685);
+}
+
+.project-form-modal {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  max-width: none;
+
+  .modal-content {
+    padding: 2em;
+    width: 40vw;
+    margin: 0;
+  }
+
+  .modal-header {
+    justify-content: center;
+  }
+
+  .modal-footer {
+    justify-content: center;
+  }
 }

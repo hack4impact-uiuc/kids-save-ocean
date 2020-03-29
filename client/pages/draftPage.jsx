@@ -1,80 +1,60 @@
-import React, { Component } from "react";
-import { Head } from "../components";
-import { Row, Col, Container } from "reactstrap";
-
-import DraftAddImage from "../components/DraftAddImage.jsx";
-
-import "../public/medium-draft.scss";
-
+import React, { createRef, useState, useEffect } from "react";
+import { Head, Draft } from "../components";
+import { Container } from "reactstrap";
 import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
 import { Editor, createEditorState } from "medium-draft";
 
-class DraftPage extends Component {
-  constructor(props) {
-    super(props);
+import "../public/styles/medium-draft.scss";
 
-    this.state = {
-      editorState: createEditorState()
-    };
+export default function DraftPage() {
+  const [editorState, setEditorState] = useState(createEditorState());
 
-    this.onChange = editorState => {
-      this.setState({ editorState: editorState });
-    };
+  const refsEditor = createRef();
 
-    this.refsEditor = React.createRef();
-  }
+  const handleChange = newState => setEditorState(newState);
 
-  componentDidUpdate() {
-    const contentState = this.state.editorState.getCurrentContent();
+  useEffect(() => {
+    refsEditor.current.focus();
+    const content = localStorage.getItem("content");
+    if (content !== null) {
+      setEditorState(
+        EditorState.createWithContent(convertFromRaw(JSON.parse(content)))
+      );
+    }
+  }, [refsEditor, setEditorState]);
+
+  useEffect(() => {
+    const contentState = editorState.getCurrentContent();
     const json = JSON.stringify(convertToRaw(contentState));
     localStorage.setItem("content", json);
-  }
+  }, [editorState]);
 
-  componentDidMount() {
-    this.refsEditor.current.focus();
+  return (
+    <div>
+      <Head />
+      <Container>
+        <div className="page-title">
+          <h1 className="header2-text" align="center">
+            <strong>Draft Your Project! or some shit</strong>
+          </h1>
+        </div>
+        <link
+          rel="stylesheet"
+          href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"
+        />
 
-    const content = localStorage.getItem("content");
-    console.log(content);
-
-    if (content) {
-      this.setState({
-        editorState: EditorState.createWithContent(
-          convertFromRaw(JSON.parse(content))
-        )
-      });
-    }
-  }
-
-  render() {
-    return (
-      <div>
-        <Head />
-        <Container>
-          <div className="page-title">
-            <h1 className="header2-text" align="center">
-              <strong>Draft Your Project! or some shit</strong>
-            </h1>
-          </div>
-          <link
-            rel="stylesheet"
-            href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"
-          />
-
-          <Editor
-            ref={this.refsEditor}
-            editorState={this.state.editorState}
-            onChange={this.onChange}
-            sideButtons={[
-              {
-                title: "Image",
-                component: DraftAddImage
-              }
-            ]}
-          />
-        </Container>
-      </div>
-    );
-  }
+        <Editor
+          ref={refsEditor}
+          editorState={editorState}
+          onChange={handleChange}
+          sideButtons={[
+            {
+              title: "Image",
+              component: Draft
+            }
+          ]}
+        />
+      </Container>
+    </div>
+  );
 }
-
-export default DraftPage;
