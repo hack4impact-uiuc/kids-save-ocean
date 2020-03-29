@@ -50,16 +50,16 @@
 }
 
 .project-card {
-  padding: 2em;
   display: flex;
   height: 300px;
   width: 350px;
-  max-width: 350px;
   cursor: pointer;
-  margin-top: 50px;
+  margin-top: 2em;
   font-size: 13px;
-}
+  padding: 2em;
+  color: #000;
 
-.padding {
-  margin-top: 30px;
+  .project-card-name {
+    font-size: 24px;
+  }
 }
