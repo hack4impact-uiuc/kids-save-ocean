@@ -167,8 +167,7 @@ class Register extends Component {
       pinMessage,
       questionIdx,
       questions,
-      dropdownOpen,
-      passwordChangeMessage
+      dropdownOpen
     } = this.state;
     const { role } = this.props;
     return (
@@ -294,10 +293,16 @@ class Register extends Component {
           <div className="auth-card-wrapper">
             <Card className="auth-card">
               <CardBody>
-                {pinMessage && (
-                  <Alert className="auth-alert" color="success">
+                {pinMessage === "Invalid request" ? (
+                  <Alert className="auth-alert" color="danger">
                     {pinMessage}
                   </Alert>
+                ) : (
+                  pinMessage && (
+                    <Alert className="auth-alert" color="success">
+                      {pinMessage}
+                    </Alert>
+                  )
                 )}
                 <Form>
                   <FormGroup>
@@ -334,7 +339,6 @@ class Register extends Component {
                     </Link>
                   </div>
                 </Form>
-                {passwordChangeMessage}
               </CardBody>
             </Card>
           </div>
