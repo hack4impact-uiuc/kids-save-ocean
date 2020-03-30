@@ -86,11 +86,11 @@ export default function Draft(props) {
           {
             title: "Image",
             component: DraftAddImage,
-            props: { 
-                modelId: props.id, 
-                phaseName: props.phaseName,
-                stageName: props.stageName
-            },
+            props: {
+              modelId: props.id,
+              phaseName: props.phaseName,
+              stageName: props.stageName
+            }
           }
         ]}
       />
