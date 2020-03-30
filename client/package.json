@@ -26,6 +26,8 @@
     "axios": "^0.19.2",
     "classnames": "^2.2.6",
     "css-loader": "^3.4.2",
+    "fuse.js": "^5.0.10-beta",
+    "jquery": "^3.4.1",
     "lodash": "^4.17.15",
     "medium-draft": "^0.5.18",
     "next": "^9.3.1",

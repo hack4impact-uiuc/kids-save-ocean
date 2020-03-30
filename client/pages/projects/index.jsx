@@ -20,6 +20,8 @@ import {
 
 import "../../public/styles/projects.scss";
 
+import $ from "jquery";
+
 const DESCRIPTION_LENGTH = 200;
 
 export default function ProjectsPage() {
@@ -30,10 +32,85 @@ export default function ProjectsPage() {
       const numProjects = 20;
 
       const models = await getModels();
-      setProjects(models.data.slice(0, numProjects));
+
+      if (models == undefined) {
+        // handling no data (projects) for now
+        console.log("undefined");
+      } else {
+        setProjects(models.data.slice(0, numProjects));
+      }
+    };
+
+    var getSelectedUNGoals = async () => {
+      $(document).ready(function() {
+        $("select.un-goals-list").change(function() {
+          var selectedGoals = [];
+          $.each($(".un-goals-list option:selected"), function() {
+            selectedGoals.push($(this).val());
+          });
+
+          if (selectedGoals == undefined) {
+            return undefined;
+          }
+
+          return selectedGoals;
+        });
+      });
+    };
+
+    var getSelectedCountry = async () => {
+      $(document).ready(function() {
+        $("select.country-list").change(function() {
+          var selectedCountry = $(this)
+            .children("option:selected")
+            .val();
+
+          if (selectedCountry == undefined) {
+            return undefined;
+          }
+
+          return selectedCountry;
+        });
+      });
+    };
+
+    var getSelectedGrpSize = async () => {
+      $(document).ready(function() {
+        $("select.grp-sizes-list").change(function() {
+          var selectedGrpSize = $(this)
+            .children("option:selected")
+            .val();
+
+          if (selectedGrpSize == undefined) {
+            return undefined;
+          }
+
+          return selectedGrpSize;
+        });
+      });
+    };
+
+    var getDifficulty = async () => {
+      $(document).ready(function() {
+        $("select.difficulty-list").change(function() {
+          var selectedDifficulty = $(this)
+            .children("option:selected")
+            .val();
+
+          if (selectedDifficulty == undefined) {
+            return undefined;
+          }
+
+          return selectedDifficulty;
+        });
+      });
     };
 
     populateProjects();
+    getSelectedUNGoals();
+    getSelectedCountry();
+    getSelectedGrpSize();
+    getDifficulty();
   }, []);
 
   return (
