@@ -1,10 +1,9 @@
 import axios from "axios";
 import fetch from "isomorphic-unfetch";
-
 import { getCookie } from "./cookie";
 
-const BASE_URL = "http://localhost:3000";
-// const BASE_URL = "http://52.240.158.249:5000"; // leave this in, this is Arpan's url
+const BASE_URL = process.env.BACKEND_URL ?? "http://localhost:5000/api";
+// const BASE_URL = process.env.BACKEND_URL ?? "http://52.240.158.249:5000/api"; // leave this in, this is Arpan's url
 
 export const getModels = (sdg_query = null) => {
   /**
@@ -106,6 +105,7 @@ export const deleteForm = Model_ID => {
     });
 };
 
+<<<<<<< HEAD
 export const register = (emailInput, passwordInput, questionIdx, answer) => {
   try {
     return fetch(`http://localhost:3000/register/`, {
@@ -345,4 +345,35 @@ export const userInfo = () => {
   } catch (err) {
     console.log(err);
   }
+=======
+export const saveDescription = (
+  model_id,
+  phaseName,
+  stageName,
+  description
+) => {
+  const requestString = `${BASE_URL}/models/${model_id}/${phaseName}/${stageName}/description`;
+  return axios
+    .post(
+      requestString,
+      { description },
+      {
+        headers: {
+          "Content-Type": "application/JSON"
+        }
+      }
+    )
+    .catch(error => ({
+      type: "SAVE_DESCRIPTION_FAIL",
+      error
+    }));
+};
+
+export const getDescription = (model_id, phaseName, stageName) => {
+  const requestString = `${BASE_URL}/models/${model_id}/${phaseName}/${stageName}/description`;
+  return axios.get(requestString).catch(error => ({
+    type: "GET_DESCRIPTION_FAIL",
+    error
+  }));
+>>>>>>> 7ca5330f56ef2c24ad7073eaf58ecbeac761e421
 };
