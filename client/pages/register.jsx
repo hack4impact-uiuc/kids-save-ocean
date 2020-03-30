@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Link from "next/link";
 import Router from "next/router";
 import {
   register,
@@ -8,6 +9,7 @@ import {
   getSecurityQuestions
 } from "../utils/apiWrapper";
 import {
+  Alert,
   Form,
   Button,
   FormGroup,
@@ -177,11 +179,14 @@ class Register extends Component {
             <div className="auth-card-wrapper">
               <Card className="auth-card">
                 <CardTitle>
-                  <h3 style={{ textAlign: "center", paddingTop: "10px" }}>
-                    Register
-                  </h3>
+                  <h3 className="auth-card-title">Register</h3>
                 </CardTitle>
                 <CardBody>
+                  {errorMessage && (
+                    <Alert className="auth-alert" color="danger">
+                      {errorMessage}
+                    </Alert>
+                  )}
                   <Form>
                     <FormGroup>
                       <Label for="exampleEmail">Email</Label>
@@ -221,7 +226,11 @@ class Register extends Component {
                       />
                     </FormGroup>
                     <FormGroup>
-                      <Dropdown isOpen={dropdownOpen} toggle={this.toggle}>
+                      <Dropdown
+                        className="security-select"
+                        isOpen={dropdownOpen}
+                        toggle={this.toggle}
+                      >
                         <DropdownToggle caret>
                           {questionIdx === INVALID
                             ? "Security Question"
@@ -252,24 +261,20 @@ class Register extends Component {
                     </FormGroup>
                     <Button
                       color="success"
-                      size="lg"
+                      size="m"
                       onClick={this.handleSubmit}
-                      style={{ float: "left", width: "48%" }}
+                      className="left-btn"
                     >
                       Register
-                    </Button>{" "}
+                    </Button>
                     <Button
                       color="success"
-                      size="lg"
+                      size="m"
                       onClick={() => Router.push("/login")}
-                      style={{ float: "right", width: "49%" }}
+                      className="right-btn"
                     >
                       Login
                     </Button>
-                    <br />
-                    <br />
-                    <br />
-                    <p style={{ color: "red" }}>{errorMessage}</p>
                   </Form>
                 </CardBody>
               </Card>
@@ -289,9 +294,13 @@ class Register extends Component {
           <div className="auth-card-wrapper">
             <Card className="auth-card">
               <CardBody>
+                {pinMessage && (
+                  <Alert className="auth-alert" color="success">
+                    {pinMessage}
+                  </Alert>
+                )}
                 <Form>
                   <FormGroup>
-                    <p style={{ color: "green" }}>{pinMessage}</p>
                     <Label>PIN</Label>
                     <Input
                       name="pin"
@@ -305,40 +314,25 @@ class Register extends Component {
                   </FormGroup>
                   <Button
                     color="success"
-                    size="lg"
+                    size="m"
                     onClick={this.handlePINResend}
-                    style={{
-                      float: "left",
-                      marginBottom: "3%",
-                      width: "100%"
-                    }}
+                    className="left-btn"
                   >
                     Resend PIN
                   </Button>
                   <Button
                     color="success"
-                    size="lg"
+                    size="m"
                     onClick={this.handlePINVerify}
-                    style={{
-                      float: "left",
-                      marginBotton: "3%",
-                      width: "100%"
-                    }}
+                    className="right-btn"
                   >
                     Verify Email
                   </Button>
-                  <Button
-                    color="link"
-                    size="sm"
-                    onClick={() => Router.push("/")}
-                    style={{
-                      float: "right",
-                      width: "25%",
-                      marginRight: "6%"
-                    }}
-                  >
-                    Skip Verification
-                  </Button>
+                  <div className="forgot-password">
+                    <Link href="/">
+                      <a>Skip verification</a>
+                    </Link>
+                  </div>
                 </Form>
                 {passwordChangeMessage}
               </CardBody>

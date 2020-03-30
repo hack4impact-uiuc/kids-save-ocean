@@ -121,7 +121,7 @@ export const register = (emailInput, passwordInput, questionIdx, answer) => {
       })
     });
   } catch (err) {
-    console.log(err.message);
+    return err;
   }
 };
 
@@ -136,7 +136,7 @@ export const login = (emailInput, passwordInput) => {
       })
     });
   } catch (err) {
-    console.log(err);
+    return err;
   }
 };
 
@@ -147,7 +147,7 @@ export const verify = () => {
       headers: { "Content-Type": "application/json", token: getCookie("token") }
     });
   } catch (err) {
-    console.log(err);
+    return err;
   }
 };
 
@@ -180,7 +180,7 @@ export const setSecurityQuestion = (questionIdx, answer, password) => {
       })
     });
   } catch (err) {
-    console.log(err);
+    return err;
   }
 };
 
@@ -194,7 +194,7 @@ export const getSecurityQuestionForUser = email => {
       headers: { email: email, "Content-Type": "application/json" }
     });
   } catch (err) {
-    console.log(err);
+    return err;
   }
 };
 
@@ -210,7 +210,7 @@ export const submitSecurityQuestionAnswer = (email, answer, questionIdx) => {
       })
     });
   } catch (err) {
-    console.log(err);
+    return err;
   }
 };
 
@@ -227,7 +227,7 @@ export const resetPassword = (pin, email, password, answer) => {
       })
     });
   } catch (err) {
-    console.log(err);
+    return err;
   }
 };
 
@@ -245,7 +245,7 @@ export const changePassword = (currentPassword, newPassword) => {
       })
     });
   } catch (err) {
-    console.log(err);
+    return err;
   }
 };
 
@@ -260,7 +260,7 @@ export const getUsersForRolesPage = () => {
       }
     });
   } catch (err) {
-    console.log(err);
+    return err;
   }
 };
 
@@ -280,7 +280,7 @@ export const changeRole = (userEmail, newRole, password) => {
       })
     });
   } catch (err) {
-    console.log(err);
+    return err;
   }
 };
 
@@ -297,7 +297,7 @@ export const google = tokenId => {
       })
     });
   } catch (err) {
-    console.log(err);
+    return err;
   }
 };
 
@@ -314,7 +314,7 @@ export const verifyPIN = pin => {
       })
     });
   } catch (err) {
-    console.log(err);
+    return err;
   }
 };
 
@@ -328,7 +328,7 @@ export const resendPIN = () => {
       }
     });
   } catch (err) {
-    console.log(err);
+    return err;
   }
 };
 
@@ -343,7 +343,7 @@ export const userInfo = () => {
       }
     });
   } catch (err) {
-    console.log(err);
+    return err;
   }
 };
 

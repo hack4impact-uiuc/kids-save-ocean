@@ -2,6 +2,7 @@ import Link from "next/link";
 import Router from "next/router";
 import { login, google } from "../utils/apiWrapper";
 import {
+  Alert,
   Form,
   Button,
   FormGroup,
@@ -66,12 +67,17 @@ class Login extends Component {
       <div>
         <Head />
         <div className="auth-card-wrapper">
-          <Card className="auth-card" style={{ width: "400px", height: "60%" }}>
+          <Card className="auth-card">
             <CardTitle>
-              <h3 style={{ textAlign: "center", paddingTop: "10px" }}>Login</h3>
+              <h3 className="auth-card-title">Login</h3>
             </CardTitle>
 
             <CardBody>
+              {errorMessage && (
+                <Alert className="auth-alert" color="danger">
+                  {errorMessage}
+                </Alert>
+              )}
               <Form>
                 <FormGroup>
                   <Label for="exampleEmail">Email</Label>
@@ -100,32 +106,30 @@ class Login extends Component {
                   />
                 </FormGroup>
                 <Button
+                  className="left-btn"
                   color="success"
-                  size="lg"
+                  size="m"
                   onClick={this.handleSubmit}
-                  style={{ float: "left", width: "49%" }}
                 >
                   Log In
-                </Button>{" "}
+                </Button>
                 <Button
+                  className="right-btn"
                   color="success"
-                  size="lg"
+                  size="m"
                   onClick={() => Router.push("/register")}
-                  style={{ float: "right", width: "49%" }}
                 >
                   Register
                 </Button>
               </Form>
-              <p style={{ color: "red", paddingTop: "70px" }}>
-                {errorMessage ? errorMessage : ""}
-              </p>
-              <Link prefetch href="/forgotPassword">
-                <a>Forgot Password?</a>
-              </Link>
+              <div className="forgot-password">
+                <Link href="/forgotPassword">
+                  <a>Forgot Password?</a>
+                </Link>
+              </div>
             </CardBody>
           </Card>
         </div>
-        <br />
         <div className="google-btn-wrapper">
           <GoogleLogin
             className="btn sign-in-btn"

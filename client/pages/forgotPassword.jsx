@@ -44,12 +44,9 @@ class ForgotPasswordPage extends Component {
 
   handleGetSecurityQuestion = async e => {
     e.preventDefault();
-    console.log("HHERE");
     const { email } = this.state;
-    console.log(email);
     const result = await getSecurityQuestionForUser(email);
     const resp = await result.json();
-    console.log(result);
     if (resp.question) {
       this.setState({ question: resp.question, errorMessage: "" });
     } else {
@@ -59,7 +56,6 @@ class ForgotPasswordPage extends Component {
 
   handleSubmitSecurityAnswer = async e => {
     e.preventDefault();
-
     this.setState({ loadingAPI: true });
     const { email, answer } = this.state;
     const result = await submitSecurityQuestionAnswer(email, answer);
@@ -104,20 +100,19 @@ class ForgotPasswordPage extends Component {
     return (
       <div>
         <Head />
-        {errorMessage !== "" && <Alert color="danger">{errorMessage}</Alert>}
         {submitNewPassword ? (
           <div className="auth-card-wrapper">
-            <Card
-              className="auth-card"
-              style={{ width: "400px", height: "60%" }}
-            >
+            <Card className="auth-card">
               <CardTitle>
-                <h3 style={{ textAlign: "center", paddingTop: "10px" }}>
-                  Reset Password
-                </h3>
+                <h3 className="auth-card-title">Reset Password</h3>
               </CardTitle>
 
               <CardBody>
+                {errorMessage && (
+                  <Alert className="auth-alert" color="danger">
+                    {errorMessage}
+                  </Alert>
+                )}
                 <Form>
                   <FormGroup>
                     <Label>Pin</Label>
@@ -154,16 +149,16 @@ class ForgotPasswordPage extends Component {
                   </FormGroup>
                   <Button
                     color="success"
-                    size="lg"
+                    size="m"
                     onClick={this.handleSubmitNewPassword}
-                    style={{ float: "left", width: "100%" }}
+                    className="mid-btn"
                   >
                     Reset Password
-                  </Button>{" "}
+                  </Button>
                 </Form>
               </CardBody>
-              <div style={{ textAlign: "center" }}>
-                <Link prefetch href="/login">
+              <div className="back-to-login">
+                <Link href="/login">
                   <a>Back to login page</a>
                 </Link>
               </div>
@@ -172,17 +167,18 @@ class ForgotPasswordPage extends Component {
         ) : (
           <div className="auth-card-wrapper">
             {question === "" ? (
-              <Card
-                className="auth-card"
-                style={{ width: "400px", height: "60%" }}
-              >
+              <Card className="auth-card">
                 <CardTitle>
-                  <h3 style={{ textAlign: "center", paddingTop: "10px" }}>
-                    Reset Password
-                  </h3>
+                  <h3 className="auth-card-title">Reset Password</h3>
                 </CardTitle>
 
                 <CardBody>
+                  {errorMessage && (
+                    <Alert className="auth-alert" color="danger">
+                      {errorMessage}
+                    </Alert>
+                  )}
+
                   <Form>
                     <FormGroup>
                       <Label>Email</Label>
@@ -199,31 +195,24 @@ class ForgotPasswordPage extends Component {
                     </FormGroup>
                     <Button
                       color="success"
-                      size="lg"
+                      size="m"
                       onClick={this.handleGetSecurityQuestion}
-                      style={{ float: "right", width: "100%" }}
+                      className="mid-btn"
                     >
                       Get Security Question
                     </Button>
-
-                    {errorMessage}
                   </Form>
                 </CardBody>
-                <div style={{ textAlign: "center" }}>
-                  <Link prefetch href="/login">
+                <div className="back-to-login">
+                  <Link href="/login">
                     <a>Back to login page</a>
                   </Link>
                 </div>
               </Card>
             ) : (
-              <Card
-                className="auth-card"
-                style={{ width: "400px", height: "60%" }}
-              >
+              <Card className="auth-card">
                 <CardTitle>
-                  <h3 style={{ textAlign: "center", paddingTop: "10px" }}>
-                    Reset Password
-                  </h3>
+                  <h3 className="auth-card-title">Reset Password</h3>
                 </CardTitle>
 
                 <CardBody>
@@ -240,17 +229,17 @@ class ForgotPasswordPage extends Component {
                     </FormGroup>
                     <Button
                       color="success"
-                      size="lg"
+                      size="m"
                       onClick={this.handleSubmitSecurityAnswer}
-                      style={{ float: "right", width: "100%" }}
                       disabled={loadingAPI}
+                      className="mid-btn"
                     >
                       Submit Answer
                     </Button>
                   </Form>
                 </CardBody>
-                <div style={{ textAlign: "center" }}>
-                  <Link prefetch href="/login">
+                <div className="back-to-login">
+                  <Link href="/login">
                     <a>Back to login page</a>
                   </Link>
                 </div>
