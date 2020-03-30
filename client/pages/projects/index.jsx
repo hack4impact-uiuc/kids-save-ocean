@@ -14,13 +14,13 @@ import {
   Col,
   Container,
   Input,
-  Row,
-  CardBody
+  Row
 } from "reactstrap";
 
 import "../../public/styles/projects.scss";
 
 import $ from "jquery";
+import Fuse from "fuse.js";
 
 const DESCRIPTION_LENGTH = 200;
 
@@ -33,12 +33,40 @@ export default function ProjectsPage() {
 
       const models = await getModels();
 
-      if (models == undefined) {
-        // handling no data (projects) for now
-        console.log("undefined");
+      var userInput = getSearchBarText();
+
+      let options = {
+        minMatchCharLength: 1,
+        keys: ["", ""]
+      };
+
+      if (userInput == null) {
+        if (models == undefined) {
+          // handling no data (projects) for now
+          console.log("undefined");
+        } else {
+          setProjects(models.data.slice(0, numProjects));
+        }
       } else {
-        setProjects(models.data.slice(0, numProjects));
+        if (models == undefined) {
+          // handling no data (projects) for now
+          console.log("undefined");
+        } else {
+          let fuse = new Fuse(models.data, options);
+          let result = fuse.search(userInput);
+        }
       }
+
+      setProjects();
+      return result;
+    };
+
+    var getSearchBarText = async () => {
+      var text = await document.getElementById("user-input").value;
+
+      console.log(text);
+
+      return text;
     };
 
     var getSelectedUNGoals = async () => {
@@ -107,10 +135,6 @@ export default function ProjectsPage() {
     };
 
     populateProjects();
-    getSelectedUNGoals();
-    getSelectedCountry();
-    getSelectedGrpSize();
-    getDifficulty();
   }, []);
 
   return (
@@ -118,7 +142,12 @@ export default function ProjectsPage() {
       <Head title="Project Explorer" />
       <Container>
         <div className="search-bar">
-          <Input type="text" className="input" placeholder="Find a project" />
+          <Input
+            type="text"
+            className="input"
+            id="user-input"
+            placeholder="Find a project"
+          />
         </div>
         <div className="dropdowns">
           <Select
