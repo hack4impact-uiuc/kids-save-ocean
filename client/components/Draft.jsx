@@ -85,7 +85,12 @@ export default function Draft(props) {
         sideButtons={[
           {
             title: "Image",
-            component: DraftAddImage
+            component: DraftAddImage,
+            props: { 
+                modelId: props.id, 
+                phaseName: props.phaseName,
+                stageName: props.stageName
+            },
           }
         ]}
       />
