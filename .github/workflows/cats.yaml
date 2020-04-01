@@ -4,6 +4,7 @@ on: push
 
 jobs:
   cats:
+    runs-on: ubuntu-latest
     steps:
       - uses: ruairidhwm/action-cats@master
         with:
