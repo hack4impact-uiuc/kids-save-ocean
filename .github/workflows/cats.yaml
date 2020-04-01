@@ -1,0 +1,9 @@
+name: cats
+
+on: push
+
+jobs:
+  cats:
+    uses: ruairidhwm/action-cats@master
+    with:
+      GITHUB_TOKEN: ${{ secrets.CAT_TOKEN }}
