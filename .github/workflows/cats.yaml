@@ -4,6 +4,7 @@ on: push
 
 jobs:
   cats:
-    uses: ruairidhwm/action-cats@master
-    with:
-      GITHUB_TOKEN: ${{ secrets.CAT_TOKEN }}
+    steps:
+      - uses: ruairidhwm/action-cats@master
+        with:
+          GITHUB_TOKEN: ${{ secrets.CAT_TOKEN }}
