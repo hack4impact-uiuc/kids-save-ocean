@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Router from "next/router";
 import {
@@ -28,33 +28,54 @@ import { GoogleLogin } from "react-google-login";
 import { Head } from "../components";
 import "../public/styles/auth.scss";
 
-// michael's baby
-const EMAIL_REGEX =
-  "([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)@([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+).([a-zA-Z]{2,3}).?([a-zA-Z]{0,3})";
-const SUCCESS = 200;
-const INVALID = -1;
+export default function RegisterPage(props) {
+  // constants
+  // michael's baby
+  const EMAIL_REGEX =
+    "([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)@([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+).([a-zA-Z]{2,3}).?([a-zA-Z]{0,3})";
+  const SUCCESS = 200;
+  const INVALID = -1;
+  const { role } = props;
 
-class Register extends Component {
-  state = {
-    email: "",
-    password: "",
-    password2: "",
-    errorMessage: "",
-    pinMessage: "",
-    pin: "",
-    successfulSubmit: false,
-    loading: false,
-    questions: [],
-    questionIdx: INVALID,
-    dropdownOpen: false,
-    securityQuestionAnswer: ""
-  };
+  // state
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [password2, setPassword2] = useState("");
+  const [error, setError] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [pinMessage, setPinMessage] = useState("");
+  const [pin, setPin] = useState("");
+  const [securityQuestionAnswer, setSecurityQuestionAnswer] = useState("");
+  const [successfulSubmit, setSuccessfulSubmit] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [questions, setQuestions] = useState([]);
+  const [questionIdx, setQuestionIdx] = useState(-1);
 
-  handleGoogle = async e => {
+  useEffect(() => {
+    const loadSecurityQuestions = async () => {
+      setLoading(true);
+      const resp = await getSecurityQuestions();
+      if (!resp) {
+        setError("Unable to load data");
+        return;
+      }
+      const respJson = await resp.json();
+      if (respJson.questions) {
+        setQuestions(respJson.questions);
+      } else {
+        setLoading(false);
+        setErrorMessage(respJson.error.message);
+      }
+    };
+    loadSecurityQuestions();
+  });
+
+  const handleGoogle = async e => {
     const result = await google(e.tokenId);
     const resp = await result.json();
     if (resp.status !== SUCCESS) {
-      this.setState({ errorMessage: resp.message });
+      setErrorMessage(resp.message);
     } else {
       setCookie("token", e.tokenId);
       setCookie("google", true);
@@ -62,49 +83,16 @@ class Register extends Component {
     }
   };
 
-  pickDropDown = idx => {
-    this.setState({ questionIdx: idx });
-  };
-  toggle = () => {
-    const { dropdownOpen } = this.state;
-    this.setState({ dropdownOpen: !dropdownOpen });
+  const pickDropDown = idx => {
+    setQuestionIdx(idx);
   };
 
-  handleChange = event => {
-    const value = event.target.value;
-    const name = event.target.name;
-    this.setState({ [name]: value });
+  const toggle = () => {
+    setDropdownOpen(prevState => !prevState);
   };
 
-  handleChangeSecurityAnswer = event => {
-    const value = event.target.value;
-    this.setState({ securityQuestionAnswer: value });
-  };
-
-  async componentDidMount() {
-    this.setState({ loading: true });
-    const resp = await getSecurityQuestions();
-    if (!resp) {
-      this.setState({ error: "unable to load data" });
-      return;
-    }
-    const respJson = await resp.json();
-    if (respJson.questions) {
-      this.setState({ questions: respJson.questions });
-    } else {
-      this.setState({ loading: false, errorMessage: respJson.error.message });
-    }
-  }
-
-  handleSubmit = async e => {
+  const handleSubmit = async e => {
     e.preventDefault();
-    const {
-      password,
-      questionIdx,
-      securityQuestionAnswer,
-      email,
-      password2
-    } = this.state;
     if (
       password === password2 &&
       questionIdx !== INVALID &&
@@ -118,234 +106,211 @@ class Register extends Component {
       );
       const response = await result.json();
       if (!response.token) {
-        this.setState({ errorMessage: response.message });
+        setErrorMessage(response.message);
       } else {
         setCookie("token", response.token);
-        this.setState({ successfulSubmit: true });
+        setSuccessfulSubmit(true);
       }
     } else if (password !== password2) {
-      this.setState({ errorMessage: "Passwords do not match " });
+      setErrorMessage("Passwords do not match");
     } else if (questionIdx === INVALID) {
-      this.setState({ errorMessage: "Select a question" });
+      setErrorMessage("Select a question");
     } else if (!securityQuestionAnswer) {
-      this.setState({ errorMessage: "Answer not selected" });
+      setErrorMessage("Answer not selected");
     }
   };
 
-  handlePINVerify = async e => {
+  const handlePINVerify = async e => {
     e.preventDefault();
-    const { pin } = this.state;
     const result = await verifyPIN(pin);
     const response = await result.json();
-    this.setState({ pinMessage: response.message });
+    setPinMessage(response.message);
     if (response.status === SUCCESS) {
       Router.push("/");
     }
   };
 
-  handlePINResend = async e => {
+  const handlePINResend = async e => {
     e.preventDefault();
     const result = await resendPIN();
     const response = await result.json();
-    this.setState({ pinMessage: response.message });
+    setPinMessage(response.message);
   };
 
-  roletoggle = () => {
-    const { roleDropdownOpen } = this.state;
-    this.setState({ roleDropdownOpen: !roleDropdownOpen });
-  };
-
-  render = () => {
-    const {
-      successfulSubmit,
-      email,
-      password,
-      password2,
-      securityQuestionAnswer,
-      errorMessage,
-      pin,
-      pinMessage,
-      questionIdx,
-      questions,
-      dropdownOpen
-    } = this.state;
-    const { role } = this.props;
-    return (
-      <div>
-        <Head />
-        {!successfulSubmit ? (
-          <div>
-            <div className="auth-card-wrapper">
-              <Card className="auth-card">
-                <CardTitle>
-                  <h3 className="auth-card-title">Register</h3>
-                </CardTitle>
-                <CardBody>
-                  {errorMessage && (
-                    <Alert className="auth-alert" color="danger">
-                      {errorMessage}
-                    </Alert>
-                  )}
-                  <Form>
-                    <FormGroup>
-                      <Label for="exampleEmail">Email</Label>
-                      <Input
-                        type="email"
-                        name="email"
-                        id="exampleEmail"
-                        maxLength="64"
-                        pattern={EMAIL_REGEX}
-                        value={email}
-                        onChange={this.handleChange}
-                        required
-                      />
-                    </FormGroup>
-                    <FormGroup>
-                      <Label for="examplePassword">Password</Label>
-                      <Input
-                        type="password"
-                        name="password"
-                        minLength="8"
-                        maxLength="64"
-                        value={password}
-                        onChange={this.handleChange}
-                        required
-                      />
-                    </FormGroup>
-                    <FormGroup>
-                      <Label for="examplePassword">Confirm Password</Label>
-                      <Input
-                        type="password"
-                        name="password2"
-                        minLength="8"
-                        maxLength="64"
-                        value={password2}
-                        onChange={this.handleChange}
-                        required
-                      />
-                    </FormGroup>
-                    <FormGroup>
-                      <Dropdown
-                        className="security-select"
-                        isOpen={dropdownOpen}
-                        toggle={this.toggle}
-                      >
-                        <DropdownToggle caret>
-                          {questionIdx === INVALID
-                            ? "Security Question"
-                            : questions[questionIdx]}
-                        </DropdownToggle>
-                        <DropdownMenu>
-                          {questions.map((question, idx) => (
-                            <DropdownItem
-                              key={idx}
-                              onClick={this.pickDropDown.bind(null, idx)}
-                            >
-                              {question}
-                            </DropdownItem>
-                          ))}
-                        </DropdownMenu>
-                      </Dropdown>
-                      <Label for="exampleEmail">Answer</Label>
-                      <Input
-                        type="email"
-                        name="email"
-                        id="exampleEmail"
-                        maxLength="64"
-                        pattern={EMAIL_REGEX}
-                        value={securityQuestionAnswer}
-                        onChange={this.handleChangeSecurityAnswer}
-                        required
-                      />
-                    </FormGroup>
-                    <Button
-                      color="success"
-                      size="m"
-                      onClick={this.handleSubmit}
-                      className="left-btn"
-                    >
-                      Register
-                    </Button>
-                    <Button
-                      color="success"
-                      size="m"
-                      onClick={() => Router.push("/login")}
-                      className="right-btn"
-                    >
-                      Login
-                    </Button>
-                  </Form>
-                </CardBody>
-              </Card>
-            </div>
-            <div className="google-btn-wrapper">
-              <GoogleLogin
-                className="btn sign-in-btn"
-                clientId="992779657352-2te3be0na925rtkt8kt8vc1f8tiph5oh.apps.googleusercontent.com"
-                responseType="id_token"
-                buttonText={role}
-                scope="https://www.googleapis.com/auth/userinfo.email"
-                onSuccess={this.handleGoogle}
-              />
-            </div>
-          </div>
-        ) : (
+  return (
+    <div>
+      <Head />
+      {!successfulSubmit ? (
+        <div>
           <div className="auth-card-wrapper">
             <Card className="auth-card">
+              <CardTitle>
+                <h3 className="auth-card-title">Register</h3>
+              </CardTitle>
               <CardBody>
-                {pinMessage === "Invalid request" ? (
+                {errorMessage && (
                   <Alert className="auth-alert" color="danger">
-                    {pinMessage}
+                    {errorMessage}
                   </Alert>
-                ) : (
-                  pinMessage && (
-                    <Alert className="auth-alert" color="success">
-                      {pinMessage}
-                    </Alert>
-                  )
                 )}
                 <Form>
                   <FormGroup>
-                    <Label>PIN</Label>
+                    <Label for="exampleEmail">Email</Label>
                     <Input
-                      name="pin"
-                      type="number"
-                      maxLength="10"
-                      minLength="4"
-                      value={pin}
-                      onChange={this.handleChange}
+                      type="email"
+                      name="email"
+                      id="exampleEmail"
+                      maxLength="64"
+                      pattern={EMAIL_REGEX}
+                      value={email}
+                      onChange={e => setEmail(e.target.value)}
+                      required
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <Label for="examplePassword">Password</Label>
+                    <Input
+                      type="password"
+                      name="password"
+                      minLength="8"
+                      maxLength="64"
+                      value={password}
+                      onChange={e => setPassword(e.target.value)}
+                      required
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <Label for="examplePassword">Confirm Password</Label>
+                    <Input
+                      type="password"
+                      name="password2"
+                      minLength="8"
+                      maxLength="64"
+                      value={password2}
+                      onChange={e => setPassword2(e.target.value)}
+                      required
+                    />
+                  </FormGroup>
+                  <FormGroup>
+                    <Dropdown
+                      className="security-select"
+                      isOpen={dropdownOpen}
+                      toggle={toggle}
+                    >
+                      <DropdownToggle caret>
+                        {questionIdx === INVALID
+                          ? "Security Question"
+                          : questions[questionIdx]}
+                      </DropdownToggle>
+                      <DropdownMenu>
+                        {questions.map((question, idx) => (
+                          <DropdownItem
+                            key={idx}
+                            onClick={pickDropDown.bind(null, idx)}
+                          >
+                            {question}
+                          </DropdownItem>
+                        ))}
+                      </DropdownMenu>
+                    </Dropdown>
+                    <Label for="exampleEmail">Answer</Label>
+                    <Input
+                      type="email"
+                      name="email"
+                      id="exampleEmail"
+                      maxLength="64"
+                      pattern={EMAIL_REGEX}
+                      value={securityQuestionAnswer}
+                      onChange={e => setSecurityQuestionAnswer(e.target.value)}
                       required
                     />
                   </FormGroup>
                   <Button
                     color="success"
                     size="m"
-                    onClick={this.handlePINResend}
+                    onClick={handleSubmit}
                     className="left-btn"
                   >
-                    Resend PIN
+                    Register
                   </Button>
                   <Button
                     color="success"
                     size="m"
-                    onClick={this.handlePINVerify}
+                    onClick={() => Router.push("/login")}
                     className="right-btn"
                   >
-                    Verify Email
+                    Login
                   </Button>
-                  <div className="forgot-password">
-                    <Link href="/">
-                      <a>Skip verification</a>
-                    </Link>
-                  </div>
                 </Form>
               </CardBody>
             </Card>
           </div>
-        )}
-      </div>
-    );
-  };
+          <div className="google-btn-wrapper">
+            <GoogleLogin
+              className="btn sign-in-btn"
+              clientId="992779657352-2te3be0na925rtkt8kt8vc1f8tiph5oh.apps.googleusercontent.com"
+              responseType="id_token"
+              buttonText={role}
+              scope="https://www.googleapis.com/auth/userinfo.email"
+              onSuccess={handleGoogle}
+            />
+          </div>
+        </div>
+      ) : (
+        <div className="auth-card-wrapper">
+          <Card className="auth-card">
+            <CardBody>
+              {pinMessage === "Invalid request" ||
+              pinMessage === "PIN does not match" ? (
+                <Alert className="auth-alert" color="danger">
+                  {pinMessage}
+                </Alert>
+              ) : (
+                pinMessage && (
+                  <Alert className="auth-alert" color="success">
+                    {pinMessage}
+                  </Alert>
+                )
+              )}
+              <Form>
+                <FormGroup>
+                  <Label>PIN</Label>
+                  <Input
+                    name="pin"
+                    type="number"
+                    maxLength="10"
+                    minLength="4"
+                    value={pin}
+                    onChange={e => setPin(e.target.value)}
+                    required
+                  />
+                </FormGroup>
+                <Button
+                  color="success"
+                  size="m"
+                  onClick={handlePINResend}
+                  className="left-btn"
+                >
+                  Resend PIN
+                </Button>
+                <Button
+                  color="success"
+                  size="m"
+                  onClick={handlePINVerify}
+                  className="right-btn"
+                >
+                  Verify Email
+                </Button>
+                <div className="forgot-password">
+                  <Link href="/">
+                    <a>Skip verification</a>
+                  </Link>
+                </div>
+              </Form>
+            </CardBody>
+          </Card>
+        </div>
+      )}
+    </div>
+  );
 }
-
-export default Register;
