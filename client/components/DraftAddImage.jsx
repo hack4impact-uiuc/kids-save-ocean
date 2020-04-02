@@ -2,8 +2,8 @@ import React, { useState } from "react";
 
 import { addNewBlock } from "medium-draft";
 
-const firebase = require("firebase/app");
-require("firebase/storage");
+import firebase from "firebase/app";
+import "firebase/storage";
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_APIKEY,
   authDomain: process.env.AUTH_DOMAIN,
