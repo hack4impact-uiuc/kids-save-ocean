@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { GoogleLogin } from "react-google-login";
 import Link from "next/link";
 import Router from "next/router";
@@ -29,7 +29,6 @@ export default function Login(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const [username, setUsername] = useState("");
 
   const handleGoogle = async e => {
     const result = await google(e.tokenId);
