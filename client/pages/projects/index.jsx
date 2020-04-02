@@ -33,6 +33,20 @@ export default function ProjectsPage() {
       const numProjects = 20;
 
       const models = await getModels();
+      var filteredModels = [];
+
+      const UNGoals = await getSelectedUNGoals();
+      const country = await getSelectedCountry();
+      const grpSize = await getSelectedGrpSize();
+      const difficulty = await getDifficulty();
+
+      for (var i = 0; i < models.length; i++) {
+          for (var j = 0; j < UNGoals.length; j++) {
+            if () {
+              filteredModels.push(models[i]);
+            }
+        }
+      }
 
       var userInput = await getSearchBarText();
 
@@ -40,20 +54,21 @@ export default function ProjectsPage() {
       console.log(userInput);
 
       let options = {
-        minMatchCharLength: 1,
+        minMatchCharLength: 5,
         keys: ["name", "description"]
       };
 
-      // handling no data (projects) for now
-      if (models == undefined) {
+      // handling no data (projects)
+      if (filteredModels.length == 0) {
+        // to remove
         console.log("undefined");
         return;
       }
 
       if (userInput == null) {
-        setProjects(models.data.slice(0, numProjects));
+        setProjects(filteredModels.data.slice(0, numProjects)); // handle if there's less than 20 filtered projects
       } else {
-        let fuse = new Fuse(models.data, options);
+        let fuse = new Fuse(filteredModels.data, options);
         let result = fuse.search(userInput);
       }
 
@@ -63,9 +78,6 @@ export default function ProjectsPage() {
 
     var getSearchBarText = async () => {
       var text = await document.getElementById("user-input").value;
-
-      // to remove
-      console.log(text);
 
       return text;
     };
