@@ -63,7 +63,7 @@ export default function Draft(props) {
       .catch(() => {
         setLoading(false);
       });
-  }, []);
+  });
 
   return (
     <div>

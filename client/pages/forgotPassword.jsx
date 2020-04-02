@@ -38,7 +38,6 @@ export default function ForgotPasswordPage() {
   const [answer, setAnswer] = useState("");
   const [loadingAPI, setLoadingAPI] = useState(false);
   const [submitNewPassword, setSubmitNewPassword] = useState(false);
-  const [successfulSubmit, setSuccessfulSubmit] = useState(false);
 
   const handleGetSecurityQuestion = async e => {
     e.preventDefault();
@@ -77,7 +76,6 @@ export default function ForgotPasswordPage() {
     ).json();
     if (response.status === SUCCESS && response.token) {
       setCookie("token", response.token);
-      setSuccessfulSubmit(true);
       Router.push("/");
     } else {
       setErrorMessage(response.message);

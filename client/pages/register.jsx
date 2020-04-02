@@ -41,30 +41,26 @@ export default function RegisterPage(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
-  const [error, setError] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [pinMessage, setPinMessage] = useState("");
   const [pin, setPin] = useState("");
   const [securityQuestionAnswer, setSecurityQuestionAnswer] = useState("");
   const [successfulSubmit, setSuccessfulSubmit] = useState(false);
-  const [loading, setLoading] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [questions, setQuestions] = useState([]);
-  const [questionIdx, setQuestionIdx] = useState(-1);
+  const [questionIdx, setQuestionIdx] = useState(INVALID);
 
   useEffect(() => {
     const loadSecurityQuestions = async () => {
-      setLoading(true);
       const resp = await getSecurityQuestions();
       if (!resp) {
-        setError("Unable to load data");
+        setErrorMessage("Unable to load data");
         return;
       }
       const respJson = await resp.json();
       if (respJson.questions) {
         setQuestions(respJson.questions);
       } else {
-        setLoading(false);
         setErrorMessage(respJson.error.message);
       }
     };
