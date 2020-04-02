@@ -5,7 +5,7 @@ const User = require("../models/User");
 const { isSecurityQuestionEnabled } = require("../utils/getConfigFile");
 
 router.post(
-  "/getSecurityQuestionForUser",
+  "/securityQuestionForUser",
   check("email").isEmail(),
   async function(req, res) {
     // Check that the user's email is in the body

@@ -186,7 +186,7 @@ export const setSecurityQuestion = (questionIdx, answer, password) => {
 
 export const getSecurityQuestionForUser = email => {
   try {
-    return fetch(`${BASE_URL}/auth/getSecurityQuestionForUser`, {
+    return fetch(`${BASE_URL}/auth/securityQuestionForUser`, {
       method: "POST",
       body: JSON.stringify({
         email
