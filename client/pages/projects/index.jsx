@@ -18,6 +18,7 @@ import {
 } from "reactstrap";
 
 import "../../public/styles/projects.scss";
+import "../../../api/public/schema/projectSchema";
 
 import $ from "jquery";
 import Fuse from "fuse.js";
@@ -33,28 +34,27 @@ export default function ProjectsPage() {
 
       const models = await getModels();
 
-      var userInput = getSearchBarText();
+      var userInput = await getSearchBarText();
+
+      // to remove
+      console.log(userInput);
 
       let options = {
         minMatchCharLength: 1,
-        keys: ["", ""]
+        keys: ["name", "description"]
       };
 
+      // handling no data (projects) for now
+      if (models == undefined) {
+        console.log("undefined");
+        return;
+      }
+
       if (userInput == null) {
-        if (models == undefined) {
-          // handling no data (projects) for now
-          console.log("undefined");
-        } else {
-          setProjects(models.data.slice(0, numProjects));
-        }
+        setProjects(models.data.slice(0, numProjects));
       } else {
-        if (models == undefined) {
-          // handling no data (projects) for now
-          console.log("undefined");
-        } else {
-          let fuse = new Fuse(models.data, options);
-          let result = fuse.search(userInput);
-        }
+        let fuse = new Fuse(models.data, options);
+        let result = fuse.search(userInput);
       }
 
       setProjects();
@@ -64,6 +64,7 @@ export default function ProjectsPage() {
     var getSearchBarText = async () => {
       var text = await document.getElementById("user-input").value;
 
+      // to remove
       console.log(text);
 
       return text;
