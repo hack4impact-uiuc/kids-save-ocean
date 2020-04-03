@@ -18,6 +18,10 @@
     {
       "src": "api/*.js",
       "use": "@now/node"
+    },
+    {
+      "src": "auth-server/src/*.js",
+      "use": "@now/node"
     }
   ],
   "routes": [
@@ -27,6 +31,13 @@
         "cache-control": "s-maxage=0"
       },
       "dest": "api/app.js"
+    },
+    {
+      "src": "/auth/(.*)",
+      "headers": {
+        "cache-control": "s-maxage=0"
+      },
+      "dest": "auth-server/src/App.js"
     },
     {
       "src": "/(.*)",
