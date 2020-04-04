@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { Head } from "../../components";
 import Select from "react-select";
@@ -16,9 +16,10 @@ import {
   Input,
   Row
 } from "reactstrap";
-import "../../public/styles/home.scss";
-import "../../public/styles/project.scss";
+
 import "../../public/styles/projects.scss";
+
+const DESCRIPTION_LENGTH = 200;
 
 export default function ProjectsPage() {
   const [projects, setProjects] = useState(null);
@@ -38,29 +39,12 @@ export default function ProjectsPage() {
     <>
       <Head title="Project Explorer" />
       <Container>
-        <Row className="projects-top-row">
-          <div className="search-bar">
-            <Input type="text" className="input" placeholder="Find a project" />
-          </div>
-          <a
-            className="asoc"
-            href="https://www.google.com"
-            className="notifications-icon"
-          >
-            <i className="fa fa-bell" aria-hidden="true"></i>
-          </a>
-
-          <a
-            className="asoc"
-            href="https://www.google.com"
-            className="user-icon"
-          >
-            <i className="fa fa-user" aria-hidden="true"></i>
-          </a>
-        </Row>
+        <div className="search-bar">
+          <Input type="text" className="input" placeholder="Find a project" />
+        </div>
         <div className="dropdowns">
           <Select
-            isMulti={true}
+            isMulti
             className="un-goals-list"
             options={UNGoalData}
             placeholder="Select UN Goals"
@@ -69,36 +53,47 @@ export default function ProjectsPage() {
             className="country-list"
             options={countryData}
             placeholder="Search country"
-            isClearable={true}
+            isClearable
           />
           <Select
             className="grp-sizes-list"
             options={groupSizeData}
             placeholder="Select group size"
-            isClearable={true}
+            isClearable
           />
           <Select
             className="difficulty-list"
             options={levelData}
             placeholder="Select difficulty"
-            isClearable={true}
+            isClearable
           />
         </div>
         <div className="project-cards">
           <Row className="project-row">
             {projects &&
-              projects.map(proj => (
-                <Col key={proj._id} className="project-col">
+              projects.map(project => (
+                <Col key={project._id} className="project-col">
                   <CardGroup>
-                    <Link href={`projects/${proj._id}`}>
-                      <Card className="project-card">
-                        <CardText top width="100%" height="100%">
-                          <h3>{proj.name}</h3>
-                          <br />
-                          <p>{`${proj.description.slice(0, 200)}${proj
-                            .description.length > 200 && "..."}`}</p>
-                        </CardText>
-                      </Card>
+                    <Link
+                      href="/projects/[projectId]"
+                      as={`/projects/${project._id}`}
+                      passHref
+                    >
+                      <a>
+                        <Card className="project-card">
+                          <CardText width="100%" height="100%">
+                            <div className="project-card-name">
+                              {project.name}
+                            </div>
+                            <br />
+                            {`${project.description.slice(
+                              0,
+                              DESCRIPTION_LENGTH
+                            )}${project.description.length >
+                              DESCRIPTION_LENGTH && "..."}`}
+                          </CardText>
+                        </Card>
+                      </a>
                     </Link>
                   </CardGroup>
                 </Col>

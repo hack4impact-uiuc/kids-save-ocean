@@ -1,9 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const validate = require("express-jsonschema").validate;
-const schema = require("../public/schema/projectSchema.js");
 
-const ModelSchema = schema.projectSchema;
+const ModelSchema = require("../public/schema/projectSchema.js").projectSchema;
 
 router.get("/", function(req, res) {
   var sdg_par = req.query.sdg;
@@ -100,6 +99,7 @@ router.delete("/:model_ID", function(req, res) {
     }
   );
 });
+
 router.put(
   "/:model_ID",
   validate({
@@ -136,5 +136,64 @@ router.put(
     );
   }
 );
+
+router.post("/:model_ID/:phaseName/:stageName/description", function(req, res) {
+  const db = req.db;
+  const collection = db.get("projects");
+  const { model_ID, phaseName, stageName } = req.params;
+  const description = req.body.description;
+  if (description === undefined) {
+    res.sendStatus(400);
+  }
+
+  const query = {
+    _id: model_ID,
+    [`phases.${phaseName}.stages.name`]: stageName
+  };
+
+  collection.update(
+    query,
+    { $set: { [`phases.${phaseName}.stages.$.description`]: description } },
+    function(err) {
+      if (err) {
+        res.sendStatus(500);
+      } else {
+        res.json({
+          success: `${stageName} description updated!`
+        });
+      }
+    }
+  );
+});
+
+router.get("/:model_ID/:phaseName/:stageName/description", function(req, res) {
+  const db = req.db;
+  const collection = db.get("projects");
+  const { model_ID, phaseName, stageName } = req.params;
+
+  collection.findOne(
+    {
+      _id: model_ID
+    },
+    {
+      $exists: true
+    },
+    function(e, docs) {
+      if (e) {
+        res.sendStatus(500);
+      } else {
+        const stages = docs["phases"][phaseName]["stages"];
+        const stage = stages.filter(s => s.name === stageName)[0];
+        if (stage === undefined) {
+          res.sendStatus(404);
+        } else {
+          res.json({
+            description: stage.description
+          });
+        }
+      }
+    }
+  );
+});
 
 module.exports = router;

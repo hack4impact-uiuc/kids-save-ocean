@@ -1,4 +1,10 @@
 {
   "plugins": ["@h4iuiuc"],
-  "extends": ["plugin:@h4iuiuc/recommended"]
+  "extends": ["plugin:@h4iuiuc/recommended"],
+  "env": {
+    "browser": true
+  },
+  "rules": {
+    "jsx-a11y/anchor-is-valid": "off"
+  }
 }

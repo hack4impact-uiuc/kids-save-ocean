@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { Head } from "../../../../components";
 import { Button } from "reactstrap";
-// import mockData from "../../../../utils/mockData";
 import { getModelsByID } from "../../../../utils/apiWrapper";
 
 import "../../../../public/styles/stage.scss";
@@ -19,7 +18,7 @@ export default function StagePage() {
       let [phase, stageName] = stageInfo.split("-");
       stageName = stageName.replace("-", " ");
 
-      const loadModel = async (id, phase, stage) => {
+      const loadModel = async (id, phase) => {
         const model = await getModelsByID(id);
         if (model && model.data.length === 1) {
           setStage(
@@ -42,9 +41,9 @@ export default function StagePage() {
           <h1 className="stage-title">{stage.name}</h1>
           {stage.videoUrl && (
             <div className="stage-video">
-              <video height="400px" controls>
-                <source src={stage.videoUrl}></source>
-              </video>
+              {/* 
+                TODO: add YouTube iframe
+               */}
             </div>
           )}
           <div className="stage-description">
@@ -52,8 +51,10 @@ export default function StagePage() {
           </div>
         </>
       )}
-      <Link href={`/projects/${projectId}`}>
-        <Button color="danger">Return</Button>
+      <Link href="/projects/[projectId]" as={`/projects/${projectId}`} passHref>
+        <a>
+          <Button color="danger">Return</Button>
+        </a>
       </Link>
     </div>
   );
