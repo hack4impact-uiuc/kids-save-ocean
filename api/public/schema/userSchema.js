@@ -1,5 +1,3 @@
-import * as projectSchema from "./projectSchema";
-
 const schema = {
   id: "/UserSchema",
   type: "object",
@@ -16,20 +14,38 @@ const schema = {
       type: "string",
       required: true
     },
+    country: {
+      type: "string",
+      required: true
+    },
+    birthday: {
+      type: "string",
+      required: true
+    },
+    role: {
+      type: "string",
+      enum: ["student", "teacher", "stakeholder"]
+    },
     admin: {
       type: "boolean",
-      required: true
+      default: false
     },
     anon: {
       type: "boolean",
-      required: false
+      default: false
     },
-    projects: {
+    projectIds: {
       type: "array",
-      required: false,
+      default: [],
       items: {
-        type: "object",
-        properties: { $ref: projectSchema.id }
+        type: "string"
+      }
+    },
+    comments: {
+      type: "array",
+      default: [],
+      items: {
+        type: "string"
       }
     }
   }
