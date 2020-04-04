@@ -41,7 +41,7 @@ const schema = {
         type: "string"
       }
     },
-    comments: {
+    commentIds: {
       type: "array",
       default: [],
       items: {
