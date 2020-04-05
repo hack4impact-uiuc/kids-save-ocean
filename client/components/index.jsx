@@ -6,6 +6,8 @@ import NavBar from "./NavBar";
 import Stage from "./Stage";
 import ProjectForm from "./ProjectForm";
 import TipCard from "./TipCard";
+import EditProfile from "./EditProfile";
+import ScrollDetector from "./ScrollDetector";
 
 export {
   Draft,
@@ -15,5 +17,7 @@ export {
   NavBar,
   ProjectForm,
   Stage,
-  TipCard
+  TipCard,
+  EditProfile,
+  ScrollDetector,
 };

@@ -12,7 +12,6 @@ import {
   ModalFooter,
   Row,
 } from "reactstrap";
-import sdgs from "../utils/goals";
 
 import "../public/styles/home.scss";
 
@@ -28,8 +27,7 @@ const customStyles = {
   },
 };
 
-export default function ProjectForm(props) {
-  const [sdg, setSdg] = useState(1);
+export default function ProjectForm() {
   const [modalIsOpen, setIsOpen] = useState(false);
 
   function toggleModal() {
@@ -38,12 +36,8 @@ export default function ProjectForm(props) {
 
   return (
     <div>
-      <Button
-        className="button-design-3"
-        type="primary"
-        onClick={(console.log("HI"), toggleModal)}
-      >
-        Create
+      <Button className="button-design" type="primary" onClick={toggleModal}>
+        <strong>Edit Profile</strong>
       </Button>
       <Modal
         isOpen={modalIsOpen}
@@ -52,56 +46,67 @@ export default function ProjectForm(props) {
         className="project-form-modal"
       >
         <ModalHeader>
-          <h3 className="header-modal-text">Create a Project</h3>
+          <h3 className="header-modal-text">Edit Profile</h3>
         </ModalHeader>
+        <Row
+          className="profile-header"
+          type="flex"
+          justify="center"
+          xs="2"
+          height="1000px"
+        >
+          <img
+            src="/Users/ashwinsaxena/Hack4Impact/kids-save-ocean/client/public/homepage-images/stock-ocean.jpg"
+            alt="Profile pic"
+          />
+        </Row>
         <Form>
           <ModalBody>
             <FormGroup>
-              <Label for="project-title">Project Title</Label>
+              <Label for="name">Name</Label>
               <Input
                 className="form-input"
-                id="project-title"
-                placeholder="Add a title..."
+                id="name"
+                placeholder="Ashank Behara"
               />
             </FormGroup>
             <FormGroup>
-              <Label for="project-description">Description</Label>
+              <Label for="username">Username</Label>
+              <Input
+                className="form-input"
+                id="username"
+                placeholder="ashank1010101"
+                rowSpan="10px"
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for="about-me">Bio</Label>
               <Input
                 className="form-input-description"
-                id="project-description"
-                placeholder="Add a description..."
+                id="about-me"
+                placeholder="My name is ashank1010101"
                 rowSpan="10px"
               />
             </FormGroup>
             <Row>
               <Col>
                 <FormGroup>
-                  <Label for="project-date">Date</Label>
+                  <Label for="email">Email</Label>
                   <Input
                     className="form-input"
                     id="project-date"
-                    placeholder="MM/DD/YYYY"
+                    placeholder="ashank1010101@yahoo.com"
                   />
                 </FormGroup>
               </Col>
               <Col>
                 <FormGroup>
-                  <Label for="project-sdg">SDG</Label>
+                  <Label for="Birthday">Birthday</Label>
                   <Input
-                    className="select-sdg"
-                    id="project-sdg"
-                    type="select"
-                    value={sdg}
-                    onChange={(e) => setSdg(e.target.value)}
-                  >
-                    {sdgs.map((option) => (
-                      <option
-                        label={option.label}
-                        value={option.value}
-                        key={option.value}
-                      />
-                    ))}
-                  </Input>
+                    className="form-input"
+                    id="project-date"
+                    placeholder="01/01/2000"
+                  />
                 </FormGroup>
               </Col>
             </Row>
@@ -122,10 +127,10 @@ export default function ProjectForm(props) {
               type="primary"
               onClick={toggleModal}
             >
-              <strong>Exit</strong>
+              <strong>Cancel</strong>
             </Button>
             <Button className="button-design-2" type="submit">
-              <strong>Start</strong>
+              <strong>Save Profile</strong>
             </Button>
           </ModalFooter>
         </Form>

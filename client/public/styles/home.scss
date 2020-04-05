@@ -4,13 +4,22 @@
       rgba(12, 64, 184, 0.6) 1%,
       rgba(36, 167, 149, 0.651) 100%
     ),
-    url("/asset/images/splash.jpg");
+    url("/asset/images/stock-ocean.jpg");
   background-size: cover;
   background-position: center;
   height: 60vh;
   width: auto;
   opacity: 0.99;
   align-content: middle;
+}
+.profile-header {
+  background-image: radial-gradient(
+      50% 141%,
+      rgba(12, 64, 184, 0.6) 1%,
+      rgba(36, 167, 149, 0.651) 100%
+    ),
+    url("/Users/ashwinsaxena/Hack4Impact/kids-save-ocean/client/public/homepage-images/stock-ocean.jpg");
+  height: 10em;
 }
 .home-block-col {
   margin: auto;
