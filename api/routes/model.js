@@ -148,12 +148,12 @@ router.post("/:model_ID/:phaseName/:stageName/description", function(req, res) {
 
   const query = {
     _id: model_ID,
-    [`phases.${phaseName}.stages.name`]: stageName
+    [`sections.${phaseName}.stages.name`]: stageName
   };
 
   collection.update(
     query,
-    { $set: { [`phases.${phaseName}.stages.$.description`]: description } },
+    { $set: { [`sections.${phaseName}.stages.$.description`]: description } },
     function(err) {
       if (err) {
         res.sendStatus(500);
@@ -170,7 +170,6 @@ router.get("/:model_ID/:phaseName/:stageName/description", function(req, res) {
   const db = req.db;
   const collection = db.get("projects");
   const { model_ID, phaseName, stageName } = req.params;
-
   collection.findOne(
     {
       _id: model_ID
@@ -182,7 +181,7 @@ router.get("/:model_ID/:phaseName/:stageName/description", function(req, res) {
       if (e) {
         res.sendStatus(500);
       } else {
-        const stages = docs["phases"][phaseName]["stages"];
+        const stages = docs["sections"][phaseName]["stages"];
         const stage = stages.filter(s => s.name === stageName)[0];
         if (stage === undefined) {
           res.sendStatus(404);

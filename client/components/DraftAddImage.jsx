@@ -15,7 +15,7 @@ export default function DraftAddImage(props) {
       reader.readAsDataURL(file);
       reader.onload = () => {
         const src = reader.result;
-        const newState = addNewBlock(getEditorState(), "atomic:image", { src });
+        const newState = addNewBlock(getEditorState(), "atomic:video", { src });
         setEditorState(newState);
       };
     }

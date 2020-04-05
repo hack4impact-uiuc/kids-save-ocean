@@ -4,6 +4,8 @@ import { Row, Col } from "reactstrap";
 import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
 import { Editor, createEditorState } from "medium-draft";
 
+import Dante from "Dante2";
+
 import { saveDescription, getDescription } from "../utils/apiWrapper";
 
 import "../public/styles/medium-draft.scss";
@@ -13,7 +15,9 @@ export default function Draft(props) {
   const [editorState, setEditorState] = useState(createEditorState());
   const [unsaved, setUnsaved] = useState(false);
   const [loading, setLoading] = useState(true);
+
   const [prevContent, setPrevContent] = useState(null);
+  const [editorContent, setEditorContent] = useState(null);
 
   const refsEditor = createRef();
 
@@ -25,19 +29,52 @@ export default function Draft(props) {
   };
   const saveCallback = useCallback(debounce(debounceSave, saveInterval), []);
 
-  const handleChange = newState => {
-    if (!loading) {
-      setEditorState(newState);
-
-      const contentState = newState.getCurrentContent();
-      const json = JSON.stringify(convertToRaw(contentState));
-      if (json !== prevContent) {
-        saveCallback(json);
-        setUnsaved(true);
-        setPrevContent(json);
-      }
+  const handleChange = (editor) => {
+    const content = editor.emitSerializedOutput();
+    const json = JSON.stringify(content);
+    console.log(content.blocks);
+    uploadImagesAndFixUrls(content.blocks);
+    if (json !== prevContent) {
+      saveCallback(json);
+      setUnsaved(true);
+      setPrevContent(json);
     }
   };
+
+  const  uploadImagesAndFixUrls = async (blocks) => {
+    for (const block of blocks) {
+      if (block.type !== 'image') {
+        continue;
+      }
+
+      const {url} = block.data;
+
+      if (!url.startsWith('blob:')) {
+        continue;
+      }
+
+      const blob = await fetch(url).then(r => r.blob());
+      console.log(blob);
+      return;
+
+      const uploadFormData = new FormData();
+      uploadFormData.append('file', blob);
+
+      const uploadRes = await fetch(`/post/${postId}/image`, {
+        method: 'POST',
+        body: uploadFormData,
+      });
+
+      switch (uploadRes.status) {
+        case 200: // OK
+          const {url: uploadedUrl} = await uploadRes.json();
+          block.data.url = uploadedUrl;
+          break;
+        case 500: // INTERNAL_SERVER_ERROR
+          throw new Error();
+      }
+    }
+  }
 
   const status = () => {
     if (loading) {
@@ -49,21 +86,22 @@ export default function Draft(props) {
   };
 
   useEffect(() => {
-    refsEditor.current.focus();
+    // console.log(refsEditor);
     const { id, phaseName, stageName } = props;
     getDescription(id, phaseName, stageName)
       .then(data => {
         const description = data.data.description;
-        setEditorState(
-          EditorState.createWithContent(convertFromRaw(JSON.parse(description)))
-        );
+        const json = JSON.parse(description);
+        if ('blocks' in json) {
+          setEditorContent(json);
+          setPrevContent(description);
+        }
         setLoading(false);
-        setPrevContent(description);
       })
       .catch(() => {
         setLoading(false);
       });
-  }, [props, refsEditor]);
+  }, []);
 
   return (
     <div>
@@ -78,17 +116,26 @@ export default function Draft(props) {
           {status()}
         </Col>
       </Row>
-      <Editor
-        ref={refsEditor}
-        editorState={editorState}
-        onChange={handleChange}
-        sideButtons={[
-          {
-            title: "Image",
-            component: DraftAddImage
-          }
-        ]}
-      />
+      
+
+      {!loading &&
+        <Dante
+          content={editorContent}
+          onChange={editor => handleChange(editor)}/>
+      }
     </div>
   );
 }
+
+
+      // <Editor
+      //   ref={refsEditor}
+      //   editorState={editorState}
+      //   onChange={handleChange}
+      //   sideButtons={[
+      //     {
+      //       title: "Image",
+      //       component: DraftAddImage
+      //     }
+      //   ]}
+      // />
