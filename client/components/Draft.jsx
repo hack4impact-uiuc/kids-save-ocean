@@ -1,8 +1,6 @@
 import React, { createRef, useState, useEffect, useCallback } from "react";
 import { DraftAddImage } from "../components";
 import { Row, Col } from "reactstrap";
-import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
-import { Editor, createEditorState } from "medium-draft";
 
 import Dante from "Dante2";
 
@@ -11,15 +9,25 @@ import { saveDescription, getDescription } from "../utils/apiWrapper";
 import "../public/styles/medium-draft.scss";
 import debounce from "lodash/debounce";
 
+import firebase from "firebase/app";
+import "firebase/storage";
+const firebaseConfig = {
+  apiKey: process.env.FIREBASE_APIKEY,
+  authDomain: process.env.AUTH_DOMAIN,
+  databaseURL: process.env.DATABASE_URL,
+  storageBucket: process.env.STORAGE_BUCKET
+};
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+const storageRef = firebase.storage().ref();
+
 export default function Draft(props) {
-  const [editorState, setEditorState] = useState(createEditorState());
   const [unsaved, setUnsaved] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const [prevContent, setPrevContent] = useState(null);
   const [editorContent, setEditorContent] = useState(null);
-
-  const refsEditor = createRef();
 
   const saveInterval = 1000;
   const debounceSave = json => {
@@ -30,49 +38,40 @@ export default function Draft(props) {
   const saveCallback = useCallback(debounce(debounceSave, saveInterval), []);
 
   const handleChange = (editor) => {
+    setUnsaved(true);
     const content = editor.emitSerializedOutput();
-    const json = JSON.stringify(content);
-    console.log(content.blocks);
-    uploadImagesAndFixUrls(content.blocks);
-    if (json !== prevContent) {
-      saveCallback(json);
-      setUnsaved(true);
-      setPrevContent(json);
-    }
+    uploadImagesAndFixUrls(content).then(() => {
+      const json = JSON.stringify(content);
+      if (json !== prevContent) {
+        saveCallback(json);
+        setPrevContent(json);
+      } else {
+        setUnsaved(false);
+      }
+    });
   };
 
-  const  uploadImagesAndFixUrls = async (blocks) => {
-    for (const block of blocks) {
+  const uploadImagesAndFixUrls = async (content) => {
+    for (const block of content.blocks) {
       if (block.type !== 'image') {
         continue;
       }
 
-      const {url} = block.data;
-
+      const { url } = block.data;
       if (!url.startsWith('blob:')) {
         continue;
       }
 
       const blob = await fetch(url).then(r => r.blob());
-      console.log(blob);
-      return;
+      const imageRef = storageRef.child(
+        `${props.modelId}/${props.phaseName}/${props.stageName}/${block.key}`
+      );
 
-      const uploadFormData = new FormData();
-      uploadFormData.append('file', blob);
-
-      const uploadRes = await fetch(`/post/${postId}/image`, {
-        method: 'POST',
-        body: uploadFormData,
+      await imageRef.put(blob).then(async function(snapshot) {
+        await snapshot.ref.getDownloadURL().then(function(url) {
+          block.data.url = url;
+        });
       });
-
-      switch (uploadRes.status) {
-        case 200: // OK
-          const {url: uploadedUrl} = await uploadRes.json();
-          block.data.url = uploadedUrl;
-          break;
-        case 500: // INTERNAL_SERVER_ERROR
-          throw new Error();
-      }
     }
   }
 
@@ -86,7 +85,6 @@ export default function Draft(props) {
   };
 
   useEffect(() => {
-    // console.log(refsEditor);
     const { id, phaseName, stageName } = props;
     getDescription(id, phaseName, stageName)
       .then(data => {
@@ -116,7 +114,6 @@ export default function Draft(props) {
           {status()}
         </Col>
       </Row>
-      
 
       {!loading &&
         <Dante
@@ -126,16 +123,3 @@ export default function Draft(props) {
     </div>
   );
 }
-
-
-      // <Editor
-      //   ref={refsEditor}
-      //   editorState={editorState}
-      //   onChange={handleChange}
-      //   sideButtons={[
-      //     {
-      //       title: "Image",
-      //       component: DraftAddImage
-      //     }
-      //   ]}
-      // />
