@@ -1,19 +1,6 @@
 import React from "react";
-import {
-  Button,
-  Col,
-  Row,
-  Form,
-  FormGroup,
-  Input,
-  Label,
-  Card,
-  CardGroup,
-  CardImg,
-  Container,
-} from "reactstrap";
-import { Head } from "../components";
-import { EditProfile } from "../components";
+import { Row, Container } from "reactstrap";
+import { Head, EditProfile } from "../components";
 import "../public/styles/home.scss";
 
 export default function UserInfo() {

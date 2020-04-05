@@ -1,6 +1,5 @@
-import { ScrollDetector, Head } from "../components";
+import { ScrollDetector, Head, ProjectForm } from "../components";
 import { Container } from "reactstrap";
-import { ProjectForm } from "../components";
 
 export default function Feed() {
   return (
