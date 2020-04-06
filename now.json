@@ -22,6 +22,10 @@
     {
       "src": "api/*.js",
       "use": "@now/node"
+    },
+    {
+      "src": "auth-server/src/*.js",
+      "use": "@now/node"
     }
   ],
   "routes": [
@@ -33,11 +37,11 @@
       "dest": "api/app.js"
     },
     {
-      "src": "_next/static/(.*)",
+      "src": "/auth/(.*)",
       "headers": {
-        "cache-control": "s-maxage=31536000,immutable"
+        "cache-control": "s-maxage=0"
       },
-      "dest": "client/_next/static/$1"
+      "dest": "auth-server/src/App.js"
     },
     {
       "src": "/(.*)",
