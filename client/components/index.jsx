@@ -1,5 +1,4 @@
 import Draft from "./Draft";
-import DraftAddImage from "./DraftAddImage";
 import Gantt from "./Gantt";
 import Head from "./Head";
 import NavBar from "./NavBar";
@@ -9,7 +8,6 @@ import TipCard from "./TipCard";
 
 export {
   Draft,
-  DraftAddImage,
   Gantt,
   Head,
   NavBar,
