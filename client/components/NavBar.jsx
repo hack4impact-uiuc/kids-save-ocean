@@ -8,7 +8,7 @@ import {
   Collapse,
   NavItem,
   Nav,
-  Button,
+  Button
 } from "reactstrap";
 
 import "../public/styles/navbar.scss";
@@ -16,7 +16,7 @@ import "../public/styles/navbar.scss";
 class NavBar extends React.Component {
   state = {
     isTop: true,
-    collapsed: true,
+    collapsed: true
   };
   componentDidMount() {
     document.addEventListener("scroll", () => {
@@ -28,7 +28,7 @@ class NavBar extends React.Component {
   }
   toggleNavbar = () => {
     this.setState({
-      collapsed: !this.state.collapsed,
+      collapsed: !this.state.collapsed
     });
   };
   render() {

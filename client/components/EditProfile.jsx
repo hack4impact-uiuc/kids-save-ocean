@@ -10,7 +10,7 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Row,
+  Row
 } from "reactstrap";
 
 import "../public/styles/home.scss";
@@ -23,8 +23,8 @@ const customStyles = {
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
     borderRadius: "1em",
-    height: "65%",
-  },
+    height: "65%"
+  }
 };
 
 export default function ProjectForm() {

@@ -19,5 +19,5 @@ export {
   Stage,
   TipCard,
   EditProfile,
-  ScrollDetector,
+  ScrollDetector
 };

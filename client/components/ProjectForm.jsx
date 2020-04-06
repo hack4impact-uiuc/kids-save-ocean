@@ -10,7 +10,7 @@ import {
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Row,
+  Row
 } from "reactstrap";
 import sdgs from "../utils/goals";
 
@@ -24,8 +24,8 @@ const customStyles = {
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
     borderRadius: "1em",
-    height: "65%",
-  },
+    height: "65%"
+  }
 };
 
 export default function ProjectForm(props) {
@@ -88,9 +88,9 @@ export default function ProjectForm(props) {
                     id="project-sdg"
                     type="select"
                     value={sdg}
-                    onChange={(e) => setSdg(e.target.value)}
+                    onChange={e => setSdg(e.target.value)}
                   >
-                    {sdgs.map((option) => (
+                    {sdgs.map(option => (
                       <option
                         label={option.label}
                         value={option.value}

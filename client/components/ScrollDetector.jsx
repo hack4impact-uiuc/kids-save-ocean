@@ -9,7 +9,7 @@ class ScrollDetector extends React.Component {
       hasMore: true,
       isLoading: false,
       users: [],
-      message: "not at bottom",
+      message: "not at bottom"
     };
     this.handleScroll = this.handleScroll.bind(this);
   }
@@ -30,19 +30,19 @@ class ScrollDetector extends React.Component {
     );
     const {
       loadUsers,
-      state: { error, isLoading, hasMore },
+      state: { error, isLoading, hasMore }
     } = this;
     const windowBottom = windowHeight + window.pageYOffset;
     if (error || isLoading || !hasMore) return;
     if (windowBottom >= docHeight) {
       console.log("reached bottom ");
       this.setState({
-        message: "bottom reached",
+        message: "bottom reached"
       });
       loadUsers();
     } else {
       this.setState({
-        message: "not at bottom",
+        message: "not at bottom"
       });
     }
   }
@@ -50,24 +50,24 @@ class ScrollDetector extends React.Component {
     this.setState({ isLoading: true }, () => {
       request
         .get("https://randomuser.me/api/?results=10")
-        .then((results) => {
-          const nextUsers = results.body.results.map((user) => ({
+        .then(results => {
+          const nextUsers = results.body.results.map(user => ({
             email: user.email,
             name: Object.values(user.name).join(" "),
             photo: user.picture.medium,
             username: user.login.username,
-            uuid: user.login.uuid,
+            uuid: user.login.uuid
           }));
           this.setState({
             hasMore: this.state.users.length < 100,
             isLoading: false,
-            users: [...this.state.users, ...nextUsers],
+            users: [...this.state.users, ...nextUsers]
           });
         })
-        .catch((err) => {
+        .catch(err => {
           this.setState({
             error: err.message,
-            isLoading: false,
+            isLoading: false
           });
         });
     });
@@ -86,7 +86,7 @@ class ScrollDetector extends React.Component {
     const { error, hasMore, isLoading, users } = this.state;
     return (
       <div>
-        {users.map((user) => (
+        {users.map(user => (
           <Fragment key={user.username}>
             <hr />
             <div style={{ display: "flex" }}>
@@ -97,7 +97,7 @@ class ScrollDetector extends React.Component {
                   borderRadius: "50%",
                   height: 72,
                   marginRight: 20,
-                  width: 72,
+                  width: 72
                 }}
               />
               <div>
