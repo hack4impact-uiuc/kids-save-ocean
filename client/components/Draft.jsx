@@ -37,7 +37,7 @@ export default function Draft(props) {
   };
   const saveCallback = useCallback(debounce(debounceSave, saveInterval), []);
 
-  const handleChange = (editor) => {
+  const handleChange = editor => {
     setUnsaved(true);
     const content = editor.emitSerializedOutput();
     uploadImagesAndFixUrls(content).then(() => {
@@ -51,14 +51,14 @@ export default function Draft(props) {
     });
   };
 
-  const uploadImagesAndFixUrls = async (content) => {
+  const uploadImagesAndFixUrls = async content => {
     for (const block of content.blocks) {
-      if (block.type !== 'image') {
+      if (block.type !== "image") {
         continue;
       }
 
       const { url } = block.data;
-      if (!url.startsWith('blob:')) {
+      if (!url.startsWith("blob:")) {
         continue;
       }
 
@@ -73,7 +73,7 @@ export default function Draft(props) {
         });
       });
     }
-  }
+  };
 
   const status = () => {
     if (loading) {
@@ -90,7 +90,7 @@ export default function Draft(props) {
       .then(data => {
         const description = data.data.description;
         const json = JSON.parse(description);
-        if ('blocks' in json) {
+        if ("blocks" in json) {
           setEditorContent(json);
           setPrevContent(description);
         }
@@ -115,11 +115,12 @@ export default function Draft(props) {
         </Col>
       </Row>
 
-      {!loading &&
+      {!loading && (
         <Dante
           content={editorContent}
-          onChange={editor => handleChange(editor)}/>
-      }
+          onChange={editor => handleChange(editor)}
+        />
+      )}
     </div>
   );
 }
