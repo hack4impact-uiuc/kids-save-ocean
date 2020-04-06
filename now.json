@@ -4,7 +4,11 @@
   "alias": ["kids-save-ocean.now.sh", "fatemaker.now.sh"],
   "build": {
     "env": {
-      "BACKEND_URL": "@kso_backend_url"
+      "BACKEND_URL": "@kso_backend_url",
+      "FIREBASE_APIKEY": "@kso_firebase_apikey",
+      "AUTH_DOMAIN": "@kso_auth_domain",
+      "DATABASE_URL": "@kso_database_url",
+      "STORAGE_BUCKET": "@kso_storage_bucket"
     }
   },
   "env": {
@@ -27,6 +31,13 @@
         "cache-control": "s-maxage=0"
       },
       "dest": "api/app.js"
+    },
+    {
+      "src": "_next/static/(.*)",
+      "headers": {
+        "cache-control": "s-maxage=31536000,immutable"
+      },
+      "dest": "client/_next/static/$1"
     },
     {
       "src": "/(.*)",
