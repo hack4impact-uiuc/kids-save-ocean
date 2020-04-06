@@ -1,4 +1,4 @@
-import { ScrollDetector, Head, ProjectForm } from "../components";
+import { ScrollDetector, Head } from "../components";
 import { Container } from "reactstrap";
 
 export default function Feed() {
@@ -11,8 +11,6 @@ export default function Feed() {
         </h1>
       </div>
       <h1>Recommended FateMakers to Follow!</h1>
-      <ProjectForm></ProjectForm>
-
       <ScrollDetector></ScrollDetector>
     </Container>
   );

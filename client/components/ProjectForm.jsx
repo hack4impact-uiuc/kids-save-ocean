@@ -38,11 +38,7 @@ export default function ProjectForm(props) {
 
   return (
     <div>
-      <Button
-        className="button-design-3"
-        type="primary"
-        onClick={(console.log("HI"), toggleModal)}
-      >
+      <Button className="button-design-3" type="primary" onClick={toggleModal}>
         Create
       </Button>
       <Modal
