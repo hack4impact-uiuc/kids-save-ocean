@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 
-app.use("/", router);
+app.use("/auth", router);
 app.use(function(err, req, res, next) {
   console.error(err);
   console.log(err.stack);
