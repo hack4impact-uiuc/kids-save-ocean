@@ -64,7 +64,7 @@ export default function Draft(props) {
       .catch(() => {
         setLoading(false);
       });
-  }, [id, phaseName, stageName]);
+  }, [id, phaseName, stageName, refsEditor]);
 
   return (
     <div>
