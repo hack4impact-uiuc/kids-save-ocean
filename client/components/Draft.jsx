@@ -25,6 +25,8 @@ export default function Draft(props) {
   };
   const saveCallback = useCallback(debounce(debounceSave, saveInterval), []);
 
+  const { id, phaseName, stageName } = props;
+
   const handleChange = newState => {
     if (!loading) {
       setEditorState(newState);
@@ -50,7 +52,6 @@ export default function Draft(props) {
 
   useEffect(() => {
     refsEditor.current.focus();
-    const { id, phaseName, stageName } = props;
     getDescription(id, phaseName, stageName)
       .then(data => {
         const description = data.data.description;
@@ -63,7 +64,7 @@ export default function Draft(props) {
       .catch(() => {
         setLoading(false);
       });
-  }, []);
+  }, [id, phaseName, stageName]);
 
   return (
     <div>
@@ -87,9 +88,9 @@ export default function Draft(props) {
             title: "Image",
             component: DraftAddImage,
             props: {
-              modelId: props.id,
-              phaseName: props.phaseName,
-              stageName: props.stageName
+              modelId: id,
+              phaseName: phaseName,
+              stageName: stageName
             }
           }
         ]}
