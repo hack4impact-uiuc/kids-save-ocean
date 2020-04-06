@@ -10,6 +10,18 @@ const schema = {
       type: "string",
       required: true
     },
+    country: {
+      type: "string",
+      required: true
+    },
+    groupSize: {
+      type: "string",
+      required: true
+    },
+    difficulty: {
+      type: "string",
+      required: true
+    },
     sdg: {
       type: "array",
       items: {
