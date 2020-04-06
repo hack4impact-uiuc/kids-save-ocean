@@ -24,26 +24,23 @@ const schema = {
     },
     role: {
       type: "string",
-      enum: ["student", "teacher", "stakeholder"]
+      enum: ["student", "teacher", "stakeholder"],
+      required: true
     },
     admin: {
-      type: "boolean",
-      default: false
+      type: "boolean"
     },
     anon: {
-      type: "boolean",
-      default: false
+      type: "boolean"
     },
     projectIds: {
       type: "array",
-      default: [],
       items: {
         type: "string"
       }
     },
     commentIds: {
       type: "array",
-      default: [],
       items: {
         type: "string"
       }

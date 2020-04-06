@@ -3,14 +3,15 @@ const router = express.Router();
 const validate = require("express-jsonschema").validate;
 
 const UserSchema = require("../public/schema/userSchema.js").userSchema;
+const SUCCESS = 200;
+const NOT_FOUND = 404;
 
 router.get("/", async (req, res) => {
-  //   const { db } = req;
-  //   const collection = db.get("users");
-  //   const users = await collection.find({});
-  const users = await UserSchema.find({});
-  res.json({
-    code: 200,
+  const { db } = req;
+  const collection = db.get("users");
+  const users = await collection.find({});
+  res.status(SUCCESS).send({
+    code: SUCCESS,
     success: true,
     message: "Users retrieved successfully.",
     data: users
@@ -18,98 +19,99 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
-  //   const { db } = req;
-  //   const collection = db.get("users");
-  //   const user = await collection.findById(id);
+  const { db } = req;
+  const collection = db.get("users");
   const { id } = req.params;
-  const user = await UserSchema.findById(id);
-  const ret = user
-    ? {
-        code: 200,
-        success: true,
-        message: "User retrieved successfully.",
-        data: user
-      }
-    : {
-        code: 404,
-        success: false,
-        message: "User not found."
-      };
-  res.json(ret);
+  const users = await collection.find({ _id: id });
+  const ret =
+    users.length === 1
+      ? {
+          code: SUCCESS,
+          success: true,
+          message: "User retrieved successfully.",
+          data: users[0]
+        }
+      : {
+          code: NOT_FOUND,
+          success: false,
+          message: "User not found."
+        };
+  res.status(ret.code).send(ret);
 });
 
-router.post("/", validate({ body: userSchema }), async (req, res) => {
-  //   const { db } = req;
-  //   const collection = db.get("users");
-  const { email, username, password, country, birthday, role, anon } = req.body;
+router.post("/", validate({ body: UserSchema }), async (req, res) => {
+  const { db } = req;
+  const collection = db.get("users");
+  const { email, username, password, country, birthday, role } = req.body;
+  let { anon } = req.body;
   if (!email) {
-    res.json({
-      code: 404,
+    res.status(NOT_FOUND).send({
+      code: NOT_FOUND,
       success: false,
       message: "Email is required."
     });
-  }
-  if (!username) {
-    res.json({
-      code: 404,
+  } else if (!username) {
+    res.status(NOT_FOUND).send({
+      code: NOT_FOUND,
       success: false,
       message: "Username is required."
     });
-  }
-  if (!password) {
-    res.json({
-      code: 404,
+  } else if (!password) {
+    res.status(NOT_FOUND).send({
+      code: NOT_FOUND,
       success: false,
       message: "Password is required."
     });
-  }
-  if (!country) {
-    res.json({
-      code: 404,
+  } else if (!country) {
+    res.status(NOT_FOUND).send({
+      code: NOT_FOUND,
       success: false,
       message: "Country is required."
     });
-  }
-  if (!birthday) {
-    res.json({
-      code: 404,
+  } else if (!birthday) {
+    res.status(NOT_FOUND).send({
+      code: NOT_FOUND,
       success: false,
       message: "Birthday is required."
     });
-  }
-  if (!role) {
-    res.json({
-      code: 404,
+  } else if (!role) {
+    res.status(NOT_FOUND).send({
+      code: NOT_FOUND,
       success: false,
       message: "Role is required."
     });
+  } else {
+    if (!anon) {
+      anon = false;
+    }
+    const newUser = {
+      email,
+      username,
+      password,
+      country,
+      birthday,
+      role,
+      anon,
+      admin: false,
+      projectIds: [],
+      commentIds: []
+    };
+    const resp = await collection.insert(newUser);
+    res.status(SUCCESS).send({
+      code: SUCCESS,
+      success: true,
+      message: "User successfully created.",
+      data: resp
+    });
   }
-  const newUser = new UserSchema({
-    email,
-    username,
-    password,
-    country,
-    birthday,
-    role,
-    anon
-  });
-
-  // collection.insert()
-  const newUserData = await newUser.save();
-  res.json({
-    code: 200,
-    success: true,
-    message: "User successfully created.",
-    data: newUserData
-  });
 });
 
 router.put("/:id", validate({ body: UserSchema }), async (req, res) => {
-  //   const { db } = req;
-  //   const collection = db.get("users");
+  const { db } = req;
+  const collection = db.get("users");
   const { id } = req.params;
   const { email, username, password, country, birthday, role, anon } = req.body;
-  let fieldsToUpdate = [];
+  let fieldsToUpdate = {};
   if (email) {
     fieldsToUpdate["email"] = email;
   }
@@ -131,41 +133,54 @@ router.put("/:id", validate({ body: UserSchema }), async (req, res) => {
   if (anon) {
     fieldsToUpdate["anon"] = anon;
   }
-  const user = await UserSchema.findByIdAndUpdate(
-    id,
+  const user = await collection.update(
+    { _id: id },
     { $set: fieldsToUpdate },
     { new: true }
   );
   const ret = user
     ? {
-        code: 200,
+        code: SUCCESS,
         success: true,
-        message: "User successfully updated.",
-        data: user
+        message: "User successfully updated."
       }
     : {
-        code: 404,
+        code: NOT_FOUND,
         success: false,
         message: "User not found."
       };
-  res.json(ret);
+  res.status(ret.code).send(ret);
 });
 
 router.delete("/:id", async (req, res) => {
-  //   const { db } = req;
-  //   const collection = db.get("users");
+  const { db } = req;
+  const collection = db.get("users");
   const { id } = req.params;
-  const user = await UserSchema.findByIdAndRemove(id);
+  const user = await collection.remove({ _id: id });
   const ret = user
     ? {
-        code: 200,
+        code: SUCCESS,
         success: true,
         message: "User successfully deleted."
       }
     : {
-        code: 404,
+        code: NOT_FOUND,
         success: false,
         message: "User not found."
       };
-  res.json(ret);
+  res.status(ret.code).send(ret);
 });
+
+// testing purposes
+router.delete("/", async (req, res) => {
+  const { db } = req;
+  const collection = db.get("users");
+  await collection.remove({});
+  res.status(SUCCESS).send({
+    code: SUCCESS,
+    success: true,
+    message: "Users successfully deleted."
+  });
+});
+
+module.exports = router;
