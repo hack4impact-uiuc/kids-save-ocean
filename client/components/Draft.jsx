@@ -1,5 +1,4 @@
-import React, { createRef, useState, useEffect, useCallback } from "react";
-import { DraftAddImage } from "../components";
+import React, { useState, useEffect, useCallback } from "react";
 import { Row, Col } from "reactstrap";
 
 import Dante from "Dante2";
@@ -36,6 +35,8 @@ export default function Draft(props) {
     setUnsaved(false);
   };
   const saveCallback = useCallback(debounce(debounceSave, saveInterval), []);
+
+  const { id, phaseName, stageName } = props;
 
   const handleChange = editor => {
     setUnsaved(true);
@@ -85,7 +86,6 @@ export default function Draft(props) {
   };
 
   useEffect(() => {
-    const { id, phaseName, stageName } = props;
     getDescription(id, phaseName, stageName)
       .then(data => {
         const description = data.data.description;
@@ -99,7 +99,7 @@ export default function Draft(props) {
       .catch(() => {
         setLoading(false);
       });
-  }, []);
+  }, [id, phaseName, stageName]);
 
   return (
     <div>
