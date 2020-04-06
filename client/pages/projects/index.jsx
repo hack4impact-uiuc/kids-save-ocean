@@ -40,11 +40,42 @@ export default function ProjectsPage() {
       const grpSize = await getSelectedGrpSize();
       const difficulty = await getDifficulty();
 
+      var isMatchingSDG = false;
+      var isMatchingCountry = false;
+      var isMatchingGrpSize = false;
+      var isMatchingDifficulty = false;
+
       for (var i = 0; i < models.length; i++) {
-          for (var j = 0; j < UNGoals.length; j++) {
-            if () {
-              filteredModels.push(models[i]);
-            }
+        for (var j = 0; j < UNGoals.length; j++) {
+          if (UNGoals == undefined || models[i].sdg == UNGoals[j]) {
+            isMatchingSDG = true;
+          }
+
+          if (country == undefined || models[i].country == country) {
+            isMatchingCountry = true;
+          }
+
+          if (grpSize == undefined || models[i].groupSize == grpSize) {
+            isMatchingGrpSize = true;
+          }
+
+          if (country == undefined || models[i].difficulty == difficulty) {
+            isMatchingDifficulty = true;
+          }
+
+          if (
+            isMatchingSDG &&
+            isMatchingCountry &&
+            isMatchingGrpSize &&
+            isMatchingDifficulty
+          ) {
+            filteredModels.push(models[i]);
+          }
+
+          isMatchingSDG = false;
+          isMatchingCountry = false;
+          isMatchingGrpSize = false;
+          isMatchingDifficulty = false;
         }
       }
 
@@ -69,15 +100,14 @@ export default function ProjectsPage() {
         numProjects = filteredModels.length;
       }
 
-      if (userInput == null) {
+      if (userInput.length == 0) {
         setProjects(filteredModels.data.slice(0, numProjects));
       } else {
         let fuse = new Fuse(filteredModels.data, options);
         let result = fuse.search(userInput);
       }
 
-      setProjects();
-      return result;
+      setProjects(result.slice(0, numProjects));
     };
 
     var getSearchBarText = async () => {
@@ -91,10 +121,10 @@ export default function ProjectsPage() {
         $("select.un-goals-list").change(function() {
           var selectedGoals = [];
           $.each($(".un-goals-list option:selected"), function() {
-            selectedGoals.push($(this).val());
+            selectedGoals.push($(this).val().value);
           });
 
-          if (selectedGoals == undefined) {
+          if (selectedGoals.length == 0) {
             return undefined;
           }
 
@@ -172,24 +202,28 @@ export default function ProjectsPage() {
             className="un-goals-list"
             options={UNGoalData}
             placeholder="Select UN Goals"
+            // onChange={this.}
           />
           <Select
             className="country-list"
             options={countryData}
             placeholder="Search country"
             isClearable
+            // onChange={this.handleChange()}
           />
           <Select
             className="grp-sizes-list"
             options={groupSizeData}
             placeholder="Select group size"
             isClearable
+            // onChange={this.handleChange()}
           />
           <Select
             className="difficulty-list"
             options={levelData}
             placeholder="Select difficulty"
             isClearable
+            // onChange={this.handleChange()}
           />
         </div>
         <div className="project-cards">
