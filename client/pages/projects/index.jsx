@@ -30,7 +30,7 @@ export default function ProjectsPage() {
 
   useEffect(() => {
     const populateProjects = async () => {
-      const numProjects = 20;
+      var numProjects = 20;
 
       const models = await getModels();
       var filteredModels = [];
@@ -65,8 +65,12 @@ export default function ProjectsPage() {
         return;
       }
 
+      if (filteredModels.length < numProjects) {
+        numProjects = filteredModels.length;
+      }
+
       if (userInput == null) {
-        setProjects(filteredModels.data.slice(0, numProjects)); // handle if there's less than 20 filtered projects
+        setProjects(filteredModels.data.slice(0, numProjects));
       } else {
         let fuse = new Fuse(filteredModels.data, options);
         let result = fuse.search(userInput);
