@@ -41,3 +41,8 @@ jobs:
         run: |
           npm install
           npm run build
+        env:
+          FIREBASE_APIKEY: ${{ secrets.FIREBASE_APIKEY }}
+          AUTH_DOMAIN: ${{ secrets.AUTH_DOMAIN }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          STORAGE_BUCKET: ${{ secrets.STORAGE_BUCKET }}
