@@ -14,7 +14,7 @@ router.post("/", validate({ body: UpvoteSchema }), async (req, res) => {
     {
       $set: {
         [`upvotes.${userId}`]: {
-          upvote: true,
+          upvote: true
         }
       }
     },
@@ -54,6 +54,6 @@ router.get("/:upvoteLocation", async (req, res) => {
       }
     }
   );
-})
+});
 
 module.exports = router;
