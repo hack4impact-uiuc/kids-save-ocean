@@ -38,6 +38,10 @@ const schema = {
       type: "string",
       required: false
     },
+    commentIds: {
+      type: "string",
+      required: false
+    },
     phases: {
       type: "object",
       required: true,

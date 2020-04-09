@@ -1,6 +1,5 @@
 import axios from "axios";
 import fetch from "isomorphic-unfetch";
-
 import { getCookie } from "./cookie";
 
 const BASE_URL = process.env.BACKEND_URL ?? "http://localhost:5000/api";
