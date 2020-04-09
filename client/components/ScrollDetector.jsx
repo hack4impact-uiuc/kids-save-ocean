@@ -1,16 +1,18 @@
 import React, { Component, Fragment } from "react";
-import request from "superagent";
-// import { getModels, getModelsByID } from "../utils/apiWrapper";
+import { getModels, getModelsByID } from "../utils/apiWrapper";
 
+import "../public/styles/scroll-detector.scss";
 class ScrollDetector extends Component {
   constructor(props) {
     super(props);
     this.state = {
       error: false,
+      loadMore: true,
       hasMore: true,
       isLoading: false,
-      users: [],
+      updates: [],
       message: "not at bottom",
+      tempL: 0
     };
     this.handleScroll = this.handleScroll.bind(this);
   }
@@ -30,52 +32,84 @@ class ScrollDetector extends Component {
       html.offsetHeight
     );
     const {
-      loadUsers,
-      state: { error, isLoading, hasMore },
+      loadUpdates,
+      state: { error, isLoading, hasMore }
     } = this;
     const windowBottom = windowHeight + window.pageYOffset;
+    if (isLoading) {
+      <p> Loading... </p>;
+    }
     if (error || isLoading || !hasMore) return;
     if (windowBottom >= docHeight) {
-      console.log("reached bottom ");
       this.setState({
-        message: "bottom reached",
+        message: "bottom reached"
       });
-      loadUsers();
+      console.log(this.state);
+      loadUpdates();
     } else {
       this.setState({
-        message: "not at bottom",
+        message: "not at bottom"
       });
     }
   }
-  loadUsers = () => {
-    this.setState({ isLoading: true }, () => {
-      request
-        .get("https://randomuser.me/api/?results=10")
-        .then((results) => {
-          const nextUsers = results.body.results.map((user) => ({
-            email: user.email,
-            name: Object.values(user.name).join(" "),
-            photo: user.picture.medium,
-            username: user.login.username,
-            uuid: user.login.uuid,
-          }));
-          this.setState({
-            hasMore: this.state.users.length < 100,
-            isLoading: false,
-            users: [...this.state.users, ...nextUsers],
-          });
-        })
-        .catch((err) => {
-          this.setState({
-            error: err.message,
-            isLoading: false,
-          });
+
+  loadUpdates = async () => {
+    const updates = await getModels();
+    if (updates == undefined) {
+      console.log("Hi");
+      return;
+    }
+    console.log(updates.data.slice(0, 1)[0].name);
+    while (this.state.loadMore) {
+      if (
+        updates.data.slice(
+          this.state.updates.length,
+          this.state.updates.length + 1
+        )[0] == undefined
+      ) {
+        this.setState({
+          hasMore: false
         });
+        return;
+      }
+      let length = this.state.updates.length;
+      let update = {
+        name: updates.data.slice(
+          this.state.updates.length,
+          this.state.updates.length + 1
+        )[0].name,
+        email: updates.data.slice(
+          this.state.updates.length,
+          this.state.updates.length + 1
+        )[0].email,
+        country: updates.data.slice(
+          this.state.updates.length,
+          this.state.updates.length + 1
+        )[0].country,
+        description: updates.data.slice(
+          this.state.updates.length,
+          this.state.updates.length + 1
+        )[0].description,
+        id: updates.data.slice(
+          this.state.updates.length,
+          this.state.updates.length + 1
+        )[0]._id
+      };
+      this.setState({
+        tempL: this.state.tempL + 1,
+        loadMore: this.state.tempL < 20,
+        hasMore: this.state.updates.length < 200,
+        isLoading: false,
+        updates: [...this.state.updates, update]
+      });
+    }
+    this.setState({
+      tempL: 0,
+      loadMore: true
     });
   };
   componentDidMount() {
-    this.loadUsers();
-
+    this.loadUpdates();
     window.addEventListener("scroll", this.handleScroll);
   }
 
@@ -84,33 +118,25 @@ class ScrollDetector extends Component {
   }
 
   render() {
-    const { error, hasMore, isLoading, users } = this.state;
+    const { error, hasMore, isLoading, updates } = this.state;
     return (
       <div>
-        {users.map((user) => (
-          <Fragment key={user.username}>
+        {updates.map(update => (
+          <Fragment key={update.name}>
             <hr />
-            <div style={{ display: "flex" }}>
-              <img
-                alt={user.username}
-                src={user.photo}
-                style={{
-                  borderRadius: "50%",
-                  height: 72,
-                  marginRight: 20,
-                  width: 72,
-                }}
-              />
+            <div>
               <div>
-                <h2 style={{ marginTop: 0 }}>@{user.username}</h2>
-                <p>Name: {user.name}</p>
-                <p>Email: {user.email}</p>
+                <p>User: {update.id}</p>
+                <p>Country: {update.country}</p>
+                <p>Email: {update.email}</p>
+                <p>Project Name: {update.name}</p>
+                <p>Description: {update.description}</p>
               </div>
             </div>
           </Fragment>
         ))}
         <hr />
-        {error && <div style={{ color: "#900" }}>{error}</div>}
+        {error && <div>{error}</div>}
         {isLoading && <div>Loading...</div>}
         {!hasMore && <div>You did it! You reached the end!</div>}
       </div>
