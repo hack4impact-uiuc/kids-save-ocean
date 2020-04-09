@@ -376,3 +376,29 @@ export const getDescription = (model_id, phaseName, stageName) => {
     error
   }));
 };
+
+export const postUpvote = (model_id, userId) => {
+  const requestString = `${BASE_URL}/upvotes`;
+  return axios
+    .post(
+      requestString,
+      { upvoteLocation: model_id, userId: userId },
+      {
+        headers: {
+          "Content-Type": "application/JSON"
+        }
+      }
+    )
+    .catch(error => ({
+      type: "SAVE_UPVOTE_FAIL",
+      error
+    }));
+}
+
+export const getUpvote = (model_id) => {
+  const requestString = `${BASE_URL}/upvotes/${model_id}`;
+  return axios.get(requestString).catch(error => ({
+    type: "GET_UPVOTE_FAIL",
+    error
+  }));
+};
