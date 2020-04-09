@@ -23,7 +23,7 @@ import {
   DropdownToggle,
   DropdownMenu
 } from "reactstrap";
-import { setCookie } from "./../utils/cookie";
+import ls from "local-storage";
 import { GoogleLogin } from "react-google-login";
 import { Head } from "../components";
 import "../public/styles/auth.scss";
@@ -73,8 +73,8 @@ export default function RegisterPage(props) {
     if (resp.status !== SUCCESS) {
       setErrorMessage(resp.message);
     } else {
-      setCookie("token", e.tokenId);
-      setCookie("google", true);
+      ls.set("token", e.tokenId);
+      ls.set("google", true);
       Router.push("/");
     }
   };
@@ -104,7 +104,7 @@ export default function RegisterPage(props) {
       if (!response.token) {
         setErrorMessage(response.message);
       } else {
-        setCookie("token", response.token);
+        ls.set("token", response.token);
         setSuccessfulSubmit(true);
       }
     } else if (password !== password2) {
