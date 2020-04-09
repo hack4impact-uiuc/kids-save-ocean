@@ -1,4 +1,6 @@
 import axios from "axios";
+import fetch from "isomorphic-unfetch";
+import { getCookie } from "./cookie";
 
 const BASE_URL = process.env.BACKEND_URL ?? "http://localhost:5000/api";
 // const BASE_URL = process.env.BACKEND_URL ?? "http://52.240.158.249:5000/api"; // leave this in, this is Arpan's url
@@ -101,6 +103,247 @@ export const deleteForm = Model_ID => {
         error
       });
     });
+};
+
+export const register = (emailInput, passwordInput, questionIdx, answer) => {
+  try {
+    return fetch(`${BASE_URL}/auth/register/`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: emailInput,
+        password: passwordInput,
+        questionIdx,
+        securityQuestionAnswer: answer,
+        role: "guest",
+        answer
+      })
+    });
+  } catch (err) {
+    return err;
+  }
+};
+
+export const login = (emailInput, passwordInput) => {
+  try {
+    return fetch(`${BASE_URL}/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: emailInput,
+        password: passwordInput
+      })
+    });
+  } catch (err) {
+    return err;
+  }
+};
+
+export const verify = () => {
+  try {
+    return fetch(`${BASE_URL}/auth/verify/`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", token: getCookie("token") }
+    });
+  } catch (err) {
+    return err;
+  }
+};
+
+export const getSecurityQuestions = () => {
+  try {
+    return fetch(`${BASE_URL}/auth/getSecurityQuestions`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        token: getCookie("token")
+      }
+    });
+  } catch (err) {
+    return err;
+  }
+};
+
+export const setSecurityQuestion = (questionIdx, answer, password) => {
+  try {
+    return fetch(`${BASE_URL}/auth/addSecurityQuestionAnswer`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        token: getCookie("token")
+      },
+      body: JSON.stringify({
+        questionIdx,
+        answer,
+        password
+      })
+    });
+  } catch (err) {
+    return err;
+  }
+};
+
+export const getSecurityQuestionForUser = email => {
+  try {
+    return fetch(`${BASE_URL}/auth/securityQuestionForUser`, {
+      method: "POST",
+      body: JSON.stringify({
+        email
+      }),
+      headers: { email: email, "Content-Type": "application/json" }
+    });
+  } catch (err) {
+    return err;
+  }
+};
+
+export const submitSecurityQuestionAnswer = (email, answer, questionIdx) => {
+  try {
+    return fetch(`${BASE_URL}/auth/forgotPassword`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email,
+        answer,
+        questionIdx
+      })
+    });
+  } catch (err) {
+    return err;
+  }
+};
+
+export const resetPassword = (pin, email, password, answer) => {
+  try {
+    return fetch(`${BASE_URL}/auth/passwordReset`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        pin,
+        email,
+        password,
+        answer
+      })
+    });
+  } catch (err) {
+    return err;
+  }
+};
+
+export const changePassword = (currentPassword, newPassword) => {
+  try {
+    return fetch(`${BASE_URL}/auth/changePassword`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        token: getCookie("token")
+      },
+      body: JSON.stringify({
+        currentPassword,
+        newPassword
+      })
+    });
+  } catch (err) {
+    return err;
+  }
+};
+
+export const getUsersForRolesPage = () => {
+  try {
+    return fetch(`${BASE_URL}/auth/roles`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        token: getCookie("token"),
+        google: getCookie("google") ? true : false
+      }
+    });
+  } catch (err) {
+    return err;
+  }
+};
+
+export const changeRole = (userEmail, newRole, password) => {
+  try {
+    return fetch(`${BASE_URL}/auth/roleschange`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        token: getCookie("token"),
+        google: getCookie("google") ? true : false
+      },
+      body: JSON.stringify({
+        userEmail,
+        newRole,
+        password
+      })
+    });
+  } catch (err) {
+    return err;
+  }
+};
+
+export const google = tokenId => {
+  try {
+    return fetch(`${BASE_URL}/auth/google`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        tokenId: tokenId
+      })
+    });
+  } catch (err) {
+    return err;
+  }
+};
+
+export const verifyPIN = pin => {
+  try {
+    return fetch(`${BASE_URL}/auth/verifyEmail`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        token: getCookie("token")
+      },
+      body: JSON.stringify({
+        pin
+      })
+    });
+  } catch (err) {
+    return err;
+  }
+};
+
+export const resendPIN = () => {
+  try {
+    return fetch(`${BASE_URL}/auth/resendVerificationEmail`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        token: getCookie("token")
+      }
+    });
+  } catch (err) {
+    return err;
+  }
+};
+
+export const userInfo = () => {
+  try {
+    return fetch(`${BASE_URL}/auth/getUser`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        token: getCookie("token"),
+        google: getCookie("google") ? true : false
+      }
+    });
+  } catch (err) {
+    return err;
+  }
 };
 
 export const saveDescription = (
