@@ -382,7 +382,7 @@ export const postComment = (model_id, userId, commentBody) => {
   return axios
     .post(
       requestString,
-      { 
+      {
         commentLocation: `${model_id}`,
         userId: userId,
         comment: commentBody
@@ -399,12 +399,17 @@ export const postComment = (model_id, userId, commentBody) => {
     }));
 };
 
-export const postCommentThread = (model_id, parentIndex, userId, commentBody) => {
+export const postCommentThread = (
+  model_id,
+  parentIndex,
+  userId,
+  commentBody
+) => {
   const requestString = `${BASE_URL}/comment/thread`;
   return axios
     .post(
       requestString,
-      { 
+      {
         commentLocation: `${model_id}`,
         commentIndex: parentIndex,
         userId: userId,
@@ -422,7 +427,7 @@ export const postCommentThread = (model_id, parentIndex, userId, commentBody) =>
     }));
 };
 
-export const getComments = (model_id) => {
+export const getComments = model_id => {
   const requestString = `${BASE_URL}/comment/${model_id}`;
   return axios.get(requestString).catch(error => ({
     type: "GET_COMMENT_FAIL",
