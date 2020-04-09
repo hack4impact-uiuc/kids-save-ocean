@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router();
 const validate = require("express-jsonschema").validate;
 
-const CommentSchema = require("../public/schema/commentSchema.js").commentSchema;
+const CommentSchema = require("../public/schema/commentSchema.js")
+  .commentSchema;
 const ThreadSchema = require("../public/schema/commentSchema.js").threadSchema;
 
 router.post("/", validate({ body: CommentSchema }), function(req, res) {
@@ -12,12 +13,13 @@ router.post("/", validate({ body: CommentSchema }), function(req, res) {
 
   collection.update(
     { commentLocation },
-    { $push: {
+    {
+      $push: {
         comments: {
-          authorId : userId,
-          content : comment,
-          createdAt : new Date().toGMTString(),
-          thread: [],
+          authorId: userId,
+          content: comment,
+          createdAt: new Date().toGMTString(),
+          thread: []
         }
       }
     },
@@ -32,7 +34,8 @@ router.post("/", validate({ body: CommentSchema }), function(req, res) {
           success: `comment added!`
         });
       }
-  });
+    }
+  );
 });
 
 router.post("/thread", validate({ body: ThreadSchema }), function(req, res) {
@@ -42,11 +45,12 @@ router.post("/thread", validate({ body: ThreadSchema }), function(req, res) {
 
   collection.update(
     { commentLocation },
-    { $push: {
+    {
+      $push: {
         [`comments.${commentIndex}.thread`]: {
-          authorId : userId,
-          content : comment,
-          createdAt : new Date().toGMTString()
+          authorId: userId,
+          content: comment,
+          createdAt: new Date().toGMTString()
         }
       }
     },
@@ -61,7 +65,8 @@ router.post("/thread", validate({ body: ThreadSchema }), function(req, res) {
           success: `comment added!`
         });
       }
-  });
+    }
+  );
 });
 
 router.get("/:commentLocation", function(req, res) {
@@ -75,14 +80,15 @@ router.get("/:commentLocation", function(req, res) {
       $exists: true
     },
     function(e, docs) {
-    if (e) {
-      res.sendStatus(500);
-    } else {
-      res.json({
-        comments: docs,
-      });
+      if (e) {
+        res.sendStatus(500);
+      } else {
+        res.json({
+          comments: docs
+        });
+      }
     }
-  });
+  );
 });
 
 module.exports = router;
