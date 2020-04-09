@@ -11,6 +11,7 @@ const modelRouter = require("./routes/model");
 const filestoreRouter = require("./routes/filestore");
 const authRouter = require("./auth/api/index");
 const userRouter = require("./routes/user");
+const upvoteRouter = require("./routes/upvote");
 
 require("dotenv").config();
 
@@ -59,6 +60,7 @@ app.use("/api/", indexRouter);
 app.use("/api/models", modelRouter);
 app.use("/api/upload", filestoreRouter);
 app.use("/api/users", userRouter);
+app.use("/api/upvote", upvoteRouter);
 
 app.use(function(req, res, next) {
   req.gfs = gfs;
