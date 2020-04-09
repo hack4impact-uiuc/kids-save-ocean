@@ -376,3 +376,33 @@ export const getDescription = (model_id, phaseName, stageName) => {
     error
   }));
 };
+
+export const postComment = (model_id, phaseName, stageName, userId, commentBody) => {
+  const requestString = `${BASE_URL}/comment`;
+  return axios
+    .post(
+      requestString,
+      { 
+        commentLocation: `${model_id}:${phaseName}:${stageName}`,
+        userId: userId,
+        comment: commentBody
+      },
+      {
+        headers: {
+          "Content-Type": "application/JSON"
+        }
+      }
+    )
+    .catch(error => ({
+      type: "SAVE_COMMENT_FAIL",
+      error
+    }));
+};
+
+export const getComments = (model_id, phaseName, stageName) => {
+  const requestString = `${BASE_URL}/comment/${model_id}:${phaseName}:${stageName}`;
+  return axios.get(requestString).catch(error => ({
+    type: "GET_COMMENT_FAIL",
+    error
+  }));
+};
