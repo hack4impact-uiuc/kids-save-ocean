@@ -28,14 +28,7 @@ export default function() {
               <strong>Welcome to FateMaker!</strong>
             </h2>
           </div>
-          <Row className="rowInput">
-            <Col xs="3" align="right" className="vertAlign">
-              username
-            </Col>
-            <Col xs="9">
-              <Input placeholder="choose username" />
-            </Col>
-          </Row>
+          <Row className="rowInput"></Row>
           <Row className="rowInput">
             <Col xs="3" align="right" className="vertAlign">
               password
