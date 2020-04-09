@@ -377,13 +377,13 @@ export const getDescription = (model_id, phaseName, stageName) => {
   }));
 };
 
-export const postComment = (model_id, phaseName, stageName, userId, commentBody) => {
+export const postComment = (model_id, userId, commentBody) => {
   const requestString = `${BASE_URL}/comment`;
   return axios
     .post(
       requestString,
       { 
-        commentLocation: `${model_id}:${phaseName}:${stageName}`,
+        commentLocation: `${model_id}`,
         userId: userId,
         comment: commentBody
       },
@@ -399,8 +399,8 @@ export const postComment = (model_id, phaseName, stageName, userId, commentBody)
     }));
 };
 
-export const getComments = (model_id, phaseName, stageName) => {
-  const requestString = `${BASE_URL}/comment/${model_id}:${phaseName}:${stageName}`;
+export const getComments = (model_id) => {
+  const requestString = `${BASE_URL}/comment/${model_id}`;
   return axios.get(requestString).catch(error => ({
     type: "GET_COMMENT_FAIL",
     error
