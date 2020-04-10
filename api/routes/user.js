@@ -2,13 +2,13 @@ const express = require("express");
 const router = express.Router();
 const validate = require("express-jsonschema").validate;
 const guard = require("express-jwt-permissions")();
-const auth = require("./authentication.js");
+const { checkToken } = require("../auth/utils/checkToken");
 
 const UserSchema = require("../public/schema/userSchema.js").userSchema;
 const SUCCESS = 200;
 const NOT_FOUND = 404;
 
-router.get("/", async (req, res) => {
+router.get("/", checkToken, async (req, res) => {
   const { db } = req;
   const collection = db.get("users");
   const users = await collection.find({});
@@ -20,7 +20,7 @@ router.get("/", async (req, res) => {
   });
 });
 
-router.get("/:id", auth.checkToken, async (req, res) => {
+router.get("/:id", checkToken, async (req, res) => {
   const { db } = req;
   const collection = db.get("users");
   const { id } = req.params;
@@ -108,7 +108,7 @@ router.post("/", validate({ body: UserSchema }), async (req, res) => {
   }
 });
 
-router.put("/:id", auth.checkToken, async (req, res) => {
+router.put("/:id", checkToken, async (req, res) => {
   const { db } = req;
   const collection = db.get("users");
   const { id } = req.params;
@@ -154,7 +154,7 @@ router.put("/:id", auth.checkToken, async (req, res) => {
   res.status(ret.code).send(ret);
 });
 
-router.delete("/:id", auth.checkToken, async (req, res) => {
+router.delete("/:id", checkToken, async (req, res) => {
   const { db } = req;
   const collection = db.get("users");
   const { id } = req.params;
