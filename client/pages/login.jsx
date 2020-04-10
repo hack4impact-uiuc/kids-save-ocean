@@ -51,6 +51,7 @@ export default function Login(props) {
       setErrorMessage(resp.message);
     } else {
       ls.set("token", resp.token);
+      ls.set("google", false);
       Router.push("/");
     }
   };

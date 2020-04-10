@@ -1,13 +1,14 @@
 const jwt = require("jsonwebtoken");
 
 let checkToken = (req, res, next) => {
-  let token = req.headers["x-access-token"] || req.headers["authorization"];
+  let token = req.headers["token"];
   if (token) {
-    if (token.startsWith("Bearer ")) {
-      // Remove "Bearer " from string
-      token = token.slice(7, token.length);
-    }
+    // if (token.startsWith("Bearer ")) {
+    //   // Remove "Bearer " from string
+    //   token = token.slice(7, token.length);
+    // }
     jwt.verify(token, process.env.AUTH_SECRET, (err, decoded) => {
+      console.log(err);
       if (err) {
         return res.json({
           success: false,
