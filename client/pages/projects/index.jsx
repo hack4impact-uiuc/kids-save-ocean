@@ -27,10 +27,11 @@ const DESCRIPTION_LENGTH = 200;
 export default function ProjectsPage() {
   const [projects, setProjects] = useState(null);
 
-  const [selectedUNGoals] = useState(null);
-  const [selectedCountry] = useState(null);
-  const [selectedGrpSize] = useState(null);
-  const [selectedDifficulty] = useState(null);
+  const [selectedUNGoals, setSelectedUNGoals] = useState(null);
+  const [selectedCountry, setSelectedCountry] = useState(null);
+  const [selectedGrpSize, setSelectedGrpSize] = useState(null);
+  const [selectedDifficulty, setSelectedDifficulty] = useState(null);
+  const [userInput, setUserInput] = useState(null);
 
   const handleUNGoals = selectedUNGoals => {
     if (selectedUNGoals) {
@@ -53,6 +54,12 @@ export default function ProjectsPage() {
   const handleDifficulty = selectedDifficulty => {
     if (selectedDifficulty) {
       setSelectedDifficulty(selectedDifficulty);
+    }
+  };
+
+  const handleUserInput = userInput => {
+    if (userInput) {
+      setUserInput(userInput);
     }
   };
 
@@ -82,11 +89,11 @@ export default function ProjectsPage() {
       var isMatchingDifficulty = false;
 
       if (
-        selectedUNGoals == undefined &&
-        selectedCountry == undefined &&
-        selectedGrpSize == undefined &&
-        selectedDifficulty == undefined &&
-        getSearchBarText().length == 0
+        selectedUNGoals == null &&
+        selectedCountry == null &&
+        selectedGrpSize == null &&
+        selectedDifficulty == null //&&
+        //getSearchBarText().length == 0
       ) {
         populateAllProjects();
       } else {
@@ -181,6 +188,8 @@ export default function ProjectsPage() {
             className="input"
             id="user-input"
             placeholder="Find a project"
+            onChange={handleUserInput}
+            value={userInput}
           />
         </div>
         <div className="dropdowns">
