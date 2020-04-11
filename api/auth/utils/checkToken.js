@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-let checkToken = (req, res, next) => {
+let checkToken = async (req, res, next) => {
   let token = req.headers["x-access-token"] || req.headers["authorization"];
   if (token) {
     if (token.startsWith("Bearer ")) {
@@ -16,7 +16,7 @@ let checkToken = (req, res, next) => {
       } else {
         req.decoded = decoded;
         req.user = {
-          permissions: decoded.permissions[0]
+          permission: decoded.permission
         };
         next();
       }
