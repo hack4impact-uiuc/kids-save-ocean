@@ -26,6 +26,7 @@ import {
 import ls from "local-storage";
 import { GoogleLogin } from "react-google-login";
 import { Head } from "../components";
+
 import "../public/styles/auth.scss";
 
 export default function RegisterPage(props) {
@@ -64,7 +65,7 @@ export default function RegisterPage(props) {
         setErrorMessage(respJson.error.message);
       }
     };
-    loadSecurityQuestions();
+    // loadSecurityQuestions();
   });
 
   const handleGoogle = async e => {

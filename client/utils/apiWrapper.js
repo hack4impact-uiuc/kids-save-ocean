@@ -379,11 +379,11 @@ export const getDescription = (model_id, phaseName, stageName) => {
 
 export const getUser = userId => {
   try {
-    return fetch(`${BASE_URL}/auth/users/${userId}`, {
+    return fetch(`${BASE_URL}/users/${userId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        token: ls.get("token")
+        "x-access-token": ls.get("token")
       }
     });
   } catch (err) {
@@ -407,13 +407,31 @@ export const createUser = newUser => {
   }
 };
 
+export const updateUser = (userId, updatedUser) => {
+  try {
+    return (
+      fetch(`${BASE_URL}/users/${userId}`),
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": ls.get("token")
+        },
+        body: JSON.stringify(updatedUser)
+      }
+    );
+  } catch (err) {
+    return err;
+  }
+};
+
 export const deleteUser = userId => {
   try {
     return fetch(`${BASE_URL}/users/${userId}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        token: ls.get("token")
+        "x-access-token": ls.get("token")
       }
     });
   } catch (err) {
