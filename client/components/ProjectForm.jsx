@@ -81,7 +81,7 @@ export default function ProjectForm() {
                       <option
                         label={option.label}
                         value={option.value}
-                        key={option.key}
+                        key={option.value}
                       />
                     ))}
                   </Input>
