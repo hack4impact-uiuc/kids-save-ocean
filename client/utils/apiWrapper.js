@@ -1,6 +1,7 @@
 import axios from "axios";
 import fetch from "isomorphic-unfetch";
-import ls from "local-storage";
+
+import { getCookie } from "./cookie";
 
 const BASE_URL = process.env.BACKEND_URL ?? "http://localhost:5000/api";
 // const BASE_URL = process.env.BACKEND_URL ?? "http://52.240.158.249:5000/api"; // leave this in, this is Arpan's url
@@ -143,7 +144,7 @@ export const verify = () => {
   try {
     return fetch(`${BASE_URL}/auth/verify/`, {
       method: "POST",
-      headers: { "Content-Type": "application/json", token: ls.get("token") }
+      headers: { "Content-Type": "application/json", token: getCookie("token") }
     });
   } catch (err) {
     return err;
@@ -156,7 +157,7 @@ export const getSecurityQuestions = () => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        token: ls.get("token")
+        token: getCookie("token")
       }
     });
   } catch (err) {
@@ -170,7 +171,7 @@ export const setSecurityQuestion = (questionIdx, answer, password) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        token: ls.get("token")
+        token: getCookie("token")
       },
       body: JSON.stringify({
         questionIdx,
@@ -236,7 +237,7 @@ export const changePassword = (currentPassword, newPassword) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        token: ls.get("token")
+        token: getCookie("token")
       },
       body: JSON.stringify({
         currentPassword,
@@ -254,8 +255,8 @@ export const getUsersForRolesPage = () => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        token: ls.get("token"),
-        google: ls.get("google") ? true : false
+        token: getCookie("token"),
+        google: getCookie("google") ? true : false
       }
     });
   } catch (err) {
@@ -269,8 +270,8 @@ export const changeRole = (userEmail, newRole, password) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        token: ls.get("token"),
-        google: ls.get("google") ? true : false
+        token: getCookie("token"),
+        google: getCookie("google") ? true : false
       },
       body: JSON.stringify({
         userEmail,
@@ -306,7 +307,7 @@ export const verifyPIN = pin => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        token: ls.get("token")
+        token: getCookie("token")
       },
       body: JSON.stringify({
         pin
@@ -323,7 +324,7 @@ export const resendPIN = () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        token: ls.get("token")
+        token: getCookie("token")
       }
     });
   } catch (err) {
@@ -337,8 +338,8 @@ export const userInfo = () => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        token: ls.get("token"),
-        google: ls.get("google") ? true : false
+        token: getCookie("token"),
+        google: getCookie("google") ? true : false
       }
     });
   } catch (err) {
@@ -375,48 +376,4 @@ export const getDescription = (model_id, phaseName, stageName) => {
     type: "GET_DESCRIPTION_FAIL",
     error
   }));
-};
-
-export const getUser = userId => {
-  try {
-    return fetch(`${BASE_URL}/auth/users/${userId}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        token: ls.get("token")
-      }
-    });
-  } catch (err) {
-    return err;
-  }
-};
-
-export const createUser = newUser => {
-  try {
-    return fetch(`${BASE_URL}/users`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        newUser
-      })
-    });
-  } catch (err) {
-    return err;
-  }
-};
-
-export const deleteUser = userId => {
-  try {
-    return fetch(`${BASE_URL}/users/${userId}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        token: ls.get("token")
-      }
-    });
-  } catch (err) {
-    return err;
-  }
 };
