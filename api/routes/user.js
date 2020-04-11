@@ -10,34 +10,42 @@ const NOT_FOUND = 404;
 router.get("/", checkToken, async (req, res) => {
   const { db } = req;
   const collection = db.get("users");
-  const users = await collection.find({});
-  res.status(SUCCESS).send({
-    code: SUCCESS,
-    success: true,
-    message: "Users retrieved successfully.",
-    data: users
-  });
+  try {
+    const users = await collection.find({});
+    res.status(SUCCESS).send({
+      code: SUCCESS,
+      success: true,
+      message: "Users retrieved successfully.",
+      data: users
+    });
+  } catch (err) {
+    return err;
+  }
 });
 
 router.get("/:id", checkToken, async (req, res) => {
   const { db } = req;
   const collection = db.get("users");
   const { id } = req.params;
-  const users = await collection.find({ _id: id });
-  const ret =
-    users.length === 1
-      ? {
-          code: SUCCESS,
-          success: true,
-          message: "User retrieved successfully.",
-          data: users[0]
-        }
-      : {
-          code: NOT_FOUND,
-          success: false,
-          message: "User not found."
-        };
-  res.status(ret.code).send(ret);
+  try {
+    const users = await collection.find({ _id: id });
+    const ret =
+      users.length === 1
+        ? {
+            code: SUCCESS,
+            success: true,
+            message: "User retrieved successfully.",
+            data: users[0]
+          }
+        : {
+            code: NOT_FOUND,
+            success: false,
+            message: "User not found."
+          };
+    res.status(ret.code).send(ret);
+  } catch (err) {
+    return err;
+  }
 });
 
 router.post("/", validate({ body: UserSchema }), async (req, res) => {
@@ -94,16 +102,19 @@ router.post("/", validate({ body: UserSchema }), async (req, res) => {
       role,
       anon,
       admin: false,
-      projectIds: [],
-      commentIds: []
+      createdProjects: []
     };
-    const resp = await collection.insert(newUser);
-    res.status(SUCCESS).send({
-      code: SUCCESS,
-      success: true,
-      message: "User successfully created.",
-      data: resp
-    });
+    try {
+      const resp = await collection.insert(newUser);
+      res.status(SUCCESS).send({
+        code: SUCCESS,
+        success: true,
+        message: "User successfully created.",
+        data: resp
+      });
+    } catch (err) {
+      return err;
+    }
   }
 });
 
@@ -134,42 +145,50 @@ router.put("/:id", checkToken, async (req, res) => {
   if (anon) {
     fieldsToUpdate["anon"] = anon;
   }
-  const user = await collection.update(
-    { _id: id },
-    { $set: fieldsToUpdate },
-    { new: true }
-  );
-  const ret = user
-    ? {
-        code: SUCCESS,
-        success: true,
-        message: "User successfully updated."
-      }
-    : {
-        code: NOT_FOUND,
-        success: false,
-        message: "User not found."
-      };
-  res.status(ret.code).send(ret);
+  try {
+    const user = await collection.update(
+      { _id: id },
+      { $set: fieldsToUpdate },
+      { new: true }
+    );
+    const ret = user
+      ? {
+          code: SUCCESS,
+          success: true,
+          message: "User successfully updated."
+        }
+      : {
+          code: NOT_FOUND,
+          success: false,
+          message: "User not found."
+        };
+    res.status(ret.code).send(ret);
+  } catch (err) {
+    return err;
+  }
 });
 
 router.delete("/:id", checkToken, async (req, res) => {
   const { db } = req;
   const collection = db.get("users");
   const { id } = req.params;
-  const user = await collection.remove({ _id: id });
-  const ret = user
-    ? {
-        code: SUCCESS,
-        success: true,
-        message: "User successfully deleted."
-      }
-    : {
-        code: NOT_FOUND,
-        success: false,
-        message: "User not found."
-      };
-  res.status(ret.code).send(ret);
+  try {
+    const user = await collection.remove({ _id: id });
+    const ret = user
+      ? {
+          code: SUCCESS,
+          success: true,
+          message: "User successfully deleted."
+        }
+      : {
+          code: NOT_FOUND,
+          success: false,
+          message: "User not found."
+        };
+    res.status(ret.code).send(ret);
+  } catch (err) {
+    return err;
+  }
 });
 
 // testing purposes

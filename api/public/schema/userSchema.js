@@ -30,7 +30,7 @@ const schema = {
     anon: {
       type: "boolean"
     },
-    projectIds: {
+    createdProjects: {
       type: "array",
       items: {
         type: "string"

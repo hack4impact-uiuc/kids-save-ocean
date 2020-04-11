@@ -65,7 +65,7 @@ export default function RegisterPage(props) {
         setErrorMessage(respJson.error.message);
       }
     };
-    // loadSecurityQuestions();
+    loadSecurityQuestions();
   });
 
   const handleGoogle = async e => {
