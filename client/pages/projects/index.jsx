@@ -28,6 +28,49 @@ const DESCRIPTION_LENGTH = 200;
 export default function ProjectsPage() {
   const [projects, setProjects] = useState(null);
 
+  var updatedSelectedUNGoals = [];
+  var updatedSelectedCountry;
+  var updatedSelectedGrpSize;
+  var updatedSelectedDifficulty;
+
+  const handleUNGoals = selectedUNGoals => {
+    updatedSelectedUNGoals = [];
+
+    if (selectedUNGoals == undefined) {
+      return;
+    }
+
+    this.setState({ selectedUNGoals });
+    updatedSelectedUNGoals = selectedUNGoals;
+  };
+
+  const handleCountry = selectedCountry => {
+    if (selectedCountry == undefined) {
+      return;
+    }
+
+    this.setState({ selectedCountry });
+    updatedSelectedCountry = selectedCountry;
+  };
+
+  const handleGrpSize = selectedGrpSize => {
+    if (selectedGrpSize == undefined) {
+      return;
+    }
+
+    this.setState({ selectedGrpSize });
+    updatedSelectedGrpSize = selectedGrpSize;
+  };
+
+  const handleDifficulty = selectedDifficulty => {
+    if (selectedDifficulty == undefined) {
+      return;
+    }
+
+    this.setState({ selectedDifficulty });
+    updatedSelectedDifficulty = selectedDifficulty;
+  };
+
   useEffect(() => {
     const populateProjects = async () => {
       var numProjects = 20;
@@ -35,10 +78,11 @@ export default function ProjectsPage() {
       const models = await getModels();
       var filteredModels = [];
 
-      const UNGoals = await getSelectedUNGoals();
-      const country = await getSelectedCountry();
-      const grpSize = await getSelectedGrpSize();
-      const difficulty = await getDifficulty();
+      // these should be unnecessary
+      // updatedSelectedUNGoals = await ;
+      // updatedSelectedCountry = await ;
+      // updatedSelectedGrpSize = await ;
+      // updatedSelectedDifficulty = await ;
 
       var isMatchingSDG = false;
       var isMatchingCountry = false;
@@ -46,20 +90,32 @@ export default function ProjectsPage() {
       var isMatchingDifficulty = false;
 
       for (var i = 0; i < models.length; i++) {
-        for (var j = 0; j < UNGoals.length; j++) {
-          if (UNGoals == undefined || models[i].sdg == UNGoals[j]) {
+        for (var j = 0; j < updatedSelectedUNGoals.length; j++) {
+          if (
+            updatedSelectedUNGoals == undefined ||
+            models[i].sdg == updatedSelectedUNGoals[j]
+          ) {
             isMatchingSDG = true;
           }
 
-          if (country == undefined || models[i].country == country) {
+          if (
+            updatedSelectedCountry == undefined ||
+            models[i].country == updatedSelectedCountry
+          ) {
             isMatchingCountry = true;
           }
 
-          if (grpSize == undefined || models[i].groupSize == grpSize) {
+          if (
+            updatedSelectedGrpSize == undefined ||
+            models[i].groupSize == updatedSelectedGrpSize
+          ) {
             isMatchingGrpSize = true;
           }
 
-          if (country == undefined || models[i].difficulty == difficulty) {
+          if (
+            updatedSelectedDifficulty == undefined ||
+            models[i].difficulty == updatedSelectedDifficulty
+          ) {
             isMatchingDifficulty = true;
           }
 
@@ -92,7 +148,7 @@ export default function ProjectsPage() {
       // handling no data (projects)
       if (filteredModels.length == 0) {
         // to remove
-        console.log("undefined");
+        console.log("no projects have these specific fields");
         return;
       }
 
@@ -116,71 +172,6 @@ export default function ProjectsPage() {
       return text;
     };
 
-    var getSelectedUNGoals = async () => {
-      $(document).ready(function() {
-        $("select.un-goals-list").change(function() {
-          var selectedGoals = [];
-          $.each($(".un-goals-list option:selected"), function() {
-            selectedGoals.push($(this).val().value);
-          });
-
-          if (selectedGoals.length == 0) {
-            return undefined;
-          }
-
-          return selectedGoals;
-        });
-      });
-    };
-
-    var getSelectedCountry = async () => {
-      $(document).ready(function() {
-        $("select.country-list").change(function() {
-          var selectedCountry = $(this)
-            .children("option:selected")
-            .val();
-
-          if (selectedCountry == undefined) {
-            return undefined;
-          }
-
-          return selectedCountry;
-        });
-      });
-    };
-
-    var getSelectedGrpSize = async () => {
-      $(document).ready(function() {
-        $("select.grp-sizes-list").change(function() {
-          var selectedGrpSize = $(this)
-            .children("option:selected")
-            .val();
-
-          if (selectedGrpSize == undefined) {
-            return undefined;
-          }
-
-          return selectedGrpSize;
-        });
-      });
-    };
-
-    var getDifficulty = async () => {
-      $(document).ready(function() {
-        $("select.difficulty-list").change(function() {
-          var selectedDifficulty = $(this)
-            .children("option:selected")
-            .val();
-
-          if (selectedDifficulty == undefined) {
-            return undefined;
-          }
-
-          return selectedDifficulty;
-        });
-      });
-    };
-
     populateProjects();
   }, []);
 
@@ -202,28 +193,32 @@ export default function ProjectsPage() {
             className="un-goals-list"
             options={UNGoalData}
             placeholder="Select UN Goals"
-            // onChange={this.}
+            onChange={handleUNGoals()}
+            value={selectedUNGoals}
           />
           <Select
             className="country-list"
             options={countryData}
             placeholder="Search country"
             isClearable
-            // onChange={this.handleChange()}
+            onChange={handleCountry()}
+            value={selectedCountry}
           />
           <Select
             className="grp-sizes-list"
             options={groupSizeData}
             placeholder="Select group size"
             isClearable
-            // onChange={this.handleChange()}
+            onChange={handleGrpSize()}
+            value={selectedGrpSize}
           />
           <Select
             className="difficulty-list"
             options={levelData}
             placeholder="Select difficulty"
             isClearable
-            // onChange={this.handleChange()}
+            onChange={handleDifficulty()}
+            value={selectedDifficulty}
           />
         </div>
         <div className="project-cards">
