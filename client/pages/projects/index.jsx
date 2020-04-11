@@ -20,7 +20,6 @@ import {
 import "../../public/styles/projects.scss";
 import "../../../api/public/schema/projectSchema";
 
-import $ from "jquery";
 import Fuse from "fuse.js";
 
 const DESCRIPTION_LENGTH = 200;
@@ -37,15 +36,16 @@ export default function ProjectsPage() {
     updatedSelectedUNGoals = [];
 
     if (selectedUNGoals == undefined) {
-      return;
+      updatedSelectedUNGoals = null;
+    } else {
+      this.setState({ selectedUNGoals });
+      updatedSelectedUNGoals = selectedUNGoals;
     }
-
-    this.setState({ selectedUNGoals });
-    updatedSelectedUNGoals = selectedUNGoals;
   };
 
   const handleCountry = selectedCountry => {
     if (selectedCountry == undefined) {
+      updatedSelectedCountry = null;
       return;
     }
 
@@ -55,6 +55,7 @@ export default function ProjectsPage() {
 
   const handleGrpSize = selectedGrpSize => {
     if (selectedGrpSize == undefined) {
+      updatedSelectedGrpSize = null;
       return;
     }
 
@@ -64,6 +65,7 @@ export default function ProjectsPage() {
 
   const handleDifficulty = selectedDifficulty => {
     if (selectedDifficulty == undefined) {
+      updatedSelectedDifficulty = null;
       return;
     }
 
@@ -78,12 +80,6 @@ export default function ProjectsPage() {
       const models = await getModels();
       var filteredModels = [];
 
-      // these should be unnecessary
-      // updatedSelectedUNGoals = await ;
-      // updatedSelectedCountry = await ;
-      // updatedSelectedGrpSize = await ;
-      // updatedSelectedDifficulty = await ;
-
       var isMatchingSDG = false;
       var isMatchingCountry = false;
       var isMatchingGrpSize = false;
@@ -92,28 +88,28 @@ export default function ProjectsPage() {
       for (var i = 0; i < models.length; i++) {
         for (var j = 0; j < updatedSelectedUNGoals.length; j++) {
           if (
-            updatedSelectedUNGoals == undefined ||
+            updatedSelectedUNGoals == null ||
             models[i].sdg == updatedSelectedUNGoals[j]
           ) {
             isMatchingSDG = true;
           }
 
           if (
-            updatedSelectedCountry == undefined ||
+            updatedSelectedCountry == null ||
             models[i].country == updatedSelectedCountry
           ) {
             isMatchingCountry = true;
           }
 
           if (
-            updatedSelectedGrpSize == undefined ||
+            updatedSelectedGrpSize == null ||
             models[i].groupSize == updatedSelectedGrpSize
           ) {
             isMatchingGrpSize = true;
           }
 
           if (
-            updatedSelectedDifficulty == undefined ||
+            updatedSelectedDifficulty == null ||
             models[i].difficulty == updatedSelectedDifficulty
           ) {
             isMatchingDifficulty = true;
