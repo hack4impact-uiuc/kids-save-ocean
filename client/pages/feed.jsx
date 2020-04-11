@@ -1,3 +1,4 @@
+import React from "react";
 import { ScrollDetector, Head } from "../components";
 import { Container } from "reactstrap";
 

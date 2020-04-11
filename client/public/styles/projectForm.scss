@@ -1,0 +1,43 @@
+.button-modal {
+  background-color: rgba(5, 7, 126, 0.616);
+  border-color: rgba(12, 46, 240, 0.685);
+  border-radius: 1em;
+  width: 30%;
+}
+.button-modal:hover {
+  background-color: rgba(5, 46, 143, 0.6);
+  border-color: rgba(12, 46, 240, 0.685);
+}
+.select-sdg {
+  width: 10em;
+  border-radius: 10em;
+}
+.project-form-modal {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  max-width: none;
+
+  .modal-content {
+    padding: 2em;
+    width: 40vw;
+    margin: 0;
+  }
+
+  .modal-header {
+    justify-content: center;
+  }
+
+  .modal-footer {
+    justify-content: center;
+  }
+}
+.header-modal-text {
+  color: black;
+  font-weight: bold;
+  font-size: 2em;
+  text-align: center;
+  align-content: center;
+  width: 100%;
+}

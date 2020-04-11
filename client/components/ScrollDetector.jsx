@@ -1,7 +1,11 @@
 import React, { Component, Fragment } from "react";
-import { getModels, getModelsByID } from "../utils/apiWrapper";
+import { getModels } from "../utils/apiWrapper";
 
 import "../public/styles/scroll-detector.scss";
+
+const maxUpdatesAtOnce = 20;
+const maxUpdatesTotal = 200;
+
 class ScrollDetector extends Component {
   constructor(props) {
     super(props);
@@ -39,7 +43,9 @@ class ScrollDetector extends Component {
     if (isLoading) {
       <p> Loading... </p>;
     }
-    if (error || isLoading || !hasMore) return;
+    if (error || isLoading || !hasMore) {
+      return;
+    }
     if (windowBottom >= docHeight) {
       this.setState({
         message: "bottom reached"
@@ -54,54 +60,32 @@ class ScrollDetector extends Component {
   }
 
   loadUpdates = async () => {
-    const updates = await getModels();
-    if (updates == undefined) {
-      console.log("Hi");
+    const nextUpdates = await getModels();
+    if (nextUpdates === undefined) {
       return;
     }
-    console.log(updates.data.slice(0, 1)[0].name);
+    let length = this.state.updates.length;
     while (this.state.loadMore) {
-      if (
-        updates.data.slice(
-          this.state.updates.length,
-          this.state.updates.length + 1
-        )[0] == undefined
-      ) {
+      if (nextUpdates.data.slice(length, length + 1)[0] === undefined) {
         this.setState({
           hasMore: false
         });
         return;
       }
-      let length = this.state.updates.length;
-      let update = {
-        name: updates.data.slice(
-          this.state.updates.length,
-          this.state.updates.length + 1
-        )[0].name,
-        email: updates.data.slice(
-          this.state.updates.length,
-          this.state.updates.length + 1
-        )[0].email,
-        country: updates.data.slice(
-          this.state.updates.length,
-          this.state.updates.length + 1
-        )[0].country,
-        description: updates.data.slice(
-          this.state.updates.length,
-          this.state.updates.length + 1
-        )[0].description,
-        id: updates.data.slice(
-          this.state.updates.length,
-          this.state.updates.length + 1
-        )[0]._id
+      let nextUpdate = {
+        name: nextUpdates.data.slice(length, length + 1)[0].name,
+        email: nextUpdates.data.slice(length, length + 1)[0].email,
+        country: nextUpdates.data.slice(length, length + 1)[0].country,
+        description: nextUpdates.data.slice(length, length + 1)[0].description,
+        id: nextUpdates.data.slice(length, length + 1)[0]._id
       };
-      this.setState({
-        tempL: this.state.tempL + 1,
-        loadMore: this.state.tempL < 20,
-        hasMore: this.state.updates.length < 200,
+      this.setState(prevState => ({
+        tempL: prevState.tempL + 1,
+        loadMore: prevState.tempL < maxUpdatesAtOnce,
+        hasMore: prevState.updates.length < maxUpdatesTotal,
         isLoading: false,
-        updates: [...this.state.updates, update]
-      });
+        updates: [...prevState.updates, nextUpdate]
+      }));
     }
     this.setState({
       tempL: 0,

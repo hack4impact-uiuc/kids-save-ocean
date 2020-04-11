@@ -1,5 +1,4 @@
-import React from "react";
-import Link from "next/link";
+import React, { useEffect, useState } from "react";
 import {
   Navbar,
   Container,
@@ -13,72 +12,55 @@ import {
 
 import "../public/styles/navbar.scss";
 
-class NavBar extends React.Component {
-  state = {
-    isTop: true,
-    collapsed: true
-  };
-  componentDidMount() {
+export default function NavBar() {
+  const [isTop, setTop] = useState(true);
+  const [isCollapsed, setCollapsed] = useState(true);
+  useEffect(() => {
     document.addEventListener("scroll", () => {
-      const isTop = window.scrollY < 100;
-      if (isTop !== this.state.isTop) {
-        this.setState({ isTop });
+      let topBound = 100;
+      const currTop = window.scrollY < topBound;
+      if (currTop !== isTop) {
+        setTop(currTop);
       }
     });
+  });
+  function toggleNavbar() {
+    setCollapsed(!isCollapsed);
   }
-  toggleNavbar = () => {
-    this.setState({
-      collapsed: !this.state.collapsed
-    });
-  };
-  render() {
-    return (
-      <Navbar
-        className={`navbar-expand-lg navbar-dark fixed-top ${
-          this.state.isTop ? "navbar-color" : "navbar-color"
-        }`}
-        id={this.props.navType ? this.props.navType : "mainNav"}
-        bg="primary"
-        variant="dark"
-      >
-        <Container>
-          <NavbarBrand href="/">
+  return (
+    <Navbar className={`navbar-expand-lg fixed-top ${"navbar-color"}`}>
+      <Container>
+        <NavbarBrand href="/">
+          <img
+            className="icon-settings"
+            id="logo"
+            height="60"
+            width="240"
+            src="/homepage-images/fatemaker-logo.png"
+            alt="FateMaker logo"
+          />
+        </NavbarBrand>
+        <NavbarToggler onClick={toggleNavbar} className="tempclasstoggler" />
+        <Collapse navbar isOpen={!isCollapsed}>
+          <Nav navbar className="ml-auto">
+            <Button className="button-create" type="primary">
+              Create
+            </Button>
+            <NavItem href="/feed">
+              <img
+                className="notification-img"
+                src="/homepage-images/notification-icon.png"
+                alt="Notifications"
+              />
+            </NavItem>
             <img
-              className="icon-settings"
-              id="logo"
-              height="60"
-              width="240"
-              src="/homepage-images/fatemaker-logo.png"
-              alttext="Hack4Impact UIUC logo"
+              className="user-img"
+              src="/homepage-images/user-icon.png"
+              alt="Profile"
             />
-          </NavbarBrand>
-          <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
-          <Collapse navbar isOpen={!this.state.collapsed}>
-            <Nav navbar className="text-uppercase ml-auto">
-              <Link href="/userInfo">
-                <Button className="button-design-3" type="primary">
-                  Create
-                </Button>
-              </Link>
-              <NavItem href="/feed">
-                <img
-                  className="notification-img"
-                  src="/homepage-images/notification-icon.png"
-                  alt="User"
-                />
-              </NavItem>
-              <Link href="/userInfo">
-                <img
-                  className="user-img"
-                  src="/homepage-images/user-icon.png"
-                  alt="User"
-                />
-              </Link>
-            </Nav>
-          </Collapse>
-        </Container>
-      </Navbar>
-    );
-  }
+          </Nav>
+        </Collapse>
+      </Container>
+    </Navbar>
+  );
 }
-export default NavBar;

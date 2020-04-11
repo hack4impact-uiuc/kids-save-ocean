@@ -1,23 +1,6 @@
 body {
   padding-top: 5em;
 }
-
-.header-row {
-  height: 5em;
-  background-image: radial-gradient(
-      50% 141%,
-      rgba(101, 201, 203, 0.6) 1%,
-      rgba(43, 134, 161, 0.651) 100%
-    ),
-    url("/asset/images/splash.jpg");
-  vertical-align: top;
-  padding: 0.5em;
-}
-.col-1 {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
 .notification-img {
   height: 3em;
   width: auto;
@@ -29,16 +12,13 @@ body {
   width: auto;
   margin-left: 0.75em;
 }
-.header-img:hover {
-  cursor: pointer;
+.navbar-color {
+  background-color: white;
 }
 .icon-settings {
   margin-top: 0.25em;
 }
-.navbar-color {
-  background-color: white;
-}
-.button-design-3 {
+.button-create {
   background-color: rgb(254, 204, 102);
   border-color: rgba(0, 51, 102, 0.685);
   color: rgb(0, 51, 102);
@@ -47,10 +27,9 @@ body {
   font-size: larger;
   width: 70%;
   margin-top: 0.25em;
-  // margin-right: 3.5em;
   border-width: 0.05em;
 }
-.button-design-3:hover {
+.button-create:hover {
   background-color: rgb(254, 243, 119);
   border-color: rgba(0, 51, 102, 0.685);
   color: rgb(0, 51, 102);
@@ -59,6 +38,5 @@ body {
   font-size: larger;
   width: 70%;
   margin-top: 0.25em;
-  // margin-right: 3.5em;
   border-width: 0.05em;
 }
