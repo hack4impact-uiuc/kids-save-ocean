@@ -170,7 +170,6 @@ router.get("/:model_ID/:phaseName/:stageName/description", function(req, res) {
   const db = req.db;
   const collection = db.get("projects");
   const { model_ID, phaseName, stageName } = req.params;
-
   collection.findOne(
     {
       _id: model_ID
