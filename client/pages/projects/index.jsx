@@ -24,13 +24,18 @@ import Fuse from "fuse.js";
 
 const DESCRIPTION_LENGTH = 200;
 
+var updatedSelectedUNGoals = null;
+var updatedSelectedCountry = null;
+var updatedSelectedGrpSize = null;
+var updatedSelectedDifficulty = null;
+
 export default function ProjectsPage() {
   const [projects, setProjects] = useState(null);
 
-  var updatedSelectedUNGoals = [];
-  var updatedSelectedCountry;
-  var updatedSelectedGrpSize;
-  var updatedSelectedDifficulty;
+  var [selectedUNGoals] = useState(null);
+  var [selectedCountry] = useState(null);
+  var [selectedGrpSize] = useState(null);
+  var [selectedDifficulty] = useState(null);
 
   const handleUNGoals = selectedUNGoals => {
     updatedSelectedUNGoals = [];
@@ -46,31 +51,28 @@ export default function ProjectsPage() {
   const handleCountry = selectedCountry => {
     if (selectedCountry == undefined) {
       updatedSelectedCountry = null;
-      return;
+    } else {
+      this.setState({ selectedCountry });
+      updatedSelectedCountry = selectedCountry;
     }
-
-    this.setState({ selectedCountry });
-    updatedSelectedCountry = selectedCountry;
   };
 
   const handleGrpSize = selectedGrpSize => {
     if (selectedGrpSize == undefined) {
       updatedSelectedGrpSize = null;
-      return;
+    } else {
+      this.setState({ selectedGrpSize });
+      updatedSelectedGrpSize = selectedGrpSize;
     }
-
-    this.setState({ selectedGrpSize });
-    updatedSelectedGrpSize = selectedGrpSize;
   };
 
   const handleDifficulty = selectedDifficulty => {
     if (selectedDifficulty == undefined) {
       updatedSelectedDifficulty = null;
-      return;
+    } else {
+      this.setState({ selectedDifficulty });
+      updatedSelectedDifficulty = selectedDifficulty;
     }
-
-    this.setState({ selectedDifficulty });
-    updatedSelectedDifficulty = selectedDifficulty;
   };
 
   useEffect(() => {
