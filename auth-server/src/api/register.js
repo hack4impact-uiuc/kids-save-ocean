@@ -25,31 +25,43 @@ router.post(
       .isLength({ min: 1 }),
     check("role")
       .isString()
-      .isLength({ min: 1 })
+      .isLength({ min: 1 }),
+    check("birthday")
+      .isString()
+      .isLength(10),
+    check("country")
+      .isString()
+      .isLength({min:1})
   ],
   handleAsyncErrors(async function(req, res) {
     // Checks that the request has the required fields (email, password, and role)
+    console.log("0");
+    console.log(req);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return sendResponse(res, 400, "Invalid Request", {
         errors: errors.array({ onlyFirstError: true })
       });
     }
-
+    console.log("1");
     // Ensures the user doesn't already have an account
     if (await User.findOne({ email: String(req.body.email).toLowerCase() })) {
       return sendResponse(res, 400, "User already exists. Please try again.");
     }
-
+    console.log("2");
     // Encrypts the password and creates the user's data
     const encodedPassword = await bcrypt.hash(req.body.password, 10);
+    console.log("3");
     let userData = {
       email: String(req.body.email).toLowerCase(),
       password: encodedPassword,
       role: req.body.role,
-      verified: false
+      verified: false,
+      country: req.body.country,
+      username: req.body.username,
+      birthday: req.body.birthday
     };
-
+    console.log("4");
     // If the security question is enabled, checks that the security question index is valid and that there is an answer
     const securityQuestionEnabled = await isSecurityQuestionEnabled();
     if (securityQuestionEnabled) {

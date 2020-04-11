@@ -25,9 +25,8 @@ import { GoogleLogin } from "react-google-login";
 import { Head } from "../components";
 import "../public/styles/auth.scss";
 import "../public/styles/signupPage.scss";
-import Select from 'react-select';
+import Select from "react-select";
 import countryData from "../utils/countries";
-
 
 export default function RegisterPage(props) {
   // constants
@@ -39,6 +38,7 @@ export default function RegisterPage(props) {
   const { role } = props;
 
   // state
+  const [birthday, setBirthday] = useState("");
   const [country, setCountry] = useState("");
   const [person, setPerson] = useState("");
   const [username, setUsername] = useState("");
@@ -70,7 +70,7 @@ export default function RegisterPage(props) {
       }
     };
     loadSecurityQuestions();
-  });
+  }, [setErrorMessage, setQuestions]);
   const handleGoogle = async e => {
     const result = await google(e.tokenId);
     const resp = await result.json();
@@ -84,13 +84,13 @@ export default function RegisterPage(props) {
   };
   const handleQuestion = questionIdx => {
     setQuestionIdx(questionIdx);
-  }
+  };
   const handleCountry = country => {
     setCountry(country);
-  }
+  };
   const handlePerson = person => {
     setPerson(person);
-  }
+  };
   const pickDropDown = idx => {
     setQuestionIdx(idx);
   };
@@ -104,13 +104,27 @@ export default function RegisterPage(props) {
     if (
       password === password2 &&
       questionIdx !== INVALID &&
-      securityQuestionAnswer !== ""
+      securityQuestionAnswer !== "" &&
+      person.label !== "" &&
+      birthday !== "" &&
+      country.label!== ""
     ) {
+      console.log(password);
+      console.log(email);
+      console.log(questionIdx.value);
+      console.log(securityQuestionAnswer);
+      console.log(person.label);
+      console.log(birthday);
+      console.log(typeof country.label);
+      
       let result = await register(
         email,
         password,
         questionIdx.value,
-        securityQuestionAnswer
+        securityQuestionAnswer,
+        person.label,
+        birthday,
+        country.label
       );
       const response = await result.json();
       if (!response.token) {
@@ -128,10 +142,14 @@ export default function RegisterPage(props) {
     } else if (!securityQuestionAnswer) {
       setErrorMessage("Answer not selected");
     } else if (!person) {
-      setErrorMessage("");
-    } else if (!country){
-      setErrorMessage("Select Country of Origin");
-    } 
+      setErrorMessage("Select your role");
+    } else if (!country) {
+      setErrorMessage("Select country of origin");
+    } else if (!birthday) {
+      setErrorMessage("Enter birthday");
+    } else {
+      console.log("hello");
+    }
   };
 
   const handlePINVerify = async e => {
@@ -151,41 +169,45 @@ export default function RegisterPage(props) {
     setPinMessage(response.message);
   };
   const options = [
-    { value: "student", label: "Student" },
-    { value: "teacher", label: "Teacher" },
-    { value: "stakeholder", label: "Stakeholder" }
+    { value: "student", label: "student" },
+    { value: "teacher", label: "teacher" },
+    { value: "stakeholder", label: "stakeholder" }
   ];
   const security_questions = [
-    {value: 0, label: "What is the name of your first pet?"},
-    {value:1, label: "Which city were you born in?"},
-    {value: 2, label: "Which city did you first meet your spouse?"},
-    {value: 3, label: "What was the model of your first car?"},
-    {value: 4, label: "What is the name of your childhood best friend?"}
+    { value: 0, label: "What is the name of your first pet?" },
+    { value: 1, label: "Which city were you born in?" },
+    { value: 2, label: "Which city did you first meet your spouse?" },
+    { value: 3, label: "What was the model of your first car?" },
+    { value: 4, label: "What is the name of your childhood best friend?" }
   ];
-
-  
-  
 
   return (
     <div>
       <Head />
-      
-        <div>
-          <Row className="parentRow">
-            <Col className="columnLeft" xs="6">
-              <div className="motto">
-                <strong>
-                  Change your community, <br /> Change the world.
-                  <br /> <br /> Join FateMaker today.
-                </strong>
-              </div>
-            </Col>
-            <Col xs="6">
+
+      <div>
+        <Row className="parentRow">
+          <Col className="columnLeft" xs="6">
+            <div className="motto">
+              <strong>
+                Change your community, <br /> Change the world.
+                <br /> <br /> Join FateMaker today.
+              </strong>
+            </div>
+          </Col>
+          <Col xs="6">
             {!successfulSubmit ? (
               <div
-                style={{ width: "80%", marginLeft: "10%", marginRight: "10%",marginTop:"7.5%"}}
+                style={{
+                  width: "80%",
+                  marginLeft: "10%",
+                  marginRight: "10%",
+                  marginTop: "7.5%"
+                }}
               >
-                <h3 className="auth-card-title" style={{marginBottom:"5%"}}><strong>Welcome to FateMaker!</strong></h3>
+                <h3 className="auth-card-title" style={{ marginBottom: "5%" }}>
+                  <strong>Welcome to FateMaker!</strong>
+                </h3>
                 {errorMessage && (
                   <Alert className="auth-alert" color="danger">
                     {errorMessage}
@@ -289,8 +311,8 @@ export default function RegisterPage(props) {
                           options={countryData}
                           placeholder=""
                           isClearable
-                          onChange = {handleCountry}
-                          value = {country}
+                          onChange={handleCountry}
+                          value={country}
                         />
                       </FormGroup>
                     </Form>
@@ -304,7 +326,12 @@ export default function RegisterPage(props) {
                   <Col xs="9">
                     <Form>
                       <FormGroup>
-                        <Input placeholder="dd/mm/yyyy" />
+                        <Input
+                          placeholder="dd/mm/yyyy"
+                          minLength="10"
+                          maxLength="10"
+                          onChange={e => setBirthday(e.target.value)}
+                        />
                       </FormGroup>
                     </Form>
                     <Form></Form>
@@ -317,11 +344,12 @@ export default function RegisterPage(props) {
                   <Col xs="9">
                     <Form>
                       <FormGroup>
-                        <Select options={options}
-                         placeholder="" 
-                        isClearable 
-                        onChange={handlePerson}
-                        value = {person}
+                        <Select
+                          options={options}
+                          placeholder=""
+                          isClearable
+                          onChange={handlePerson}
+                          value={person}
                         />
                       </FormGroup>
                     </Form>
@@ -332,22 +360,19 @@ export default function RegisterPage(props) {
                     security question
                   </Col>
                   <Col xs="9">
-                  <Form>
-                    <FormGroup>
-                      <Select
-                        options={security_questions}                      
-                        placeholder="" 
-                        isClearable
-                        onChange={handleQuestion}
-                        value = {questionIdx}
-                      />
-                    </FormGroup>
-                  </Form>
+                    <Form>
+                      <FormGroup>
+                        <Select
+                          options={security_questions}
+                          placeholder=""
+                          isClearable
+                          onChange={handleQuestion}
+                          value={questionIdx}
+                        />
+                      </FormGroup>
+                    </Form>
 
-
-
-                  
-                  {/* <Form>
+                    {/* <Form>
                   <FormGroup>
                     <Dropdown
                       className="security-select"
@@ -398,101 +423,98 @@ export default function RegisterPage(props) {
                     </Form>
                   </Col>
                 </Row>
-                
-                  <Row style={{marginLeft: "20%", marginRight: "10%"}}>
-                <Button
-                  size="m"
-                  onClick={handleSubmit}
-                  className="left-btn"
-                  // style={{marginRight: "2.5%", width: "45%", }}
-                >
-                  Register
-                </Button>
-                
-                <Button
-                  size="m"
-                  onClick={() => Router.push("/login")}
-                  className="right-btn"
-                  // style={{ marginLeft: "2.5%", width: "45%" }}
-                >
-                  Login
-                </Button>
+
+                <Row style={{ marginLeft: "20%", marginRight: "10%" }}>
+                  <Button
+                    size="m"
+                    onClick={handleSubmit}
+                    className="left-btn"
+                    // style={{marginRight: "2.5%", width: "45%", }}
+                  >
+                    Register
+                  </Button>
+
+                  <Button
+                    size="m"
+                    onClick={() => Router.push("/login")}
+                    className="right-btn"
+                    // style={{ marginLeft: "2.5%", width: "45%" }}
+                  >
+                    Login
+                  </Button>
                 </Row>
-                <Row style={{marginLeft: "35%", marginRight: "35%", }}>
-                <div className="google-btn-wrapper">
-                  <GoogleLogin
-                  className="btn sign-in-btn"
-                  clientId="992779657352-2te3be0na925rtkt8kt8vc1f8tiph5oh.apps.googleusercontent.com"
-                  responseType="id_token"
-                  buttonText={role}
-                  scope="https://www.googleapis.com/auth/userinfo.email"
-                  onSuccess={handleGoogle}
-                  style={{width: "120%"}}
-                />
-                 </div>
-          </Row>
+                <Row style={{ marginLeft: "35%", marginRight: "35%" }}>
+                  <div className="google-btn-wrapper">
+                    <GoogleLogin
+                      className="btn sign-in-btn"
+                      clientId="992779657352-2te3be0na925rtkt8kt8vc1f8tiph5oh.apps.googleusercontent.com"
+                      responseType="id_token"
+                      buttonText={role}
+                      scope="https://www.googleapis.com/auth/userinfo.email"
+                      onSuccess={handleGoogle}
+                      style={{ width: "120%" }}
+                    />
+                  </div>
+                </Row>
               </div>
-              ) : (
-                <div className="auth-card-wrapper">
-                  <Card className="auth-card">
-                    <CardBody>
-                      {pinMessage === "Invalid request" ||
-                      pinMessage === "PIN does not match" ? (
-                        <Alert className="auth-alert" color="danger">
+            ) : (
+              <div className="auth-card-wrapper">
+                <Card className="auth-card">
+                  <CardBody>
+                    {pinMessage === "Invalid request" ||
+                    pinMessage === "PIN does not match" ? (
+                      <Alert className="auth-alert" color="danger">
+                        {pinMessage}
+                      </Alert>
+                    ) : (
+                      pinMessage && (
+                        <Alert className="auth-alert" color="success">
                           {pinMessage}
                         </Alert>
-                      ) : (
-                        pinMessage && (
-                          <Alert className="auth-alert" color="success">
-                            {pinMessage}
-                          </Alert>
-                        )
-                      )}
-                      <Form>
-                        <FormGroup>
-                          <Label>PIN</Label>
-                          <Input
-                            name="pin"
-                            type="number"
-                            maxLength="10"
-                            minLength="4"
-                            value={pin}
-                            onChange={e => setPin(e.target.value)}
-                            required
-                          />
-                        </FormGroup>
-                        <Button
-                          color="success"
-                          size="m"
-                          onClick={handlePINResend}
-                          className="left-btn"
-                        >
-                          Resend PIN
-                        </Button>
-                        <Button
-                          color="success"
-                          size="m"
-                          onClick={handlePINVerify}
-                          className="right-btn"
-                        >
-                          Verify Email
-                        </Button>
-                        <div className="forgot-password">
-                          <Link href="/">
-                            <a>Skip verification</a>
-                          </Link>
-                        </div>
-                      </Form>
-                    </CardBody>
-                  </Card>
-                </div>
-              )}
-            </Col>
-          </Row>
-
-         
-        </div>
-      
+                      )
+                    )}
+                    <Form>
+                      <FormGroup>
+                        <Label>PIN</Label>
+                        <Input
+                          name="pin"
+                          type="number"
+                          maxLength="10"
+                          minLength="4"
+                          value={pin}
+                          onChange={e => setPin(e.target.value)}
+                          required
+                        />
+                      </FormGroup>
+                      <Button
+                        color="success"
+                        size="m"
+                        onClick={handlePINResend}
+                        className="left-btn"
+                      >
+                        Resend PIN
+                      </Button>
+                      <Button
+                        color="success"
+                        size="m"
+                        onClick={handlePINVerify}
+                        className="right-btn"
+                      >
+                        Verify Email
+                      </Button>
+                      <div className="forgot-password">
+                        <Link href="/">
+                          <a>Skip verification</a>
+                        </Link>
+                      </div>
+                    </Form>
+                  </CardBody>
+                </Card>
+              </div>
+            )}
+          </Col>
+        </Row>
+      </div>
     </div>
   );
 }
