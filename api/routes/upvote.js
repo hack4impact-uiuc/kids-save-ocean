@@ -4,7 +4,7 @@ const validate = require("express-jsonschema").validate;
 
 const UpvoteSchema = require("../public/schema/upvoteSchema.js").upvoteSchema;
 
-router.post("/", validate({ body: UpvoteSchema }), async (req, res) => {
+router.post("/", validate({ body: UpvoteSchema }), (req, res) => {
   const { userId, upvoteLocation } = req.body;
   const db = req.db;
   const collection = db.get("upvotes");
@@ -33,7 +33,7 @@ router.post("/", validate({ body: UpvoteSchema }), async (req, res) => {
   );
 });
 
-router.get("/:upvoteLocation", async (req, res) => {
+router.get("/:upvoteLocation", (req, res) => {
   const { upvoteLocation } = req.params;
   const db = req.db;
   const collection = db.get("upvotes");
