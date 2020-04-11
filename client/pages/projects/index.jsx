@@ -24,59 +24,53 @@ import Fuse from "fuse.js";
 
 const DESCRIPTION_LENGTH = 200;
 
-var updatedSelectedUNGoals = null;
-var updatedSelectedCountry = null;
-var updatedSelectedGrpSize = null;
-var updatedSelectedDifficulty = null;
-
 export default function ProjectsPage() {
   const [projects, setProjects] = useState(null);
 
-  var [selectedUNGoals] = useState(null);
-  var [selectedCountry] = useState(null);
-  var [selectedGrpSize] = useState(null);
-  var [selectedDifficulty] = useState(null);
+  const [selectedUNGoals] = useState(null);
+  const [selectedCountry] = useState(null);
+  const [selectedGrpSize] = useState(null);
+  const [selectedDifficulty] = useState(null);
 
   const handleUNGoals = selectedUNGoals => {
-    updatedSelectedUNGoals = [];
-
-    if (selectedUNGoals == undefined) {
-      updatedSelectedUNGoals = null;
-    } else {
-      this.setState({ selectedUNGoals });
-      updatedSelectedUNGoals = selectedUNGoals;
+    if (selectedUNGoals) {
+      setSelectedUNGoals(selectedUNGoals);
     }
   };
 
   const handleCountry = selectedCountry => {
-    if (selectedCountry == undefined) {
-      updatedSelectedCountry = null;
-    } else {
-      this.setState({ selectedCountry });
-      updatedSelectedCountry = selectedCountry;
+    if (selectedCountry) {
+      setSelectedCountry(selectedCountry);
     }
   };
 
   const handleGrpSize = selectedGrpSize => {
-    if (selectedGrpSize == undefined) {
-      updatedSelectedGrpSize = null;
-    } else {
-      this.setState({ selectedGrpSize });
-      updatedSelectedGrpSize = selectedGrpSize;
+    if (selectedGrpSize) {
+      setSelectedGrpSize(selectedGrpSize);
     }
   };
 
   const handleDifficulty = selectedDifficulty => {
-    if (selectedDifficulty == undefined) {
-      updatedSelectedDifficulty = null;
-    } else {
-      this.setState({ selectedDifficulty });
-      updatedSelectedDifficulty = selectedDifficulty;
+    if (selectedDifficulty) {
+      setSelectedDifficulty(selectedDifficulty);
     }
   };
 
+  var getSearchBarText = async () => {
+    var text = await document.getElementById("user-input").value;
+
+    return text;
+  };
+
   useEffect(() => {
-    const populateProjects = async () => {
+    const populateAllProjects = async () => {
+      const numberOfProjects = 20;
+
+      const allModels = await getModels();
+      setProjects(allModels.data.slice(numberOfProjects));
+    };
+
+    const populateFilteredProjects = async () => {
       var numProjects = 20;
 
       const models = await getModels();
@@ -87,90 +81,94 @@ export default function ProjectsPage() {
       var isMatchingGrpSize = false;
       var isMatchingDifficulty = false;
 
-      for (var i = 0; i < models.length; i++) {
-        for (var j = 0; j < updatedSelectedUNGoals.length; j++) {
-          if (
-            updatedSelectedUNGoals == null ||
-            models[i].sdg == updatedSelectedUNGoals[j]
-          ) {
-            isMatchingSDG = true;
-          }
-
-          if (
-            updatedSelectedCountry == null ||
-            models[i].country == updatedSelectedCountry
-          ) {
-            isMatchingCountry = true;
-          }
-
-          if (
-            updatedSelectedGrpSize == null ||
-            models[i].groupSize == updatedSelectedGrpSize
-          ) {
-            isMatchingGrpSize = true;
-          }
-
-          if (
-            updatedSelectedDifficulty == null ||
-            models[i].difficulty == updatedSelectedDifficulty
-          ) {
-            isMatchingDifficulty = true;
-          }
-
-          if (
-            isMatchingSDG &&
-            isMatchingCountry &&
-            isMatchingGrpSize &&
-            isMatchingDifficulty
-          ) {
-            filteredModels.push(models[i]);
-          }
-
-          isMatchingSDG = false;
-          isMatchingCountry = false;
-          isMatchingGrpSize = false;
-          isMatchingDifficulty = false;
-        }
-      }
-
-      var userInput = await getSearchBarText();
-
-      // to remove
-      console.log(userInput);
-
-      let options = {
-        minMatchCharLength: 5,
-        keys: ["name", "description"]
-      };
-
-      // handling no data (projects)
-      if (filteredModels.length == 0) {
-        // to remove
-        console.log("no projects have these specific fields");
-        return;
-      }
-
-      if (filteredModels.length < numProjects) {
-        numProjects = filteredModels.length;
-      }
-
-      if (userInput.length == 0) {
-        setProjects(filteredModels.data.slice(0, numProjects));
+      if (
+        selectedUNGoals == undefined &&
+        selectedCountry == undefined &&
+        selectedGrpSize == undefined &&
+        selectedDifficulty == undefined &&
+        getSearchBarText().length == 0
+      ) {
+        populateAllProjects();
       } else {
-        let fuse = new Fuse(filteredModels.data, options);
-        let result = fuse.search(userInput);
+        for (var i = 0; i < models.length; i++) {
+          for (var j = 0; j < updatedSelectedUNGoals.length; j++) {
+            if (
+              updatedSelectedUNGoals == null ||
+              models[i].sdg == updatedSelectedUNGoals[j]
+            ) {
+              isMatchingSDG = true;
+            }
+
+            if (
+              updatedSelectedCountry == null ||
+              models[i].country == updatedSelectedCountry
+            ) {
+              isMatchingCountry = true;
+            }
+
+            if (
+              updatedSelectedGrpSize == null ||
+              models[i].groupSize == updatedSelectedGrpSize
+            ) {
+              isMatchingGrpSize = true;
+            }
+
+            if (
+              updatedSelectedDifficulty == null ||
+              models[i].difficulty == updatedSelectedDifficulty
+            ) {
+              isMatchingDifficulty = true;
+            }
+
+            if (
+              isMatchingSDG &&
+              isMatchingCountry &&
+              isMatchingGrpSize &&
+              isMatchingDifficulty
+            ) {
+              filteredModels.push(models[i]);
+            }
+
+            isMatchingSDG = false;
+            isMatchingCountry = false;
+            isMatchingGrpSize = false;
+            isMatchingDifficulty = false;
+          }
+        }
+
+        var userInput = await getSearchBarText();
+
+        // to remove
+        console.log(userInput);
+
+        let options = {
+          minMatchCharLength: 5,
+          keys: ["name", "description"]
+        };
+
+        // handling no data (projects)
+        if (filteredModels.length == 0) {
+          // to remove
+          console.log("no projects have these specific fields");
+          return;
+        }
+
+        if (filteredModels.length < numProjects) {
+          numProjects = filteredModels.length;
+        }
+
+        if (userInput.length == 0) {
+          setProjects(filteredModels.data.slice(0, numProjects));
+        } else {
+          let fuse = new Fuse(filteredModels.data, options);
+          let result = fuse.search(userInput);
+        }
+
+        setProjects(result.slice(0, numProjects));
       }
-
-      setProjects(result.slice(0, numProjects));
     };
 
-    var getSearchBarText = async () => {
-      var text = await document.getElementById("user-input").value;
-
-      return text;
-    };
-
-    populateProjects();
+    populateFilteredProjects();
   }, []);
 
   return (
@@ -191,7 +189,7 @@ export default function ProjectsPage() {
             className="un-goals-list"
             options={UNGoalData}
             placeholder="Select UN Goals"
-            onChange={handleUNGoals()}
+            onChange={handleUNGoals}
             value={selectedUNGoals}
           />
           <Select
@@ -199,7 +197,7 @@ export default function ProjectsPage() {
             options={countryData}
             placeholder="Search country"
             isClearable
-            onChange={handleCountry()}
+            onChange={handleCountry}
             value={selectedCountry}
           />
           <Select
@@ -207,7 +205,7 @@ export default function ProjectsPage() {
             options={groupSizeData}
             placeholder="Select group size"
             isClearable
-            onChange={handleGrpSize()}
+            onChange={handleGrpSize}
             value={selectedGrpSize}
           />
           <Select
@@ -215,7 +213,7 @@ export default function ProjectsPage() {
             options={levelData}
             placeholder="Select difficulty"
             isClearable
-            onChange={handleDifficulty()}
+            onChange={handleDifficulty}
             value={selectedDifficulty}
           />
         </div>
