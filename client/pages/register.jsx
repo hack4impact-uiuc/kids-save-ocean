@@ -73,8 +73,8 @@ export default function RegisterPage(props) {
     if (resp.status !== SUCCESS) {
       setErrorMessage(resp.message);
     } else {
-      localStorage.set("token", e.tokenId);
-      localStorage.set("google", true);
+      localStorage.setItem("token", e.tokenId);
+      localStorage.setItem("google", true);
       Router.push("/");
     }
   };
@@ -104,7 +104,7 @@ export default function RegisterPage(props) {
       if (!response.token) {
         setErrorMessage(response.message);
       } else {
-        localStorage.set("token", response.token);
+        localStorage.setItem("token", response.token);
         setSuccessfulSubmit(true);
       }
     } else if (password !== password2) {
