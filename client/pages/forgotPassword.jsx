@@ -16,7 +16,6 @@ import {
   CardBody,
   CardTitle
 } from "reactstrap";
-import { setCookie } from "./../utils/cookie";
 import Router from "next/router";
 import { Head } from "../components";
 import "../public/styles/auth.scss";
@@ -75,7 +74,7 @@ export default function ForgotPasswordPage() {
       await resetPassword(pin, email, password, answer)
     ).json();
     if (response.status === SUCCESS && response.token) {
-      setCookie("token", response.token);
+      localStorage.setItem("token", response.token);
       Router.push("/");
     } else {
       setErrorMessage(response.message);
