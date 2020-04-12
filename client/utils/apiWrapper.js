@@ -1,6 +1,5 @@
 import axios from "axios";
 import fetch from "isomorphic-unfetch";
-import ls from "local-storage";
 
 const BASE_URL = process.env.BACKEND_URL ?? "http://localhost:5000/api";
 // const BASE_URL = process.env.BACKEND_URL ?? "http://52.240.158.249:5000/api"; // leave this in, this is Arpan's url
@@ -143,7 +142,10 @@ export const verify = () => {
   try {
     return fetch(`${BASE_URL}/auth/verify/`, {
       method: "POST",
-      headers: { "Content-Type": "application/json", token: ls.get("token") }
+      headers: {
+        "Content-Type": "application/json",
+        token: localStorage.getItem("token")
+      }
     });
   } catch (err) {
     return err;
@@ -156,7 +158,7 @@ export const getSecurityQuestions = () => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        token: ls.get("token")
+        token: localStorage.getItem("token")
       }
     });
   } catch (err) {
@@ -170,7 +172,7 @@ export const setSecurityQuestion = (questionIdx, answer, password) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        token: ls.get("token")
+        token: localStorage.getItem("token")
       },
       body: JSON.stringify({
         questionIdx,
@@ -236,7 +238,7 @@ export const changePassword = (currentPassword, newPassword) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        token: ls.get("token")
+        token: localStorage.getItem("token")
       },
       body: JSON.stringify({
         currentPassword,
@@ -254,8 +256,8 @@ export const getUsersForRolesPage = () => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        token: ls.get("token"),
-        google: ls.get("google") ? true : false
+        token: localStorage.getItem("token"),
+        google: localStorage.getItem("google") ? true : false
       }
     });
   } catch (err) {
@@ -269,8 +271,8 @@ export const changeRole = (userEmail, newRole, password) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        token: ls.get("token"),
-        google: ls.get("google") ? true : false
+        token: localStorage.getItem("token"),
+        google: localStorage.getItem("google") ? true : false
       },
       body: JSON.stringify({
         userEmail,
@@ -306,7 +308,7 @@ export const verifyPIN = pin => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        token: ls.get("token")
+        token: localStorage.getItem("token")
       },
       body: JSON.stringify({
         pin
@@ -323,7 +325,7 @@ export const resendPIN = () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        token: ls.get("token")
+        token: localStorage.getItem("token")
       }
     });
   } catch (err) {
@@ -337,8 +339,8 @@ export const userInfo = () => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        token: ls.get("token"),
-        google: ls.get("google") ? true : false
+        token: localStorage.getItem("token"),
+        google: localStorage.getItem("google") ? true : false
       }
     });
   } catch (err) {
@@ -383,7 +385,7 @@ export const getUser = userId => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "x-access-token": ls.get("token")
+        "x-access-token": localStorage.getItem("token")
       }
     });
   } catch (err) {
@@ -415,7 +417,7 @@ export const updateUser = (userId, updatedUser) => {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          "x-access-token": ls.get("token")
+          "x-access-token": localStorage.getItem("token")
         },
         body: JSON.stringify(updatedUser)
       }
@@ -431,7 +433,7 @@ export const deleteUser = userId => {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
-        "x-access-token": ls.get("token")
+        "x-access-token": localStorage.getItem("token")
       }
     });
   } catch (err) {

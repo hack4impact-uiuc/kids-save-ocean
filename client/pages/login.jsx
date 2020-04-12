@@ -14,7 +14,6 @@ import {
   CardBody,
   CardTitle
 } from "reactstrap";
-import ls from "local-storage";
 import { Head } from "../components";
 import "../public/styles/auth.scss";
 
@@ -36,8 +35,8 @@ export default function Login(props) {
     if (resp.status !== SUCCESS) {
       setErrorMessage(resp.message);
     } else {
-      ls.set("token", e.tokenId);
-      ls.set("google", true);
+      localStorage.setItem("token", e.tokenId);
+      localStorage.setItem("google", true);
       Router.push("/");
     }
   };
@@ -50,8 +49,8 @@ export default function Login(props) {
     if (!resp.token) {
       setErrorMessage(resp.message);
     } else {
-      ls.set("token", resp.token);
-      ls.set("google", false);
+      localStorage.setItem("token", resp.token);
+      localStorage.setItem("google", false);
       Router.push("/");
     }
   };

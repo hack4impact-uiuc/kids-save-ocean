@@ -23,7 +23,6 @@ import {
   DropdownToggle,
   DropdownMenu
 } from "reactstrap";
-import ls from "local-storage";
 import { GoogleLogin } from "react-google-login";
 import { Head } from "../components";
 
@@ -74,8 +73,8 @@ export default function RegisterPage(props) {
     if (resp.status !== SUCCESS) {
       setErrorMessage(resp.message);
     } else {
-      ls.set("token", e.tokenId);
-      ls.set("google", true);
+      localStorage.set("token", e.tokenId);
+      localStorage.set("google", true);
       Router.push("/");
     }
   };
@@ -105,7 +104,7 @@ export default function RegisterPage(props) {
       if (!response.token) {
         setErrorMessage(response.message);
       } else {
-        ls.set("token", response.token);
+        localStorage.set("token", response.token);
         setSuccessfulSubmit(true);
       }
     } else if (password !== password2) {
