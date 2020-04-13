@@ -172,15 +172,8 @@ export default function RegisterPage(props) {
           <Col xs="6">
             {/* !successfulSubmit */}
             {!successfulSubmit ? (
-              <div
-                style={{
-                  width: "80%",
-                  marginLeft: "10%",
-                  marginRight: "10%",
-                  marginTop: "7.5%"
-                }}
-              >
-                <h1 className="auth-card-title" style={{ marginBottom: "5%" }}>
+              <div className="outer">
+                <h1 className="auth-card-title">
                   <strong>Welcome to FateMaker!</strong>
                 </h1>
                 {errorMessage && (
@@ -190,12 +183,7 @@ export default function RegisterPage(props) {
                 )}
                 {/* username*/}
                 <Row>
-                  <Col
-                    xs="3"
-                    align="right"
-                    className="vertAlign"
-                    style={{ fontSize: "1.20rem" }}
-                  >
+                  <Col xs="3" align="right" className=" vertAlign textField">
                     username
                   </Col>
                   <Col xs="9">
@@ -216,12 +204,7 @@ export default function RegisterPage(props) {
                 </Row>
                 {/* email */}
                 <Row align="middle" justify="center">
-                  <Col
-                    xs="3"
-                    align="right"
-                    className="vertAlign"
-                    style={{ fontSize: "1.20rem" }}
-                  >
+                  <Col xs="3" align="right" className=" vertAlign textField">
                     email
                   </Col>
                   <Col xs="9">
@@ -243,12 +226,7 @@ export default function RegisterPage(props) {
                 </Row>
                 {/* password */}
                 <Row>
-                  <Col
-                    xs="3"
-                    align="right"
-                    className="vertAlign"
-                    style={{ fontSize: "1.20rem" }}
-                  >
+                  <Col xs="3" align="right" className=" vertAlign textField">
                     password
                   </Col>
                   <Col xs="9">
@@ -270,12 +248,7 @@ export default function RegisterPage(props) {
 
                 {/* confirm password */}
                 <Row>
-                  <Col
-                    xs="3"
-                    align="right"
-                    className="vertAlign"
-                    style={{ fontSize: "1.20rem" }}
-                  >
+                  <Col xs="3" align="right" className=" vertAlign textField">
                     confirm password
                   </Col>
                   <Col xs="9">
@@ -296,12 +269,7 @@ export default function RegisterPage(props) {
                 </Row>
                 {/* select country */}
                 <Row>
-                  <Col
-                    xs="3"
-                    align="right"
-                    className="vertAlign"
-                    style={{ fontSize: "1.20rem" }}
-                  >
+                  <Col xs="3" align="right" className=" vertAlign textField">
                     country
                   </Col>
                   <Col xs="9">
@@ -320,12 +288,7 @@ export default function RegisterPage(props) {
                 </Row>
                 {/* birthday */}
                 <Row>
-                  <Col
-                    xs="3"
-                    align="right"
-                    className="vertAlign"
-                    style={{ fontSize: "1.20rem" }}
-                  >
+                  <Col xs="3" align="right" className=" vertAlign textField">
                     birthday
                   </Col>
                   <Col xs="9">
@@ -343,12 +306,7 @@ export default function RegisterPage(props) {
                   </Col>
                 </Row>
                 <Row>
-                  <Col
-                    xs="3"
-                    align="right"
-                    className="vertAlign"
-                    style={{ fontSize: "1.20rem" }}
-                  >
+                  <Col xs="3" align="right" className=" vertAlign textField">
                     who are you?
                   </Col>
                   <Col xs="9">
@@ -366,12 +324,7 @@ export default function RegisterPage(props) {
                   </Col>
                 </Row>
                 <Row>
-                  <Col
-                    xs="3"
-                    align="right"
-                    className="vertAlign"
-                    style={{ fontSize: "1.20rem" }}
-                  >
+                  <Col xs="3" align="right" className=" vertAlign textField">
                     security question
                   </Col>
                   <Col xs="9">
@@ -390,12 +343,7 @@ export default function RegisterPage(props) {
                 </Row>
                 {/* answer */}
                 <Row>
-                  <Col
-                    xs="3"
-                    align="right"
-                    className="vertAlign"
-                    style={{ fontSize: "1.20rem" }}
-                  >
+                  <Col xs="3" align="right" className=" vertAlign textField">
                     security answer
                   </Col>
                   <Col xs="9">
@@ -418,18 +366,17 @@ export default function RegisterPage(props) {
                   </Col>
                 </Row>
 
-                <Row style={{}}>
+                <Row>
                   <Button size="m" onClick={handleSubmit} className="left-btn">
-                    <div style={{ fontSize: "1.20rem" }}>Register</div>
+                    <div className=" vertAlign textField">Register</div>
                   </Button>
 
                   <Button
-                    style={{ marginLeft: "10%" }}
                     size="m"
                     onClick={() => Router.push("/login")}
                     className="right-btn"
                   >
-                    <div style={{ fontSize: "1.20rem" }}>Login</div>
+                    <div className=" vertAlign textField">Login</div>
                   </Button>
                 </Row>
                 <Row>
@@ -454,7 +401,7 @@ export default function RegisterPage(props) {
                 </Row>
               </div>
             ) : (
-              <div className="auth-card-wrapper" style={{ marginTop: "25%" }}>
+              <div className="auth-card-wrapper">
                 <div className="auth-card">
                   {pinMessage === "Invalid request" ||
                   pinMessage === "PIN does not match" ? (
@@ -468,15 +415,12 @@ export default function RegisterPage(props) {
                       </Alert>
                     )
                   )}
-                  <h1
-                    className="auth-card-title"
-                    style={{ marginBottom: "5%" }}
-                  >
+                  <h1 className="auth-card-title">
                     <strong>Welcome to FateMaker!</strong>
                   </h1>
                   <Row>
-                    <Col xs="2" align="right" className="vertAlign">
-                      <div style={{ fontSize: "1.20rem" }}>enter pin</div>
+                    <Col xs="2" align="right">
+                      <div className=" vertAlign textField">enter pin</div>
                     </Col>
                     <Col xs="10">
                       <Form>
@@ -500,18 +444,18 @@ export default function RegisterPage(props) {
                     onClick={handlePINResend}
                     className="left-btn"
                   >
-                    <div style={{ fontSize: "1.20rem" }}>Resend PIN</div>
+                    <div className=" vertAlign textField">Resend PIN</div>
                   </Button>
                   <Button
                     size="m"
                     onClick={handlePINVerify}
                     className="right-btn"
                   >
-                    <div style={{ fontSize: "1.20rem" }}>Verify Email</div>
+                    <div className=" vertAlign textField">Verify Email</div>
                   </Button>
                   <div className="forgot-password">
                     <Link href="/">
-                      <a style={{ fontSize: "1.20rem" }}>Skip verification</a>
+                      <a className=" vertAlign textField">Skip verification</a>
                     </Link>
                   </div>
                 </div>
