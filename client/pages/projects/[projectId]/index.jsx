@@ -165,9 +165,7 @@ export default function ProjectPage() {
             />
           </div>
 
-          <CommentsSection
-            projectId={projectId}
-          />
+          <CommentsSection projectId={projectId} />
         </div>
       )}
     </>

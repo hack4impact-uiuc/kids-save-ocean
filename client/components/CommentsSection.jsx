@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from "react";
 
-import {
-  Button, 
-  Col,
-  Row
-} from "reactstrap";
+import { Button, Col, Row } from "reactstrap";
 
-import { postComment, getComments } from '../utils/apiWrapper';
+import { postComment, getComments } from "../utils/apiWrapper";
 
-import Comment from './Comment';
-import CommentEditor from './CommentEditor';
+import Comment from "./Comment";
+import CommentEditor from "./CommentEditor";
 
 import Dante from "Dante2";
 
@@ -20,12 +16,12 @@ export default function CommentsSection(props) {
     fetchComments();
   }, []);
 
-  const renderComments = (comments) => {
+  const renderComments = comments => {
     let commentList = [];
     for (let comment of comments) {
       commentList.push(
         <Row>
-          <Comment comment={comment}/>
+          <Comment comment={comment} />
         </Row>
       );
     }
@@ -39,22 +35,18 @@ export default function CommentsSection(props) {
     });
   };
 
-  const post = (content) => {
+  const post = content => {
     postComment(props.projectId, "uid", content).then(() => {
       fetchComments();
     });
   };
 
-  return(
+  return (
     <div>
       <Row>
-        <CommentEditor
-          post={ (content) => post(content) }
-        />
+        <CommentEditor post={content => post(content)} />
       </Row>
-      <Col>
-        {renderComments(comments)}
-      </Col>
+      <Col>{renderComments(comments)}</Col>
     </div>
   );
 }

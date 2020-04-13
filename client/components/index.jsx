@@ -7,4 +7,13 @@ import Stage from "./Stage";
 import ProjectForm from "./ProjectForm";
 import TipCard from "./TipCard";
 
-export { CommentsSection, Draft, Gantt, Head, NavBar, ProjectForm, Stage, TipCard };
+export {
+  CommentsSection,
+  Draft,
+  Gantt,
+  Head,
+  NavBar,
+  ProjectForm,
+  Stage,
+  TipCard
+};

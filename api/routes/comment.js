@@ -81,9 +81,11 @@ router.get("/:commentLocation", function(req, res) {
       if (e) {
         res.sendStatus(500);
       } else {
-        res.json({
-          comments: docs[0].comments
-        });
+        if (docs.length === 0) {
+          res.json({ comments: [] });
+        } else {
+          res.json({ comments: docs[0].comments });
+        }
       }
     }
   );
