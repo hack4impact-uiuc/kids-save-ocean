@@ -105,7 +105,15 @@ export const deleteForm = Model_ID => {
     });
 };
 
-export const register = (emailInput, passwordInput, questionIdx, answer, roleAns, birthdayAns, countryAns) => {
+export const register = (
+  emailInput,
+  passwordInput,
+  questionIdx,
+  answer,
+  roleAns,
+  birthdayAns,
+  countryAns
+) => {
   try {
     return fetch(`${BASE_URL}/auth/register`, {
       method: "POST",

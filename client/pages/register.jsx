@@ -50,7 +50,7 @@ export default function RegisterPage(props) {
   const [pin, setPin] = useState("");
   const [securityQuestionAnswer, setSecurityQuestionAnswer] = useState("");
   const [successfulSubmit, setSuccessfulSubmit] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  //const [dropdownOpen, setDropdownOpen] = useState(false);
   const [questions, setQuestions] = useState([]);
 
   const [questionIdx, setQuestionIdx] = useState(INVALID);
@@ -91,13 +91,13 @@ export default function RegisterPage(props) {
   const handlePerson = person => {
     setPerson(person);
   };
-  const pickDropDown = idx => {
-    setQuestionIdx(idx);
-  };
+  // const pickDropDown = idx => {
+  //   setQuestionIdx(idx);
+  // };
 
-  const toggle = () => {
-    setDropdownOpen(prevState => !prevState);
-  };
+  // const toggle = () => {
+  //   setDropdownOpen(prevState => !prevState);
+  // };
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -107,16 +107,8 @@ export default function RegisterPage(props) {
       securityQuestionAnswer !== "" &&
       person.label !== "" &&
       birthday !== "" &&
-      country.label!== ""
+      country.label !== ""
     ) {
-      console.log(password);
-      console.log(email);
-      console.log(questionIdx.value);
-      console.log(securityQuestionAnswer);
-      console.log(person.label);
-      console.log(birthday);
-      console.log(typeof country.label);
-      
       let result = await register(
         email,
         password,
@@ -192,11 +184,13 @@ export default function RegisterPage(props) {
               <strong>
                 Change your community, <br /> Change the world.
                 <br /> <br /> Join FateMaker today.
-              </strong>
+                </strong>
+              
             </div>
           </Col>
           <Col xs="6">
-            {!successfulSubmit ? (
+          {/* !successfulSubmit */}
+            { true ? (
               <div
                 style={{
                   width: "80%",
@@ -205,9 +199,9 @@ export default function RegisterPage(props) {
                   marginTop: "7.5%"
                 }}
               >
-                <h3 className="auth-card-title" style={{ marginBottom: "5%" }}>
+                <h1 className="auth-card-title" style={{ marginBottom: "5%" }}>
                   <strong>Welcome to FateMaker!</strong>
-                </h3>
+                </h1>
                 {errorMessage && (
                   <Alert className="auth-alert" color="danger">
                     {errorMessage}
@@ -215,7 +209,7 @@ export default function RegisterPage(props) {
                 )}
                 {/* username*/}
                 <Row>
-                  <Col xs="3" align="right" className="vertAlign">
+                  <Col xs="3" align="right" className="vertAlign" style={{fontSize: "1.20rem"}}>
                     username
                   </Col>
                   <Col xs="9">
@@ -236,7 +230,7 @@ export default function RegisterPage(props) {
                 </Row>
                 {/* email */}
                 <Row align="middle" justify="center">
-                  <Col xs="3" align="right" className="vertAlign">
+                  <Col xs="3" align="right" className="vertAlign" style={{fontSize: "1.20rem"}}>
                     email
                   </Col>
                   <Col xs="9">
@@ -258,7 +252,7 @@ export default function RegisterPage(props) {
                 </Row>
                 {/* password */}
                 <Row>
-                  <Col xs="3" align="right" className="vertAlign">
+                  <Col xs="3" align="right" className="vertAlign" style={{fontSize: "1.20rem"}}>
                     password
                   </Col>
                   <Col xs="9">
@@ -280,7 +274,7 @@ export default function RegisterPage(props) {
 
                 {/* confirm password */}
                 <Row>
-                  <Col xs="3" align="right" className="vertAlign">
+                  <Col xs="3" align="right" className="vertAlign" style={{fontSize: "1.20rem"}}>
                     confirm password
                   </Col>
                   <Col xs="9">
@@ -301,7 +295,7 @@ export default function RegisterPage(props) {
                 </Row>
                 {/* select country */}
                 <Row>
-                  <Col xs="3" align="right" className="vertAlign">
+                  <Col xs="3" align="right" className="vertAlign" style={{fontSize: "1.20rem"}}>
                     country
                   </Col>
                   <Col xs="9">
@@ -320,7 +314,7 @@ export default function RegisterPage(props) {
                 </Row>
                 {/* birthday */}
                 <Row>
-                  <Col xs="3" align="right" className="vertAlign">
+                  <Col xs="3" align="right" className="vertAlign" style={{fontSize: "1.20rem"}}>
                     birthday
                   </Col>
                   <Col xs="9">
@@ -338,7 +332,7 @@ export default function RegisterPage(props) {
                   </Col>
                 </Row>
                 <Row>
-                  <Col xs="3" align="right" className="vertAlign">
+                  <Col xs="3" align="right" className="vertAlign" style={{fontSize: "1.20rem"}}>
                     who are you?
                   </Col>
                   <Col xs="9">
@@ -356,7 +350,7 @@ export default function RegisterPage(props) {
                   </Col>
                 </Row>
                 <Row>
-                  <Col xs="3" align="right" className="vertAlign">
+                  <Col xs="3" align="right" className="vertAlign" style={{fontSize: "1.20rem"}}>
                     security question
                   </Col>
                   <Col xs="9">
@@ -371,38 +365,12 @@ export default function RegisterPage(props) {
                         />
                       </FormGroup>
                     </Form>
-
-                    {/* <Form>
-                  <FormGroup>
-                    <Dropdown
-                      className="security-select"
-                      isOpen={dropdownOpen}
-                      toggle={toggle}
-                    >
-                      <DropdownToggle caret>
-                        {questionIdx === INVALID
-                          ? "Security Question"
-                          : questions[questionIdx]}
-                      </DropdownToggle>
-                      <DropdownMenu>
-                        {questions.map((question, idx) => (
-                          <DropdownItem
-                            key={idx}
-                            onClick={pickDropDown.bind(null, idx)}
-                          >
-                            {question}
-                          </DropdownItem>
-                        ))}
-                      </DropdownMenu>
-                    </Dropdown>
-                  </FormGroup>
-                </Form> */}
                   </Col>
                 </Row>
                 {/* answer */}
                 <Row>
-                  <Col xs="3" align="right" className="vertAlign">
-                    answer
+                  <Col xs="3" align="right" className="vertAlign" style={{fontSize: "1.20rem"}}>
+                    security answer
                   </Col>
                   <Col xs="9">
                     <Form>
@@ -424,92 +392,111 @@ export default function RegisterPage(props) {
                   </Col>
                 </Row>
 
-                <Row style={{ marginLeft: "20%", marginRight: "10%" }}>
-                  <Button
-                    size="m"
-                    onClick={handleSubmit}
-                    className="left-btn"
-                    // style={{marginRight: "2.5%", width: "45%", }}
-                  >
-                    Register
+                <Row style={{}}>
+                  <Button size="m" onClick={handleSubmit} className="left-btn">
+                  <div style={{fontSize: "1.20rem"}}>
+                      Register
+                      </div>
                   </Button>
 
                   <Button
+                    style={{ marginLeft: "10%" }}
                     size="m"
                     onClick={() => Router.push("/login")}
                     className="right-btn"
-                    // style={{ marginLeft: "2.5%", width: "45%" }}
                   >
-                    Login
+                    <div style={{fontSize: "1.20rem"}}>
+                      Login
+                      </div>
                   </Button>
                 </Row>
-                <Row style={{ marginLeft: "35%", marginRight: "35%" }}>
-                  <div className="google-btn-wrapper">
-                    <GoogleLogin
-                      className="btn sign-in-btn"
-                      clientId="992779657352-2te3be0na925rtkt8kt8vc1f8tiph5oh.apps.googleusercontent.com"
-                      responseType="id_token"
-                      buttonText={role}
-                      scope="https://www.googleapis.com/auth/userinfo.email"
-                      onSuccess={handleGoogle}
-                      style={{ width: "120%" }}
-                    />
-                  </div>
+                <Row>
+                  <Col xs="2"></Col>
+
+                  <Col xs="8">
+                    <div className="google-btn-wrapper">
+                      <GoogleLogin
+                        justify="center"
+                        align="middle"
+                        float="middle"
+                        className="btn sign-in-btn"
+                        clientId="992779657352-2te3be0na925rtkt8kt8vc1f8tiph5oh.apps.googleusercontent.com"
+                        responseType="id_token"
+                        buttonText={role}
+                        scope="https://www.googleapis.com/auth/userinfo.email"
+                        onSuccess={handleGoogle}
+                      />
+                    </div>
+                  </Col>
+                  <Col xs="2"></Col>
                 </Row>
               </div>
             ) : (
-              <div className="auth-card-wrapper">
-                <Card className="auth-card">
-                  <CardBody>
-                    {pinMessage === "Invalid request" ||
-                    pinMessage === "PIN does not match" ? (
-                      <Alert className="auth-alert" color="danger">
+              <div className="auth-card-wrapper" style = {{marginTop : "25%"}}>
+                
+                <div className="auth-card">
+                  {pinMessage === "Invalid request" ||
+                  pinMessage === "PIN does not match" ? (
+                    <Alert className="auth-alert" color="danger">
+                      {pinMessage}
+                    </Alert>
+                  ) : (
+                    pinMessage && (
+                      <Alert className="auth-alert" color="success">
                         {pinMessage}
                       </Alert>
-                    ) : (
-                      pinMessage && (
-                        <Alert className="auth-alert" color="success">
-                          {pinMessage}
-                        </Alert>
-                      )
-                    )}
+                    )
+                  )}
+                  <h1 className="auth-card-title" style={{ marginBottom: "5%" }}>
+                  <strong>Welcome to FateMaker!</strong>
+                </h1>
+                  <Row>
+                  <Col xs="2" align="right" className="vertAlign">
+                    <div  style={{fontSize: "1.20rem"}}>
+                    enter pin
+                    </div>
+                  </Col>
+                  <Col xs="10">
                     <Form>
                       <FormGroup>
-                        <Label>PIN</Label>
                         <Input
-                          name="pin"
-                          type="number"
-                          maxLength="10"
-                          minLength="4"
-                          value={pin}
-                          onChange={e => setPin(e.target.value)}
-                          required
+                         name="pin"
+                         type="number"
+                         maxLength="10"
+                         minLength="4"
+                         value={pin}
+                         onChange={e => setPin(e.target.value)}
+                         required
                         />
                       </FormGroup>
-                      <Button
-                        color="success"
-                        size="m"
-                        onClick={handlePINResend}
-                        className="left-btn"
-                      >
-                        Resend PIN
-                      </Button>
-                      <Button
-                        color="success"
-                        size="m"
-                        onClick={handlePINVerify}
-                        className="right-btn"
-                      >
-                        Verify Email
-                      </Button>
-                      <div className="forgot-password">
-                        <Link href="/">
-                          <a>Skip verification</a>
-                        </Link>
-                      </div>
                     </Form>
-                  </CardBody>
-                </Card>
+                  </Col>
+                </Row>
+                  
+                    <Button
+                      size="m"
+                      onClick={handlePINResend}
+                      className="left-btn" 
+                    >
+                      <div style={{fontSize: "1.20rem"}}>
+                      Resend PIN
+                      </div>
+                    </Button>
+                    <Button
+                      size="m"
+                      onClick={handlePINVerify}
+                      className="right-btn"
+                    >
+                      <div style={{fontSize: "1.20rem"}}>
+                      Verify Email
+                      </div>
+                    </Button>
+                    <div className="forgot-password">
+                      <Link href="/" >
+                        <a style={{fontSize: "1.20rem"}}>Skip verification</a>
+                      </Link>
+                    </div>
+                </div>
               </div>
             )}
           </Col>

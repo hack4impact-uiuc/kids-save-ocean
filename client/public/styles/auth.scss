@@ -18,16 +18,34 @@
   float: left;
   width: 45%;
   margin-top: 1em;
+  background-color: #FFCC66;
+  color: #003366;
+  border: none;
+}
+
+.left-btn:hover {
+  background-color: #003366;
+  color:  #FFCC66;
+  border: none;
 }
 
 .right-btn {
   float: right;
   width: 45%;
   margin-top: 1em;
+  background-color: #FFCC66;
+  color: #003366;
+  border: none;
+}
+
+.right-btn:hover {
+  background-color: #003366;
+  color:  #FFCC66;
+  border: none;
 }
 
 .mid-btn {
-  float: right;
+  float: middle;
   width: 100%;
   margin-top: 1em;
 }
@@ -39,6 +57,7 @@
 .google-btn-wrapper {
   display: flex;
   justify-content: center;
+  float: middle;
   margin-top: 1em;
 }
 
