@@ -31,6 +31,7 @@ export default function ProjectsPage() {
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedGrpSize, setSelectedGrpSize] = useState(null);
   const [selectedDifficulty, setSelectedDifficulty] = useState(null);
+
   const [userInput, setUserInput] = useState(null);
 
   const handleUNGoals = selectedUNGoals => {
@@ -57,19 +58,31 @@ export default function ProjectsPage() {
     }
   };
 
-  const handleUserInput = userInput => {
+  const handleSearchChange = userInput => {
     if (userInput) {
-      setUserInput(userInput);
+      setUserInput(userInput.target.value);
     }
   };
 
-  var getSearchBarText = async () => {
-    var text = await document.getElementById("user-input").value;
-
-    return text;
+  const options = {
+    keys: ["name", "description"]
   };
 
+  const { result, search, setUserInput, reset } = useFuse()({
+    data: relevantModels,
+    options
+  });
+
   useEffect(() => {
+    var dropdownFilteredModels = [];
+    var searchFilteredModels = [];
+
+    var getSearchBarText = async () => {
+      var text = await document.getElementById("user-input").value;
+
+      return text;
+    };
+
     const populateAllProjects = async () => {
       const numberOfProjects = 20;
 
@@ -77,7 +90,9 @@ export default function ProjectsPage() {
       setProjects(allModels.data.slice(numberOfProjects));
     };
 
-    const populateFilteredProjects = async () => {
+    const populateDropDownFilteredProjects = async () => {
+      dropdownFilteredModels = [];
+
       var numProjects = 20;
 
       const models = await getModels();
@@ -92,37 +107,36 @@ export default function ProjectsPage() {
         selectedUNGoals == null &&
         selectedCountry == null &&
         selectedGrpSize == null &&
-        selectedDifficulty == null //&&
-        //getSearchBarText().length == 0
+        selectedDifficulty == null
       ) {
-        populateAllProjects();
+        return 0;
       } else {
         for (var i = 0; i < models.length; i++) {
-          for (var j = 0; j < updatedSelectedUNGoals.length; j++) {
+          for (var j = 0; j < selectedUNGoals.length; j++) {
             if (
-              updatedSelectedUNGoals == null ||
-              models[i].sdg == updatedSelectedUNGoals[j]
+              selectedUNGoals == null ||
+              models[i].sdg.value == selectedUNGoals[j].value
             ) {
               isMatchingSDG = true;
             }
 
             if (
-              updatedSelectedCountry == null ||
-              models[i].country == updatedSelectedCountry
+              selectedCountry == null ||
+              models[i].country.value == selectedCountry.value
             ) {
               isMatchingCountry = true;
             }
 
             if (
-              updatedSelectedGrpSize == null ||
-              models[i].groupSize == updatedSelectedGrpSize
+              selectedGrpSize == null ||
+              models[i].groupSize.value == selectedGrpSize.value
             ) {
               isMatchingGrpSize = true;
             }
 
             if (
-              updatedSelectedDifficulty == null ||
-              models[i].difficulty == updatedSelectedDifficulty
+              selectedDifficulty == null ||
+              models[i].difficulty.value == selectedDifficulty.value
             ) {
               isMatchingDifficulty = true;
             }
@@ -143,35 +157,73 @@ export default function ProjectsPage() {
           }
         }
 
-        var userInput = await getSearchBarText();
+        return 1;
+      }
+    };
 
-        // to remove
-        console.log(userInput);
+    const populateSearchFilteredProjects = async () => {
+      searchFilteredModels = [];
 
-        let options = {
-          minMatchCharLength: 5,
-          keys: ["name", "description"]
-        };
+      var textInput = getSearchBarText();
 
-        // handling no data (projects)
-        if (filteredModels.length == 0) {
-          // to remove
-          console.log("no projects have these specific fields");
-          return;
+      if (textInput.length == 0) {
+        return 0;
+      }
+
+      let options = {
+        keys: ["name", "description"]
+      };
+
+      if (filteredModels.length < numProjects) {
+        numProjects = filteredModels.length;
+      }
+
+      if (textInput.length == 0) {
+        setProjects(filteredModels.data.slice(0, numProjects));
+      } else {
+        let fuse = new Fuse(filteredModels.data, options);
+        let result = fuse.search(userInput);
+      }
+
+      setProjects(result.data.slice(0, numProjects));
+      return 1;
+    };
+
+    const populateFilteredProjects = async () => {
+      var filteredModels = [];
+
+      const numProjects = 20;
+      var numberOfProjects = numProjects;
+
+      var dropdownFilteredModels = populateDropDownFilteredProjects;
+      var searchFilteredModels = populateSearchFilteredProjects;
+
+      if (
+        populateDropDownFilteredProjects() == 0 &&
+        populateSearchFilteredProjects() == 0
+      ) {
+        populateAllProjects();
+      } else if (
+        dropdownFilteredModels.length == 0 &&
+        searchFilteredModels.length == 0
+      ) {
+        console.log("No projects meet these categories / search.");
+      } else {
+        for (var i = 0; i < dropdownFilteredModels.length; i++) {
+          for (var j = 0; j < searchFilteredModels.length; j++) {
+            if (
+              dropdownFilteredModels[i].value == searchFilteredModels[j].value
+            ) {
+              filteredModels.push(searchFilteredModels[j]);
+            }
+          }
         }
 
         if (filteredModels.length < numProjects) {
-          numProjects = filteredModels.length;
+          numberOfProjects = filteredModels.length;
         }
 
-        if (userInput.length == 0) {
-          setProjects(filteredModels.data.slice(0, numProjects));
-        } else {
-          let fuse = new Fuse(filteredModels.data, options);
-          let result = fuse.search(userInput);
-        }
-
-        setProjects(result.slice(0, numProjects));
+        setProjects(filteredModels.data.slice(numberOfProjects));
       }
     };
 
@@ -188,7 +240,7 @@ export default function ProjectsPage() {
             className="input"
             id="user-input"
             placeholder="Find a project"
-            onChange={handleUserInput}
+            onChange={handleSearchChange}
             value={userInput}
           />
         </div>
