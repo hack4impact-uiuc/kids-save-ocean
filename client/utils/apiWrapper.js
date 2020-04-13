@@ -453,7 +453,8 @@ export const postComment = (model_id, userId, commentBody) => {
       },
       {
         headers: {
-          "Content-Type": "application/JSON"
+          "Content-Type": "application/JSON",
+          "x-access-token": localStorage.getItem("token")
         }
       }
     )
@@ -481,7 +482,8 @@ export const postCommentThread = (
       },
       {
         headers: {
-          "Content-Type": "application/JSON"
+          "Content-Type": "application/JSON",
+          "x-access-token": localStorage.getItem("token")
         }
       }
     )

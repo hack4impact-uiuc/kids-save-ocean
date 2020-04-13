@@ -2,10 +2,12 @@ const express = require("express");
 const router = express.Router();
 const validate = require("express-jsonschema").validate;
 
+const { checkToken } = require("../auth/utils/checkToken");
 const { CommentSchema, ThreadSchema } = require("../public/schema/commentSchema");
 
-router.post("/", validate({ body: CommentSchema }), function(req, res) {
-  const { commentLocation, userId, comment } = req.body;
+router.post("/", validate({ body: CommentSchema }), checkToken, function(req, res) {
+  const { commentLocation, comment } = req.body;
+  const userId = req.decoded.userId;
   const db = req.db;
   const collection = db.get("comments");
 
@@ -36,8 +38,9 @@ router.post("/", validate({ body: CommentSchema }), function(req, res) {
   );
 });
 
-router.post("/thread", validate({ body: ThreadSchema }), function(req, res) {
-  const { commentLocation, commentIndex, userId, comment } = req.body;
+router.post("/thread", validate({ body: ThreadSchema }), checkToken, function(req, res) {
+  const { commentLocation, commentIndex, comment } = req.body;
+  const userId = req.decoded.userId;
   const db = req.db;
   const collection = db.get("comments");
 

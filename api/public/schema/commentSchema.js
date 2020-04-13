@@ -6,10 +6,6 @@ const schema = {
       type: "string",
       required: true
     },
-    userId: {
-      type: "string",
-      required: true
-    },
     comment: {
       type: "string",
       required: true
@@ -27,10 +23,6 @@ const threadSchema = {
     },
     commentIndex: {
       type: "number",
-      required: true
-    },
-    userId: {
-      type: "string",
       required: true
     },
     comment: {
