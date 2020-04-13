@@ -12,6 +12,7 @@ const userRouter = require("./routes/user");
 const commentRouter = require("./routes/comment");
 const filestoreRouter = require("./routes/filestore");
 const authRouter = require("./auth/api/index");
+const userRouter = require("./routes/user");
 
 require("dotenv").config();
 
