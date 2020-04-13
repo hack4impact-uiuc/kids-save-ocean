@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import Link from "next/link";
 import {
   getSecurityQuestionForUser,
@@ -15,164 +16,152 @@ import {
   CardBody,
   CardTitle
 } from "reactstrap";
-import { setCookie } from "./../utils/cookie";
 import Router from "next/router";
+import { Head } from "../components";
+import "../public/styles/auth.scss";
 
-const EMAIL_REGEX =
-  "([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)@([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+).([a-zA-Z]{2,3}).?([a-zA-Z]{0,3})";
-// const PASSWORD_REGEX = "^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})";
+export default function ForgotPasswordPage() {
+  // constants
+  const EMAIL_REGEX =
+    "([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)@([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+).([a-zA-Z]{2,3}).?([a-zA-Z]{0,3})";
+  // const PASSWORD_REGEX = "^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})";
+  const SUCCESS = 200;
 
-import { Component } from "react";
-class ForgotPasswordPage extends Component {
-  state = {
-    email: "",
-    question: "",
-    errorMessage: "",
-    answer: "",
-    pin: "",
-    password: "",
-    password2: "",
-    loadingAPI: false,
-    submitNewPassword: false
-  };
+  // state
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [password2, setPassword2] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [pin, setPin] = useState("");
+  const [question, setQuestion] = useState("");
+  const [answer, setAnswer] = useState("");
+  const [loadingAPI, setLoadingAPI] = useState(false);
+  const [submitNewPassword, setSubmitNewPassword] = useState(false);
 
-  handleChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
-  };
-
-  handleGetSecurityQuestion = async e => {
+  const handleGetSecurityQuestion = async e => {
     e.preventDefault();
-    console.log("HHERE");
-    console.log(this.state.email);
-    const result = await getSecurityQuestionForUser(this.state.email);
+    const result = await getSecurityQuestionForUser(email);
     const resp = await result.json();
-    if (!!resp.question) {
-      this.setState({ question: resp.question, errorMessage: "" });
+    if (resp.question) {
+      setQuestion(resp.question);
+      setErrorMessage("");
     } else {
-      this.setState({ errorMessage: resp.message });
+      setErrorMessage(resp.message);
     }
   };
 
-  handleSubmitSecurityAnswer = async e => {
+  const handleSubmitSecurityAnswer = async e => {
     e.preventDefault();
-
-    this.setState({ loadingAPI: true });
-    const result = await submitSecurityQuestionAnswer(
-      this.state.email,
-      this.state.answer
-    );
+    setLoadingAPI(true);
+    const result = await submitSecurityQuestionAnswer(email, answer);
     const resp = await result.json();
-    if (resp.status === 200) {
-      this.setState({ submitNewPassword: true, errorMessage: "" });
+    if (resp.status === SUCCESS) {
+      setSubmitNewPassword(true);
+      setErrorMessage("");
     } else {
-      this.setState({ errorMessage: resp.message });
+      setLoadingAPI(false);
+      setErrorMessage(resp.message);
     }
   };
 
-  handleSubmitNewPassword = async e => {
+  const handleSubmitNewPassword = async e => {
     e.preventDefault();
-    if (this.state.password !== this.state.password2) {
-      this.setState({ errorMessage: "Passwords don't match!" });
+    if (password !== password2) {
+      setErrorMessage("Passwords don't match!");
       return;
     }
     const response = await (
-      await resetPassword(
-        this.state.pin,
-        this.state.email,
-        this.state.password,
-        this.state.answer
-      )
+      await resetPassword(pin, email, password, answer)
     ).json();
-    if (response.status === 200 && response.token) {
-      setCookie("token", response.token);
-      this.setState({ successfulSubmit: true });
+    if (response.status === SUCCESS && response.token) {
+      localStorage.setItem("token", response.token);
       Router.push("/");
     } else {
-      this.setState({ errorMessage: response.message });
+      setErrorMessage(response.message);
     }
   };
-
-  render = () => (
+  return (
     <div>
-      {this.state.errorMessage !== "" && (
-        <Alert color="danger">{this.state.errorMessage}</Alert>
-      )}
-      {this.state.submitNewPassword ? (
-        <Card
-          className="interview-card"
-          style={{ width: "400px", height: "60%" }}
-        >
-          <CardTitle>
-            <h3 style={{ textAlign: "center", paddingTop: "10px" }}>
-              Reset Password
-            </h3>
-          </CardTitle>
+      <Head />
+      {submitNewPassword ? (
+        <div className="auth-card-wrapper">
+          <Card className="auth-card">
+            <CardTitle>
+              <h3 className="auth-card-title">Reset Password</h3>
+            </CardTitle>
 
-          <CardBody>
-            <Form>
-              <FormGroup>
-                <Label>Pin</Label>
-                <Input
-                  name="pin"
-                  value={this.state.pin}
-                  onChange={this.handleChange}
-                  required
-                />
-              </FormGroup>
-              <FormGroup>
-                <Label>Password</Label>
-                <Input
-                  type="password"
-                  name="password"
-                  minLength="8"
-                  maxLength="64"
-                  value={this.state.password}
-                  onChange={this.handleChange}
-                  required
-                />
-              </FormGroup>
-              <FormGroup>
-                <Label>Confirm Password</Label>
-                <Input
-                  type="password"
-                  name="password2"
-                  minLength="8"
-                  maxLength="64"
-                  value={this.state.password2}
-                  onChange={this.handleChange}
-                  required
-                />
-              </FormGroup>
-              <Button
-                color="success"
-                size="lg"
-                onClick={this.handleSubmitNewPassword}
-                style={{ float: "left", width: "100%" }}
-              >
-                Reset Password
-              </Button>{" "}
-            </Form>
-          </CardBody>
-          <div style={{ textAlign: "center" }}>
-            <Link prefetch href="/login">
-              <a>Back to login page</a>
-            </Link>
-          </div>
-        </Card>
-      ) : (
-        <div>
-          {this.state.question === "" ? (
-            <Card
-              className="interview-card"
-              style={{ width: "400px", height: "60%" }}
-            >
-              <CardTitle>
-                <h3 style={{ textAlign: "center", paddingTop: "10px" }}>
+            <CardBody>
+              {errorMessage && (
+                <Alert className="auth-alert" color="danger">
+                  {errorMessage}
+                </Alert>
+              )}
+              <Form>
+                <FormGroup>
+                  <Label>Pin</Label>
+                  <Input
+                    name="pin"
+                    value={pin}
+                    onChange={e => setPin(e.target.value)}
+                    required
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Label>Password</Label>
+                  <Input
+                    type="password"
+                    name="password"
+                    minLength="8"
+                    maxLength="64"
+                    value={password}
+                    onChange={e => setPassword(e.target.value)}
+                    required
+                  />
+                </FormGroup>
+                <FormGroup>
+                  <Label>Confirm Password</Label>
+                  <Input
+                    type="password"
+                    name="password2"
+                    minLength="8"
+                    maxLength="64"
+                    value={password2}
+                    onChange={e => setPassword2(e.target.value)}
+                    required
+                  />
+                </FormGroup>
+                <Button
+                  color="success"
+                  size="m"
+                  onClick={handleSubmitNewPassword}
+                  className="mid-btn"
+                >
                   Reset Password
-                </h3>
+                </Button>
+              </Form>
+            </CardBody>
+            <div className="back-to-login">
+              <Link href="/login">
+                <a>Back to login page</a>
+              </Link>
+            </div>
+          </Card>
+        </div>
+      ) : (
+        <div className="auth-card-wrapper">
+          {question === "" ? (
+            <Card className="auth-card">
+              <CardTitle>
+                <h3 className="auth-card-title">Reset Password</h3>
               </CardTitle>
 
               <CardBody>
+                {errorMessage && (
+                  <Alert className="auth-alert" color="danger">
+                    {errorMessage}
+                  </Alert>
+                )}
+
                 <Form>
                   <FormGroup>
                     <Label>Email</Label>
@@ -182,65 +171,63 @@ class ForgotPasswordPage extends Component {
                       id="exampleEmail"
                       maxLength="64"
                       pattern={EMAIL_REGEX}
-                      value={this.state.email}
-                      onChange={this.handleChange}
+                      value={email}
+                      onChange={e => setEmail(e.target.value)}
                       required
                     />
                   </FormGroup>
                   <Button
                     color="success"
-                    size="lg"
-                    onClick={this.handleGetSecurityQuestion}
-                    style={{ float: "right", width: "100%" }}
+                    size="m"
+                    onClick={handleGetSecurityQuestion}
+                    className="mid-btn"
                   >
                     Get Security Question
                   </Button>
-
-                  {this.state.errorMessage}
                 </Form>
               </CardBody>
-              <div style={{ textAlign: "center" }}>
-                <Link prefetch href="/login">
+              <div className="back-to-login">
+                <Link href="/login">
                   <a>Back to login page</a>
                 </Link>
               </div>
             </Card>
           ) : (
-            <Card
-              className="interview-card"
-              style={{ width: "400px", height: "60%" }}
-            >
+            <Card className="auth-card">
               <CardTitle>
-                <h3 style={{ textAlign: "center", paddingTop: "10px" }}>
-                  Reset Password
-                </h3>
+                <h3 className="auth-card-title">Reset Password</h3>
               </CardTitle>
 
               <CardBody>
+                {errorMessage && (
+                  <Alert className="auth-alert" color="danger">
+                    {errorMessage}
+                  </Alert>
+                )}
                 <Form>
                   <FormGroup>
-                    <p> {this.state.question}</p>
+                    <p> {question}</p>
                     <Label>Answer</Label>
                     <Input
                       type="answer"
                       name="answer"
-                      onChange={this.handleChange}
+                      onChange={e => setAnswer(e.target.value)}
                       required
                     />
                   </FormGroup>
                   <Button
                     color="success"
-                    size="lg"
-                    onClick={this.handleSubmitSecurityAnswer}
-                    style={{ float: "right", width: "100%" }}
-                    disabled={this.state.loadingAPI}
+                    size="m"
+                    onClick={handleSubmitSecurityAnswer}
+                    disabled={loadingAPI}
+                    className="mid-btn"
                   >
                     Submit Answer
                   </Button>
                 </Form>
               </CardBody>
-              <div style={{ textAlign: "center" }}>
-                <Link prefetch href="/login">
+              <div className="back-to-login">
+                <Link href="/login">
                   <a>Back to login page</a>
                 </Link>
               </div>
@@ -251,4 +238,3 @@ class ForgotPasswordPage extends Component {
     </div>
   );
 }
-export default ForgotPasswordPage;

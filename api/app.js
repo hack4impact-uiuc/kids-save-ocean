@@ -10,6 +10,7 @@ const indexRouter = require("./routes/index");
 const modelRouter = require("./routes/model");
 const filestoreRouter = require("./routes/filestore");
 const authRouter = require("./auth/api/index");
+const userRouter = require("./routes/user");
 
 require("dotenv").config();
 
@@ -57,6 +58,7 @@ app.use("/api/auth/", authRouter);
 app.use("/api/", indexRouter);
 app.use("/api/models", modelRouter);
 app.use("/api/upload", filestoreRouter);
+app.use("/api/users", userRouter);
 
 app.use(function(req, res, next) {
   req.gfs = gfs;

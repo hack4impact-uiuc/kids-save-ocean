@@ -1,8 +1,10 @@
 import React from "react";
-import { verify } from "../utils/api";
-import NavBar from "./navbar";
+import { verify } from "../utils/apiWrapper";
+import NavBar from "./NavBar";
 import Router from "next/router";
 import { setCookie } from "./../utils/cookie";
+
+const SUCCESS = 200;
 
 const withAuth = WrappedComponent => {
   class HOC extends React.Component {
@@ -12,7 +14,7 @@ const withAuth = WrappedComponent => {
     async componentDidMount() {
       const verifyResponse = await verify();
       const verifyResponseParsed = await verifyResponse.json();
-      if (verifyResponseParsed.status === 200) {
+      if (verifyResponseParsed.status === SUCCESS) {
         if (verifyResponseParsed.newToken !== undefined) {
           setCookie("token", verifyResponseParsed.newToken);
         }
@@ -22,10 +24,11 @@ const withAuth = WrappedComponent => {
       }
     }
     render() {
+      const { verified } = this.state;
       return (
         <div>
-          {this.state.verified ? (
-            <WrappedComponent {...this.props} verified={this.state.verified} />
+          {verified ? (
+            <WrappedComponent {...this.props} verified={verified} />
           ) : (
             <div>
               <NavBar />

@@ -1,6 +1,5 @@
 import axios from "axios";
 import fetch from "isomorphic-unfetch";
-import { getCookie } from "./cookie";
 
 const BASE_URL = process.env.BACKEND_URL ?? "http://localhost:5000/api";
 // const BASE_URL = process.env.BACKEND_URL ?? "http://52.240.158.249:5000/api"; // leave this in, this is Arpan's url
@@ -105,10 +104,10 @@ export const deleteForm = Model_ID => {
     });
 };
 
-<<<<<<< HEAD
+
 export const register = (emailInput, passwordInput, questionIdx, answer) => {
   try {
-    return fetch(`http://localhost:3000/register/`, {
+    return fetch(`${BASE_URL}/auth/register/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -121,13 +120,13 @@ export const register = (emailInput, passwordInput, questionIdx, answer) => {
       })
     });
   } catch (err) {
-    console.log(err.message);
+    return err;
   }
 };
 
 export const login = (emailInput, passwordInput) => {
   try {
-    return fetch(`http://localhost:3000/login`, {
+    return fetch(`${BASE_URL}/auth/login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -136,28 +135,31 @@ export const login = (emailInput, passwordInput) => {
       })
     });
   } catch (err) {
-    console.log(err);
+    return err;
   }
 };
 
 export const verify = () => {
   try {
-    return fetch(`http://localhost:3000/verify/`, {
+    return fetch(`${BASE_URL}/auth/verify/`, {
       method: "POST",
-      headers: { "Content-Type": "application/json", token: getCookie("token") }
+      headers: {
+        "Content-Type": "application/json",
+        token: localStorage.getItem("token")
+      }
     });
   } catch (err) {
-    console.log(err);
+    return err;
   }
 };
 
 export const getSecurityQuestions = () => {
   try {
-    return fetch("http://localhost:3000/getSecurityQuestions", {
+    return fetch(`${BASE_URL}/auth/getSecurityQuestions`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        token: getCookie("token")
+        token: localStorage.getItem("token")
       }
     });
   } catch (err) {
@@ -167,11 +169,11 @@ export const getSecurityQuestions = () => {
 
 export const setSecurityQuestion = (questionIdx, answer, password) => {
   try {
-    return fetch(`http://localhost:3000/addSecurityQuestionAnswer`, {
+    return fetch(`${BASE_URL}/auth/addSecurityQuestionAnswer`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        token: getCookie("token")
+        token: localStorage.getItem("token")
       },
       body: JSON.stringify({
         questionIdx,
@@ -180,13 +182,13 @@ export const setSecurityQuestion = (questionIdx, answer, password) => {
       })
     });
   } catch (err) {
-    console.log(err);
+    return err;
   }
 };
 
 export const getSecurityQuestionForUser = email => {
   try {
-    return fetch(`http://localhost:3000/getSecurityQuestionForUser`, {
+    return fetch(`${BASE_URL}/auth/securityQuestionForUser`, {
       method: "POST",
       body: JSON.stringify({
         email
@@ -194,13 +196,13 @@ export const getSecurityQuestionForUser = email => {
       headers: { email: email, "Content-Type": "application/json" }
     });
   } catch (err) {
-    console.log(err);
+    return err;
   }
 };
 
 export const submitSecurityQuestionAnswer = (email, answer, questionIdx) => {
   try {
-    return fetch(`http://localhost:3000/forgotPassword`, {
+    return fetch(`${BASE_URL}/auth/forgotPassword`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -210,13 +212,13 @@ export const submitSecurityQuestionAnswer = (email, answer, questionIdx) => {
       })
     });
   } catch (err) {
-    console.log(err);
+    return err;
   }
 };
 
 export const resetPassword = (pin, email, password, answer) => {
   try {
-    return fetch(`http://localhost:3000/passwordReset`, {
+    return fetch(`${BASE_URL}/auth/passwordReset`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -227,17 +229,17 @@ export const resetPassword = (pin, email, password, answer) => {
       })
     });
   } catch (err) {
-    console.log(err);
+    return err;
   }
 };
 
 export const changePassword = (currentPassword, newPassword) => {
   try {
-    return fetch(`http://localhost:3000/changePassword`, {
+    return fetch(`${BASE_URL}/auth/changePassword`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        token: getCookie("token")
+        token: localStorage.getItem("token")
       },
       body: JSON.stringify({
         currentPassword,
@@ -245,33 +247,33 @@ export const changePassword = (currentPassword, newPassword) => {
       })
     });
   } catch (err) {
-    console.log(err);
+    return err;
   }
 };
 
 export const getUsersForRolesPage = () => {
   try {
-    return fetch(`http://localhost:3000/roles`, {
+    return fetch(`${BASE_URL}/auth/roles`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        token: getCookie("token"),
-        google: getCookie("google") ? true : false
+        token: localStorage.getItem("token"),
+        google: localStorage.getItem("google") ? true : false
       }
     });
   } catch (err) {
-    console.log(err);
+    return err;
   }
 };
 
 export const changeRole = (userEmail, newRole, password) => {
   try {
-    return fetch(`http://localhost:3000/roleschange`, {
+    return fetch(`${BASE_URL}/auth/roleschange`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        token: getCookie("token"),
-        google: getCookie("google") ? true : false
+        token: localStorage.getItem("token"),
+        google: localStorage.getItem("google") ? true : false
       },
       body: JSON.stringify({
         userEmail,
@@ -280,13 +282,13 @@ export const changeRole = (userEmail, newRole, password) => {
       })
     });
   } catch (err) {
-    console.log(err);
+    return err;
   }
 };
 
 export const google = tokenId => {
   try {
-    return fetch(`http://localhost:3000/google`, {
+    return fetch(`${BASE_URL}/auth/google`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -297,55 +299,56 @@ export const google = tokenId => {
       })
     });
   } catch (err) {
-    console.log(err);
+    return err;
   }
 };
 
 export const verifyPIN = pin => {
   try {
-    return fetch(`http://localhost:3000/verifyEmail`, {
+    return fetch(`${BASE_URL}/auth/verifyEmail`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        token: getCookie("token")
+        token: localStorage.getItem("token")
       },
       body: JSON.stringify({
         pin
       })
     });
   } catch (err) {
-    console.log(err);
+    return err;
   }
 };
 
 export const resendPIN = () => {
   try {
-    return fetch(`http://localhost:3000/resendVerificationEmail`, {
+    return fetch(`${BASE_URL}/auth/resendVerificationEmail`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        token: getCookie("token")
+        token: localStorage.getItem("token")
       }
     });
   } catch (err) {
-    console.log(err);
+    return err;
   }
 };
 
 export const userInfo = () => {
   try {
-    return fetch(`http://localhost:3000/getUser`, {
+    return fetch(`${BASE_URL}/auth/getUser`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        token: getCookie("token"),
-        google: getCookie("google") ? true : false
+        token: localStorage.getItem("token"),
+        google: localStorage.getItem("google") ? true : false
       }
     });
   } catch (err) {
-    console.log(err);
+    return err;
   }
-=======
+};
+
 export const saveDescription = (
   model_id,
   phaseName,
@@ -375,5 +378,66 @@ export const getDescription = (model_id, phaseName, stageName) => {
     type: "GET_DESCRIPTION_FAIL",
     error
   }));
->>>>>>> 7ca5330f56ef2c24ad7073eaf58ecbeac761e421
+};
+
+export const getUser = userId => {
+  try {
+    return fetch(`${BASE_URL}/users/${userId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      }
+    });
+  } catch (err) {
+    return err;
+  }
+};
+
+export const createUser = newUser => {
+  try {
+    return fetch(`${BASE_URL}/users`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        newUser
+      })
+    });
+  } catch (err) {
+    return err;
+  }
+};
+
+export const updateUser = (userId, updatedUser) => {
+  try {
+    return (
+      fetch(`${BASE_URL}/users/${userId}`),
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": localStorage.getItem("token")
+        },
+        body: JSON.stringify(updatedUser)
+      }
+    );
+  } catch (err) {
+    return err;
+  }
+};
+
+export const deleteUser = userId => {
+  try {
+    return fetch(`${BASE_URL}/users/${userId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      }
+    });
+  } catch (err) {
+    return err;
+  }
 };

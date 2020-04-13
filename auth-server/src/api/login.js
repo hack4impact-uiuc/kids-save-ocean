@@ -35,7 +35,7 @@ router.post(
 
     // Compares the encrypted passwords and either returns the appropriate error message or a a success status along with the user's token, id, and permission level
     if (await bcrypt.compare(req.body.password, user.password)) {
-      const jwt_token = await signAuthJWT(user._id, user.password);
+      const jwt_token = await signAuthJWT(user._id, user.password, user.role);
       return res.status(200).send({
         status: 200,
         message: "Successful login!",
