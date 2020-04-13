@@ -93,8 +93,6 @@ export default function ProjectsPage() {
     const populateDropDownFilteredProjects = async () => {
       dropdownFilteredModels = [];
 
-      var numProjects = 20;
-
       const models = await getModels();
       var filteredModels = [];
 
@@ -174,10 +172,6 @@ export default function ProjectsPage() {
         keys: ["name", "description"]
       };
 
-      if (filteredModels.length < numProjects) {
-        numProjects = filteredModels.length;
-      }
-
       if (textInput.length == 0) {
         setProjects(filteredModels.data.slice(0, numProjects));
       } else {
@@ -189,11 +183,14 @@ export default function ProjectsPage() {
       return 1;
     };
 
-    const populateFilteredProjects = async () => {
+    const populateAllFilteredProjects = async () => {
       var filteredModels = [];
 
       const numProjects = 20;
       var numberOfProjects = numProjects;
+
+      populateDropDownFilteredProjects();
+      populateSearchFilteredProjects();
 
       var dropdownFilteredModels = populateDropDownFilteredProjects;
       var searchFilteredModels = populateSearchFilteredProjects;
@@ -208,6 +205,22 @@ export default function ProjectsPage() {
         searchFilteredModels.length == 0
       ) {
         console.log("No projects meet these categories / search.");
+      } else if (populateSearchFilteredProjects() == 0) {
+        filteredModels = dropdownFilteredModels;
+
+        if (filteredModels.length < numProjects) {
+          numberOfProjects = filteredModels.length;
+        }
+
+        setProjects(filteredModels.data.slice(numberOfProjects));
+      } else if (populateDropDownFilteredProjects() == 0) {
+        filteredModels = searchFilteredModels;
+
+        if (filteredModels.length < numProjects) {
+          numberOfProjects = filteredModels.length;
+        }
+
+        setProjects(filteredModels.data.slice(numberOfProjects));
       } else {
         for (var i = 0; i < dropdownFilteredModels.length; i++) {
           for (var j = 0; j < searchFilteredModels.length; j++) {
@@ -227,7 +240,7 @@ export default function ProjectsPage() {
       }
     };
 
-    populateFilteredProjects();
+    populateAllFilteredProjects();
   }, []);
 
   return (
