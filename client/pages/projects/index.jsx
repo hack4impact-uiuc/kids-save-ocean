@@ -9,6 +9,7 @@ import levelData from "../../utils/levels";
 import { getModels } from "../../utils/apiWrapper";
 import {
   Card,
+  CardImg,
   CardGroup,
   CardText,
   Col,
@@ -301,16 +302,27 @@ export default function ProjectsPage() {
                     >
                       <a>
                         <Card className="project-card">
+                          <CardImg
+                            className="project-card-img"
+                            top
+                            width="100%"
+                            alt="Project img"
+                          ></CardImg>
                           <CardText width="100%" height="100%">
                             <div className="project-card-name">
                               {project.name}
                             </div>
                             <br />
-                            {`${project.description.slice(
-                              0,
-                              DESCRIPTION_LENGTH
-                            )}${project.description.length >
-                              DESCRIPTION_LENGTH && "..."}`}
+                            <div className="project-card-descrip">
+                              {`${project.description.slice(
+                                0,
+                                DESCRIPTION_LENGTH
+                              )}${project.description.length >
+                                DESCRIPTION_LENGTH && "..."}`}
+                            </div>
+                            <br />
+                            <div className="project-likes">Likes: </div>
+                            <div className="project-comments">Comments: </div>
                           </CardText>
                         </Card>
                       </a>
