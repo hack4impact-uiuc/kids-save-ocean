@@ -34,6 +34,9 @@ export default function ProjectsPage() {
 
   const [userInput, setUserInput] = useState(null);
 
+  var dropdownFilteredModels = [];
+  var searchFilteredModels = [];
+
   const handleUNGoals = selectedUNGoals => {
     if (selectedUNGoals) {
       setSelectedUNGoals(selectedUNGoals);
@@ -74,9 +77,6 @@ export default function ProjectsPage() {
   });
 
   useEffect(() => {
-    var dropdownFilteredModels = [];
-    var searchFilteredModels = [];
-
     var getSearchBarText = async () => {
       var text = await document.getElementById("user-input").value;
 
@@ -94,7 +94,6 @@ export default function ProjectsPage() {
       dropdownFilteredModels = [];
 
       const models = await getModels();
-      var filteredModels = [];
 
       var isMatchingSDG = false;
       var isMatchingCountry = false;
@@ -145,7 +144,7 @@ export default function ProjectsPage() {
               isMatchingGrpSize &&
               isMatchingDifficulty
             ) {
-              filteredModels.push(models[i]);
+              dropdownFilteredModels.push(models[i]);
             }
 
             isMatchingSDG = false;
@@ -162,24 +161,17 @@ export default function ProjectsPage() {
     const populateSearchFilteredProjects = async () => {
       searchFilteredModels = [];
 
+      const models = await getModels();
+
       var textInput = getSearchBarText();
 
       if (textInput.length == 0) {
         return 0;
-      }
-
-      let options = {
-        keys: ["name", "description"]
-      };
-
-      if (textInput.length == 0) {
-        setProjects(filteredModels.data.slice(0, numProjects));
       } else {
-        let fuse = new Fuse(filteredModels.data, options);
+        let fuse = new Fuse(models.data, options);
         let result = fuse.search(userInput);
       }
 
-      setProjects(result.data.slice(0, numProjects));
       return 1;
     };
 
