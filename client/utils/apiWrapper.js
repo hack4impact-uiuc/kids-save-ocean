@@ -383,7 +383,7 @@ export const postComment = (model_id, userId, commentBody) => {
     .post(
       requestString,
       {
-        commentLocation: `${model_id}`,
+        commentLocation: model_id,
         userId: userId,
         comment: commentBody
       },

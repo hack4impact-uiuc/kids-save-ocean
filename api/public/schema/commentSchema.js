@@ -41,6 +41,6 @@ const threadSchema = {
 };
 
 module.exports = {
-  commentSchema: schema,
-  threadSchema: threadSchema
+  CommentSchema: schema,
+  ThreadSchema: threadSchema
 };

@@ -2,9 +2,7 @@ const express = require("express");
 const router = express.Router();
 const validate = require("express-jsonschema").validate;
 
-const CommentSchema = require("../public/schema/commentSchema.js")
-  .commentSchema;
-const ThreadSchema = require("../public/schema/commentSchema.js").threadSchema;
+const { CommentSchema, ThreadSchema } = require("../public/schema/commentSchema");
 
 router.post("/", validate({ body: CommentSchema }), function(req, res) {
   const { commentLocation, userId, comment } = req.body;
@@ -84,7 +82,7 @@ router.get("/:commentLocation", function(req, res) {
         res.sendStatus(500);
       } else {
         res.json({
-          comments: docs
+          comments: docs[0].comments
         });
       }
     }
