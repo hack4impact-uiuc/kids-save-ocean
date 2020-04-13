@@ -77,11 +77,6 @@ export default function ProjectsPage() {
     keys: ["name", "description"]
   };
 
-  const { result, search, setUserInput, reset } = useFuse()({
-    data: relevantModels,
-    options
-  });
-
   const populateAllProjects = async () => {
     const numberOfProjects = 20;
 
@@ -169,11 +164,11 @@ export default function ProjectsPage() {
 
       var textInput = getSearchBarText();
 
-      if (textInput.length == 0) {
+      if (textInput == null || textInput.length == 0) {
         return 0;
       } else {
         let fuse = new Fuse(models.data, options);
-        let result = fuse.search(userInput);
+        searchFilteredModels = fuse.search(textInput);
       }
 
       return 1;
