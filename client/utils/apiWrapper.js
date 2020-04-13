@@ -124,8 +124,7 @@ export const register = (
         password: passwordInput,
         questionIdx,
         securityQuestionAnswer: answer,
-        role: roleAns,
-        answer
+        role: roleAns
       })
     });
   } catch (err) {

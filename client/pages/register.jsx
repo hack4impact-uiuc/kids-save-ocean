@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import Router from "next/router";
-import { register, verifyPIN, resendPIN, google } from "../utils/apiWrapper";
-import { Alert, Form, Button, FormGroup, Input, Row, Col } from "reactstrap";
 import {
   register,
   verifyPIN,
@@ -15,6 +13,8 @@ import {
   Button,
   FormGroup,
   Input,
+  Row,
+  Col
 } from "reactstrap";
 import { GoogleLogin } from "react-google-login";
 import { Head } from "../components";
@@ -77,15 +77,6 @@ export default function RegisterPage(props) {
       Router.push("/");
     }
   };
-  const handleQuestion = questionIdx => {
-    setQuestionIdx(questionIdx);
-  };
-  const handleCountry = country => {
-    setCountry(country);
-  };
-  const handlePerson = person => {
-    setPerson(person);
-  };
   // const pickDropDown = idx => {
   //   setQuestionIdx(idx);
   // };
@@ -93,7 +84,7 @@ export default function RegisterPage(props) {
   // const toggle = () => {
   //   setDropdownOpen(prevState => !prevState);
   // };
-
+  
   const handleSubmit = async e => {
     e.preventDefault();
     if (
@@ -105,7 +96,7 @@ export default function RegisterPage(props) {
       country.label !== ""
     ) {
       let result = await register(
-        email,
+        email, 
         password,
         questionIdx.value,
         securityQuestionAnswer,
@@ -113,6 +104,7 @@ export default function RegisterPage(props) {
         birthday,
         country.label
       );
+      
       const response = await result.json();
       if (!response.token) {
         setErrorMessage(response.message);
@@ -134,8 +126,6 @@ export default function RegisterPage(props) {
       setErrorMessage("Select country of origin");
     } else if (!birthday) {
       setErrorMessage("Enter birthday");
-    } else {
-      console.log("hello");
     }
   };
 
@@ -292,7 +282,7 @@ export default function RegisterPage(props) {
                           options={countryData}
                           placeholder=""
                           isClearable
-                          onChange={handleCountry}
+                          onChange={setCountry}
                           value={country}
                         />
                       </FormGroup>
@@ -329,7 +319,7 @@ export default function RegisterPage(props) {
                           options={options}
                           placeholder=""
                           isClearable
-                          onChange={handlePerson}
+                          onChange={setPerson}
                           value={person}
                         />
                       </FormGroup>
@@ -347,7 +337,7 @@ export default function RegisterPage(props) {
                           options={security_questions}
                           placeholder=""
                           isClearable
-                          onChange={handleQuestion}
+                          onChange={setQuestionIdx}
                           value={questionIdx}
                         />
                       </FormGroup>

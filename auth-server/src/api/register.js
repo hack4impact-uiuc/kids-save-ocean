@@ -35,23 +35,18 @@ router.post(
   ],
   handleAsyncErrors(async function(req, res) {
     // Checks that the request has the required fields (email, password, and role)
-    console.log("0");
-    console.log(req);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return sendResponse(res, 400, "Invalid Request", {
         errors: errors.array({ onlyFirstError: true })
       });
     }
-    console.log("1");
     // Ensures the user doesn't already have an account
     if (await User.findOne({ email: String(req.body.email).toLowerCase() })) {
       return sendResponse(res, 400, "User already exists. Please try again.");
     }
-    console.log("2");
     // Encrypts the password and creates the user's data
     const encodedPassword = await bcrypt.hash(req.body.password, 10);
-    console.log("3");
     let userData = {
       email: String(req.body.email).toLowerCase(),
       password: encodedPassword,
@@ -61,7 +56,6 @@ router.post(
       username: req.body.username,
       birthday: req.body.birthday
     };
-    console.log("4");
     // If the security question is enabled, checks that the security question index is valid and that there is an answer
     const securityQuestionEnabled = await isSecurityQuestionEnabled();
     if (securityQuestionEnabled) {
@@ -113,7 +107,6 @@ router.post(
       try {
         await sendMail(body);
       } catch (e) {
-        console.log(e);
         return sendResponse(
           res,
           500,
@@ -123,7 +116,7 @@ router.post(
     }
 
     // Signs the jwt token, and the sends the signed token to the user along with the user's id and permission level
-    const jwt_token = await signAuthJWT(user._id, user.password);
+    const jwt_token = await signAuthJWT(user._id, user.password, user.role);
     await user.save();
     return res.status(200).send({
       status: 200,
