@@ -191,6 +191,42 @@ router.delete("/:id", checkToken, async (req, res) => {
   }
 });
 
+//handle following
+router.put("/:id/follow", auth.checkToken, async (req, res) => {
+  const { db } = req;
+  const collection = db.get("users");
+  const { id } = req.params;
+  const { userToFollow } = req.body;
+  try {
+    const user = await collection.find({ _id: id })[0];
+    if (!user) {
+      res.status(NOT_FOUND).send({
+        code: NOT_FOUND,
+        success: false,
+        message: "User not found."
+      });
+    }
+    let cur_following = user.followingUsers;
+    cur_following.push(userToFollow);
+    try {
+      await collection.update(
+        { _id: id },
+        { $set: { followingUsers: cur_following } },
+        { new: true }
+      );
+      res.status(SUCCESS).send({
+        code: SUCCESS,
+        success: true,
+        message: `Successfully started following user ${userToFollow}.`
+      });
+    } catch (err) {
+      return err;
+    }
+  } catch (err) {
+    return err;
+  }
+});
+
 // testing purposes
 router.delete("/", async (req, res) => {
   const { db } = req;

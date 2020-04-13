@@ -35,6 +35,24 @@ const schema = {
       items: {
         type: "string"
       }
+    },
+    followingProjects: {
+      type: "array",
+      items: {
+        type: "string"
+      }
+    },
+    followingUsers: {
+      type: "array",
+      items: {
+        type: "string"
+      }
+    },
+    followers: {
+      type: "array",
+      items: {
+        type: "string"
+      }
     }
   }
 };
