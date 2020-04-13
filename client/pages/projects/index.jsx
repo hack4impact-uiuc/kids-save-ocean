@@ -67,6 +67,12 @@ export default function ProjectsPage() {
     }
   };
 
+  var getSearchBarText = async () => {
+    var text = await document.getElementById("user-input").value;
+
+    return text;
+  };
+
   const options = {
     keys: ["name", "description"]
   };
@@ -76,20 +82,18 @@ export default function ProjectsPage() {
     options
   });
 
+  const populateAllProjects = async () => {
+    const numberOfProjects = 20;
+
+    const allModels = await getModels();
+    setProjects(allModels.data.slice(numberOfProjects));
+  };
+
   useEffect(() => {
-    var getSearchBarText = async () => {
-      var text = await document.getElementById("user-input").value;
+    populateAllProjects();
+  }, []);
 
-      return text;
-    };
-
-    const populateAllProjects = async () => {
-      const numberOfProjects = 20;
-
-      const allModels = await getModels();
-      setProjects(allModels.data.slice(numberOfProjects));
-    };
-
+  useEffect(() => {
     const populateDropDownFilteredProjects = async () => {
       dropdownFilteredModels = [];
 
@@ -233,7 +237,13 @@ export default function ProjectsPage() {
     };
 
     populateAllFilteredProjects();
-  }, []);
+  }, [
+    selectedUNGoals,
+    selectedCountry,
+    selectedGrpSize,
+    selectedDifficulty,
+    userInput
+  ]);
 
   return (
     <>
