@@ -3,9 +3,22 @@ import Link from "next/link";
 import Router from "next/router";
 import { register, verifyPIN, resendPIN, google } from "../utils/apiWrapper";
 import { Alert, Form, Button, FormGroup, Input, Row, Col } from "reactstrap";
-import { setCookie } from "./../utils/cookie";
+import {
+  register,
+  verifyPIN,
+  resendPIN,
+  google,
+} from "../utils/apiWrapper";
+import {
+  Alert,
+  Form,
+  Button,
+  FormGroup,
+  Input,
+} from "reactstrap";
 import { GoogleLogin } from "react-google-login";
 import { Head } from "../components";
+
 import "../public/styles/auth.scss";
 import "../public/styles/signupPage.scss";
 import Select from "react-select";
@@ -59,8 +72,8 @@ export default function RegisterPage(props) {
     if (resp.status !== SUCCESS) {
       setErrorMessage(resp.message);
     } else {
-      setCookie("token", e.tokenId);
-      setCookie("google", true);
+      localStorage.setItem("token", e.tokenId);
+      localStorage.setItem("google", true);
       Router.push("/");
     }
   };
@@ -104,7 +117,7 @@ export default function RegisterPage(props) {
       if (!response.token) {
         setErrorMessage(response.message);
       } else {
-        setCookie("token", response.token);
+        localStorage.setItem("token", response.token);
         setSuccessfulSubmit(true);
       }
     } else if (password !== password2) {
