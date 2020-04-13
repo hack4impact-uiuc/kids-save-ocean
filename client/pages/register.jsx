@@ -1,25 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import Router from "next/router";
-import {
-  register,
-  verifyPIN,
-  resendPIN,
-  google,
-  getSecurityQuestions
-} from "../utils/apiWrapper";
-import {
-  Alert,
-  Form,
-  Button,
-  FormGroup,
-  Label,
-  Input,
-  Card,
-  CardBody,
-  Row,
-  Col
-} from "reactstrap";
+import { register, verifyPIN, resendPIN, google } from "../utils/apiWrapper";
+import { Alert, Form, Button, FormGroup, Input, Row, Col } from "reactstrap";
 import { setCookie } from "./../utils/cookie";
 import { GoogleLogin } from "react-google-login";
 import { Head } from "../components";
@@ -51,26 +34,25 @@ export default function RegisterPage(props) {
   const [securityQuestionAnswer, setSecurityQuestionAnswer] = useState("");
   const [successfulSubmit, setSuccessfulSubmit] = useState(false);
   //const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [questions, setQuestions] = useState([]);
+  // const [questions, setQuestions] = useState([]);
 
   const [questionIdx, setQuestionIdx] = useState(INVALID);
-
-  useEffect(() => {
-    const loadSecurityQuestions = async () => {
-      const resp = await getSecurityQuestions();
-      if (!resp) {
-        setErrorMessage("Unable to load data");
-        return;
-      }
-      const respJson = await resp.json();
-      if (respJson.questions) {
-        setQuestions(respJson.questions);
-      } else {
-        setErrorMessage(respJson.error.message);
-      }
-    };
-    loadSecurityQuestions();
-  }, [setErrorMessage, setQuestions]);
+  // useEffect(() => {
+  //   const loadSecurityQuestions = async () => {
+  //     const resp = await getSecurityQuestions();
+  //     if (!resp) {
+  //       setErrorMessage("Unable to load data");
+  //       return;
+  //     }
+  //     const respJson = await resp.json();
+  //     if (respJson.questions) {
+  //       setQuestions(respJson.questions);
+  //     } else {
+  //       setErrorMessage(respJson.error.message);
+  //     }
+  //   };
+  //   loadSecurityQuestions();
+  // }, [setErrorMessage, setQuestions]);
   const handleGoogle = async e => {
     const result = await google(e.tokenId);
     const resp = await result.json();
@@ -184,13 +166,12 @@ export default function RegisterPage(props) {
               <strong>
                 Change your community, <br /> Change the world.
                 <br /> <br /> Join FateMaker today.
-                </strong>
-              
+              </strong>
             </div>
           </Col>
           <Col xs="6">
-          {/* !successfulSubmit */}
-            { true ? (
+            {/* !successfulSubmit */}
+            {!successfulSubmit ? (
               <div
                 style={{
                   width: "80%",
@@ -209,7 +190,12 @@ export default function RegisterPage(props) {
                 )}
                 {/* username*/}
                 <Row>
-                  <Col xs="3" align="right" className="vertAlign" style={{fontSize: "1.20rem"}}>
+                  <Col
+                    xs="3"
+                    align="right"
+                    className="vertAlign"
+                    style={{ fontSize: "1.20rem" }}
+                  >
                     username
                   </Col>
                   <Col xs="9">
@@ -230,7 +216,12 @@ export default function RegisterPage(props) {
                 </Row>
                 {/* email */}
                 <Row align="middle" justify="center">
-                  <Col xs="3" align="right" className="vertAlign" style={{fontSize: "1.20rem"}}>
+                  <Col
+                    xs="3"
+                    align="right"
+                    className="vertAlign"
+                    style={{ fontSize: "1.20rem" }}
+                  >
                     email
                   </Col>
                   <Col xs="9">
@@ -252,7 +243,12 @@ export default function RegisterPage(props) {
                 </Row>
                 {/* password */}
                 <Row>
-                  <Col xs="3" align="right" className="vertAlign" style={{fontSize: "1.20rem"}}>
+                  <Col
+                    xs="3"
+                    align="right"
+                    className="vertAlign"
+                    style={{ fontSize: "1.20rem" }}
+                  >
                     password
                   </Col>
                   <Col xs="9">
@@ -274,7 +270,12 @@ export default function RegisterPage(props) {
 
                 {/* confirm password */}
                 <Row>
-                  <Col xs="3" align="right" className="vertAlign" style={{fontSize: "1.20rem"}}>
+                  <Col
+                    xs="3"
+                    align="right"
+                    className="vertAlign"
+                    style={{ fontSize: "1.20rem" }}
+                  >
                     confirm password
                   </Col>
                   <Col xs="9">
@@ -295,7 +296,12 @@ export default function RegisterPage(props) {
                 </Row>
                 {/* select country */}
                 <Row>
-                  <Col xs="3" align="right" className="vertAlign" style={{fontSize: "1.20rem"}}>
+                  <Col
+                    xs="3"
+                    align="right"
+                    className="vertAlign"
+                    style={{ fontSize: "1.20rem" }}
+                  >
                     country
                   </Col>
                   <Col xs="9">
@@ -314,7 +320,12 @@ export default function RegisterPage(props) {
                 </Row>
                 {/* birthday */}
                 <Row>
-                  <Col xs="3" align="right" className="vertAlign" style={{fontSize: "1.20rem"}}>
+                  <Col
+                    xs="3"
+                    align="right"
+                    className="vertAlign"
+                    style={{ fontSize: "1.20rem" }}
+                  >
                     birthday
                   </Col>
                   <Col xs="9">
@@ -332,7 +343,12 @@ export default function RegisterPage(props) {
                   </Col>
                 </Row>
                 <Row>
-                  <Col xs="3" align="right" className="vertAlign" style={{fontSize: "1.20rem"}}>
+                  <Col
+                    xs="3"
+                    align="right"
+                    className="vertAlign"
+                    style={{ fontSize: "1.20rem" }}
+                  >
                     who are you?
                   </Col>
                   <Col xs="9">
@@ -350,7 +366,12 @@ export default function RegisterPage(props) {
                   </Col>
                 </Row>
                 <Row>
-                  <Col xs="3" align="right" className="vertAlign" style={{fontSize: "1.20rem"}}>
+                  <Col
+                    xs="3"
+                    align="right"
+                    className="vertAlign"
+                    style={{ fontSize: "1.20rem" }}
+                  >
                     security question
                   </Col>
                   <Col xs="9">
@@ -369,7 +390,12 @@ export default function RegisterPage(props) {
                 </Row>
                 {/* answer */}
                 <Row>
-                  <Col xs="3" align="right" className="vertAlign" style={{fontSize: "1.20rem"}}>
+                  <Col
+                    xs="3"
+                    align="right"
+                    className="vertAlign"
+                    style={{ fontSize: "1.20rem" }}
+                  >
                     security answer
                   </Col>
                   <Col xs="9">
@@ -394,9 +420,7 @@ export default function RegisterPage(props) {
 
                 <Row style={{}}>
                   <Button size="m" onClick={handleSubmit} className="left-btn">
-                  <div style={{fontSize: "1.20rem"}}>
-                      Register
-                      </div>
+                    <div style={{ fontSize: "1.20rem" }}>Register</div>
                   </Button>
 
                   <Button
@@ -405,9 +429,7 @@ export default function RegisterPage(props) {
                     onClick={() => Router.push("/login")}
                     className="right-btn"
                   >
-                    <div style={{fontSize: "1.20rem"}}>
-                      Login
-                      </div>
+                    <div style={{ fontSize: "1.20rem" }}>Login</div>
                   </Button>
                 </Row>
                 <Row>
@@ -432,8 +454,7 @@ export default function RegisterPage(props) {
                 </Row>
               </div>
             ) : (
-              <div className="auth-card-wrapper" style = {{marginTop : "25%"}}>
-                
+              <div className="auth-card-wrapper" style={{ marginTop: "25%" }}>
                 <div className="auth-card">
                   {pinMessage === "Invalid request" ||
                   pinMessage === "PIN does not match" ? (
@@ -447,55 +468,52 @@ export default function RegisterPage(props) {
                       </Alert>
                     )
                   )}
-                  <h1 className="auth-card-title" style={{ marginBottom: "5%" }}>
-                  <strong>Welcome to FateMaker!</strong>
-                </h1>
+                  <h1
+                    className="auth-card-title"
+                    style={{ marginBottom: "5%" }}
+                  >
+                    <strong>Welcome to FateMaker!</strong>
+                  </h1>
                   <Row>
-                  <Col xs="2" align="right" className="vertAlign">
-                    <div  style={{fontSize: "1.20rem"}}>
-                    enter pin
-                    </div>
-                  </Col>
-                  <Col xs="10">
-                    <Form>
-                      <FormGroup>
-                        <Input
-                         name="pin"
-                         type="number"
-                         maxLength="10"
-                         minLength="4"
-                         value={pin}
-                         onChange={e => setPin(e.target.value)}
-                         required
-                        />
-                      </FormGroup>
-                    </Form>
-                  </Col>
-                </Row>
-                  
-                    <Button
-                      size="m"
-                      onClick={handlePINResend}
-                      className="left-btn" 
-                    >
-                      <div style={{fontSize: "1.20rem"}}>
-                      Resend PIN
-                      </div>
-                    </Button>
-                    <Button
-                      size="m"
-                      onClick={handlePINVerify}
-                      className="right-btn"
-                    >
-                      <div style={{fontSize: "1.20rem"}}>
-                      Verify Email
-                      </div>
-                    </Button>
-                    <div className="forgot-password">
-                      <Link href="/" >
-                        <a style={{fontSize: "1.20rem"}}>Skip verification</a>
-                      </Link>
-                    </div>
+                    <Col xs="2" align="right" className="vertAlign">
+                      <div style={{ fontSize: "1.20rem" }}>enter pin</div>
+                    </Col>
+                    <Col xs="10">
+                      <Form>
+                        <FormGroup>
+                          <Input
+                            name="pin"
+                            type="number"
+                            maxLength="10"
+                            minLength="4"
+                            value={pin}
+                            onChange={e => setPin(e.target.value)}
+                            required
+                          />
+                        </FormGroup>
+                      </Form>
+                    </Col>
+                  </Row>
+
+                  <Button
+                    size="m"
+                    onClick={handlePINResend}
+                    className="left-btn"
+                  >
+                    <div style={{ fontSize: "1.20rem" }}>Resend PIN</div>
+                  </Button>
+                  <Button
+                    size="m"
+                    onClick={handlePINVerify}
+                    className="right-btn"
+                  >
+                    <div style={{ fontSize: "1.20rem" }}>Verify Email</div>
+                  </Button>
+                  <div className="forgot-password">
+                    <Link href="/">
+                      <a style={{ fontSize: "1.20rem" }}>Skip verification</a>
+                    </Link>
+                  </div>
                 </div>
               </div>
             )}
