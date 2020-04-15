@@ -1,42 +1,24 @@
 const jwt = require("jsonwebtoken");
 
-function signAuthJWT(id, password, role) {
-  if (!password || !id || !role) {
-    throw "Cannot create hash without id, password, and role!";
+function signAuthJWT(email, role) {
+  if (!email || !role) {
+    throw "Cannot create hash without email and role!";
   }
-  return jwt.sign(
-    { userId: id, hashedPassword: password, permission: role },
-    process.env.AUTH_SECRET,
-    {
-      expiresIn: "1d"
-    }
-  );
+  return jwt.sign({ sub: email, permission: role }, process.env.AUTH_SECRET, {
+    expiresIn: "1d"
+  });
 }
 
 // Return true if the JWT is valid and matches the parameters
-function verifyAuthJWT(token, id, password) {
+function verifyAuthJWT(token, userEmail) {
   try {
-    let { userId, hashedPassword } = jwt.verify(token, process.env.AUTH_SECRET);
-    if (String(userId) === String(id) && hashedPassword == password) {
+    let { email } = jwt.verify(token, process.env.AUTH_SECRET);
+    if (String(userEmail) === String(email)) {
       return true;
     }
   } catch (err) {
     console.log("Token was updated");
   }
-  if (process.env.AUTH_SECRET.length > 1) {
-    try {
-      let { userId, hashedPassword } = jwt.verify(
-        token,
-        String(process.env.AUTH_SECRET[1])
-      );
-      if (String(userId) === String(id) && hashedPassword == password) {
-        return true;
-      }
-    } catch (err) {
-      return false;
-    }
-  }
-
   return false;
 }
 
