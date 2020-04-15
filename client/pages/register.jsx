@@ -26,7 +26,6 @@ import {
 } from "reactstrap";
 import { GoogleLogin } from "react-google-login";
 import { Head } from "../components";
-import { signAuthJWT } from "../utils/jwtHelpers";
 
 import "../public/styles/auth.scss";
 
@@ -112,7 +111,7 @@ export default function RegisterPage(props) {
         userRole
       );
       const authUserRes = await authUserResp.json();
-      if (authUserRes.status === 200) {
+      if (authUserRes.status === SUCCESS) {
         // #2: store token in local storage
         const { token } = authUserRes;
         if (!token) {
@@ -136,7 +135,7 @@ export default function RegisterPage(props) {
         };
         const ksoUserResp = await createUser(newUser);
         const ksoUserRes = await ksoUserResp.json();
-        if (ksoUserRes.code === 200) {
+        if (ksoUserRes.code === SUCCESS) {
           setSuccessfulSubmit(true);
         } else {
           setErrorMessage(ksoUserRes.message);
