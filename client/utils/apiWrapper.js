@@ -104,10 +104,15 @@ export const deleteForm = Model_ID => {
     });
 };
 
-
-export const register = (emailInput, passwordInput, questionIdx, answer) => {
+export const register = (
+  emailInput,
+  passwordInput,
+  questionIdx,
+  answer,
+  role
+) => {
   try {
-    return fetch(`${BASE_URL}/auth/register/`, {
+    return fetch(`${BASE_URL}/auth/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -115,8 +120,7 @@ export const register = (emailInput, passwordInput, questionIdx, answer) => {
         password: passwordInput,
         questionIdx,
         securityQuestionAnswer: answer,
-        role: "guest",
-        answer
+        role
       })
     });
   } catch (err) {
@@ -401,9 +405,7 @@ export const createUser = newUser => {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({
-        newUser
-      })
+      body: JSON.stringify(newUser)
     });
   } catch (err) {
     return err;

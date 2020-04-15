@@ -51,7 +51,7 @@ router.get("/:id", checkToken, async (req, res) => {
 router.post("/", validate({ body: UserSchema }), async (req, res) => {
   const { db } = req;
   const collection = db.get("users");
-  const { email, username, password, country, birthday, role } = req.body;
+  const { email, username, password, country, birthday } = req.body;
   let { anon } = req.body;
   if (!email) {
     res.status(NOT_FOUND).send({
@@ -83,12 +83,6 @@ router.post("/", validate({ body: UserSchema }), async (req, res) => {
       success: false,
       message: "Birthday is required."
     });
-  } else if (!role) {
-    res.status(NOT_FOUND).send({
-      code: NOT_FOUND,
-      success: false,
-      message: "Role is required."
-    });
   } else {
     if (!anon) {
       anon = false;
@@ -99,10 +93,12 @@ router.post("/", validate({ body: UserSchema }), async (req, res) => {
       password,
       country,
       birthday,
-      role,
       anon,
       admin: false,
-      createdProjects: []
+      createdProjects: [],
+      followingProjects: [],
+      followingUsers: [],
+      followers: []
     };
     try {
       const resp = await collection.insert(newUser);
@@ -122,7 +118,7 @@ router.put("/:id", checkToken, async (req, res) => {
   const { db } = req;
   const collection = db.get("users");
   const { id } = req.params;
-  const { email, username, password, country, birthday, role, anon } = req.body;
+  const { email, username, password, country, birthday, anon } = req.body;
   let fieldsToUpdate = {};
   if (email) {
     fieldsToUpdate["email"] = email;
@@ -138,9 +134,6 @@ router.put("/:id", checkToken, async (req, res) => {
   }
   if (birthday) {
     fieldsToUpdate["birthday"] = birthday;
-  }
-  if (role) {
-    fieldsToUpdate["role"] = role;
   }
   if (anon) {
     fieldsToUpdate["anon"] = anon;
@@ -192,7 +185,7 @@ router.delete("/:id", checkToken, async (req, res) => {
 });
 
 //handle following
-router.put("/:id/follow", auth.checkToken, async (req, res) => {
+router.put("/:id/follow", checkToken, async (req, res) => {
   const { db } = req;
   const collection = db.get("users");
   const { id } = req.params;
