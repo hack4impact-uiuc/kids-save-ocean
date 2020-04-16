@@ -441,14 +441,13 @@ export const deleteUser = userId => {
   }
 };
 
-export const postComment = (model_id, userId, commentBody) => {
+export const postComment = (model_id, commentBody) => {
   const requestString = `${BASE_URL}/comment`;
   return axios
     .post(
       requestString,
       {
         commentLocation: model_id,
-        userId: userId,
         comment: commentBody
       },
       {
@@ -467,7 +466,6 @@ export const postComment = (model_id, userId, commentBody) => {
 export const postCommentThread = (
   model_id,
   parentIndex,
-  userId,
   commentBody
 ) => {
   const requestString = `${BASE_URL}/comment/thread`;
@@ -477,7 +475,6 @@ export const postCommentThread = (
       {
         commentLocation: `${model_id}`,
         commentIndex: parentIndex,
-        userId: userId,
         comment: commentBody
       },
       {

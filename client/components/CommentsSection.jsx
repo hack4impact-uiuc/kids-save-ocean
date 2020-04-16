@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { Button, Col, Row } from "reactstrap";
 
-import { postComment, getComments } from "../utils/apiWrapper";
+import { postComment, postCommentThread, getComments } from "../utils/apiWrapper";
 
 import Comment from "./Comment";
 import CommentEditor from "./CommentEditor";
@@ -18,10 +18,13 @@ export default function CommentsSection(props) {
 
   const renderComments = comments => {
     let commentList = [];
-    for (let comment of comments) {
+    for (let [index, comment] of comments.entries()) {
       commentList.push(
         <Row>
-          <Comment comment={comment} />
+          <Comment 
+            comment={comment}
+            postThread={ (content) => postThread(content, index) }
+          />
         </Row>
       );
     }
@@ -36,10 +39,16 @@ export default function CommentsSection(props) {
   };
 
   const post = content => {
-    postComment(props.projectId, "uid", content).then(() => {
+    postComment(props.projectId, content).then(() => {
       fetchComments();
     });
   };
+
+  const postThread = (content, index) => {
+    postCommentThread(props.projectId, props.index, content).then(() => {
+      fetchComments();
+    });
+  }
 
   return (
     <div>
