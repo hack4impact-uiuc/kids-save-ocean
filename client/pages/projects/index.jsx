@@ -23,7 +23,7 @@ import "../../../api/public/schema/projectSchema";
 
 import Fuse from "fuse.js";
 
-const DESCRIPTION_LENGTH = 200;
+const DESCRIPTION_LENGTH = 150;
 
 export default function ProjectsPage() {
   const [projects, setProjects] = useState(null);
@@ -33,7 +33,7 @@ export default function ProjectsPage() {
   const [selectedGrpSize, setSelectedGrpSize] = useState(null);
   const [selectedDifficulty, setSelectedDifficulty] = useState(null);
 
-  const [userInput, setUserInput] = useState(null);
+  const [userInput, setUserInput] = useState("");
 
   var dropdownFilteredModels = [];
   var searchFilteredModels = [];
@@ -68,8 +68,8 @@ export default function ProjectsPage() {
     }
   };
 
-  var getSearchBarText = async () => {
-    var text = await document.getElementById("user-input").value;
+  var getSearchBarText = () => {
+    var text = document.getElementById("user-input").value;
 
     return text;
   };
@@ -106,7 +106,7 @@ export default function ProjectsPage() {
         selectedGrpSize == null &&
         selectedDifficulty == null
       ) {
-        return 0;
+        return [];
       } else {
         for (var i = 0; i < models.length; i++) {
           for (var j = 0; j < selectedUNGoals.length; j++) {
@@ -144,7 +144,7 @@ export default function ProjectsPage() {
               isMatchingGrpSize &&
               isMatchingDifficulty
             ) {
-              dropdownFilteredModels.push(models[i]);
+              dropdownFilteredModels.push(models[i].item);
             }
 
             isMatchingSDG = false;
@@ -154,7 +154,7 @@ export default function ProjectsPage() {
           }
         }
 
-        return 1;
+        return dropdownFilteredModels;
       }
     };
 
@@ -166,69 +166,55 @@ export default function ProjectsPage() {
       var textInput = getSearchBarText();
 
       if (textInput == null || textInput.length == 0) {
-        return 0;
+        return [];
       } else {
         let fuse = new Fuse(models.data, options);
         searchFilteredModels = fuse.search(textInput);
-      }
 
-      return 1;
+        return searchFilteredModels;
+      }
     };
 
     const populateAllFilteredProjects = async () => {
-      var filteredModels = [];
-
-      const numProjects = 20;
-      var numberOfProjects = numProjects;
-
-      populateDropDownFilteredProjects();
-      populateSearchFilteredProjects();
-
-      var dropdownFilteredModels = populateDropDownFilteredProjects;
-      var searchFilteredModels = populateSearchFilteredProjects;
+      dropdownFilteredModels = await populateDropDownFilteredProjects();
+      searchFilteredModels = await populateSearchFilteredProjects();
 
       if (
-        populateDropDownFilteredProjects() == 0 &&
-        populateSearchFilteredProjects() == 0
-      ) {
-        populateAllProjects();
-      } else if (
         dropdownFilteredModels.length == 0 &&
         searchFilteredModels.length == 0
       ) {
         console.log("No projects meet these categories / search.");
-      } else if (populateSearchFilteredProjects() == 0) {
-        filteredModels = dropdownFilteredModels;
+        await populateAllProjects();
+      } else if (dropdownFilteredModels.length != 0) {
+        let tempArr = [];
 
-        if (filteredModels.length < numProjects) {
-          numberOfProjects = filteredModels.length;
+        for (var i = 0; i < dropdownFilteredModels.length; i++) {
+          tempArr.push(dropdownFilteredModels[i].item);
         }
 
-        setProjects(filteredModels.data.slice(numberOfProjects));
-      } else if (populateDropDownFilteredProjects() == 0) {
-        filteredModels = searchFilteredModels;
+        setProjects(tempArr);
+      } else if (searchFilteredModels.length != 0) {
+        let tempArr = [];
 
-        if (filteredModels.length < numProjects) {
-          numberOfProjects = filteredModels.length;
+        for (var i = 0; i < searchFilteredModels.length; i++) {
+          tempArr.push(searchFilteredModels[i].item);
         }
 
-        setProjects(filteredModels.data.slice(numberOfProjects));
+        setProjects(tempArr);
       } else {
+        let tempArr = [];
+
         for (var i = 0; i < dropdownFilteredModels.length; i++) {
           for (var j = 0; j < searchFilteredModels.length; j++) {
             if (
               dropdownFilteredModels[i].value == searchFilteredModels[j].value
             ) {
-              filteredModels.push(searchFilteredModels[j]);
+              tempArr.push(searchFilteredModels[j].item);
             }
           }
         }
 
-        if (filteredModels.length < numProjects) {
-          numberOfProjects = filteredModels.length;
-        }
-
-        setProjects(filteredModels.data.slice(numberOfProjects));
+        setProjects(tempArr);
       }
     };
 
@@ -306,14 +292,14 @@ export default function ProjectsPage() {
                             className="project-card-img"
                             top
                             width="100%"
-                            alt="Project img"
+                            alt="Project image"
                           ></CardImg>
                           <CardText width="100%" height="100%">
                             <div className="project-card-name">
                               {project.name}
                             </div>
                             <br />
-                            <div className="project-card-descrip">
+                            <div className="project-card-description">
                               {`${project.description.slice(
                                 0,
                                 DESCRIPTION_LENGTH
@@ -321,8 +307,22 @@ export default function ProjectsPage() {
                                 DESCRIPTION_LENGTH && "..."}`}
                             </div>
                             <br />
-                            <div className="project-likes">Likes: </div>
-                            <div className="project-comments">Comments: </div>
+                            <Row>
+                              <Col>
+                                <div className="prof-pic"></div>
+                              </Col>
+                              <Col>
+                                <div className="username"></div>
+                              </Col>
+                              <Col>
+                                <div className="project-likes">Likes: </div>
+                              </Col>
+                              <Col>
+                                <div className="project-comments">
+                                  Comments:
+                                </div>
+                              </Col>
+                            </Row>
                           </CardText>
                         </Card>
                       </a>
