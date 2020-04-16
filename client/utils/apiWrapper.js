@@ -440,3 +440,20 @@ export const deleteUser = userId => {
     return err;
   }
 };
+
+export const duplicateModel = (model_id) => {
+  const requestString = `${BASE_URL}/duplicate/${model_id}`;
+  return axios
+    .post(
+      requestString,
+      {
+        headers: {
+          "Content-Type": "application/JSON"
+        }
+      }
+    )
+    .catch(error => ({
+      type: "DUPLICATE_MODEL_FAIL",
+      error
+    }));
+};
