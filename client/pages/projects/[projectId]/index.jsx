@@ -15,7 +15,7 @@ import {
   TabPane
 } from "reactstrap";
 import classnames from "classnames";
-import { getModelsByID } from "../../../utils/apiWrapper";
+import { getModelsByID, duplicateModel } from "../../../utils/apiWrapper";
 
 import "../../../public/styles/project.scss";
 
@@ -164,6 +164,10 @@ export default function ProjectPage() {
               icon="fa-lightbulb-o"
             />
           </div>
+
+          <Button onClick={ () => duplicateModel(project._id) }>
+            Build off this project
+          </Button>
         </div>
       )}
     </>
