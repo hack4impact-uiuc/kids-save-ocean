@@ -1,14 +1,12 @@
 const jwt = require("jsonwebtoken");
-const { getSecretToken } = require("./secret-token");
 
-async function signAuthJWT(id, password) {
-  if (!password || !id) {
-    throw "Cannot create hash without both id && password";
+function signAuthJWT(id, password, role) {
+  if (!password || !id || !role) {
+    throw "Cannot create hash without id, password, and role!";
   }
-  const SECRET_TOKEN = await getSecretToken();
   return jwt.sign(
-    { userId: id, hashedPassword: password },
-    String(SECRET_TOKEN[0]),
+    { userId: id, hashedPassword: password, permission: role },
+    process.env.AUTH_SECRET,
     {
       expiresIn: "1d"
     }
@@ -16,40 +14,44 @@ async function signAuthJWT(id, password) {
 }
 
 // Return true if the JWT is valid and matches the parameters
-async function verifyAuthJWT(token, id, password) {
-  const SECRET_TOKEN = await getSecretToken();
+function verifyAuthJWT(token, id, password) {
   try {
-    let { userId, hashedPassword } = jwt.verify(token, String(SECRET_TOKEN[0]));
+    let { userId, hashedPassword } = jwt.verify(token, process.env.AUTH_SECRET);
     if (String(userId) === String(id) && hashedPassword == password) {
       return true;
     }
   } catch (err) {
     console.log("Token was updated");
   }
-  try {
-    let { userId, hashedPassword } = jwt.verify(token, String(SECRET_TOKEN[1]));
-    if (String(userId) === String(id) && hashedPassword == password) {
-      return true;
+  if (process.env.AUTH_SECRET.length > 1) {
+    try {
+      let { userId, hashedPassword } = jwt.verify(
+        token,
+        String(process.env.AUTH_SECRET[1])
+      );
+      if (String(userId) === String(id) && hashedPassword == password) {
+        return true;
+      }
+    } catch (err) {
+      return false;
     }
-  } catch (err) {
-    return false;
   }
+
   return false;
 }
 
-async function shouldUpdateJWT(token, id, password) {
-  const SECRET_TOKEN = await getSecretToken();
+function shouldUpdateJWT(token, id, password) {
   try {
-    let { userId, hashedPassword } = jwt.verify(token, String(SECRET_TOKEN[0]));
+    let { userId, hashedPassword } = jwt.verify(token, process.env.AUTH_SECRET);
     if (String(userId) === String(id) && hashedPassword == password) {
       return false;
     }
     return false;
   } catch (err) {
-    if (SECRET_TOKEN.length > 1) {
+    if (process.env.AUTH_SECRET.length > 1) {
       let { userId, hashedPassword } = jwt.verify(
         token,
-        String(SECRET_TOKEN[1])
+        String(process.env.AUTH_SECRET[1])
       );
       return String(userId) === String(id) && hashedPassword == password;
     }
@@ -58,16 +60,17 @@ async function shouldUpdateJWT(token, id, password) {
 }
 
 // Returns the auth JWT if it's valid, else return null if it's invalid
-async function decryptAuthJWT(token) {
-  const SECRET_TOKEN = await getSecretToken();
+function decryptAuthJWT(token) {
   try {
-    const { userId } = jwt.verify(token, String(SECRET_TOKEN[0]));
+    const { userId } = jwt.verify(token, process.env.AUTH_SECRET);
     return userId;
   } catch (err) {
-    if (SECRET_TOKEN.length > 1) {
+    if (process.env.AUTH_SECRET.length > 1) {
       try {
-        const SECRET_TOKEN = await getSecretToken();
-        const { userId } = jwt.verify(token, String(SECRET_TOKEN[1]));
+        const { userId } = jwt.verify(
+          token,
+          String(process.env.AUTH_SECRET[1])
+        );
         return userId;
       } catch (err) {
         return null;

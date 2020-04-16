@@ -21,9 +21,9 @@ export default function EditProjectPage() {
   const [visAlert, setAlert] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const id = "5e653b729a1cbfaba98adc5b";
+  const id = "5e8905751a5bdd3d198fc9d8";
   const ideationStages = [
-    ["Stage 1", "Description 1"]
+    ["lepres", "Description 1"]
     // ["Stage 2", "Description 2"],
     // ["Stage 3", "Description 3"]
   ];
@@ -164,7 +164,7 @@ export default function EditProjectPage() {
                 stageName={value[0]}
                 description={value[1]}
                 phaseName={"inspiration"}
-                id={"5e66f5600689eb59ef2c8ef3"}
+                id={id}
                 key={idx}
               />
             ))}

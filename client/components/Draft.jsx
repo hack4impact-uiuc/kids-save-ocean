@@ -1,21 +1,32 @@
-import React, { createRef, useState, useEffect, useCallback } from "react";
-import { DraftAddImage } from "../components";
+import React, { useState, useEffect, useCallback } from "react";
 import { Row, Col } from "reactstrap";
-import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
-import { Editor, createEditorState } from "medium-draft";
+
+import Dante from "Dante2";
 
 import { saveDescription, getDescription } from "../utils/apiWrapper";
 
 import "../public/styles/medium-draft.scss";
 import debounce from "lodash/debounce";
 
+import firebase from "firebase/app";
+import "firebase/storage";
+const firebaseConfig = {
+  apiKey: process.env.FIREBASE_APIKEY,
+  authDomain: process.env.AUTH_DOMAIN,
+  databaseURL: process.env.DATABASE_URL,
+  storageBucket: process.env.STORAGE_BUCKET
+};
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+const storageRef = firebase.storage().ref();
+
 export default function Draft(props) {
-  const [editorState, setEditorState] = useState(createEditorState());
   const [unsaved, setUnsaved] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [prevContent, setPrevContent] = useState(null);
 
-  const refsEditor = createRef();
+  const [prevContent, setPrevContent] = useState(null);
+  const [editorContent, setEditorContent] = useState(null);
 
   const saveInterval = 1000;
   const debounceSave = json => {
@@ -27,17 +38,41 @@ export default function Draft(props) {
 
   const { id, phaseName, stageName } = props;
 
-  const handleChange = newState => {
-    if (!loading) {
-      setEditorState(newState);
-
-      const contentState = newState.getCurrentContent();
-      const json = JSON.stringify(convertToRaw(contentState));
+  const handleChange = editor => {
+    setUnsaved(true);
+    const content = editor.emitSerializedOutput();
+    uploadImagesAndFixUrls(content).then(() => {
+      const json = JSON.stringify(content);
       if (json !== prevContent) {
         saveCallback(json);
-        setUnsaved(true);
         setPrevContent(json);
+      } else {
+        setUnsaved(false);
       }
+    });
+  };
+
+  const uploadImagesAndFixUrls = async content => {
+    for (const block of content.blocks) {
+      if (block.type !== "image") {
+        continue;
+      }
+
+      const { url } = block.data;
+      if (!url.startsWith("blob:")) {
+        continue;
+      }
+
+      const blob = await fetch(url).then(r => r.blob());
+      const imageRef = storageRef.child(
+        `${props.modelId}/${props.phaseName}/${props.stageName}/${block.key}`
+      );
+
+      await imageRef.put(blob).then(async function(snapshot) {
+        await snapshot.ref.getDownloadURL().then(function(url) {
+          block.data.url = url;
+        });
+      });
     }
   };
 
@@ -51,20 +86,20 @@ export default function Draft(props) {
   };
 
   useEffect(() => {
-    refsEditor.current.focus();
     getDescription(id, phaseName, stageName)
       .then(data => {
         const description = data.data.description;
-        setEditorState(
-          EditorState.createWithContent(convertFromRaw(JSON.parse(description)))
-        );
+        const json = JSON.parse(description);
+        if ("blocks" in json) {
+          setEditorContent(json);
+          setPrevContent(description);
+        }
         setLoading(false);
-        setPrevContent(description);
       })
       .catch(() => {
         setLoading(false);
       });
-  }, [id, phaseName, stageName, refsEditor]);
+  }, [id, phaseName, stageName]);
 
   return (
     <div>
@@ -79,22 +114,13 @@ export default function Draft(props) {
           {status()}
         </Col>
       </Row>
-      <Editor
-        ref={refsEditor}
-        editorState={editorState}
-        onChange={handleChange}
-        sideButtons={[
-          {
-            title: "Image",
-            component: DraftAddImage,
-            props: {
-              modelId: id,
-              phaseName: phaseName,
-              stageName: stageName
-            }
-          }
-        ]}
-      />
+
+      {!loading && (
+        <Dante
+          content={editorContent}
+          onChange={editor => handleChange(editor)}
+        />
+      )}
     </div>
   );
 }
