@@ -1,5 +1,5 @@
-const SERVER_URL = "https://kids-save-ocean.now.sh/auth";
+const SERVER_URL = "http://localhost:8000/auth";
 
 module.exports = {
-  SERVER_URL
+  SERVER_URL,
 };
