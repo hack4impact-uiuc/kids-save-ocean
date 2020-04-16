@@ -15,10 +15,14 @@ router.post("/:model_ID", function(req, res) {
     {
       $exists: true
     },
-    function(e, docs) {
-      delete docs['_id'];
-      collection.insert(docs);
-      res.json({ success: "Model was duplicated!" });
+    function(err, doc) {
+      if (err) {
+        res.sendStatus(500);
+      } else {
+        delete doc['_id'];
+        collection.insert(doc);
+        res.json({ success: "Model was duplicated!" });
+      }
     }
   );
 });
