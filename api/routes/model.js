@@ -33,10 +33,8 @@ router.get("/:model_ID", function(req, res) {
   let id = req.params.model_ID;
   const collection = db.get("projects");
   collection
-    .findById(id)
-    .then((model) =>
-      model !== undefined ? res.send(model) : res.sendStatus(404)
-    )
+    .findOne({ _id: id })
+    .then((model) => (model !== null ? res.send(model) : res.sendStatus(404)))
     .catch(() => res.sendStatus(500));
 });
 
@@ -70,9 +68,9 @@ router.delete("/:model_ID", function(req, res) {
   let id = req.params.model_ID;
   const collection = db.get("projects");
   collection
-    .findByIdAndDelete(id)
+    .findOneAndDelete({ _id: id })
     .then((model) =>
-      model !== undefined
+      model !== null
         ? res.json({
             success: `${id} deleted!`,
           })
@@ -91,9 +89,14 @@ router.put(
     let id = req.params.model_ID;
     const collection = db.get("projects");
     collection
-      .findByIdAndUpdate(id, body)
+      .findOneAndUpdate(
+        {
+          _id: id,
+        },
+        body
+      )
       .then((model) =>
-        model !== undefined
+        model !== null
           ? res.json({ success: `${id} updated!` })
           : res.sendStatus(404)
       )
@@ -135,24 +138,39 @@ router.put("/:model_ID/:phaseName/:stageName/description", function(req, res) {
     res.sendStatus(400);
   }
 
-  const query = {
-    _id: model_ID,
-    [`phases.${phaseName}.stages.name`]: stageName,
-  };
+  collection
+    .findOneAndUpdate(
+      {
+        _id: model_ID,
+        [`phases.${phaseName}.stages.name`]: stageName,
+      },
+      { $set: { [`phases.${phaseName}.stages.$.description`]: description } }
+    )
+    .then((model) =>
+      model !== null
+        ? res.json({ success: `${stageName} description updated!` })
+        : res.sendStatus(404)
+    )
+    .catch(() => res.sendStatus(500));
 
-  collection.update(
-    query,
-    { $set: { [`phases.${phaseName}.stages.$.description`]: description } },
-    function(err) {
-      if (err) {
-        res.sendStatus(500);
-      } else {
-        res.json({
-          success: `${stageName} description updated!`,
-        });
-      }
-    }
-  );
+  // const query = {
+  //   _id: model_ID,
+  //   [`phases.${phaseName}.stages.name`]: stageName,
+  // };
+
+  // collection.update(
+  //   query,
+  //   { $set: { [`phases.${phaseName}.stages.$.description`]: description } },
+  //   function(err) {
+  //     if (err) {
+  //       res.sendStatus(500);
+  //     } else {
+  //       res.json({
+  //         success: `${stageName} description updated!`,
+  //       });
+  //     }
+  //   }
+  // );
 });
 
 router.get("/:model_ID/:phaseName/:stageName/description", function(req, res) {
@@ -160,9 +178,9 @@ router.get("/:model_ID/:phaseName/:stageName/description", function(req, res) {
   const collection = db.get("projects");
   const { model_ID, phaseName, stageName } = req.params;
   collection
-    .findById(model_ID)
+    .findOne({ _id: model_ID })
     .then((model) => {
-      if (model === undefined) {
+      if (model === null) {
         res.sendStatus(404);
       } else {
         const stages = model["phases"][phaseName]["stages"];
@@ -174,7 +192,10 @@ router.get("/:model_ID/:phaseName/:stageName/description", function(req, res) {
           : res.sendStatus(404);
       }
     })
-    .catch(() => res.sendStatus(500));
+    .catch((err) => {
+      console.log(err);
+      res.sendStatus(500);
+    });
 });
 
 module.exports = router;
