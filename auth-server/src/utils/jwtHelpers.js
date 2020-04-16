@@ -22,43 +22,47 @@ function verifyAuthJWT(token, userEmail) {
   return false;
 }
 
-function shouldUpdateJWT(token, id, password) {
+function shouldUpdateJWT(token, email, role) {
   try {
-    let { userId, hashedPassword } = jwt.verify(token, process.env.AUTH_SECRET);
-    if (String(userId) === String(id) && hashedPassword == password) {
+    let { userEmail, userRole } = jwt.verify(token, process.env.AUTH_SECRET);
+    if (String(userEmail) === String(email) && userRole === role) {
       return false;
     }
-    return false;
+    return true;
   } catch (err) {
-    if (process.env.AUTH_SECRET.length > 1) {
-      let { userId, hashedPassword } = jwt.verify(
-        token,
-        String(process.env.AUTH_SECRET[1])
-      );
-      return String(userId) === String(id) && hashedPassword == password;
-    }
-    return false;
+    return err;
   }
+  // } catch (err) {
+  //   if (process.env.AUTH_SECRET.length > 1) {
+  //     let { userId, hashedPassword } = jwt.verify(
+  //       token,
+  //       String(process.env.AUTH_SECRET[1])
+  //     );
+  //     return String(userId) === String(id) && hashedPassword == password;
+  //   }
+  //   return false;
+  // }
 }
 
 // Returns the auth JWT if it's valid, else return null if it's invalid
 function decryptAuthJWT(token) {
   try {
-    const { userId } = jwt.verify(token, process.env.AUTH_SECRET);
-    return userId;
+    const { email } = jwt.verify(token, process.env.AUTH_SECRET);
+    return email;
   } catch (err) {
-    if (process.env.AUTH_SECRET.length > 1) {
-      try {
-        const { userId } = jwt.verify(
-          token,
-          String(process.env.AUTH_SECRET[1])
-        );
-        return userId;
-      } catch (err) {
-        return null;
-      }
-    }
-    return null;
+    // if (process.env.AUTH_SECRET.length > 1) {
+    //   try {
+    //     const { userId } = jwt.verify(
+    //       token,
+    //       String(process.env.AUTH_SECRET[1])
+    //     );
+    //     return userId;
+    //   } catch (err) {
+    //     return null;
+    //   }
+    // }
+    // return null;
+    return err;
   }
 }
 

@@ -384,9 +384,9 @@ export const getDescription = (model_id, phaseName, stageName) => {
   }));
 };
 
-export const getUser = userId => {
+export const getUser = () => {
   try {
-    return fetch(`${BASE_URL}/users/${userId}`, {
+    return fetch(`${BASE_URL}/users/userInfo`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -412,10 +412,10 @@ export const createUser = newUser => {
   }
 };
 
-export const updateUser = (userId, updatedUser) => {
+export const updateUser = updatedUser => {
   try {
     return (
-      fetch(`${BASE_URL}/users/${userId}`),
+      fetch(`${BASE_URL}/users/userInfo`),
       {
         method: "PUT",
         headers: {
@@ -430,9 +430,9 @@ export const updateUser = (userId, updatedUser) => {
   }
 };
 
-export const deleteUser = userId => {
+export const deleteUser = () => {
   try {
-    return fetch(`${BASE_URL}/users/${userId}`, {
+    return fetch(`${BASE_URL}/users/userInfo`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
