@@ -109,18 +109,25 @@ export default function ProjectsPage() {
         return [];
       } else {
         let sdgSelectedNums = [];
-        for (let i = 0; i < selectedUNGoals.length; i++) {
-          sdgSelectedNums.push(parseInt(selectedUNGoals[i].value));
+
+        if (selectedUNGoals != null) {
+          for (let i = 0; i < selectedUNGoals.length; i++) {
+            sdgSelectedNums.push(parseInt(selectedUNGoals[i].value));
+          }
         }
-        console.log(sdgSelectedNums);
+
         for (var i = 0; i < models.data.length; i++) {
-          if (selectedUNGoals.length <= models.data[i].sdg.length) {
-            console.log(models.data[i].sdg);
-            const matches = models.data[i].sdg.filter(sdg => sdgSelectedNums.includes(sdg));
-            console.log(matches);
-            
+          if (selectedUNGoals == null) {
+            isMatchingSDGs = true;
+          } else if (
+            selectedUNGoals != null &&
+            selectedUNGoals.length <= models.data[i].sdg.length
+          ) {
+            const matches = models.data[i].sdg.filter(sdg =>
+              sdgSelectedNums.includes(sdg)
+            );
+
             isMatchingSDGs = matches.length === sdgSelectedNums.length;
-            console.log(isMatchingSDGs);
           }
 
           if (
@@ -158,9 +165,6 @@ export default function ProjectsPage() {
           isMatchingGrpSize = false;
           isMatchingDifficulty = false;
         }
-
-        console.log(models.data[1]); // line 160 should be good
-        console.log(dropdownFilteredModels.length); // empty
 
         return dropdownFilteredModels;
       }
