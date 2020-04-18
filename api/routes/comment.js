@@ -5,11 +5,7 @@ const validate = require("express-jsonschema").validate;
 const { checkToken } = require("../auth/utils/checkToken");
 const { CommentSchema, ThreadSchema } = require("../public/schema/commentSchema");
 
-async function getUsername(db, userEmail) {
-  const collection = db.get("users");
-  const doc = await collection.findOne({ email: userEmail });
-  return doc.username;
-};
+const { getUsername } = require("../utils/user_utils");
 
 router.post("/", validate({ body: CommentSchema }), checkToken, async function(req, res) {
   const db = req.db;
