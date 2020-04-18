@@ -49,7 +49,7 @@ export default function ProjectPage() {
       if (id) {
         const model = await getModelsByID(id);
         if (model && model.data.length === 1) {
-          setProject(model.data[0]);
+          setProject(model.data);
         }
       }
     };

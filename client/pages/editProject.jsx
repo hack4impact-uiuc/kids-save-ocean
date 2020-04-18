@@ -35,8 +35,8 @@ export default function EditProjectPage() {
 
       if (project === null) {
         setAlert(false);
-        setTitle(project.data[0].name);
-        setDescription(project.data[0].description);
+        setTitle(project.data.name);
+        setDescription(project.data.description);
       } else {
         setAlert(true);
       }

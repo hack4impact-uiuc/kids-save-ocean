@@ -22,7 +22,7 @@ export default function StagePage() {
         const model = await getModelsByID(id);
         if (model && model.data.length === 1) {
           setStage(
-            model.data[0].phases[phase].stages.find(
+            model.data.phases[phase].stages.find(
               stage => stage.name.toLowerCase() === stageName
             )
           );
