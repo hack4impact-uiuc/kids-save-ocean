@@ -241,6 +241,22 @@ export default function ProjectsPage() {
     <>
       <Head title="Project Explorer" />
       <Container>
+        <div
+          class="alert alert-warning alert-dismissible fade show"
+          role="alert"
+        >
+          <strong>Alert!</strong> No projects meet these categories / search.
+          Please modify your search / filters.
+          <button
+            type="button"
+            class="close"
+            data-dismiss="alert"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
         <div className="search-bar">
           <Input
             type="text"
