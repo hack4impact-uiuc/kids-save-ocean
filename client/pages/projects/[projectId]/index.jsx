@@ -48,7 +48,7 @@ export default function ProjectPage() {
     const loadModel = async id => {
       if (id) {
         const model = await getModelsByID(id);
-        if (model && model.data.length === 1) {
+        if (model) {
           setProject(model.data);
         }
       }

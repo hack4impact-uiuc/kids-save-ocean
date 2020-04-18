@@ -33,7 +33,7 @@ export default function EditProjectPage() {
     const loadProject = async () => {
       const project = await getModelsByID(id);
 
-      if (project === null) {
+      if (project) {
         setAlert(false);
         setTitle(project.data.name);
         setDescription(project.data.description);
