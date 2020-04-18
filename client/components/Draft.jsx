@@ -14,7 +14,7 @@ const firebaseConfig = {
   apiKey: process.env.FIREBASE_APIKEY,
   authDomain: process.env.AUTH_DOMAIN,
   databaseURL: process.env.DATABASE_URL,
-  storageBucket: process.env.STORAGE_BUCKET,
+  storageBucket: process.env.STORAGE_BUCKET
 };
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
@@ -29,7 +29,7 @@ export default function Draft(props) {
   const [editorContent, setEditorContent] = useState(null);
 
   const saveInterval = 1000;
-  const debounceSave = (json) => {
+  const debounceSave = json => {
     const { id, phaseName, stageName } = props;
     saveDescription(id, phaseName, stageName, json);
     setUnsaved(false);
@@ -38,7 +38,7 @@ export default function Draft(props) {
 
   const { id, phaseName, stageName } = props;
 
-  const handleChange = (editor) => {
+  const handleChange = editor => {
     setUnsaved(true);
     const content = editor.emitSerializedOutput();
     console.log(content);
@@ -53,7 +53,7 @@ export default function Draft(props) {
     });
   };
 
-  const uploadImagesAndFixUrls = async (content) => {
+  const uploadImagesAndFixUrls = async content => {
     for (const block of content.blocks) {
       if (block.type !== "image") {
         continue;
@@ -64,7 +64,7 @@ export default function Draft(props) {
         continue;
       }
 
-      const blob = await fetch(url).then((r) => r.blob());
+      const blob = await fetch(url).then(r => r.blob());
       const imageRef = storageRef.child(
         `${props.modelId}/${props.phaseName}/${props.stageName}/${block.key}`
       );
@@ -88,7 +88,7 @@ export default function Draft(props) {
 
   useEffect(() => {
     getDescription(id, phaseName, stageName)
-      .then((data) => {
+      .then(data => {
         const description = data.data.description;
         const json = JSON.parse(description);
         if ("blocks" in json) {
@@ -119,7 +119,7 @@ export default function Draft(props) {
       {!loading && (
         <Dante
           content={editorContent}
-          onChange={(editor) => handleChange(editor)}
+          onChange={editor => handleChange(editor)}
         />
       )}
     </div>
