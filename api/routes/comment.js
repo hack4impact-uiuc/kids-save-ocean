@@ -5,10 +5,17 @@ const validate = require("express-jsonschema").validate;
 const { checkToken } = require("../auth/utils/checkToken");
 const { CommentSchema, ThreadSchema } = require("../public/schema/commentSchema");
 
-router.post("/", validate({ body: CommentSchema }), checkToken, function(req, res) {
-  const { commentLocation, comment } = req.body;
-  const userId = req.decoded.userId;
+async function getUsername(db, userEmail) {
+  const collection = db.get("users");
+  const doc = await collection.findOne({ email: userEmail });
+  return doc.username;
+};
+
+router.post("/", validate({ body: CommentSchema }), checkToken, async function(req, res) {
   const db = req.db;
+  const { commentLocation, comment } = req.body;
+  const userEmail = req.decoded.sub;
+  const username = await getUsername(db, userEmail);
   const collection = db.get("comments");
 
   collection.update(
@@ -16,7 +23,7 @@ router.post("/", validate({ body: CommentSchema }), checkToken, function(req, re
     {
       $push: {
         comments: {
-          authorName: userId,
+          authorName: username,
           content: comment,
           createdAt: new Date().toGMTString(),
           thread: []
@@ -38,10 +45,11 @@ router.post("/", validate({ body: CommentSchema }), checkToken, function(req, re
   );
 });
 
-router.post("/thread", validate({ body: ThreadSchema }), checkToken, function(req, res) {
-  const { commentLocation, commentIndex, comment } = req.body;
-  const userId = req.decoded.userId;
+router.post("/thread", validate({ body: ThreadSchema }), checkToken, async function(req, res) {
   const db = req.db;
+  const { commentLocation, commentIndex, comment } = req.body;
+  const userEmail = req.decoded.sub;
+  const username = await getUsername(db, userEmail);
   const collection = db.get("comments");
 
   collection.update(
@@ -49,7 +57,7 @@ router.post("/thread", validate({ body: ThreadSchema }), checkToken, function(re
     {
       $push: {
         [`comments.${commentIndex}.thread`]: {
-          authorName: userId,
+          authorName: username,
           content: comment,
           createdAt: new Date().toGMTString()
         }
