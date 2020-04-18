@@ -16,7 +16,7 @@ router.post("/", validate({ body: CommentSchema }), checkToken, function(req, re
     {
       $push: {
         comments: {
-          authorId: userId,
+          authorName: userId,
           content: comment,
           createdAt: new Date().toGMTString(),
           thread: []
@@ -49,7 +49,7 @@ router.post("/thread", validate({ body: ThreadSchema }), checkToken, function(re
     {
       $push: {
         [`comments.${commentIndex}.thread`]: {
-          authorId: userId,
+          authorName: userId,
           content: comment,
           createdAt: new Date().toGMTString()
         }
