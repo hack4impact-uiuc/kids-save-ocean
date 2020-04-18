@@ -95,7 +95,7 @@ export default function ProjectsPage() {
 
       const models = await getModels();
 
-      var isMatchingSDG = false;
+      var isMatchingSDGs = false;
       var isMatchingCountry = false;
       var isMatchingGrpSize = false;
       var isMatchingDifficulty = false;
@@ -109,50 +109,67 @@ export default function ProjectsPage() {
         return [];
       } else {
         for (var i = 0; i < models.length; i++) {
-          for (var j = 0; j < selectedUNGoals.length; j++) {
-            if (
-              selectedUNGoals == null ||
-              models[i].sdg.value == selectedUNGoals[j].value
-            ) {
-              isMatchingSDG = true;
+          if (selectedUNGoals != null) {
+            isMatchingSDGs = false;
+          } else if (selectedUNGoals == null || selectedUNGoals.length == 0) {
+            isMatchingSDGs = true;
+          } else if (selectedUNGoals.length <= models.data[i].sdg.length) {
+            var numSelectedSDGsPresent = 0;
+
+            for (var j = 0; j < models.data[i].sdg.length; j++) {
+              for (var k = 0; k < selectedUNGoals.length; k++) {
+                if (models.data[i].sdg[j] == selectedUNGoals[k].value) {
+                  numSelectedSDGsPresent++;
+                  break;
+                }
+              }
             }
 
-            if (
-              selectedCountry == null ||
-              models[i].country.value == selectedCountry.value
-            ) {
-              isMatchingCountry = true;
+            if (numSelectedSDGsPresent >= selectedUNGoals.length) {
+              isMatchingSDGs = true;
             }
-
-            if (
-              selectedGrpSize == null ||
-              models[i].groupSize.value == selectedGrpSize.value
-            ) {
-              isMatchingGrpSize = true;
-            }
-
-            if (
-              selectedDifficulty == null ||
-              models[i].difficulty.value == selectedDifficulty.value
-            ) {
-              isMatchingDifficulty = true;
-            }
-
-            if (
-              isMatchingSDG &&
-              isMatchingCountry &&
-              isMatchingGrpSize &&
-              isMatchingDifficulty
-            ) {
-              dropdownFilteredModels.push(models[i].item);
-            }
-
-            isMatchingSDG = false;
-            isMatchingCountry = false;
-            isMatchingGrpSize = false;
-            isMatchingDifficulty = false;
           }
+
+          if (
+            selectedCountry == null ||
+            models.data[i].country == selectedCountry.label
+          ) {
+            isMatchingCountry = true;
+          }
+
+          if (
+            selectedGrpSize == null ||
+            models.data[i].groupSize == selectedGrpSize.label
+          ) {
+            isMatchingGrpSize = true;
+          }
+
+          if (
+            selectedDifficulty == null ||
+            models.data[i].difficulty == selectedDifficulty.label.toLowerCase()
+          ) {
+            isMatchingDifficulty = true;
+          }
+
+          if (
+            isMatchingSDGs &&
+            isMatchingCountry &&
+            isMatchingGrpSize &&
+            isMatchingDifficulty
+          ) {
+            dropdownFilteredModels.push(models.data[i]); // to be modified
+          }
+
+          isMatchingSDGs = false;
+          isMatchingCountry = false;
+          isMatchingGrpSize = false;
+          isMatchingDifficulty = false;
         }
+
+        console.log("models " + models); // [object Object]
+        console.log("models[1]: " + models.data[1]); // [object Object]
+        console.log("models[1]: " + models.data[1].item); // undefined
+        console.log(dropdownFilteredModels); // empty
 
         return dropdownFilteredModels;
       }
@@ -179,6 +196,8 @@ export default function ProjectsPage() {
       dropdownFilteredModels = await populateDropDownFilteredProjects();
       searchFilteredModels = await populateSearchFilteredProjects();
 
+      console.log("dropdown array size: " + dropdownFilteredModels.length); // to delete
+
       if (
         dropdownFilteredModels.length == 0 &&
         searchFilteredModels.length == 0
@@ -189,7 +208,7 @@ export default function ProjectsPage() {
         let tempArr = [];
 
         for (var i = 0; i < dropdownFilteredModels.length; i++) {
-          tempArr.push(dropdownFilteredModels[i].item);
+          tempArr.push(dropdownFilteredModels[i]);
         }
 
         setProjects(tempArr);
@@ -206,9 +225,7 @@ export default function ProjectsPage() {
 
         for (var i = 0; i < dropdownFilteredModels.length; i++) {
           for (var j = 0; j < searchFilteredModels.length; j++) {
-            if (
-              dropdownFilteredModels[i].value == searchFilteredModels[j].value
-            ) {
+            if (dropdownFilteredModels[i] == searchFilteredModels[j]) {
               tempArr.push(searchFilteredModels[j].item);
             }
           }
