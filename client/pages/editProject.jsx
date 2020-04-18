@@ -23,7 +23,7 @@ export default function EditProjectPage() {
   const [description, setDescription] = useState("");
   const id = "5e901732090f7cdff2e6757a";
   const ideationStages = [
-    ["lepres", "Description 1"]
+    ["beauti", "Description 1"]
     // ["Stage 2", "Description 2"],
     // ["Stage 3", "Description 3"]
   ];

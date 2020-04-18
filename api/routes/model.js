@@ -85,7 +85,7 @@ router.put(
   }),
   function(req, res) {
     const db = req.db;
-    let id = req.params.model_ID;
+    const id = req.params.model_ID;
     const collection = db.get("projects");
     collection
       .findOneAndUpdate(
@@ -107,6 +107,7 @@ router.put("/:model_ID/:phaseName/:stageName/description", function(req, res) {
   const db = req.db;
   const collection = db.get("projects");
   const { model_ID, phaseName, stageName } = req.params;
+
   const description = req.body.description;
   if (description === undefined) {
     res.sendStatus(400);
