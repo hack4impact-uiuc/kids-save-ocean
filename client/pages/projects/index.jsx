@@ -109,9 +109,7 @@ export default function ProjectsPage() {
         return [];
       } else {
         for (var i = 0; i < models.length; i++) {
-          if (selectedUNGoals != null) {
-            isMatchingSDGs = false;
-          } else if (selectedUNGoals == null || selectedUNGoals.length == 0) {
+          if (selectedUNGoals == null || selectedUNGoals.length == 0) {
             isMatchingSDGs = true;
           } else if (selectedUNGoals.length <= models.data[i].sdg.length) {
             var numSelectedSDGsPresent = 0;
@@ -157,7 +155,7 @@ export default function ProjectsPage() {
             isMatchingGrpSize &&
             isMatchingDifficulty
           ) {
-            dropdownFilteredModels.push(models.data[i]); // to be modified
+            dropdownFilteredModels.push(models.data[i]);
           }
 
           isMatchingSDGs = false;
@@ -166,10 +164,8 @@ export default function ProjectsPage() {
           isMatchingDifficulty = false;
         }
 
-        console.log("models " + models); // [object Object]
-        console.log("models[1]: " + models.data[1]); // [object Object]
-        console.log("models[1]: " + models.data[1].item); // undefined
-        console.log(dropdownFilteredModels); // empty
+        console.log(models.data[1]); // line 160 should be good
+        console.log(dropdownFilteredModels.length); // empty
 
         return dropdownFilteredModels;
       }
@@ -195,8 +191,6 @@ export default function ProjectsPage() {
     const populateAllFilteredProjects = async () => {
       dropdownFilteredModels = await populateDropDownFilteredProjects();
       searchFilteredModels = await populateSearchFilteredProjects();
-
-      console.log("dropdown array size: " + dropdownFilteredModels.length); // to delete
 
       if (
         dropdownFilteredModels.length == 0 &&
