@@ -520,7 +520,7 @@ export const postUpvote = (model_id) => {
 };
 
 
-export const getUpvote = model_id => {
+export const getUpvotes = model_id => {
   const requestString = `${BASE_URL}/upvotes/${model_id}`;
   return axios.get(requestString).catch(error => ({
     type: "GET_UPVOTE_FAIL",

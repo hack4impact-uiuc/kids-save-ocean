@@ -2,18 +2,27 @@ const express = require("express");
 const router = express.Router();
 const validate = require("express-jsonschema").validate;
 
+const { checkToken } = require("../auth/utils/checkToken");
 const UpvoteSchema = require("../public/schema/upvoteSchema.js").upvoteSchema;
 
-router.post("/", validate({ body: UpvoteSchema }), (req, res) => {
-  const { userId, upvoteLocation } = req.body;
+async function getUsername(db, userEmail) {
+  const collection = db.get("users");
+  const doc = await collection.findOne({ email: userEmail });
+  return doc.username;
+};
+
+router.post("/", validate({ body: UpvoteSchema }), checkToken, async (req, res) => {
   const db = req.db;
+  const { upvoteLocation } = req.body;
+  const userEmail = req.decoded.sub;
+  const username = await getUsername(db, userEmail);
   const collection = db.get("upvotes");
 
   collection.update(
     { upvoteLocation },
     {
       $set: {
-        [`upvotes.${userId}`]: {
+        [`upvotes.${username}`]: {
           upvote: true
         }
       }
