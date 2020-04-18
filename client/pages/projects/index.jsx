@@ -9,7 +9,6 @@ import levelData from "../../utils/levels";
 import { getModels } from "../../utils/apiWrapper";
 import {
   Card,
-  CardImg,
   CardGroup,
   CardText,
   Col,
@@ -68,8 +67,8 @@ export default function ProjectsPage() {
     }
   };
 
-  var getSearchBarText = () => {
-    var text = document.getElementById("user-input").value;
+  const getSearchBarText = () => {
+    const text = document.getElementById("user-input").value;
 
     return text;
   };
@@ -79,10 +78,8 @@ export default function ProjectsPage() {
   };
 
   const populateAllProjects = async () => {
-    const numberOfProjects = 20;
-
     const allModels = await getModels();
-    setProjects(allModels.data.slice(numberOfProjects));
+    setProjects(allModels.data);
   };
 
   useEffect(() => {
@@ -93,7 +90,7 @@ export default function ProjectsPage() {
     const populateDropDownFilteredProjects = async () => {
       dropdownFilteredModels = [];
 
-      const models = await getModels();
+      const models = projects;
 
       var isMatchingSDGs = false;
       var isMatchingCountry = false;
@@ -116,14 +113,14 @@ export default function ProjectsPage() {
           }
         }
 
-        for (var i = 0; i < models.data.length; i++) {
+        for (var i = 0; i < models.length; i++) {
           if (selectedUNGoals == null) {
             isMatchingSDGs = true;
           } else if (
             selectedUNGoals != null &&
-            selectedUNGoals.length <= models.data[i].sdg.length
+            selectedUNGoals.length <= models[i].sdg.length
           ) {
-            const matches = models.data[i].sdg.filter(sdg =>
+            const matches = models[i].sdg.filter(sdg =>
               sdgSelectedNums.includes(sdg)
             );
 
@@ -132,21 +129,21 @@ export default function ProjectsPage() {
 
           if (
             selectedCountry == null ||
-            models.data[i].country == selectedCountry.label
+            models[i].country == selectedCountry.label
           ) {
             isMatchingCountry = true;
           }
 
           if (
             selectedGrpSize == null ||
-            models.data[i].groupSize == selectedGrpSize.label
+            models[i].groupSize == selectedGrpSize.label
           ) {
             isMatchingGrpSize = true;
           }
 
           if (
             selectedDifficulty == null ||
-            models.data[i].difficulty == selectedDifficulty.label.toLowerCase()
+            models[i].difficulty == selectedDifficulty.label.toLowerCase()
           ) {
             isMatchingDifficulty = true;
           }
@@ -157,7 +154,7 @@ export default function ProjectsPage() {
             isMatchingGrpSize &&
             isMatchingDifficulty
           ) {
-            dropdownFilteredModels.push(models.data[i]);
+            dropdownFilteredModels.push(models[i]);
           }
 
           isMatchingSDGs = false;
@@ -173,14 +170,14 @@ export default function ProjectsPage() {
     const populateSearchFilteredProjects = async () => {
       searchFilteredModels = [];
 
-      const models = await getModels();
+      const models = projects;
 
       var textInput = getSearchBarText();
 
       if (textInput == null || textInput.length == 0) {
         return [];
       } else {
-        let fuse = new Fuse(models.data, options);
+        let fuse = new Fuse(models, options);
         searchFilteredModels = fuse.search(textInput);
 
         return searchFilteredModels;
@@ -195,7 +192,6 @@ export default function ProjectsPage() {
         dropdownFilteredModels.length == 0 &&
         searchFilteredModels.length == 0
       ) {
-        console.log("No projects meet these categories / search.");
         await populateAllProjects();
       } else if (dropdownFilteredModels.length != 0) {
         let tempArr = [];
@@ -314,12 +310,6 @@ export default function ProjectsPage() {
                     >
                       <a>
                         <Card className="project-card">
-                          <CardImg
-                            className="project-card-img"
-                            top
-                            width="100%"
-                            alt="Project image"
-                          ></CardImg>
                           <CardText width="100%" height="100%">
                             <div className="project-card-name">
                               {project.name}
