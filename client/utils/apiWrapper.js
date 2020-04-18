@@ -1,6 +1,5 @@
 import axios from "axios";
 import fetch from "isomorphic-unfetch";
-import { getCookie } from "./cookie";
 
 const BASE_URL = process.env.BACKEND_URL ?? "http://localhost:5000/api";
 // const BASE_URL = process.env.BACKEND_URL ?? "http://52.240.158.249:5000/api"; // leave this in, this is Arpan's url
@@ -105,9 +104,15 @@ export const deleteForm = Model_ID => {
     });
 };
 
-export const register = (emailInput, passwordInput, questionIdx, answer) => {
+export const register = (
+  emailInput,
+  passwordInput,
+  questionIdx,
+  answer,
+  role
+) => {
   try {
-    return fetch(`${BASE_URL}/auth/register/`, {
+    return fetch(`${BASE_URL}/auth/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -115,8 +120,7 @@ export const register = (emailInput, passwordInput, questionIdx, answer) => {
         password: passwordInput,
         questionIdx,
         securityQuestionAnswer: answer,
-        role: "guest",
-        answer
+        role
       })
     });
   } catch (err) {
@@ -143,7 +147,10 @@ export const verify = () => {
   try {
     return fetch(`${BASE_URL}/auth/verify/`, {
       method: "POST",
-      headers: { "Content-Type": "application/json", token: getCookie("token") }
+      headers: {
+        "Content-Type": "application/json",
+        token: localStorage.getItem("token")
+      }
     });
   } catch (err) {
     return err;
@@ -156,7 +163,7 @@ export const getSecurityQuestions = () => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        token: getCookie("token")
+        token: localStorage.getItem("token")
       }
     });
   } catch (err) {
@@ -170,7 +177,7 @@ export const setSecurityQuestion = (questionIdx, answer, password) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        token: getCookie("token")
+        token: localStorage.getItem("token")
       },
       body: JSON.stringify({
         questionIdx,
@@ -236,7 +243,7 @@ export const changePassword = (currentPassword, newPassword) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        token: getCookie("token")
+        token: localStorage.getItem("token")
       },
       body: JSON.stringify({
         currentPassword,
@@ -254,8 +261,8 @@ export const getUsersForRolesPage = () => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        token: getCookie("token"),
-        google: getCookie("google") ? true : false
+        token: localStorage.getItem("token"),
+        google: localStorage.getItem("google") ? true : false
       }
     });
   } catch (err) {
@@ -269,8 +276,8 @@ export const changeRole = (userEmail, newRole, password) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        token: getCookie("token"),
-        google: getCookie("google") ? true : false
+        token: localStorage.getItem("token"),
+        google: localStorage.getItem("google") ? true : false
       },
       body: JSON.stringify({
         userEmail,
@@ -306,7 +313,7 @@ export const verifyPIN = pin => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        token: getCookie("token")
+        token: localStorage.getItem("token")
       },
       body: JSON.stringify({
         pin
@@ -323,7 +330,7 @@ export const resendPIN = () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        token: getCookie("token")
+        token: localStorage.getItem("token")
       }
     });
   } catch (err) {
@@ -337,8 +344,8 @@ export const userInfo = () => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        token: getCookie("token"),
-        google: getCookie("google") ? true : false
+        token: localStorage.getItem("token"),
+        google: localStorage.getItem("google") ? true : false
       }
     });
   } catch (err) {
@@ -354,7 +361,7 @@ export const saveDescription = (
 ) => {
   const requestString = `${BASE_URL}/models/${model_id}/${phaseName}/${stageName}/description`;
   return axios
-    .post(
+    .put(
       requestString,
       { description },
       {
@@ -377,23 +384,141 @@ export const getDescription = (model_id, phaseName, stageName) => {
   }));
 };
 
-export const postUpvote = (model_id, userId) => {
-  const requestString = `${BASE_URL}/upvotes`;
+export const getUser = () => {
+  try {
+    return fetch(`${BASE_URL}/users/userInfo`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      }
+    });
+  } catch (err) {
+    return err;
+  }
+};
+
+export const createUser = newUser => {
+  try {
+    return fetch(`${BASE_URL}/users`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(newUser)
+    });
+  } catch (err) {
+    return err;
+  }
+};
+
+export const updateUser = updatedUser => {
+  try {
+    return (
+      fetch(`${BASE_URL}/users/userInfo`),
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": localStorage.getItem("token")
+        },
+        body: JSON.stringify(updatedUser)
+      }
+    );
+  } catch (err) {
+    return err;
+  }
+};
+
+export const deleteUser = () => {
+  try {
+    return fetch(`${BASE_URL}/users/userInfo`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      }
+    });
+  } catch (err) {
+    return err;
+  }
+};
+
+export const postComment = (model_id, commentBody) => {
+  const requestString = `${BASE_URL}/comment`;
   return axios
     .post(
       requestString,
-      { upvoteLocation: model_id, userId: userId },
+      {
+        commentLocation: model_id,
+        comment: commentBody
+      },
       {
         headers: {
-          "Content-Type": "application/JSON"
+          "Content-Type": "application/JSON",
+          "x-access-token": localStorage.getItem("token")
         }
       }
     )
     .catch(error => ({
+      type: "SAVE_COMMENT_FAIL",
+      error
+    }));
+};
+
+export const postCommentThread = (
+  model_id,
+  parentIndex,
+  commentBody
+) => {
+  const requestString = `${BASE_URL}/comment/thread`;
+  return axios
+    .post(
+      requestString,
+      {
+        commentLocation: `${model_id}`,
+        commentIndex: parentIndex,
+        comment: commentBody
+      },
+      {
+        headers: {
+          "Content-Type": "application/JSON",
+          "x-access-token": localStorage.getItem("token")
+        }
+      }
+    )
+    .catch(error => ({
+      type: "SAVE_COMMENT_FAIL",
+      error
+    }));
+};
+
+export const getComments = model_id => {
+  const requestString = `${BASE_URL}/comment/${model_id}`;
+  return axios.get(requestString).catch(error => ({
+    type: "GET_COMMENT_FAIL",
+    error
+  }));
+};
+
+export const postUpvote = (model_id) => {
+  const requestString = `${BASE_URL}/upvotes`;
+  return axios
+    .post(
+      requestString,
+      { upvoteLocation: model_id },
+      {
+        headers: {
+          "Content-Type": "application/JSON",
+          "x-access-token": localStorage.getItem("token")
+        }
+      }
+    ).catch(error => ({
       type: "SAVE_UPVOTE_FAIL",
       error
     }));
 };
+
 
 export const getUpvote = model_id => {
   const requestString = `${BASE_URL}/upvotes/${model_id}`;
@@ -402,3 +527,4 @@ export const getUpvote = model_id => {
     error
   }));
 };
+

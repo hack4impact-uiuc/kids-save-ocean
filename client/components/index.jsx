@@ -1,5 +1,5 @@
+import CommentsSection from "./CommentsSection";
 import Draft from "./Draft";
-import DraftAddImage from "./DraftAddImage";
 import Gantt from "./Gantt";
 import Head from "./Head";
 import NavBar from "./NavBar";
@@ -8,8 +8,8 @@ import ProjectForm from "./ProjectForm";
 import TipCard from "./TipCard";
 
 export {
+  CommentsSection,
   Draft,
-  DraftAddImage,
   Gantt,
   Head,
   NavBar,

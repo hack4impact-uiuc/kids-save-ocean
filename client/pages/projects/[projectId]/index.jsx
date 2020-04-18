@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { Gantt, Head, TipCard } from "../../../components";
+import { Gantt, Head, TipCard, CommentsSection } from "../../../components";
 import {
   Button,
   Modal,
@@ -48,8 +48,8 @@ export default function ProjectPage() {
     const loadModel = async id => {
       if (id) {
         const model = await getModelsByID(id);
-        if (model && model.data.length === 1) {
-          setProject(model.data[0]);
+        if (model) {
+          setProject(model.data);
         }
       }
     };
@@ -164,6 +164,8 @@ export default function ProjectPage() {
               icon="fa-lightbulb-o"
             />
           </div>
+
+          <CommentsSection projectId={projectId} />
         </div>
       )}
     </>

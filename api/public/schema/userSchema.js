@@ -10,10 +10,6 @@ const schema = {
       type: "string",
       required: true
     },
-    password: {
-      type: "string",
-      required: true
-    },
     country: {
       type: "string",
       required: true
@@ -22,28 +18,37 @@ const schema = {
       type: "string",
       required: true
     },
-    role: {
-      type: "string",
-      enum: ["student", "teacher", "stakeholder"],
+    anon: {
+      type: "boolean",
       required: true
     },
-    admin: {
-      type: "boolean"
-    },
-    anon: {
-      type: "boolean"
-    },
-    projectIds: {
+    createdProjects: {
       type: "array",
       items: {
         type: "string"
-      }
+      },
+      required: true
     },
-    commentIds: {
+    followingProjects: {
       type: "array",
       items: {
         type: "string"
-      }
+      },
+      required: true
+    },
+    followingUsers: {
+      type: "array",
+      items: {
+        type: "string"
+      },
+      required: true
+    },
+    followers: {
+      type: "array",
+      items: {
+        type: "string"
+      },
+      required: true
     }
   }
 };

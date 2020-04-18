@@ -2,7 +2,6 @@ import React from "react";
 import { verify } from "../utils/apiWrapper";
 import NavBar from "./NavBar";
 import Router from "next/router";
-import { setCookie } from "./../utils/cookie";
 
 const SUCCESS = 200;
 
@@ -16,7 +15,7 @@ const withAuth = WrappedComponent => {
       const verifyResponseParsed = await verifyResponse.json();
       if (verifyResponseParsed.status === SUCCESS) {
         if (verifyResponseParsed.newToken !== undefined) {
-          setCookie("token", verifyResponseParsed.newToken);
+          localStorage.setItem("token", verifyResponseParsed.newToken);
         }
         this.setState({ verified: true });
       } else {
