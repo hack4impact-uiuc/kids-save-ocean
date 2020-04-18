@@ -73,7 +73,7 @@ export default function ProjectsPage() {
     return text;
   };
 
-  var showModal = () => {
+  const showModal = () => {
     document.getElementById("pop-up-modal").modal("show");
   };
 
