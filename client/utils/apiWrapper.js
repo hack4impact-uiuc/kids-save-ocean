@@ -111,7 +111,8 @@ export const register = (
   answer,
   roleAns,
   birthdayAns,
-  countryAns
+  countryAns,
+  anonAns
 ) => {
   try {
     return fetch(`${BASE_URL}/auth/register`, {
@@ -124,7 +125,8 @@ export const register = (
         password: passwordInput,
         questionIdx,
         securityQuestionAnswer: answer,
-        role: roleAns
+        role: roleAns,
+        anon: anonAns,
       })
     });
   } catch (err) {

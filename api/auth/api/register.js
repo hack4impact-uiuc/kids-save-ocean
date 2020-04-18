@@ -12,7 +12,8 @@ router.post("/register", async function(req, res) {
     answer: req.body.answer,
     country: req.body.country,
     username: req.body.username,
-    birthday: req.body.birthday
+    birthday: req.body.birthday,
+    anon: req.body.anon,
   };
   const results = await fetch(`${SERVER_URL}/register/`, {
     method: "POST",

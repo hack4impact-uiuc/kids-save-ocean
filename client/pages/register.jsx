@@ -34,6 +34,7 @@ export default function RegisterPage(props) {
   const { role } = props;
 
   // state
+  const [anon, setAnon] = useState(INVALID);
   const [birthday, setBirthday] = useState("");
   const [country, setCountry] = useState("");
   const [person, setPerson] = useState("");
@@ -46,9 +47,6 @@ export default function RegisterPage(props) {
   const [pin, setPin] = useState("");
   const [securityQuestionAnswer, setSecurityQuestionAnswer] = useState("");
   const [successfulSubmit, setSuccessfulSubmit] = useState(false);
-  //const [dropdownOpen, setDropdownOpen] = useState(false);
-  // const [questions, setQuestions] = useState([]);
-
   const [questionIdx, setQuestionIdx] = useState(INVALID);
   // useEffect(() => {
   //   const loadSecurityQuestions = async () => {
@@ -93,7 +91,7 @@ export default function RegisterPage(props) {
       securityQuestionAnswer !== "" &&
       person.label !== "" &&
       birthday !== "" &&
-      country.label !== ""
+      country.label !== "" && anon != INVALID
     ) {
       let result = await register(
         email, 
@@ -102,7 +100,8 @@ export default function RegisterPage(props) {
         securityQuestionAnswer,
         person.label,
         birthday,
-        country.label
+        country.label,
+        anon.value
       );
       
       const response = await result.json();
@@ -126,6 +125,8 @@ export default function RegisterPage(props) {
       setErrorMessage("Select country of origin");
     } else if (!birthday) {
       setErrorMessage("Enter birthday");
+    } else if (anon == INVALID) {
+      setErrorMessage("Select account type");
     }
   };
 
@@ -149,6 +150,10 @@ export default function RegisterPage(props) {
     { value: "student", label: "student" },
     { value: "teacher", label: "teacher" },
     { value: "stakeholder", label: "stakeholder" }
+  ];
+  const anonOptions = [
+    { value: true, label: "Anonymous Account" },
+    { value: false, label: "Visible Account" }
   ];
   const security_questions = [
     { value: 0, label: "What is the name of your first pet?" },
@@ -363,6 +368,25 @@ export default function RegisterPage(props) {
                             setSecurityQuestionAnswer(e.target.value)
                           }
                           required
+                        />
+                      </FormGroup>
+                    </Form>
+                  </Col>
+                </Row>
+                {/* Anonymous */}
+                <Row>
+                  <Col xs="3" align="right" className=" vertAlign textField">
+                    account type
+                  </Col>
+                  <Col xs="9">
+                  <Form>
+                      <FormGroup>
+                        <Select
+                          options={anonOptions}
+                          placeholder=""
+                          isClearable
+                          onChange={setAnon}
+                          value={anon}
                         />
                       </FormGroup>
                     </Form>

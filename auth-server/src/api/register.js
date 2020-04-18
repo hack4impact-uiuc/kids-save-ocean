@@ -54,7 +54,8 @@ router.post(
       verified: false,
       country: req.body.country,
       username: req.body.username,
-      birthday: req.body.birthday
+      birthday: req.body.birthday,
+      anon: req.body.anon,
     };
     // If the security question is enabled, checks that the security question index is valid and that there is an answer
     const securityQuestionEnabled = await isSecurityQuestionEnabled();
