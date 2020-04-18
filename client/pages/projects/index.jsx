@@ -73,6 +73,10 @@ export default function ProjectsPage() {
     return text;
   };
 
+  var showModal = () => {
+    document.getElementById("pop-up-modal").modal("show");
+  };
+
   const options = {
     keys: ["name", "description"]
   };
@@ -189,10 +193,19 @@ export default function ProjectsPage() {
       searchFilteredModels = await populateSearchFilteredProjects();
 
       if (
+        getSearchBarText() == null &&
+        selectedUNGoals == null &&
+        selectedCountry == null &&
+        selectedGrpSize == null &&
+        selectedDifficulty == null
+      ) {
+        await populateAllProjects();
+      } else if (
         dropdownFilteredModels.length == 0 &&
         searchFilteredModels.length == 0
       ) {
         await populateAllProjects();
+        showModal();
       } else if (dropdownFilteredModels.length != 0) {
         let tempArr = [];
 
@@ -238,21 +251,36 @@ export default function ProjectsPage() {
       <Head title="Project Explorer" />
       <Container>
         <div
-          class="alert alert-warning alert-dismissible fade show"
-          role="alert"
+          className="modal"
+          class="modal fade"
+          id="pop-up-modal"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
         >
-          <strong>Alert!</strong> No projects meet these categories / search.
-          Please modify your search / filters.
-          <button
-            type="button"
-            class="close"
-            data-dismiss="alert"
-            aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                  Alert!
+                </h5>
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                No projects meet these categories / search. Please modify your
+                search / filters.
+              </div>
+            </div>
+          </div>
         </div>
-
         <div className="search-bar">
           <Input
             type="text"
