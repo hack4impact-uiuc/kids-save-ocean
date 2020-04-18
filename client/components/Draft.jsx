@@ -41,7 +41,6 @@ export default function Draft(props) {
   const handleChange = editor => {
     setUnsaved(true);
     const content = editor.emitSerializedOutput();
-    console.log(content);
     uploadImagesAndFixUrls(content).then(() => {
       const json = JSON.stringify(content);
       if (json !== prevContent) {

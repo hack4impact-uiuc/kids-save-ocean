@@ -55,7 +55,6 @@ router.post(
         res.sendStatus(500);
       } else {
         res.json({
-          // `Hello, ${name}!`
           success: `${data.name} added!`
         });
       }
@@ -139,7 +138,7 @@ router.get("/:model_ID/:phaseName/:stageName/description", function(req, res) {
       if (model === null) {
         res.sendStatus(404);
       } else {
-        const stages = model["phases"][phaseName]["stages"];
+        const stages = model.phases[phaseName].stages;
         const stage = stages.filter(s => s.name === stageName)[0];
         stage !== undefined
           ? res.json({
