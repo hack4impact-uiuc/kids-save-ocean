@@ -108,24 +108,19 @@ export default function ProjectsPage() {
       ) {
         return [];
       } else {
-        for (var i = 0; i < models.length; i++) {
-          if (selectedUNGoals == null || selectedUNGoals.length == 0) {
-            isMatchingSDGs = true;
-          } else if (selectedUNGoals.length <= models.data[i].sdg.length) {
-            var numSelectedSDGsPresent = 0;
-
-            for (var j = 0; j < models.data[i].sdg.length; j++) {
-              for (var k = 0; k < selectedUNGoals.length; k++) {
-                if (models.data[i].sdg[j] == selectedUNGoals[k].value) {
-                  numSelectedSDGsPresent++;
-                  break;
-                }
-              }
-            }
-
-            if (numSelectedSDGsPresent >= selectedUNGoals.length) {
-              isMatchingSDGs = true;
-            }
+        let sdgSelectedNums = [];
+        for (let i = 0; i < selectedUNGoals.length; i++) {
+          sdgSelectedNums.push(parseInt(selectedUNGoals[i].value));
+        }
+        console.log(sdgSelectedNums);
+        for (var i = 0; i < models.data.length; i++) {
+          if (selectedUNGoals.length <= models.data[i].sdg.length) {
+            console.log(models.data[i].sdg);
+            const matches = models.data[i].sdg.filter(sdg => sdgSelectedNums.includes(sdg));
+            console.log(matches);
+            
+            isMatchingSDGs = matches.length === sdgSelectedNums.length;
+            console.log(isMatchingSDGs);
           }
 
           if (
