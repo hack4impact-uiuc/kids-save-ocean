@@ -3,11 +3,8 @@ const bcrypt = require("bcrypt");
 const { check, validationResult } = require("express-validator/check");
 const User = require("../models/User");
 const { sendResponse } = require("./../utils/sendResponse");
-const {
-  getRolesForUser,
-  getSecurityQuestions
-} = require("./../utils/getConfigFile");
 const { signAuthJWT } = require("../utils/jwtHelpers");
+const { getSecurityQuestions } = require("./../utils/getConfigFile");
 const { generatePIN } = require("../utils/pinHelpers");
 const {
   googleAuth,
@@ -25,17 +22,12 @@ router.post(
       .isLength({ min: 1 }),
     check("role")
       .isString()
-      .isLength({ min: 1 }),
-    check("birthday")
-      .isString()
-      .isLength(10),
-    check("country")
-      .isString()
-      .isLength({min:1})
+      .isLength({ min: 1 })
   ],
   handleAsyncErrors(async function(req, res) {
     // Checks that the request has the required fields (email, password, and role)
     const errors = validationResult(req);
+    console.log(errors.array());
     if (!errors.isEmpty()) {
       return sendResponse(res, 400, "Invalid Request", {
         errors: errors.array({ onlyFirstError: true })
@@ -52,10 +44,6 @@ router.post(
       password: encodedPassword,
       role: req.body.role,
       verified: false,
-      country: req.body.country,
-      username: req.body.username,
-      birthday: req.body.birthday,
-      anon: req.body.anon,
     };
     // If the security question is enabled, checks that the security question index is valid and that there is an answer
     const securityQuestionEnabled = await isSecurityQuestionEnabled();
@@ -70,6 +58,7 @@ router.post(
       }
       const question =
         securityQuestionsResponse.securityQuestions[req.body.questionIdx];
+      console.log(question);
       if (!question || !req.body.answer) {
         return sendResponse(
           res,
@@ -78,18 +67,20 @@ router.post(
         );
       }
       userData["question"] = question;
-      userData["answer"] = req.body.answer.toLowerCase().replace(/\s/g, "");
+      userData[
+        "answer"
+      ] = req.body.answer.toLowerCase().replace(/\s/g, "");
     }
 
     // Checks the permission level of the user using the config file
-    const requiredAuthFrom = await getRolesForUser(req.body.role);
-    if (requiredAuthFrom != null) {
-      return sendResponse(
-        res,
-        400,
-        "User needs a higher permission level for that role"
-      );
-    }
+    // const requiredAuthFrom = await getRolesForUser(req.body.role);
+    // if (requiredAuthFrom != null) {
+    //   return sendResponse(
+    //     res,
+    //     400,
+    //     "User needs a higher permission level for that role"
+    //   );
+    // }
     const user = new User(userData);
 
     // If gmail is enabled, it sends an email with a generated PIN to verify the user
@@ -115,16 +106,14 @@ router.post(
         );
       }
     }
-
-    // Signs the jwt token, and the sends the signed token to the user along with the user's id and permission level
-    const jwt_token = await signAuthJWT(user._id, user.password, user.role);
+    const jwt_token = await signAuthJWT(user.email, user.role);
     await user.save();
-    return res.status(200).send({
+    res.status(200).send({
       status: 200,
-      message: "User added successfully!",
+      message: "User added to auth database successfully!",
       token: jwt_token,
-      uid: user._id,
-      permission: user.role
+      email: user.email,
+      role: user.role
     });
   })
 );

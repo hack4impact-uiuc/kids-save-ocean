@@ -38,7 +38,7 @@ const schema = {
       type: "string",
       required: false
     },
-    commentIds: {
+    followers: {
       type: "string",
       required: false
     },

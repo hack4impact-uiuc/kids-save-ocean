@@ -6,6 +6,7 @@ import {
   verifyPIN,
   resendPIN,
   google,
+  createUser
 } from "../utils/apiWrapper";
 import {
   Alert,
@@ -93,23 +94,46 @@ export default function RegisterPage(props) {
       birthday !== "" &&
       country.label !== "" && anon != INVALID
     ) {
-      let result = await register(
-        email, 
+      // #1: create user in auth db
+  
+      const authUserResp = await register(
+        email,
         password,
         questionIdx.value,
         securityQuestionAnswer,
-        person.label,
-        birthday,
-        country.label,
-        anon.value
+        person.label
       );
       
-      const response = await result.json();
-      if (!response.token) {
-        setErrorMessage(response.message);
+      const authUserRes = await authUserResp.json();
+      console.log(authUserRes);
+      if (authUserRes.status === SUCCESS) {
+        // #2: store token in local storage
+        const { token } = authUserRes;
+        if (!token) {
+          setErrorMessage("Invalid Token.");
+        } else {
+          localStorage.setItem("token", token);
+        }
+
+        // #3: create user in kso db
+        const newUser = {
+          email,
+          username,
+          password,
+          country : country.label,
+          birthday,
+          anon: anon.value,
+        };
+        const ksoUserResp = await createUser(newUser);
+        console.log(ksoUserResp);
+        const ksoUserRes = await ksoUserResp.json();
+        if (ksoUserRes.code === SUCCESS) {
+          setSuccessfulSubmit(true);
+        } else {
+          setErrorMessage(ksoUserRes.message);
+        }
       } else {
-        localStorage.setItem("token", response.token);
-        setSuccessfulSubmit(true);
+        setErrorMessage(authUserRes.message);
       }
     } else if (password !== password2) {
       setErrorMessage("Passwords do not match");
@@ -494,3 +518,4 @@ export default function RegisterPage(props) {
     </div>
   );
 }
+
