@@ -38,6 +38,18 @@ const schema = {
       type: "string",
       required: false
     },
+    references: {
+      type: "array",
+      items: {
+        type: "string"
+      }
+    },
+    referencedBy: {
+      type: "array",
+      items: {
+        type: "string"
+      }
+    },
     phases: {
       type: "object",
       required: true,
