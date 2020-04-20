@@ -63,12 +63,9 @@ app.use("/api/models", modelRouter);
 app.use("/api/user", userRouter);
 app.use("/api/upload", filestoreRouter);
 app.use("/api/users", userRouter);
-<<<<<<< HEAD
 app.use("/api/duplicate", duplicateRouter);
-=======
 app.use("/api/comment", commentRouter);
 app.use("/api/upvote", upvoteRouter);
->>>>>>> user-upvotes
 
 app.use(function(req, res, next) {
   req.gfs = gfs;

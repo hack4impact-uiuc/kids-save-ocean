@@ -48,7 +48,7 @@ router.post(
   validate({
     body: ModelSchema
   }),
-  function(req, res) {
+  async function(req, res) {
     const db = req.db;
     const userEmail = req.decoded.sub;
     const userId = await getUserId(db, userEmail);

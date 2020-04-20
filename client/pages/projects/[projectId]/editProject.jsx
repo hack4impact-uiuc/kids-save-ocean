@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import {
   Button,
   Col,
@@ -12,42 +13,40 @@ import {
   Container,
   Alert
 } from "reactstrap";
-import { getModelsByID } from "../utils/apiWrapper";
-import { Head, Stage } from "../components";
-import "../public/styles/editProject.scss";
+import { getModelsByID } from"../../../utils/apiWrapper";
+import { Head, Stage } from "../../../components";
+import "../../../public/styles/editProject.scss";
 
 export default function EditProjectPage() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [visAlert, setAlert] = useState(false);
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const id = "5e901732090f7cdff2e6757a";
-  const ideationStages = [
-    ["beauti", "Description 1"]
-    // ["Stage 2", "Description 2"],
-    // ["Stage 3", "Description 3"]
-  ];
+  const [project, setProject] = useState(null);
+
+  const router = useRouter();
+  const { projectId } = router.query;
+
   const toggle = () => setDropdownOpen(prevState => !prevState);
 
   useEffect(() => {
-    const loadProject = async () => {
-      const project = await getModelsByID(id);
+    const loadProject = async (projectId) => {
+      const project = await getModelsByID(projectId);
+      setProject(project.data);
 
       if (project) {
         setAlert(false);
-        setTitle(project.data.name);
-        setDescription(project.data.description);
       } else {
         setAlert(true);
       }
     };
 
-    loadProject();
-  }, [visAlert]);
+    if (projectId !== undefined) {
+      loadProject(projectId);
+    }
+  }, [projectId]);
 
   return (
     <>
-      <Head title={title} />
+      <Head title={project?.name} />
       <Container>
         {visAlert && (
           <Alert color="danger">
@@ -62,9 +61,9 @@ export default function EditProjectPage() {
             <Row className="home-block-1-ep">
               <div className="div-1-ep">
                 <h1 className="header2-text-ep-other">
-                  <strong>{title}</strong>
+                  <strong>{project?.name}</strong>
                 </h1>
-                <h3 className="header3">{description}</h3>
+                <h3 className="header3">{project?.description}</h3>
 
                 <Dropdown
                   className="dropdown"
@@ -159,12 +158,12 @@ export default function EditProjectPage() {
           </Row>
           <hr className="divider-stage" />
           <div className="stages">
-            {ideationStages.map((value, idx) => (
+            {project?.phases.inspiration.stages.map((value, idx) => (
               <Stage
-                stageName={value[0]}
-                description={value[1]}
+                stageName={value.name}
+                description={value.description}
                 phaseName={"inspiration"}
-                id={id}
+                id={projectId}
                 key={idx}
               />
             ))}
@@ -189,6 +188,18 @@ export default function EditProjectPage() {
           <Row className="header-row-ep">
             <Button className="button-add">Add Stage</Button>
           </Row>
+          <hr className="divider-stage" />
+          <div className="stages">
+            {project?.phases.ideation.stages.map((value, idx) => (
+              <Stage
+                stageName={value.name}
+                description={value.description}
+                phaseName={"ideation"}
+                id={projectId}
+                key={idx}
+              />
+            ))}
+          </div>
           <hr className="header-row-ep" />
         </Col>
         <Col>
@@ -209,6 +220,18 @@ export default function EditProjectPage() {
           <Row className="header-row-ep">
             <Button className="button-add">Add Stage</Button>
           </Row>
+          <hr className="divider-stage" />
+          <div className="stages">
+            {project?.phases.implementation.stages.map((value, idx) => (
+              <Stage
+                stageName={value.name}
+                description={value.description}
+                phaseName={"implementation"}
+                id={projectId}
+                key={idx}
+              />
+            ))}
+          </div>
           <hr className="header-row-ep" />
         </Col>
       </Container>
