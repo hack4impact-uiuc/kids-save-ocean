@@ -13,6 +13,7 @@
   },
   "env": {
     "MONGO_DATABASE": "@kso_db_uri",
+    "AUTH_SECRET": "@kso_auth_secret",
     "INFRA_MONGO_URI": "@kso_infra_mongo_uri",
     "INFRA_EMAIL": "@kso_infra_email",
     "INFRA_CLIENT_ID": "@kso_infra_client_id",
