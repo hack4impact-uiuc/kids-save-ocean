@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import {
   Navbar,
-  Container,
   NavbarBrand,
   NavbarToggler,
   Collapse,
   NavItem,
   Nav,
-  Button
+  Button,
+  Row,
+  Col,
+  Container,
 } from "reactstrap";
 
 import "../public/styles/navbar.scss";
@@ -28,39 +30,54 @@ export default function NavBar() {
     setCollapsed(!isCollapsed);
   }
   return (
-    <Navbar className={`navbar-expand-lg fixed-top ${"navbar-color"}`}>
-      <Container>
-        <NavbarBrand href="/">
-          <img
-            className="icon-settings"
-            id="logo"
-            height="60"
-            width="240"
-            src="/homepage-images/fatemaker-logo.png"
-            alt="FateMaker logo"
-          />
-        </NavbarBrand>
-        <NavbarToggler onClick={toggleNavbar} className="tempclasstoggler" />
-        <Collapse navbar isOpen={!isCollapsed}>
-          <Nav navbar className="ml-auto">
-            <Button className="button-create" type="primary">
-              Create
-            </Button>
-            <NavItem href="/feed">
-              <img
-                className="notification-img"
-                src="/homepage-images/notification-icon.png"
-                alt="Notifications"
-              />
-            </NavItem>
+    <div className="enclosing-div">
+      <div className="triangle"></div>
+      <div className="rectangle"></div>
+      <div className="triangle-2"></div>
+
+      <Navbar
+        className={`navbar-expand-lg navbar-light shadow fixed-top ${"navbar-body"}`}
+      >
+        <Container className="container-nav">
+          <NavbarBrand className="brandblock" href="/">
             <img
-              className="user-img"
-              src="/homepage-images/user-icon.png"
-              alt="Profile"
+              className="logo-settings"
+              id="logo"
+              src="/homepage-images/fatemaker-logo.png"
+              alt="FateMaker logo"
             />
-          </Nav>
-        </Collapse>
-      </Container>
-    </Navbar>
+          </NavbarBrand>
+          <NavbarToggler onClick={toggleNavbar} />
+          <Collapse navbar isOpen={!isCollapsed}>
+            <Nav navbar className="ml-auto">
+              <NavItem>
+                <Col className="button-col">
+                  <Button className="button-create" color="#ffcc66">
+                    Create
+                  </Button>
+                </Col>
+              </NavItem>
+              <NavItem>
+                <Col lg={{ size: 1 }} className="divider"></Col>
+              </NavItem>
+              <NavItem className="notif-col">
+                <img
+                  className="nav-img"
+                  src="/navbar-images/notification-icon.svg"
+                  alt="Notifications"
+                />
+              </NavItem>
+              <NavItem className="user-col">
+                <img
+                  className="nav-img"
+                  src="/navbar-images/user-icon.svg"
+                  alt="Profile"
+                />
+              </NavItem>
+            </Nav>
+          </Collapse>
+        </Container>
+      </Navbar>
+    </div>
   );
 }

@@ -12,13 +12,27 @@
   opacity: 0.99;
   align-content: middle;
 }
+.welcome-h1 {
+  color: white;
+  font-weight: bolder;
+  font-size: 144px;
+  text-shadow: 4px 4px 2px #003366;
+  // text-shadow: 5px 5px #003366;
+}
+.header-box {
+  background-color: rgba(#ffcc66, 1);
+  text-align: center;
+  height: 35rem;
+  padding: 10rem;
+  box-shadow: 1px 1px 1.5px #003366;
+}
 .profile-header {
   background-image: radial-gradient(
       50% 141%,
       rgba(12, 64, 184, 0.6) 1%,
       rgba(36, 167, 149, 0.651) 100%
     ),
-    url("/Users/ashwinsaxena/Hack4Impact/kids-save-ocean/client/public/homepage-images/stock-ocean.jpg");
+    url("/homepage-images/stock-ocean.jpg");
   height: 10em;
 }
 .home-block-col {
@@ -188,4 +202,32 @@
 .button-design:hover {
   background-color: rgba(5, 46, 143, 0.6);
   border-color: rgba(12, 46, 240, 0.685);
+}
+.wave {
+  position: relative;
+  height: 70px;
+  width: 600px;
+  background: #ffcc66;
+}
+.wave:before {
+  content: "";
+  display: block;
+  position: absolute;
+  border-radius: 100% 50%;
+  width: 340px;
+  height: 80px;
+  background-color: white;
+  right: -5px;
+  top: 40px;
+}
+.wave:after {
+  content: "";
+  display: block;
+  position: absolute;
+  border-radius: 100% 50%;
+  width: 300px;
+  height: 70px;
+  background-color: #ffcc66;
+  left: 0;
+  top: 27px;
 }

@@ -195,5 +195,26 @@ router.get("/:model_ID/:phaseName/:stageName/description", function(req, res) {
     }
   );
 });
-
+router.get("/:numUpdates/:lastID", function(req, res) {
+  var ObjectId = require("mongodb").ObjectID;
+  var last_ID = new ObjectId(req.params.lastID);
+  const db = req.db;
+  const collection = db.get("projects");
+  collection.find(
+    {
+      _id: { $gt: last_ID }
+    },
+    {
+      $exists: true,
+      limit: parseInt(req.params.numUpdates)
+    },
+    function(e, docs) {
+      if (docs) {
+        res.send(docs);
+      } else {
+        res.sendStatus(400);
+      }
+    }
+  );
+});
 module.exports = router;
