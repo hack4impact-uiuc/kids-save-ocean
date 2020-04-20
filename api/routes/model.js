@@ -2,6 +2,9 @@ const express = require("express");
 const router = express.Router();
 const validate = require("express-jsonschema").validate;
 
+const { checkToken } = require("../auth/utils/checkToken");
+const { getUserId } = require("../utils/user_utils");
+
 const ModelSchema = require("../public/schema/projectSchema.js").projectSchema;
 
 router.get("/", function(req, res) {
@@ -41,13 +44,18 @@ router.get("/:model_ID", function(req, res) {
 // TODO; Check Validate
 router.post(
   "/",
+  checkToken,
   validate({
     body: ModelSchema
   }),
   function(req, res) {
     const db = req.db;
+    const userEmail = req.decoded.sub;
+    const userId = await getUserId(db, userEmail);
+
     const collection = db.get("projects");
-    const data = req.body;
+    let data = req.body;
+    data['ownerId'] = userId;
 
     // Check if data includes proper fields
     collection.insert(data, function(err) {

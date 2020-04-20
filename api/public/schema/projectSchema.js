@@ -38,6 +38,22 @@ const schema = {
       type: "string",
       required: false
     },
+    references: {
+      type: "array",
+      items: {
+        type: "string"
+      }
+    },
+    referencedBy: {
+      type: "array",
+      items: {
+        type: "string"
+      }
+    },
+    followers: {
+      type: "string",
+      required: false
+    },
     phases: {
       type: "object",
       required: true,
