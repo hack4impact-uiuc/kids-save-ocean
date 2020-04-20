@@ -224,7 +224,6 @@ export default function ProjectsPage() {
     selectedDifficulty,
     userInput,
     visAlert,
-    allProjects,
     options
   ]);
 
