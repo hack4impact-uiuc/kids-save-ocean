@@ -3,6 +3,8 @@ const router = express.Router();
 
 const { checkToken } = require("../auth/utils/checkToken");
 
+const { getUserId } = require("../utils/user_utils");
+
 async function addProjectId(db, modelId, userId) {
   collection = db.get("users");
   await collection.update(
@@ -24,11 +26,12 @@ async function addReferences(db, srcId, destId) {
   );
 };
 
-router.post("/:model_ID", function(req, res) {
+router.post("/:model_ID", checkToken, async function(req, res) {
   const db = req.db;
-  const collection = db.get("projects");
   const { model_ID } = req.params;
-  const userId = "5e979579d8ba76f125db29ec";
+  const userEmail = req.decoded.sub;
+  const userId = await getUserId(db, userEmail);
+  const collection = db.get("projects");
 
   collection.findOne(
     {

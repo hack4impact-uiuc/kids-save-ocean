@@ -104,9 +104,15 @@ export const deleteForm = Model_ID => {
     });
 };
 
-export const register = (emailInput, passwordInput, questionIdx, answer) => {
+export const register = (
+  emailInput,
+  passwordInput,
+  questionIdx,
+  answer,
+  role
+) => {
   try {
-    return fetch(`${BASE_URL}/auth/register/`, {
+    return fetch(`${BASE_URL}/auth/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -114,8 +120,7 @@ export const register = (emailInput, passwordInput, questionIdx, answer) => {
         password: passwordInput,
         questionIdx,
         securityQuestionAnswer: answer,
-        role: "guest",
-        answer
+        role
       })
     });
   } catch (err) {
@@ -356,7 +361,7 @@ export const saveDescription = (
 ) => {
   const requestString = `${BASE_URL}/models/${model_id}/${phaseName}/${stageName}/description`;
   return axios
-    .post(
+    .put(
       requestString,
       { description },
       {
@@ -379,9 +384,9 @@ export const getDescription = (model_id, phaseName, stageName) => {
   }));
 };
 
-export const getUser = userId => {
+export const getUser = () => {
   try {
-    return fetch(`${BASE_URL}/users/${userId}`, {
+    return fetch(`${BASE_URL}/users/userInfo`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -400,19 +405,17 @@ export const createUser = newUser => {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({
-        newUser
-      })
+      body: JSON.stringify(newUser)
     });
   } catch (err) {
     return err;
   }
 };
 
-export const updateUser = (userId, updatedUser) => {
+export const updateUser = updatedUser => {
   try {
     return (
-      fetch(`${BASE_URL}/users/${userId}`),
+      fetch(`${BASE_URL}/users/userInfo`),
       {
         method: "PUT",
         headers: {
@@ -427,9 +430,9 @@ export const updateUser = (userId, updatedUser) => {
   }
 };
 
-export const deleteUser = userId => {
+export const deleteUser = () => {
   try {
-    return fetch(`${BASE_URL}/users/${userId}`, {
+    return fetch(`${BASE_URL}/users/userInfo`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -441,6 +444,89 @@ export const deleteUser = userId => {
   }
 };
 
+export const postComment = (model_id, commentBody) => {
+  const requestString = `${BASE_URL}/comment`;
+  return axios
+    .post(
+      requestString,
+      {
+        commentLocation: model_id,
+        comment: commentBody
+      },
+      {
+        headers: {
+          "Content-Type": "application/JSON",
+          "x-access-token": localStorage.getItem("token")
+        }
+      }
+    )
+    .catch(error => ({
+      type: "SAVE_COMMENT_FAIL",
+      error
+    }));
+};
+
+export const postCommentThread = (
+  model_id,
+  parentIndex,
+  commentBody
+) => {
+  const requestString = `${BASE_URL}/comment/thread`;
+  return axios
+    .post(
+      requestString,
+      {
+        commentLocation: `${model_id}`,
+        commentIndex: parentIndex,
+        comment: commentBody
+      },
+      {
+        headers: {
+          "Content-Type": "application/JSON",
+          "x-access-token": localStorage.getItem("token")
+        }
+      }
+    )
+    .catch(error => ({
+      type: "SAVE_COMMENT_FAIL",
+      error
+    }));
+};
+
+export const getComments = model_id => {
+  const requestString = `${BASE_URL}/comment/${model_id}`;
+  return axios.get(requestString).catch(error => ({
+    type: "GET_COMMENT_FAIL",
+    error
+  }));
+};
+
+export const postUpvote = (model_id) => {
+  const requestString = `${BASE_URL}/upvotes`;
+  return axios
+    .post(
+      requestString,
+      { upvoteLocation: model_id },
+      {
+        headers: {
+          "Content-Type": "application/JSON",
+          "x-access-token": localStorage.getItem("token")
+        }
+      }
+    ).catch(error => ({
+      type: "SAVE_UPVOTE_FAIL",
+      error
+    }));
+};
+
+export const getUpvotes = model_id => {
+  const requestString = `${BASE_URL}/upvotes/${model_id}`;
+  return axios.get(requestString).catch(error => ({
+    type: "GET_UPVOTE_FAIL",
+    error
+  }));
+};
+
 export const duplicateModel = (model_id) => {
   const requestString = `${BASE_URL}/duplicate/${model_id}`;
   return axios
@@ -448,7 +534,8 @@ export const duplicateModel = (model_id) => {
       requestString,
       {
         headers: {
-          "Content-Type": "application/JSON"
+          "Content-Type": "application/JSON",
+          "x-access-token": localStorage.getItem("token")
         }
       }
     )

@@ -50,6 +50,10 @@ const schema = {
         type: "string"
       }
     },
+    followers: {
+      type: "string",
+      required: false
+    },
     phases: {
       type: "object",
       required: true,
