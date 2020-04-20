@@ -20,9 +20,9 @@ export default function StagePage() {
 
       const loadModel = async (id, phase) => {
         const model = await getModelsByID(id);
-        if (model && model.data.length === 1) {
+        if (model) {
           setStage(
-            model.data[0].phases[phase].stages.find(
+            model.data.phases[phase].stages.find(
               stage => stage.name.toLowerCase() === stageName
             )
           );
