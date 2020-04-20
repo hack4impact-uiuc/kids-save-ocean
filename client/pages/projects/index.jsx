@@ -75,7 +75,7 @@ export default function ProjectsPage() {
   };
 
   var showModal = () => {
-    document.getElementById("pop-up-modal").modal("show");
+    var modal = document.getElementById("pop-up-modal").modal.modal("show");
   };
 
   const options = {
@@ -255,8 +255,8 @@ export default function ProjectsPage() {
       <Container>
         <div
           className="modal"
-          class="modal fade"
           id="pop-up-modal"
+          class="modal fade"
           tabindex="-1"
           role="dialog"
           aria-labelledby="exampleModalLabel"

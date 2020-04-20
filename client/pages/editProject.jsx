@@ -23,9 +23,9 @@ export default function EditProjectPage() {
   const [description, setDescription] = useState("");
   const id = "5e653b729a1cbfaba98adc5b";
   const ideationStages = [
-    ["Stage 1", "Description 1"]
-    // ["Stage 2", "Description 2"],
-    // ["Stage 3", "Description 3"]
+    ["Stage 1", "Description 1"] //,
+    //["Stage 2", "Description 2"],
+    //["Stage 3", "Description 3"]
   ];
   const toggle = () => setDropdownOpen(prevState => !prevState);
 
@@ -74,64 +74,211 @@ export default function EditProjectPage() {
                   <DropdownToggle caret>Choose SDG's</DropdownToggle>
                   <DropdownMenu>
                     <FormGroup check>
-                      <Row>
-                        <Label className="label" for="exampleCheck" check>
-                          No Poverty
-                        </Label>
-                        <Input
-                          className="input"
-                          type="checkbox"
-                          name="check"
-                          id="exampleCheck"
-                        />
-                      </Row>
-                      <Row>
-                        <Label className="label" for="exampleCheck" check>
-                          {" "}
-                          Zero Hunger
-                        </Label>
-                        <Input
-                          className="input"
-                          type="checkbox"
-                          name="check"
-                          id="exampleCheck"
-                        />
-                      </Row>
-                      <Row>
-                        <Label className="label" for="exampleCheck" check>
-                          {" "}
-                          Good Health & Well-Being
-                        </Label>
-                        <Input
-                          className="input"
-                          type="checkbox"
-                          name="check"
-                          id="exampleCheck"
-                        />
-                      </Row>
-                      <Row>
-                        <Label className="label" for="exampleCheck" check>
-                          Quality Education
-                        </Label>
-                        <Input
-                          className="input"
-                          type="checkbox"
-                          name="check"
-                          id="exampleCheck"
-                        />
-                      </Row>
-                      <Row>
-                        <Label className="label" for="exampleCheck" check>
-                          {" "}
-                          Gender Equality
-                        </Label>
-                        <Input
-                          className="input"
-                          type="checkbox"
-                          name="check"
-                          id="exampleCheck"
-                        />
-                      </Row>
+                      <Col>
+                        <Row>
+                          <Label className="label" for="exampleCheck" check>
+                            No Poverty
+                          </Label>
+                          <Input
+                            className="input"
+                            type="checkbox"
+                            name="check"
+                            id="exampleCheck"
+                          />
+                        </Row>
+                        <Row>
+                          <Label className="label" for="exampleCheck" check>
+                            {" "}
+                            Zero Hunger
+                          </Label>
+                          <Input
+                            className="input"
+                            type="checkbox"
+                            name="check"
+                            id="exampleCheck"
+                          />
+                        </Row>
+                        <Row>
+                          <Label className="label" for="exampleCheck" check>
+                            {" "}
+                            Good Health + Well-Being
+                          </Label>
+                          <Input
+                            className="input"
+                            type="checkbox"
+                            name="check"
+                            id="exampleCheck"
+                          />
+                        </Row>
+                        <Row>
+                          <Label className="label" for="exampleCheck" check>
+                            Quality Education
+                          </Label>
+                          <Input
+                            className="input"
+                            type="checkbox"
+                            name="check"
+                            id="exampleCheck"
+                          />
+                        </Row>
+                        <Row>
+                          <Label className="label" for="exampleCheck" check>
+                            {" "}
+                            Gender Equality
+                          </Label>
+                          <Input
+                            className="input"
+                            type="checkbox"
+                            name="check"
+                            id="exampleCheck"
+                          />
+                        </Row>
+                      </Col>
+                      <Col>
+                        <Row>
+                          <Label className="label" for="exampleCheck" check>
+                            Clean Water + Sanitation
+                          </Label>
+                          <Input
+                            className="input"
+                            type="checkbox"
+                            name="check"
+                            id="exampleCheck"
+                          />
+                        </Row>
+                        <Row>
+                          <Label className="label" for="exampleCheck" check>
+                            {" "}
+                            Affordable + Clean Energy
+                          </Label>
+                          <Input
+                            className="input"
+                            type="checkbox"
+                            name="check"
+                            id="exampleCheck"
+                          />
+                        </Row>
+                        <Row>
+                          <Label className="label" for="exampleCheck" check>
+                            {" "}
+                            Decent Work + Economic Growth
+                          </Label>
+                          <Input
+                            className="input"
+                            type="checkbox"
+                            name="check"
+                            id="exampleCheck"
+                          />
+                        </Row>
+                        <Row>
+                          <Label className="label" for="exampleCheck" check>
+                            Industry, Innovation + Infrastructure
+                          </Label>
+                          <Input
+                            className="input"
+                            type="checkbox"
+                            name="check"
+                            id="exampleCheck"
+                          />
+                        </Row>
+                        <Row>
+                          <Label className="label" for="exampleCheck" check>
+                            {" "}
+                            Reduced Inequalities
+                          </Label>
+                          <Input
+                            className="input"
+                            type="checkbox"
+                            name="check"
+                            id="exampleCheck"
+                          />
+                        </Row>
+                      </Col>
+                      <Col>
+                        <Row>
+                          <Label className="label" for="exampleCheck" check>
+                            Sustainable Cities + Communities
+                          </Label>
+                          <Input
+                            className="input"
+                            type="checkbox"
+                            name="check"
+                            id="exampleCheck"
+                          />
+                        </Row>
+                        <Row>
+                          <Label className="label" for="exampleCheck" check>
+                            {" "}
+                            Responsible Consumption + Production
+                          </Label>
+                          <Input
+                            className="input"
+                            type="checkbox"
+                            name="check"
+                            id="exampleCheck"
+                          />
+                        </Row>
+                        <Row>
+                          <Label className="label" for="exampleCheck" check>
+                            {" "}
+                            Climate Action
+                          </Label>
+                          <Input
+                            className="input"
+                            type="checkbox"
+                            name="check"
+                            id="exampleCheck"
+                          />
+                        </Row>
+                        <Row>
+                          <Label className="label" for="exampleCheck" check>
+                            Life Below Water
+                          </Label>
+                          <Input
+                            className="input"
+                            type="checkbox"
+                            name="check"
+                            id="exampleCheck"
+                          />
+                        </Row>
+                        <Row>
+                          <Label className="label" for="exampleCheck" check>
+                            {" "}
+                            Life on Land
+                          </Label>
+                          <Input
+                            className="input"
+                            type="checkbox"
+                            name="check"
+                            id="exampleCheck"
+                          />
+                        </Row>
+                      </Col>
+                      <Col>
+                        <Row>
+                          <Label className="label" for="exampleCheck" check>
+                            Peace, Justice + Strong Institutions
+                          </Label>
+                          <Input
+                            className="input"
+                            type="checkbox"
+                            name="check"
+                            id="exampleCheck"
+                          />
+                        </Row>
+                        <Row>
+                          <Label className="label" for="exampleCheck" check>
+                            {" "}
+                            Partnerships for the Goals
+                          </Label>
+                          <Input
+                            className="input"
+                            type="checkbox"
+                            name="check"
+                            id="exampleCheck"
+                          />
+                        </Row>
+                      </Col>
                     </FormGroup>
                   </DropdownMenu>
                 </Dropdown>
