@@ -14,7 +14,8 @@ import {
   Col,
   Container,
   Input,
-  Row
+  Row,
+  Alert
 } from "reactstrap";
 
 import "../../public/styles/projects.scss";
@@ -27,7 +28,7 @@ const DESCRIPTION_LENGTH = 150;
 export default function ProjectsPage() {
   const [allProjects, setAllProjects] = useState(null);
   const [projects, setProjects] = useState(null);
-
+  const [visAlert, setAlert] = useState(false);
   const [selectedUNGoals, setSelectedUNGoals] = useState(null);
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedGrpSize, setSelectedGrpSize] = useState(null);
@@ -43,7 +44,7 @@ export default function ProjectsPage() {
   };
 
   const handleCountry = selectedCountry => {
-    setSelectedCountry(selectedCountry)
+    setSelectedCountry(selectedCountry);
   };
 
   const handleGrpSize = selectedGrpSize => {
@@ -79,7 +80,7 @@ export default function ProjectsPage() {
   }, []);
 
   useEffect(() => {
-    const populateDropDownFilteredProjects = async () => {
+    const populateDropDownFilteredProjects = () => {
       dropdownFilteredModels = [];
 
       const models = allProjects;
@@ -155,11 +156,14 @@ export default function ProjectsPage() {
           isMatchingDifficulty = false;
         }
 
+        if (dropdownFilteredModels.length === 0) {
+          setAlert(true);
+        }
         return dropdownFilteredModels;
       }
     };
 
-    const populateSearchFilteredProjects = async () => {
+    const populateSearchFilteredProjects = () => {
       searchFilteredModels = [];
 
       let textInput = getSearchBarText();
@@ -170,46 +174,48 @@ export default function ProjectsPage() {
         let fuse = new Fuse(allProjects, options);
         searchFilteredModels = fuse.search(textInput);
 
+        if (searchFilteredModels.length === 0) {
+          setAlert(true);
+        }
+
         return searchFilteredModels;
       }
     };
 
-    const populateAllFilteredProjects = async () => {
-      dropdownFilteredModels = await populateDropDownFilteredProjects();
-      searchFilteredModels = await populateSearchFilteredProjects();
+    const populateAllFilteredProjects = () => {
+      dropdownFilteredModels = populateDropDownFilteredProjects();
+      searchFilteredModels = populateSearchFilteredProjects();
 
+      console.log(dropdownFilteredModels.length);
+      console.log(searchFilteredModels.length);
+      let tempArr = [];
       if (
-        dropdownFilteredModels.length == 0 &&
+        dropdownFilteredModels.length != 0 &&
         searchFilteredModels.length == 0
       ) {
-        setProjects(allProjects);
-      } else if (dropdownFilteredModels.length != 0) {
-        let tempArr = [];
-
         for (let i = 0; i < dropdownFilteredModels.length; i++) {
           tempArr.push(dropdownFilteredModels[i]);
         }
-
+        setAlert(false);
         setProjects(tempArr);
-      } else if (searchFilteredModels.length != 0) {
-        let tempArr = [];
-
+      } else if (
+        searchFilteredModels.length != 0 &&
+        dropdownFilteredModels.length == 0
+      ) {
         for (let i = 0; i < searchFilteredModels.length; i++) {
           tempArr.push(searchFilteredModels[i].item);
         }
-
+        setAlert(false);
         setProjects(tempArr);
       } else {
-        let tempArr = [];
-
         for (let i = 0; i < dropdownFilteredModels.length; i++) {
           for (let j = 0; j < searchFilteredModels.length; j++) {
-            if (dropdownFilteredModels[i] == searchFilteredModels[j]) {
+            if (dropdownFilteredModels[i] == searchFilteredModels[j].item) {
               tempArr.push(searchFilteredModels[j].item);
             }
           }
         }
-
+        setAlert(false);
         setProjects(tempArr);
       }
     };
@@ -220,28 +226,21 @@ export default function ProjectsPage() {
     selectedCountry,
     selectedGrpSize,
     selectedDifficulty,
-    userInput
+    userInput,
+    visAlert
   ]);
 
   return (
     <>
       <Head title="Project Explorer" />
       <Container>
-        <div
-          className="alert alert-warning alert-dismissible fade show"
-          role="alert"
-        >
-          <strong>Alert!</strong> No projects meet these categories / search.
-          Please modify your search / filters.
-          <button
-            type="button"
-            className="close"
-            data-dismiss="alert"
-            aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
+        {visAlert && (
+          <Alert color="danger">
+            <div justify="center" align="middle">
+              No projects matching search
+            </div>
+          </Alert>
+        )}
 
         <div className="search-bar">
           <Input
