@@ -32,6 +32,7 @@ export default function ProjectPage() {
   const [modal, setModal] = useState(false);
   const [project, setProject] = useState(null);
   const [ganttData, setGanttData] = useState(null);
+  const [follow, setFollow] = useState("Follow");
 
   const router = useRouter();
   const { projectId } = router.query;
@@ -110,7 +111,15 @@ export default function ProjectPage() {
         <div className="project">
           <div className="project-header">
             <h1 className="project-info">{project.name}</h1>
-            <Button className="follow-btn">Follow</Button>
+            {follow ? (
+              <Button className="follow-btn" onClick={() => setFollow(!follow)}>
+                Follow
+              </Button>
+            ) : (
+              <Button className="follow-btn" onClick={() => setFollow(!follow)}>
+                Unfollow
+              </Button>
+            )}
           </div>
           <p className="project-info">{project.description}</p>
           <hr />
