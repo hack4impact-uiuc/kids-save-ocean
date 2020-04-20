@@ -223,8 +223,7 @@ export default function ProjectsPage() {
     selectedGrpSize,
     selectedDifficulty,
     userInput,
-    visAlert,
-    options
+    visAlert
   ]);
 
   return (
