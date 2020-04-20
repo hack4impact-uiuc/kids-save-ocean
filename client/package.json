@@ -28,7 +28,7 @@
     "axios": "^0.19.2",
     "classnames": "^2.2.6",
     "css-loader": "^3.4.2",
-    "emotion-theming": "^10.0.27",
+    "fuse.js": "^5.1.0",
     "firebase": "^7.13.1",
     "isomorphic-unfetch": "^3.0.0",
     "jquery": "^3.4.1",
