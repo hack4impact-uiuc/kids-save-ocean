@@ -45,6 +45,7 @@ router.post("/:model_ID", checkToken, async function(req, res) {
         res.sendStatus(500);
       } else {
         const oldId = doc['_id'];
+        doc['ownerId'] = userId;
         delete doc['_id'];
         delete doc['email'];
         delete doc['phone'];
