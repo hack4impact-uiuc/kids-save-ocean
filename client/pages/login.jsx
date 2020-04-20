@@ -14,7 +14,6 @@ import {
   CardBody,
   CardTitle
 } from "reactstrap";
-import { setCookie } from "./../utils/cookie";
 import { Head } from "../components";
 import "../public/styles/auth.scss";
 
@@ -36,8 +35,8 @@ export default function Login(props) {
     if (resp.status !== SUCCESS) {
       setErrorMessage(resp.message);
     } else {
-      setCookie("token", e.tokenId);
-      setCookie("google", true);
+      localStorage.setItem("token", e.tokenId);
+      localStorage.setItem("google", true);
       Router.push("/");
     }
   };
@@ -50,7 +49,8 @@ export default function Login(props) {
     if (!resp.token) {
       setErrorMessage(resp.message);
     } else {
-      setCookie("token", resp.token);
+      localStorage.setItem("token", resp.token);
+      localStorage.setItem("google", false);
       Router.push("/");
     }
   };
