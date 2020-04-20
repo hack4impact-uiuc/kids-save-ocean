@@ -25,6 +25,7 @@ import Fuse from "fuse.js";
 const DESCRIPTION_LENGTH = 150;
 
 export default function ProjectsPage() {
+  const [allProjects, setAllProjects] = useState(null);
   const [projects, setProjects] = useState(null);
 
   const [selectedUNGoals, setSelectedUNGoals] = useState(null);
@@ -34,37 +35,27 @@ export default function ProjectsPage() {
 
   const [userInput, setUserInput] = useState("");
 
-  var dropdownFilteredModels = [];
-  var searchFilteredModels = [];
+  let dropdownFilteredModels = [];
+  let searchFilteredModels = [];
 
   const handleUNGoals = selectedUNGoals => {
-    if (selectedUNGoals) {
-      setSelectedUNGoals(selectedUNGoals);
-    }
+    setSelectedUNGoals(selectedUNGoals);
   };
 
   const handleCountry = selectedCountry => {
-    if (selectedCountry) {
-      setSelectedCountry(selectedCountry);
-    }
+    setSelectedCountry(selectedCountry)
   };
 
   const handleGrpSize = selectedGrpSize => {
-    if (selectedGrpSize) {
-      setSelectedGrpSize(selectedGrpSize);
-    }
+    setSelectedGrpSize(selectedGrpSize);
   };
 
   const handleDifficulty = selectedDifficulty => {
-    if (selectedDifficulty) {
-      setSelectedDifficulty(selectedDifficulty);
-    }
+    setSelectedDifficulty(selectedDifficulty);
   };
 
   const handleSearchChange = userInput => {
-    if (userInput) {
-      setUserInput(userInput.target.value);
-    }
+    setUserInput(userInput.target.value);
   };
 
   const getSearchBarText = () => {
@@ -78,8 +69,9 @@ export default function ProjectsPage() {
   };
 
   const populateAllProjects = async () => {
-    const allModels = await getModels();
-    setProjects(allModels.data);
+    const response = await getModels();
+    setAllProjects(response.data);
+    setProjects(response.data);
   };
 
   useEffect(() => {
@@ -90,12 +82,12 @@ export default function ProjectsPage() {
     const populateDropDownFilteredProjects = async () => {
       dropdownFilteredModels = [];
 
-      const models = projects;
+      const models = allProjects;
 
-      var isMatchingSDGs = false;
-      var isMatchingCountry = false;
-      var isMatchingGrpSize = false;
-      var isMatchingDifficulty = false;
+      let isMatchingSDGs = false;
+      let isMatchingCountry = false;
+      let isMatchingGrpSize = false;
+      let isMatchingDifficulty = false;
 
       if (
         selectedUNGoals == null &&
@@ -113,7 +105,7 @@ export default function ProjectsPage() {
           }
         }
 
-        for (var i = 0; i < models.length; i++) {
+        for (let i = 0; i < models.length; i++) {
           if (selectedUNGoals == null) {
             isMatchingSDGs = true;
           } else if (
@@ -170,14 +162,12 @@ export default function ProjectsPage() {
     const populateSearchFilteredProjects = async () => {
       searchFilteredModels = [];
 
-      const models = projects;
-
-      var textInput = getSearchBarText();
+      let textInput = getSearchBarText();
 
       if (textInput == null || textInput.length == 0) {
         return [];
       } else {
-        let fuse = new Fuse(models, options);
+        let fuse = new Fuse(allProjects, options);
         searchFilteredModels = fuse.search(textInput);
 
         return searchFilteredModels;
@@ -192,11 +182,11 @@ export default function ProjectsPage() {
         dropdownFilteredModels.length == 0 &&
         searchFilteredModels.length == 0
       ) {
-        await populateAllProjects();
+        setProjects(allProjects);
       } else if (dropdownFilteredModels.length != 0) {
         let tempArr = [];
 
-        for (var i = 0; i < dropdownFilteredModels.length; i++) {
+        for (let i = 0; i < dropdownFilteredModels.length; i++) {
           tempArr.push(dropdownFilteredModels[i]);
         }
 
@@ -204,7 +194,7 @@ export default function ProjectsPage() {
       } else if (searchFilteredModels.length != 0) {
         let tempArr = [];
 
-        for (var i = 0; i < searchFilteredModels.length; i++) {
+        for (let i = 0; i < searchFilteredModels.length; i++) {
           tempArr.push(searchFilteredModels[i].item);
         }
 
@@ -212,8 +202,8 @@ export default function ProjectsPage() {
       } else {
         let tempArr = [];
 
-        for (var i = 0; i < dropdownFilteredModels.length; i++) {
-          for (var j = 0; j < searchFilteredModels.length; j++) {
+        for (let i = 0; i < dropdownFilteredModels.length; i++) {
+          for (let j = 0; j < searchFilteredModels.length; j++) {
             if (dropdownFilteredModels[i] == searchFilteredModels[j]) {
               tempArr.push(searchFilteredModels[j].item);
             }
@@ -238,14 +228,14 @@ export default function ProjectsPage() {
       <Head title="Project Explorer" />
       <Container>
         <div
-          class="alert alert-warning alert-dismissible fade show"
+          className="alert alert-warning alert-dismissible fade show"
           role="alert"
         >
           <strong>Alert!</strong> No projects meet these categories / search.
           Please modify your search / filters.
           <button
             type="button"
-            class="close"
+            className="close"
             data-dismiss="alert"
             aria-label="Close"
           >
@@ -273,26 +263,26 @@ export default function ProjectsPage() {
             value={selectedUNGoals}
           />
           <Select
+            isMulti
             className="country-list"
             options={countryData}
             placeholder="Search country"
-            isClearable
             onChange={handleCountry}
             value={selectedCountry}
           />
           <Select
+            isMulti
             className="grp-sizes-list"
             options={groupSizeData}
             placeholder="Select group size"
-            isClearable
             onChange={handleGrpSize}
             value={selectedGrpSize}
           />
           <Select
+            isMulti
             className="difficulty-list"
             options={levelData}
             placeholder="Select difficulty"
-            isClearable
             onChange={handleDifficulty}
             value={selectedDifficulty}
           />

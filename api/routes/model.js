@@ -7,7 +7,7 @@ const ModelSchema = require("../public/schema/projectSchema.js").projectSchema;
 router.get("/", function(req, res) {
   let sdg_par = req.query.sdg;
   let sdg_num = parseInt(sdg_par);
-  let searchResults = req.query.searchResults;
+  let searchPageReq = req.query.searchPage;
   const db = req.db;
   const collection = db.get("projects");
   if (sdg_par && !isNaN(sdg_num)) {
@@ -22,8 +22,9 @@ router.get("/", function(req, res) {
         res.send(docs);
       }
     );
-  } else if (searchResults) {
-    collection.find({}, { name: 1, description: 1 }, function(e, docs) {
+  } else if (searchPageReq) {
+    console.log("TEST");
+    collection.find({}, { name: 1, description: 1, }, function(e, docs) {
       res.send(docs);
     });
   } else {
