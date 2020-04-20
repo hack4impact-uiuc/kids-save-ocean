@@ -7,6 +7,7 @@
 .project-info {
   text-align: center;
   margin-top: 20px;
+  display: inline-block;
 }
 
 hr {
@@ -26,4 +27,13 @@ hr {
   width: 100%;
   margin: 20px 0 20px 0;
   justify-content: space-evenly;
+}
+
+.project-header {
+  text-align: center;
+}
+
+.follow-btn {
+  margin-left: 2em;
+  margin-bottom: 1em;
 }

@@ -108,7 +108,10 @@ export default function ProjectPage() {
       )}
       {project && (
         <div className="project">
-          <h1 className="project-info">{project.name}</h1>
+          <div className="project-header">
+            <h1 className="project-info">{project.name}</h1>
+            <Button className="follow-btn">Follow</Button>
+          </div>
           <p className="project-info">{project.description}</p>
           <hr />
           <Nav tabs justified>
