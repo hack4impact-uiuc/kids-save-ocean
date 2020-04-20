@@ -10,24 +10,39 @@ import {
   FormGroup,
   Label,
   Container,
-  Alert
+  Alert,
 } from "reactstrap";
-import { getModelsByID } from "../utils/apiWrapper";
+import { getModelsByID, checkAdminPrivilege } from "../utils/apiWrapper";
 import { Head, Stage } from "../components";
 import "../public/styles/editProject.scss";
 
 export default function EditProjectPage() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [visAlert, setAlert] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const id = "5e901732090f7cdff2e6757a";
   const ideationStages = [
-    ["beauti", "Description 1"]
+    ["beauti", "Description 1"],
     // ["Stage 2", "Description 2"],
     // ["Stage 3", "Description 3"]
   ];
-  const toggle = () => setDropdownOpen(prevState => !prevState);
+  const toggle = () => setDropdownOpen((prevState) => !prevState);
+
+  useEffect(() => {
+    const checkPriv = async () => {
+      const raw_priv = await checkAdminPrivilege(id);
+      const isAdmin = await raw_priv.json();
+      if (isAdmin.status === 200) {
+        setIsAdmin(true);
+        console.log("HIII");
+      } else {
+        console.log(isAdmin);
+      }
+    };
+    checkPriv();
+  }, []);
 
   useEffect(() => {
     const loadProject = async () => {
@@ -56,7 +71,9 @@ export default function EditProjectPage() {
             </div>
           </Alert>
         )}
-
+        {isAdmin && (
+          <div>ONLY IF YOU ARE ADMIN SHOULD YOU BE ABLE TO READ THIS</div>
+        )}
         <Row>
           <Col className="home-block-col">
             <Row className="home-block-1-ep">

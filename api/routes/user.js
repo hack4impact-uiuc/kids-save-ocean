@@ -1,11 +1,31 @@
 const express = require("express");
 const router = express.Router();
 const validate = require("express-jsonschema").validate;
+const jwt = require("jsonwebtoken");
+// const guard = require("express-jwt-permissions");
 const { checkToken } = require("../auth/utils/checkToken");
 
 const UserSchema = require("../public/schema/userSchema.js").userSchema;
 const SUCCESS = 200;
 const NOT_FOUND = 404;
+
+router.get("/", checkToken, async (req, res) => {
+  // const { db } = req;
+  const { role } = req.user;
+  if (role === "admin") {
+    res.status(SUCCESS).send({
+      code: SUCCESS,
+      success: true,
+      message: "admin",
+    });
+  } else {
+    res.status(NOT_FOUND).send({
+      code: NOT_FOUND,
+      success: false,
+      message: "not admin",
+    });
+  }
+});
 
 router.get("/", checkToken, async (req, res) => {
   const { db } = req;
@@ -16,7 +36,7 @@ router.get("/", checkToken, async (req, res) => {
       code: SUCCESS,
       success: true,
       message: "Users retrieved successfully.",
-      data: users
+      data: users,
     });
   } catch (err) {
     return err;
@@ -35,12 +55,12 @@ router.get("/:id", checkToken, async (req, res) => {
             code: SUCCESS,
             success: true,
             message: "User retrieved successfully.",
-            data: users[0]
+            data: users[0],
           }
         : {
             code: NOT_FOUND,
             success: false,
-            message: "User not found."
+            message: "User not found.",
           };
     res.status(ret.code).send(ret);
   } catch (err) {
@@ -57,37 +77,37 @@ router.post("/", validate({ body: UserSchema }), async (req, res) => {
     res.status(NOT_FOUND).send({
       code: NOT_FOUND,
       success: false,
-      message: "Email is required."
+      message: "Email is required.",
     });
   } else if (!username) {
     res.status(NOT_FOUND).send({
       code: NOT_FOUND,
       success: false,
-      message: "Username is required."
+      message: "Username is required.",
     });
   } else if (!password) {
     res.status(NOT_FOUND).send({
       code: NOT_FOUND,
       success: false,
-      message: "Password is required."
+      message: "Password is required.",
     });
   } else if (!country) {
     res.status(NOT_FOUND).send({
       code: NOT_FOUND,
       success: false,
-      message: "Country is required."
+      message: "Country is required.",
     });
   } else if (!birthday) {
     res.status(NOT_FOUND).send({
       code: NOT_FOUND,
       success: false,
-      message: "Birthday is required."
+      message: "Birthday is required.",
     });
   } else if (!role) {
     res.status(NOT_FOUND).send({
       code: NOT_FOUND,
       success: false,
-      message: "Role is required."
+      message: "Role is required.",
     });
   } else {
     if (!anon) {
@@ -102,7 +122,7 @@ router.post("/", validate({ body: UserSchema }), async (req, res) => {
       role,
       anon,
       admin: false,
-      createdProjects: []
+      createdProjects: [],
     };
     try {
       const resp = await collection.insert(newUser);
@@ -110,7 +130,7 @@ router.post("/", validate({ body: UserSchema }), async (req, res) => {
         code: SUCCESS,
         success: true,
         message: "User successfully created.",
-        data: resp
+        data: resp,
       });
     } catch (err) {
       return err;
@@ -155,12 +175,12 @@ router.put("/:id", checkToken, async (req, res) => {
       ? {
           code: SUCCESS,
           success: true,
-          message: "User successfully updated."
+          message: "User successfully updated.",
         }
       : {
           code: NOT_FOUND,
           success: false,
-          message: "User not found."
+          message: "User not found.",
         };
     res.status(ret.code).send(ret);
   } catch (err) {
@@ -178,12 +198,12 @@ router.delete("/:id", checkToken, async (req, res) => {
       ? {
           code: SUCCESS,
           success: true,
-          message: "User successfully deleted."
+          message: "User successfully deleted.",
         }
       : {
           code: NOT_FOUND,
           success: false,
-          message: "User not found."
+          message: "User not found.",
         };
     res.status(ret.code).send(ret);
   } catch (err) {
@@ -199,7 +219,7 @@ router.delete("/", async (req, res) => {
   res.status(SUCCESS).send({
     code: SUCCESS,
     success: true,
-    message: "Users successfully deleted."
+    message: "Users successfully deleted.",
   });
 });
 
