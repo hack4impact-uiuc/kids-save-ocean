@@ -104,15 +104,9 @@ export const deleteForm = Model_ID => {
     });
 };
 
-export const register = (
-  emailInput,
-  passwordInput,
-  questionIdx,
-  answer,
-  role
-) => {
+export const register = (emailInput, passwordInput, questionIdx, answer) => {
   try {
-    return fetch(`${BASE_URL}/auth/register`, {
+    return fetch(`${BASE_URL}/auth/register/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -120,7 +114,8 @@ export const register = (
         password: passwordInput,
         questionIdx,
         securityQuestionAnswer: answer,
-        role
+        role: "guest",
+        answer
       })
     });
   } catch (err) {
@@ -384,9 +379,9 @@ export const getDescription = (model_id, phaseName, stageName) => {
   }));
 };
 
-export const getUser = () => {
+export const getUser = userId => {
   try {
-    return fetch(`${BASE_URL}/users/userInfo`, {
+    return fetch(`${BASE_URL}/users/${userId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -405,17 +400,19 @@ export const createUser = newUser => {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify(newUser)
+      body: JSON.stringify({
+        newUser
+      })
     });
   } catch (err) {
     return err;
   }
 };
 
-export const updateUser = updatedUser => {
+export const updateUser = (userId, updatedUser) => {
   try {
     return (
-      fetch(`${BASE_URL}/users/userInfo`),
+      fetch(`${BASE_URL}/users/${userId}`),
       {
         method: "PUT",
         headers: {
@@ -430,9 +427,9 @@ export const updateUser = updatedUser => {
   }
 };
 
-export const deleteUser = () => {
+export const deleteUser = userId => {
   try {
-    return fetch(`${BASE_URL}/users/userInfo`, {
+    return fetch(`${BASE_URL}/users/${userId}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

@@ -19,7 +19,9 @@ router.post(
     //  If the user is google authenticated, make a request the google API to get the users email.
     if (useGoogle && req.headers.google && JSON.parse(req.headers.google)) {
       const tokenInfoRes = await fetch(
-        `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${req.headers.token}`
+        `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${
+          req.headers.token
+        }`
       );
       const payload = await tokenInfoRes.json();
 
@@ -49,12 +51,12 @@ router.post(
 
     // Check if the token has been refreshed, and if so regenerate a JWT token and return it along with the user's role, autheid, and verification status
     if (await shouldUpdateJWT(req.headers.token, user._id, user.password)) {
-      var newToken = await signAuthJWT(user.email, user.role);
+      var newToken = await signAuthJWT(user._id, user.password);
       return res.status(200).send({
         status: 200,
         message: "Valid JWT token",
         role: user.role,
-        email: user.email,
+        authId: user._id,
         emailVerified: user.verified,
         newToken
       });
@@ -65,7 +67,7 @@ router.post(
       status: 200,
       message: "Valid JWT token",
       role: user.role,
-      email: user.email,
+      authId: user._id,
       emailVerified: user.verified
     });
   })

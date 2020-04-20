@@ -6,8 +6,7 @@ import {
   verifyPIN,
   resendPIN,
   google,
-  getSecurityQuestions,
-  createUser
+  getSecurityQuestions
 } from "../utils/apiWrapper";
 import {
   Alert,
@@ -38,7 +37,7 @@ export default function RegisterPage(props) {
   const INVALID = -1;
   const { role } = props;
 
-  // state related to auth user
+  // state
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
@@ -50,13 +49,6 @@ export default function RegisterPage(props) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [questions, setQuestions] = useState([]);
   const [questionIdx, setQuestionIdx] = useState(INVALID);
-
-  // state related to kso user
-  const [username, setUsername] = useState("test");
-  const [country, setCountry] = useState("test");
-  const [birthday, setBirthday] = useState("test");
-  const [userRole, setUserRole] = useState("admin");
-  const [anon, setAnon] = useState(false);
 
   useEffect(() => {
     const loadSecurityQuestions = async () => {
@@ -102,46 +94,18 @@ export default function RegisterPage(props) {
       questionIdx !== INVALID &&
       securityQuestionAnswer !== ""
     ) {
-      // #1: create user in auth db
-      const authUserResp = await register(
+      let result = await register(
         email,
         password,
         questionIdx,
-        securityQuestionAnswer,
-        userRole
+        securityQuestionAnswer
       );
-      const authUserRes = await authUserResp.json();
-      if (authUserRes.status === SUCCESS) {
-        // #2: store token in local storage
-        const { token } = authUserRes;
-        if (!token) {
-          setErrorMessage("Invalid Token.");
-        } else {
-          localStorage.setItem("token", token);
-        }
-
-        // #3: create user in kso db
-        const newUser = {
-          email,
-          username,
-          password,
-          country,
-          birthday,
-          anon,
-          createdProjects: [],
-          followingProjects: [],
-          followingUsers: [],
-          followers: []
-        };
-        const ksoUserResp = await createUser(newUser);
-        const ksoUserRes = await ksoUserResp.json();
-        if (ksoUserRes.code === SUCCESS) {
-          setSuccessfulSubmit(true);
-        } else {
-          setErrorMessage(ksoUserRes.message);
-        }
+      const response = await result.json();
+      if (!response.token) {
+        setErrorMessage(response.message);
       } else {
-        setErrorMessage(authUserRes.message);
+        localStorage.setItem("token", response.token);
+        setSuccessfulSubmit(true);
       }
     } else if (password !== password2) {
       setErrorMessage("Passwords do not match");

@@ -11,10 +11,7 @@ const schema = mongoose.Schema({
   expiration: "date",
   userLevel: "string",
   googleAuth: "boolean",
-  role: {
-    type: "string",
-    enum: ["student", "teacher", "stakeholder", "admin"]
-  }
+  role: "string"
 });
 
 const User = mongoose.model("User", schema);

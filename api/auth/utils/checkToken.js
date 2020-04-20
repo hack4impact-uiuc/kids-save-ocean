@@ -16,8 +16,7 @@ let checkToken = (req, res, next) => {
       }
       req.decoded = decoded;
       req.user = {
-        email: decoded.sub,
-        role: decoded.permission
+        permission: decoded.permission
       };
       next();
     });

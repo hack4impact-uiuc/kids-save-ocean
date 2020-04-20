@@ -102,7 +102,7 @@ router.post(
 
     // Responds to the request with a success message and a JWT token
     sendResponse(res, 200, "Password successfully reset", {
-      token: signAuthJWT(user.email, user.role)
+      token: await signAuthJWT(user._id, user.password)
     });
   })
 );
