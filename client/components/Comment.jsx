@@ -20,15 +20,16 @@ export default function Comment(props) {
         <div className="content">
           <Dante content={JSON.parse(content)} read_only={true} />
         </div>
-
       </div>
     );
-  }
+  };
 
   const renderThread = thread => {
     let threadList = [];
     for (let comment of thread) {
-      threadList.push(renderBlock(comment.authorName, comment.createdAt, comment.content));
+      threadList.push(
+        renderBlock(comment.authorName, comment.createdAt, comment.content)
+      );
     }
 
     return threadList;
@@ -41,19 +42,19 @@ export default function Comment(props) {
 
   return (
     <div className="comment">
-      {renderBlock(props.comment.authorName, props.comment.createdAt, props.comment.content)}
+      {renderBlock(
+        props.comment.authorName,
+        props.comment.createdAt,
+        props.comment.content
+      )}
 
-      <div className="thread">
-        {renderThread(props.comment.thread)}
-      </div>
+      <div className="thread">{renderThread(props.comment.thread)}</div>
 
-      {replyOpen ?
-        <CommentEditor
-          post={ (content) => postThread(content) }
-        />
-        :
+      {replyOpen ? (
+        <CommentEditor post={content => postThread(content)} />
+      ) : (
         <Button onClick={() => setReplyOpen(true)}>Reply</Button>
-      }
+      )}
     </div>
   );
 }

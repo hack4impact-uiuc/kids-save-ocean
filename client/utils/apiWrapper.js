@@ -466,11 +466,7 @@ export const postComment = (model_id, commentBody) => {
     }));
 };
 
-export const postCommentThread = (
-  model_id,
-  parentIndex,
-  commentBody
-) => {
+export const postCommentThread = (model_id, parentIndex, commentBody) => {
   const requestString = `${BASE_URL}/comment/thread`;
   return axios
     .post(
