@@ -41,10 +41,10 @@ router.post("/", validate({ body: CommentSchema }), checkToken, async function(r
   );
 });
 
-router.post("/thread", validate({ body: ThreadSchema }), checkToken, async function(req, res) {
+router.post("/thread", validate({ body: ThreadSchema }), async function(req, res) {
   const db = req.db;
   const { commentLocation, commentIndex, comment } = req.body;
-  const userEmail = req.decoded.sub;
+  const userEmail = "p@gmail.com";//req.decoded.sub;
   const username = await getUsername(db, userEmail);
   const collection = db.get("comments");
 

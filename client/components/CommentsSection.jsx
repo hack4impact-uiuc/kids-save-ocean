@@ -45,17 +45,19 @@ export default function CommentsSection(props) {
   };
 
   const postThread = (content, index) => {
-    postCommentThread(props.projectId, props.index, content).then(() => {
+    postCommentThread(props.projectId, index, content).then(() => {
       fetchComments();
     });
   }
 
   return (
     <div>
-      <Row>
-        <CommentEditor post={content => post(content)} />
-      </Row>
       <Col>{renderComments(comments)}</Col>
+      <Row>
+        <CommentEditor
+          post={ (content) => post(content) }
+        />
+      </Row>
     </div>
   );
 }
