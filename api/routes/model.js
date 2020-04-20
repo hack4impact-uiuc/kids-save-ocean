@@ -23,8 +23,7 @@ router.get("/", function(req, res) {
       }
     );
   } else if (searchPageReq) {
-    console.log("TEST");
-    collection.find({}, { name: 1, description: 1, }, function(e, docs) {
+    collection.find({}, { fields: { phases: 0 } }, function(e, docs) {
       res.send(docs);
     });
   } else {

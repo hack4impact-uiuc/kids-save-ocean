@@ -36,9 +36,6 @@ export default function ProjectsPage() {
 
   const [userInput, setUserInput] = useState("");
 
-  let dropdownFilteredModels = [];
-  let searchFilteredModels = [];
-
   const handleUNGoals = selectedUNGoals => {
     setSelectedUNGoals(selectedUNGoals);
   };
@@ -70,7 +67,7 @@ export default function ProjectsPage() {
   };
 
   const populateAllProjects = async () => {
-    const response = await getModels();
+    const response = await getModels(null, true);
     setAllProjects(response.data);
     setProjects(response.data);
   };
@@ -81,7 +78,7 @@ export default function ProjectsPage() {
 
   useEffect(() => {
     const populateDropDownFilteredProjects = () => {
-      dropdownFilteredModels = [];
+      let dropdownFilteredModels = [];
 
       const models = allProjects;
 
@@ -91,107 +88,106 @@ export default function ProjectsPage() {
       let isMatchingDifficulty = false;
 
       if (
-        selectedUNGoals == null &&
-        selectedCountry == null &&
-        selectedGrpSize == null &&
-        selectedDifficulty == null
+        selectedUNGoals === null &&
+        selectedCountry === null &&
+        selectedGrpSize === null &&
+        selectedDifficulty === null
       ) {
         return [];
-      } else {
-        let sdgSelectedNums = [];
-
-        if (selectedUNGoals != null) {
-          for (let i = 0; i < selectedUNGoals.length; i++) {
-            sdgSelectedNums.push(parseInt(selectedUNGoals[i].value));
-          }
-        }
-
-        for (let i = 0; i < models.length; i++) {
-          if (selectedUNGoals == null) {
-            isMatchingSDGs = true;
-          } else if (
-            selectedUNGoals != null &&
-            selectedUNGoals.length <= models[i].sdg.length
-          ) {
-            const matches = models[i].sdg.filter(sdg =>
-              sdgSelectedNums.includes(sdg)
-            );
-
-            isMatchingSDGs = matches.length === sdgSelectedNums.length;
-          }
-
-          if (
-            selectedCountry == null ||
-            models[i].country == selectedCountry.label
-          ) {
-            isMatchingCountry = true;
-          }
-
-          if (
-            selectedGrpSize == null ||
-            models[i].groupSize == selectedGrpSize.label
-          ) {
-            isMatchingGrpSize = true;
-          }
-
-          if (
-            selectedDifficulty == null ||
-            models[i].difficulty == selectedDifficulty.label.toLowerCase()
-          ) {
-            isMatchingDifficulty = true;
-          }
-
-          if (
-            isMatchingSDGs &&
-            isMatchingCountry &&
-            isMatchingGrpSize &&
-            isMatchingDifficulty
-          ) {
-            dropdownFilteredModels.push(models[i]);
-          }
-
-          isMatchingSDGs = false;
-          isMatchingCountry = false;
-          isMatchingGrpSize = false;
-          isMatchingDifficulty = false;
-        }
-
-        if (dropdownFilteredModels.length === 0) {
-          setAlert(true);
-        }
-        return dropdownFilteredModels;
       }
+
+      let sdgSelectedNums = [];
+
+      if (selectedUNGoals !== null) {
+        for (let i = 0; i < selectedUNGoals.length; i++) {
+          sdgSelectedNums.push(parseInt(selectedUNGoals[i].value));
+        }
+      }
+
+      for (let i = 0; i < models.length; i++) {
+        if (selectedUNGoals === null) {
+          isMatchingSDGs = true;
+        } else if (
+          selectedUNGoals !== null &&
+          selectedUNGoals.length <= models[i].sdg.length
+        ) {
+          const matches = models[i].sdg.filter(sdg =>
+            sdgSelectedNums.includes(sdg)
+          );
+
+          isMatchingSDGs = matches.length === sdgSelectedNums.length;
+        }
+
+        if (
+          selectedCountry === null ||
+          models[i].country === selectedCountry.label
+        ) {
+          isMatchingCountry = true;
+        }
+
+        if (
+          selectedGrpSize === null ||
+          models[i].groupSize === selectedGrpSize.label
+        ) {
+          isMatchingGrpSize = true;
+        }
+
+        if (
+          selectedDifficulty === null ||
+          models[i].difficulty === selectedDifficulty.label.toLowerCase()
+        ) {
+          isMatchingDifficulty = true;
+        }
+
+        if (
+          isMatchingSDGs &&
+          isMatchingCountry &&
+          isMatchingGrpSize &&
+          isMatchingDifficulty
+        ) {
+          dropdownFilteredModels.push(models[i]);
+        }
+
+        isMatchingSDGs = false;
+        isMatchingCountry = false;
+        isMatchingGrpSize = false;
+        isMatchingDifficulty = false;
+      }
+
+      if (dropdownFilteredModels.length === 0) {
+        setAlert(true);
+      }
+
+      return dropdownFilteredModels;
     };
 
     const populateSearchFilteredProjects = () => {
-      searchFilteredModels = [];
+      let searchFilteredModels = [];
 
       let textInput = getSearchBarText();
 
-      if (textInput == null || textInput.length == 0) {
+      if (textInput === null || textInput.length === 0) {
         return [];
-      } else {
-        let fuse = new Fuse(allProjects, options);
-        searchFilteredModels = fuse.search(textInput);
-
-        if (searchFilteredModels.length === 0) {
-          setAlert(true);
-        }
-
-        return searchFilteredModels;
       }
+
+      let fuse = new Fuse(allProjects, options);
+      searchFilteredModels = fuse.search(textInput);
+
+      if (searchFilteredModels.length === 0) {
+        setAlert(true);
+      }
+
+      return searchFilteredModels;
     };
 
     const populateAllFilteredProjects = () => {
-      dropdownFilteredModels = populateDropDownFilteredProjects();
-      searchFilteredModels = populateSearchFilteredProjects();
+      let dropdownFilteredModels = populateDropDownFilteredProjects();
+      let searchFilteredModels = populateSearchFilteredProjects();
 
-      console.log(dropdownFilteredModels.length);
-      console.log(searchFilteredModels.length);
       let tempArr = [];
       if (
-        dropdownFilteredModels.length != 0 &&
-        searchFilteredModels.length == 0
+        dropdownFilteredModels.length !== 0 &&
+        searchFilteredModels.length === 0
       ) {
         for (let i = 0; i < dropdownFilteredModels.length; i++) {
           tempArr.push(dropdownFilteredModels[i]);
@@ -199,8 +195,8 @@ export default function ProjectsPage() {
         setAlert(false);
         setProjects(tempArr);
       } else if (
-        searchFilteredModels.length != 0 &&
-        dropdownFilteredModels.length == 0
+        searchFilteredModels.length !== 0 &&
+        dropdownFilteredModels.length === 0
       ) {
         for (let i = 0; i < searchFilteredModels.length; i++) {
           tempArr.push(searchFilteredModels[i].item);
@@ -210,7 +206,7 @@ export default function ProjectsPage() {
       } else {
         for (let i = 0; i < dropdownFilteredModels.length; i++) {
           for (let j = 0; j < searchFilteredModels.length; j++) {
-            if (dropdownFilteredModels[i] == searchFilteredModels[j].item) {
+            if (dropdownFilteredModels[i] === searchFilteredModels[j].item) {
               tempArr.push(searchFilteredModels[j].item);
             }
           }
@@ -227,7 +223,9 @@ export default function ProjectsPage() {
     selectedGrpSize,
     selectedDifficulty,
     userInput,
-    visAlert
+    visAlert,
+    allProjects,
+    options
   ]);
 
   return (
