@@ -17,17 +17,24 @@ import { Head, Stage } from "../components";
 import "../public/styles/editProject.scss";
 
 export default function EditProjectPage() {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [SDGsDropDownOpen, setSDGsDropDownOpen] = useState(false);
+  const [countryDropDownOpen, setCountryDropDownOpen] = useState(false);
+  const [grpSizeDropDownOpen, setGrpSizeDropDownOpen] = useState(false);
+  const [difficultyDropDownOpen, setDifficultyDropDownOpen] = useState(false);
   const [visAlert, setAlert] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const id = "5e901732090f7cdff2e6757a";
   const ideationStages = [
-    ["beauti", "Description 1"]// ,
+    ["beauti", "Description 1"] // ,
     // ["Stage 2", "Description 2"],
     // ["Stage 3", "Description 3"]
   ];
-  const toggle = () => setDropdownOpen(prevState => !prevState);
+  const toggleSDGs = () => setSDGsDropDownOpen(prevState => !prevState);
+  const toggleCountry = () => setCountryDropDownOpen(prevState => !prevState);
+  const toggleGrpSize = () => setGrpSizeDropDownOpen(prevState => !prevState);
+  const toggleDifficulty = () =>
+    setDifficultyDropDownOpen(prevState => !prevState);
 
   useEffect(() => {
     const loadProject = async () => {
@@ -68,10 +75,10 @@ export default function EditProjectPage() {
 
                 <Dropdown
                   className="dropdown"
-                  isOpen={dropdownOpen}
-                  toggle={toggle}
+                  isOpen={SDGsDropDownOpen}
+                  toggle={toggleSDGs}
                 >
-                  <DropdownToggle caret>Choose SDG's</DropdownToggle>
+                  <DropdownToggle caret>Change SDG's</DropdownToggle>
                   <DropdownMenu>
                     <FormGroup check>
                       <Col>
@@ -274,6 +281,130 @@ export default function EditProjectPage() {
                           <Input
                             className="input"
                             type="checkbox"
+                            name="check"
+                            id="exampleCheck"
+                          />
+                        </Row>
+                      </Col>
+                    </FormGroup>
+                  </DropdownMenu>
+                </Dropdown>
+                <Dropdown
+                  className="country dropdown"
+                  isOpen={countryDropDownOpen}
+                  toggle={toggleCountry}
+                ></Dropdown>
+                <Dropdown
+                  className="grp size dropdown"
+                  isOpen={grpSizeDropDownOpen}
+                  toggle={toggleGrpSize}
+                >
+                  <DropdownToggle caret>Change Group Size</DropdownToggle>
+                  <DropdownMenu>
+                    <FormGroup radioGroup>
+                      <Col>
+                        <Row>
+                          <Label className="label" for="exampleCheck" check>
+                            Under 5 People
+                          </Label>
+                          <Input
+                            className="input"
+                            type="radio"
+                            name="check"
+                            id="exampleCheck"
+                          />
+                        </Row>
+                        <Row>
+                          <Label className="label" for="exampleCheck" check>
+                            {" "}
+                            5+ People
+                          </Label>
+                          <Input
+                            className="input"
+                            type="radio"
+                            name="check"
+                            id="exampleCheck"
+                          />
+                        </Row>
+                        <Row>
+                          <Label className="label" for="exampleCheck" check>
+                            {" "}
+                            10+ People
+                          </Label>
+                          <Input
+                            className="input"
+                            type="radio"
+                            name="check"
+                            id="exampleCheck"
+                          />
+                        </Row>
+                        <Row>
+                          <Label className="label" for="exampleCheck" check>
+                            20+ People
+                          </Label>
+                          <Input
+                            className="input"
+                            type="radio"
+                            name="check"
+                            id="exampleCheck"
+                          />
+                        </Row>
+                        <Row>
+                          <Label className="label" for="exampleCheck" check>
+                            {" "}
+                            50+ People
+                          </Label>
+                          <Input
+                            className="input"
+                            type="radio"
+                            name="check"
+                            id="exampleCheck"
+                          />
+                        </Row>
+                      </Col>
+                    </FormGroup>
+                  </DropdownMenu>
+                </Dropdown>
+                <Dropdown
+                  className="difficulty dropdown"
+                  isOpen={difficultyDropDownOpen}
+                  toggle={toggleDifficulty}
+                >
+                  <DropdownToggle caret>Change Difficulty</DropdownToggle>
+                  <DropdownMenu>
+                    <FormGroup radioGroup>
+                      <Col>
+                        <Row>
+                          <Label className="label" for="exampleCheck" check>
+                            Beginner
+                          </Label>
+                          <Input
+                            className="input"
+                            type="radio"
+                            name="check"
+                            id="exampleCheck"
+                          />
+                        </Row>
+                        <Row>
+                          <Label className="label" for="exampleCheck" check>
+                            {" "}
+                            Moderate
+                          </Label>
+                          <Input
+                            className="input"
+                            type="radio"
+                            name="check"
+                            id="exampleCheck"
+                          />
+                        </Row>
+                        <Row>
+                          <Label className="label" for="exampleCheck" check>
+                            {" "}
+                            Difficult
+                          </Label>
+                          <Input
+                            className="input"
+                            type="radio"
                             name="check"
                             id="exampleCheck"
                           />

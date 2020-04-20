@@ -28,11 +28,8 @@
     "axios": "^0.19.2",
     "classnames": "^2.2.6",
     "css-loader": "^3.4.2",
-<<<<<<< HEAD
     "fuse.js": "^5.1.0",
-=======
     "emotion-theming": "^10.0.27",
->>>>>>> ebe41f95685327502144ebc736d83c9154ac31e6
     "firebase": "^7.13.1",
     "isomorphic-unfetch": "^3.0.0",
     "jquery": "^3.4.1",
