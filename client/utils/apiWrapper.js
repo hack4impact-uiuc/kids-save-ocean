@@ -357,7 +357,7 @@ export const saveDescription = (
 ) => {
   const requestString = `${BASE_URL}/models/${model_id}/${phaseName}/${stageName}/description`;
   return axios
-    .post(
+    .put(
       requestString,
       { description },
       {
