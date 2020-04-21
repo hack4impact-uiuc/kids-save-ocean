@@ -30,7 +30,7 @@
       "use": "@now/node"
     },
     {
-      "src": "auth-server/src/*.js",
+      "src": "auth-server/src/startServer.js",
       "use": "@now/node"
     }
   ],
@@ -47,7 +47,7 @@
       "headers": {
         "cache-control": "s-maxage=0"
       },
-      "dest": "auth-server/src/App.js"
+      "dest": "auth-server/src/startServer.js"
     },
     {
       "src": "/(.*)",
