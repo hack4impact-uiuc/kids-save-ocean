@@ -8,21 +8,20 @@ import CommentEditor from "./CommentEditor";
 import "../public/styles/comments.scss";
 
 export default function Comment(props) {
+  const { comment, postThread } = props;
   const [replyOpen, setReplyOpen] = useState(false);
 
-  const renderBlock = (author, createdAt, content) => {
-    return (
-      <div className="block">
-        <div className="header">
-          <p className="author">{author}</p>
-          <p className="time">{createdAt}</p>
-        </div>
-        <div className="content">
-          <Dante content={JSON.parse(content)} read_only={true} />
-        </div>
+  const renderBlock = (author, createdAt, content) => (
+    <div className="block">
+      <div className="header">
+        <p className="author">{author}</p>
+        <p className="time">{createdAt}</p>
       </div>
-    );
-  };
+      <div className="content">
+        <Dante content={JSON.parse(content)} read_only />
+      </div>
+    </div>
+  );
 
   const renderThread = thread => {
     let threadList = [];
@@ -35,23 +34,23 @@ export default function Comment(props) {
     return threadList;
   };
 
-  const postThread = content => {
-    props.postThread(content);
+  const postThreadHelper = content => {
+    postThread(content);
     setReplyOpen(false);
   };
 
   return (
     <div className="comment">
       {renderBlock(
-        props.comment.authorName,
-        props.comment.createdAt,
-        props.comment.content
+        comment.authorName,
+        comment.createdAt,
+        comment.content
       )}
 
-      <div className="thread">{renderThread(props.comment.thread)}</div>
+      <div className="thread">{renderThread(comment.thread)}</div>
 
       {replyOpen ? (
-        <CommentEditor post={content => postThread(content)} />
+        <CommentEditor post={content => postThreadHelper(content)} />
       ) : (
         <Button onClick={() => setReplyOpen(true)}>Reply</Button>
       )}
