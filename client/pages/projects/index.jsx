@@ -26,8 +26,8 @@ import Fuse from "fuse.js";
 const DESCRIPTION_LENGTH = 150;
 
 export default function ProjectsPage() {
-  const [allProjects, setAllProjects] = useState(null);
-  const [projects, setProjects] = useState(null);
+  const [allProjects, setAllProjects] = useState([]);
+  const [projects, setProjects] = useState([]);
   const [visAlert, setAlert] = useState(false);
   const [selectedUNGoals, setSelectedUNGoals] = useState(null);
   const [selectedCountry, setSelectedCountry] = useState(null);
@@ -186,6 +186,15 @@ export default function ProjectsPage() {
 
       let tempArr = [];
       if (
+        dropdownFilteredModels.length === 0 &&
+        searchFilteredModels.length === 0
+      ) {
+        if (visAlert) {
+          setProjects([]);
+        } else {
+          setProjects(allProjects);
+        }
+      } else if (
         dropdownFilteredModels.length !== 0 &&
         searchFilteredModels.length === 0
       ) {
@@ -203,7 +212,10 @@ export default function ProjectsPage() {
         }
         setAlert(false);
         setProjects(tempArr);
-      } else {
+      } else if (
+        dropdownFilteredModels.length !== 0 &&
+        searchFilteredModels.length !== 0
+      ) {
         for (let i = 0; i < dropdownFilteredModels.length; i++) {
           for (let j = 0; j < searchFilteredModels.length; j++) {
             if (dropdownFilteredModels[i] === searchFilteredModels[j].item) {
