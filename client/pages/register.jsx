@@ -73,7 +73,7 @@ export default function RegisterPage(props) {
       }
     };
     loadSecurityQuestions();
-  }, []);
+  }, [setErrorMessage, setQuestions]);
 
   const handleGoogle = async e => {
     const result = await google(e.tokenId);
