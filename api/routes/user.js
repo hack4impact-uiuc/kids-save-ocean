@@ -175,15 +175,6 @@ router.delete("/userInfo", checkToken, async (req, res) => {
   }
 });
 
-<<<<<<< Updated upstream
-//get user's followed projects
-router.get("/:id/followingProjects", checkToken, async (req, res) => {
-  const { db } = req;
-  const collection = db.get("users");
-  const { id } = req.params;
-  try {
-    const user = await collection.findOne({ _id: id });
-=======
 // get user's following projects
 //get user's followed projects
 router.get("/followingProjects", checkToken, async (req, res) => {
@@ -192,7 +183,6 @@ router.get("/followingProjects", checkToken, async (req, res) => {
   const { email } = req.user;
   try {
     const user = await collection.findOne({ email });
->>>>>>> Stashed changes
     if (!user) {
       res.status(404).send({
         success: false,
