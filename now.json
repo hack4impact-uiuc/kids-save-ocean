@@ -12,7 +12,13 @@
     }
   },
   "env": {
-    "MONGO_DATABASE": "@kso_db_uri"
+    "MONGO_DATABASE": "@kso_db_uri",
+    "AUTH_SECRET": "@kso_auth_secret",
+    "INFRA_MONGO_URI": "@kso_infra_mongo_uri",
+    "INFRA_EMAIL": "@kso_infra_email",
+    "INFRA_CLIENT_ID": "@kso_infra_client_id",
+    "INFRA_CLIENT_SECRET": "@kso_infra_client_secret",
+    "INFRA_REFRESH_TOKEN": "@kso_infra_refresh_token"
   },
   "builds": [
     {
@@ -21,6 +27,18 @@
     },
     {
       "src": "api/*.js",
+      "use": "@now/node"
+    },
+    {
+      "src": "auth-server/src/utils/*.js",
+      "use": "@now/node"
+    },
+    {
+      "src": "auth-server/src/api/*.js",
+      "use": "@now/node"
+    },
+    {
+      "src": "auth-server/src/models/*.js",
       "use": "@now/node"
     },
     {
