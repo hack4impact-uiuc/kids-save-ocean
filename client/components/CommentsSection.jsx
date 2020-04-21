@@ -12,6 +12,7 @@ import Comment from "./Comment";
 import CommentEditor from "./CommentEditor";
 
 export default function CommentsSection(props) {
+  const { projectId } = props;
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
@@ -34,20 +35,20 @@ export default function CommentsSection(props) {
   };
 
   const fetchComments = () => {
-    getComments(props.projectId).then(data => {
+    getComments(projectId).then(data => {
       const { comments } = data.data;
       setComments(comments);
     });
   };
 
   const post = content => {
-    postComment(props.projectId, content).then(() => {
+    postComment(projectId, content).then(() => {
       fetchComments();
     });
   };
 
   const postThread = (content, index) => {
-    postCommentThread(props.projectId, index, content).then(() => {
+    postCommentThread(projectId, index, content).then(() => {
       fetchComments();
     });
   };

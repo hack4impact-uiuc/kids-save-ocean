@@ -17,7 +17,7 @@ export default function CommentEditor(props) {
         onChange={editor => setContent(editor.emitSerializedOutput())}
         widgets={[]}
       />
-      <Button onClick={() => submitComment()}>Submit</Button>
+      <Button onClick={submitComment}>Submit</Button>
     </div>
   );
 }
