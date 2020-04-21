@@ -30,18 +30,6 @@
       "use": "@now/node"
     },
     {
-      "src": "auth-server/src/utils/*.js",
-      "use": "@now/node"
-    },
-    {
-      "src": "auth-server/src/api/*.js",
-      "use": "@now/node"
-    },
-    {
-      "src": "auth-server/src/models/*.js",
-      "use": "@now/node"
-    },
-    {
       "src": "auth-server/src/*.js",
       "use": "@now/node"
     }
