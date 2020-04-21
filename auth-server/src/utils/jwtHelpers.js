@@ -13,11 +13,14 @@ function signAuthJWT(email, role) {
 function verifyAuthJWT(token, userEmail) {
   try {
     let { email } = jwt.verify(token, process.env.AUTH_SECRET);
+    if (!email) {
+      return false;
+    }
     if (String(userEmail) === String(email)) {
       return true;
     }
   } catch (err) {
-    console.log("Token was updated");
+    console.log("Invalid token.");
   }
   return false;
 }
@@ -28,7 +31,7 @@ function shouldUpdateJWT(token, email, role) {
     if (String(userEmail) === String(email) && userRole === role) {
       return false;
     }
-    return true;
+    return false;
   } catch (err) {
     return err;
   }
