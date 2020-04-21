@@ -41,11 +41,7 @@ export default function Comment(props) {
 
   return (
     <div className="comment">
-      {renderBlock(
-        comment.authorName,
-        comment.createdAt,
-        comment.content
-      )}
+      {renderBlock(comment.authorName, comment.createdAt, comment.content)}
 
       <div className="thread">{renderThread(comment.thread)}</div>
 
