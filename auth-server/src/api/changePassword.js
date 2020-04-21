@@ -41,7 +41,9 @@ router.post(
       // Updates the password in the database, and sends an email to confirm the password change if gmail is enabled
       user.password = await bcrypt.hash(req.body.newPassword, 10);
       await user.save();
-      const new_token = await signAuthJWT(user._id, user.password);
+
+      // queries kso user database for user permission
+      const new_token = await signAuthJWT(user.email, user.role);
       const googleEnabled = await googleAuth();
       if (googleEnabled) {
         try {
