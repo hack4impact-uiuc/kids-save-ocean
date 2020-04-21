@@ -35,16 +35,6 @@ function shouldUpdateJWT(token, email, role) {
   } catch (err) {
     return err;
   }
-  // } catch (err) {
-  //   if (process.env.AUTH_SECRET.length > 1) {
-  //     let { userId, hashedPassword } = jwt.verify(
-  //       token,
-  //       String(process.env.AUTH_SECRET[1])
-  //     );
-  //     return String(userId) === String(id) && hashedPassword == password;
-  //   }
-  //   return false;
-  // }
 }
 
 // Returns the auth JWT if it's valid, else return null if it's invalid

@@ -35,8 +35,8 @@ export default function CommentsSection(props) {
   };
 
   const fetchComments = () => {
-    getComments(projectId).then(data => {
-      const { comments } = data.data;
+    getComments(projectId).then(response => {
+      const { comments } = response.data;
       setComments(comments);
     });
   };
