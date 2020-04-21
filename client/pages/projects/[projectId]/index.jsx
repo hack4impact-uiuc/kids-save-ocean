@@ -15,7 +15,11 @@ import {
   TabPane
 } from "reactstrap";
 import classnames from "classnames";
-import { getModelsByID } from "../../../utils/apiWrapper";
+import {
+  getModelsByID,
+  followProject,
+  unfollowProject
+} from "../../../utils/apiWrapper";
 
 import "../../../public/styles/project.scss";
 
@@ -38,6 +42,20 @@ export default function ProjectPage() {
   const { projectId } = router.query;
 
   const toggleModal = () => setModal(!modal);
+
+  const followProj = async () => {
+    setFollow(!follow);
+    const resp = await followProject(project._id);
+    const res = await resp.json();
+    console.log(resp);
+  };
+
+  const unfollowProj = async projId => {
+    setFollow(!follow);
+    const resp = await unfollowProject(projId);
+    const res = await resp.json();
+    console.log(res);
+  };
 
   useEffect(() => {
     if (process.browser) {
@@ -112,11 +130,11 @@ export default function ProjectPage() {
           <div className="project-header">
             <h1 className="project-info">{project.name}</h1>
             {follow ? (
-              <Button className="follow-btn" onClick={() => setFollow(!follow)}>
+              <Button className="follow-btn" onClick={followProj}>
                 Follow
               </Button>
             ) : (
-              <Button className="follow-btn" onClick={() => setFollow(!follow)}>
+              <Button className="follow-btn" onClick={unfollowProj}>
                 Unfollow
               </Button>
             )}
