@@ -17,6 +17,7 @@ import {
 import classnames from "classnames";
 import {
   getModelsByID,
+  getFollowingProjects,
   followProject,
   unfollowProject
 } from "../../../utils/apiWrapper";
@@ -36,25 +37,31 @@ export default function ProjectPage() {
   const [modal, setModal] = useState(false);
   const [project, setProject] = useState(null);
   const [ganttData, setGanttData] = useState(null);
-  const [follow, setFollow] = useState("Follow");
-
+  const [error, setError] = useState("");
+  const [following, setFollowing] = useState(false);
   const router = useRouter();
   const { projectId } = router.query;
 
   const toggleModal = () => setModal(!modal);
 
   const followProj = async () => {
-    setFollow(!follow);
-    const resp = await followProject(project._id);
+    setFollowing(true);
+    const resp = await followProject(projectId);
     const res = await resp.json();
-    console.log(resp);
+    if (!res.success) {
+      setFollowing(false);
+      setError(res.message);
+    }
   };
 
-  const unfollowProj = async projId => {
-    setFollow(!follow);
-    const resp = await unfollowProject(projId);
+  const unfollowProj = async () => {
+    setFollowing(false);
+    const resp = await unfollowProject(projectId);
     const res = await resp.json();
-    console.log(res);
+    if (!res.success) {
+      setFollowing(true);
+      setError(res.message);
+    }
   };
 
   useEffect(() => {
@@ -71,8 +78,16 @@ export default function ProjectPage() {
           setProject(model.data);
         }
       }
+      // TODO: check project's followers instead of user's followingProjects
+      const resp = await getFollowingProjects();
+      const res = await resp.json();
+      console.log(res.data.includes(projectId));
+      if (projectId && res.data.includes(projectId)) {
+        setFollowing(true);
+      } else {
+        setFollowing(false);
+      }
     };
-
     loadModel(projectId);
   }, [projectId]);
 
@@ -97,6 +112,11 @@ export default function ProjectPage() {
       });
     }
   }, [project]);
+
+  useEffect(() => {
+    const getFollowStatus = async () => {};
+    getFollowStatus();
+  }, [projectId]);
 
   return (
     <>
@@ -129,13 +149,13 @@ export default function ProjectPage() {
         <div className="project">
           <div className="project-header">
             <h1 className="project-info">{project.name}</h1>
-            {follow ? (
-              <Button className="follow-btn" onClick={followProj}>
-                Follow
-              </Button>
-            ) : (
+            {following ? (
               <Button className="follow-btn" onClick={unfollowProj}>
                 Unfollow
+              </Button>
+            ) : (
+              <Button className="follow-btn" onClick={followProj}>
+                Follow
               </Button>
             )}
           </div>
