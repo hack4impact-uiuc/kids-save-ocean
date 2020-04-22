@@ -6,7 +6,8 @@ import {
   verifyPIN,
   resendPIN,
   google,
-  getSecurityQuestions
+  getSecurityQuestions,
+  createUser
 } from "../utils/apiWrapper";
 import {
   Alert,
@@ -23,9 +24,9 @@ import {
   DropdownToggle,
   DropdownMenu
 } from "reactstrap";
-import { setCookie } from "./../utils/cookie";
 import { GoogleLogin } from "react-google-login";
 import { Head } from "../components";
+
 import "../public/styles/auth.scss";
 
 export default function RegisterPage(props) {
@@ -37,7 +38,7 @@ export default function RegisterPage(props) {
   const INVALID = -1;
   const { role } = props;
 
-  // state
+  // state related to auth user
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
@@ -49,6 +50,13 @@ export default function RegisterPage(props) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [questions, setQuestions] = useState([]);
   const [questionIdx, setQuestionIdx] = useState(INVALID);
+
+  // state related to kso user
+  const [username] = useState("test");
+  const [country] = useState("test");
+  const [birthday] = useState("test");
+  const [userRole] = useState("admin");
+  const [anon] = useState(false);
 
   useEffect(() => {
     const loadSecurityQuestions = async () => {
@@ -65,7 +73,7 @@ export default function RegisterPage(props) {
       }
     };
     loadSecurityQuestions();
-  });
+  }, [setErrorMessage, setQuestions]);
 
   const handleGoogle = async e => {
     const result = await google(e.tokenId);
@@ -73,8 +81,8 @@ export default function RegisterPage(props) {
     if (resp.status !== SUCCESS) {
       setErrorMessage(resp.message);
     } else {
-      setCookie("token", e.tokenId);
-      setCookie("google", true);
+      localStorage.setItem("token", e.tokenId);
+      localStorage.setItem("google", true);
       Router.push("/");
     }
   };
@@ -94,18 +102,46 @@ export default function RegisterPage(props) {
       questionIdx !== INVALID &&
       securityQuestionAnswer !== ""
     ) {
-      let result = await register(
+      // #1: create user in auth db
+      const authUserResp = await register(
         email,
         password,
         questionIdx,
-        securityQuestionAnswer
+        securityQuestionAnswer,
+        userRole
       );
-      const response = await result.json();
-      if (!response.token) {
-        setErrorMessage(response.message);
+      const authUserRes = await authUserResp.json();
+      if (authUserRes.status === SUCCESS) {
+        // #2: store token in local storage
+        const { token } = authUserRes;
+        if (!token) {
+          setErrorMessage("Invalid Token.");
+        } else {
+          localStorage.setItem("token", token);
+        }
+
+        // #3: create user in kso db
+        const newUser = {
+          email,
+          username,
+          password,
+          country,
+          birthday,
+          anon,
+          createdProjects: [],
+          followingProjects: [],
+          followingUsers: [],
+          followers: []
+        };
+        const ksoUserResp = await createUser(newUser);
+        const ksoUserRes = await ksoUserResp.json();
+        if (ksoUserRes.code === SUCCESS) {
+          setSuccessfulSubmit(true);
+        } else {
+          setErrorMessage(ksoUserRes.message);
+        }
       } else {
-        setCookie("token", response.token);
-        setSuccessfulSubmit(true);
+        setErrorMessage(authUserRes.message);
       }
     } else if (password !== password2) {
       setErrorMessage("Passwords do not match");

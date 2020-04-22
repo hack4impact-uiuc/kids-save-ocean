@@ -1,12 +1,10 @@
 import axios from "axios";
 import fetch from "isomorphic-unfetch";
 
-import { getCookie } from "./cookie";
-
 const BASE_URL = process.env.BACKEND_URL ?? "http://localhost:5000/api";
 // const BASE_URL = process.env.BACKEND_URL ?? "http://52.240.158.249:5000/api"; // leave this in, this is Arpan's url
 
-export const getModels = (sdg_query = null) => {
+export const getModels = (sdg_query, searchPage = null) => {
   /**
    * Returns all models
    * Returns GET_MODEL_FAIL upon failure
@@ -14,6 +12,8 @@ export const getModels = (sdg_query = null) => {
   let requestString = ``;
   if (sdg_query) {
     requestString = `${BASE_URL}/models?sdg=${sdg_query}`;
+  } else if (searchPage) {
+    requestString = `${BASE_URL}/models?searchPage=true`;
   } else {
     requestString = `${BASE_URL}/models`;
   }
@@ -125,9 +125,15 @@ export const deleteForm = Model_ID => {
     });
 };
 
-export const register = (emailInput, passwordInput, questionIdx, answer) => {
+export const register = (
+  emailInput,
+  passwordInput,
+  questionIdx,
+  answer,
+  role
+) => {
   try {
-    return fetch(`${BASE_URL}/auth/register/`, {
+    return fetch(`${BASE_URL}/auth/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -135,8 +141,7 @@ export const register = (emailInput, passwordInput, questionIdx, answer) => {
         password: passwordInput,
         questionIdx,
         securityQuestionAnswer: answer,
-        role: "guest",
-        answer
+        role
       })
     });
   } catch (err) {
@@ -163,7 +168,10 @@ export const verify = () => {
   try {
     return fetch(`${BASE_URL}/auth/verify/`, {
       method: "POST",
-      headers: { "Content-Type": "application/json", token: getCookie("token") }
+      headers: {
+        "Content-Type": "application/json",
+        token: localStorage.getItem("token")
+      }
     });
   } catch (err) {
     return err;
@@ -176,7 +184,7 @@ export const getSecurityQuestions = () => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        token: getCookie("token")
+        token: localStorage.getItem("token")
       }
     });
   } catch (err) {
@@ -190,7 +198,7 @@ export const setSecurityQuestion = (questionIdx, answer, password) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        token: getCookie("token")
+        token: localStorage.getItem("token")
       },
       body: JSON.stringify({
         questionIdx,
@@ -256,7 +264,7 @@ export const changePassword = (currentPassword, newPassword) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        token: getCookie("token")
+        token: localStorage.getItem("token")
       },
       body: JSON.stringify({
         currentPassword,
@@ -274,8 +282,8 @@ export const getUsersForRolesPage = () => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        token: getCookie("token"),
-        google: getCookie("google") ? true : false
+        token: localStorage.getItem("token"),
+        google: localStorage.getItem("google") ? true : false
       }
     });
   } catch (err) {
@@ -289,8 +297,8 @@ export const changeRole = (userEmail, newRole, password) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        token: getCookie("token"),
-        google: getCookie("google") ? true : false
+        token: localStorage.getItem("token"),
+        google: localStorage.getItem("google") ? true : false
       },
       body: JSON.stringify({
         userEmail,
@@ -326,7 +334,7 @@ export const verifyPIN = pin => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        token: getCookie("token")
+        token: localStorage.getItem("token")
       },
       body: JSON.stringify({
         pin
@@ -343,7 +351,7 @@ export const resendPIN = () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        token: getCookie("token")
+        token: localStorage.getItem("token")
       }
     });
   } catch (err) {
@@ -357,8 +365,8 @@ export const userInfo = () => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        token: getCookie("token"),
-        google: getCookie("google") ? true : false
+        token: localStorage.getItem("token"),
+        google: localStorage.getItem("google") ? true : false
       }
     });
   } catch (err) {
@@ -374,7 +382,7 @@ export const saveDescription = (
 ) => {
   const requestString = `${BASE_URL}/models/${model_id}/${phaseName}/${stageName}/description`;
   return axios
-    .post(
+    .put(
       requestString,
       { description },
       {
@@ -395,4 +403,64 @@ export const getDescription = (model_id, phaseName, stageName) => {
     type: "GET_DESCRIPTION_FAIL",
     error
   }));
+};
+
+export const getUser = () => {
+  try {
+    return fetch(`${BASE_URL}/users/userInfo`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      }
+    });
+  } catch (err) {
+    return err;
+  }
+};
+
+export const createUser = newUser => {
+  try {
+    return fetch(`${BASE_URL}/users`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(newUser)
+    });
+  } catch (err) {
+    return err;
+  }
+};
+
+export const updateUser = updatedUser => {
+  try {
+    return (
+      fetch(`${BASE_URL}/users/userInfo`),
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": localStorage.getItem("token")
+        },
+        body: JSON.stringify(updatedUser)
+      }
+    );
+  } catch (err) {
+    return err;
+  }
+};
+
+export const deleteUser = () => {
+  try {
+    return fetch(`${BASE_URL}/users/userInfo`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      }
+    });
+  } catch (err) {
+    return err;
+  }
 };

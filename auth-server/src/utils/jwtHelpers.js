@@ -1,79 +1,49 @@
 const jwt = require("jsonwebtoken");
-const { getSecretToken } = require("./secret-token");
 
-async function signAuthJWT(id, password) {
-  if (!password || !id) {
-    throw "Cannot create hash without both id && password";
+function signAuthJWT(email, role) {
+  if (!email || !role) {
+    throw "Cannot create hash without email and role!";
   }
-  const SECRET_TOKEN = await getSecretToken();
-  return jwt.sign(
-    { userId: id, hashedPassword: password },
-    String(SECRET_TOKEN[0]),
-    {
-      expiresIn: "1d"
-    }
-  );
+  return jwt.sign({ sub: email, permission: role }, process.env.AUTH_SECRET, {
+    expiresIn: "1d"
+  });
 }
 
 // Return true if the JWT is valid and matches the parameters
-async function verifyAuthJWT(token, id, password) {
-  const SECRET_TOKEN = await getSecretToken();
+function verifyAuthJWT(token, userEmail) {
   try {
-    let { userId, hashedPassword } = jwt.verify(token, String(SECRET_TOKEN[0]));
-    if (String(userId) === String(id) && hashedPassword == password) {
+    let { email } = jwt.verify(token, process.env.AUTH_SECRET);
+    if (!email) {
+      return false;
+    }
+    if (String(userEmail) === String(email)) {
       return true;
     }
   } catch (err) {
-    console.log("Token was updated");
-  }
-  try {
-    let { userId, hashedPassword } = jwt.verify(token, String(SECRET_TOKEN[1]));
-    if (String(userId) === String(id) && hashedPassword == password) {
-      return true;
-    }
-  } catch (err) {
-    return false;
+    console.log("Invalid token.");
   }
   return false;
 }
 
-async function shouldUpdateJWT(token, id, password) {
-  const SECRET_TOKEN = await getSecretToken();
+function shouldUpdateJWT(token, email, role) {
   try {
-    let { userId, hashedPassword } = jwt.verify(token, String(SECRET_TOKEN[0]));
-    if (String(userId) === String(id) && hashedPassword == password) {
+    let { userEmail, userRole } = jwt.verify(token, process.env.AUTH_SECRET);
+    if (String(userEmail) === String(email) && userRole === role) {
       return false;
     }
     return false;
   } catch (err) {
-    if (SECRET_TOKEN.length > 1) {
-      let { userId, hashedPassword } = jwt.verify(
-        token,
-        String(SECRET_TOKEN[1])
-      );
-      return String(userId) === String(id) && hashedPassword == password;
-    }
-    return false;
+    return err;
   }
 }
 
 // Returns the auth JWT if it's valid, else return null if it's invalid
-async function decryptAuthJWT(token) {
-  const SECRET_TOKEN = await getSecretToken();
+function decryptAuthJWT(token) {
   try {
-    const { userId } = jwt.verify(token, String(SECRET_TOKEN[0]));
-    return userId;
+    const { email } = jwt.verify(token, process.env.AUTH_SECRET);
+    return email;
   } catch (err) {
-    if (SECRET_TOKEN.length > 1) {
-      try {
-        const SECRET_TOKEN = await getSecretToken();
-        const { userId } = jwt.verify(token, String(SECRET_TOKEN[1]));
-        return userId;
-      } catch (err) {
-        return null;
-      }
-    }
-    return null;
+    return err;
   }
 }
 
