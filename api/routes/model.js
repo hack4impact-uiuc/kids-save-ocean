@@ -5,8 +5,9 @@ const validate = require("express-jsonschema").validate;
 const ModelSchema = require("../public/schema/projectSchema.js").projectSchema;
 
 router.get("/", function(req, res) {
-  var sdg_par = req.query.sdg;
-  var sdg_num = parseInt(sdg_par);
+  let sdg_par = req.query.sdg;
+  let sdg_num = parseInt(sdg_par);
+  let searchPageReq = req.query.searchPage;
   const db = req.db;
   const collection = db.get("projects");
   if (sdg_par && !isNaN(sdg_num)) {
@@ -21,6 +22,10 @@ router.get("/", function(req, res) {
         res.send(docs);
       }
     );
+  } else if (searchPageReq) {
+    collection.find({}, { fields: { phases: 0 } }, function(e, docs) {
+      res.send(docs);
+    });
   } else {
     collection.find({}, {}, function(e, docs) {
       res.send(docs);
