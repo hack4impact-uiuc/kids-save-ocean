@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import debounce from "lodash/debounce";
 
-export default function InfiniteScroller(callback) {
+export default function InfiniteScroller() {
   const [isFetching, setIsFetching] = useState(false);
-  const debounceTime = 50;
+  const debounceTime = 100;
+  const bottomOffset = 6;
   useEffect(() => {
     window.addEventListener("scroll", debounce(handleScroll, debounceTime));
     return () =>
@@ -11,14 +12,7 @@ export default function InfiniteScroller(callback) {
         "scroll",
         debounce(handleScroll, debounceTime)
       );
-  }, [handleScroll]);
-
-  useEffect(() => {
-    if (!isFetching) {
-      return;
-    }
-    callback(() => {});
-  }, [isFetching]);
+  }, []);
 
   function handleScroll() {
     const windowHeight =
@@ -39,7 +33,7 @@ export default function InfiniteScroller(callback) {
     if (isFetching) {
       return;
     }
-    if (windowBottom >= docHeight - 6 * window.innerHeight) {
+    if (windowBottom >= docHeight - bottomOffset * window.innerHeight) {
       setIsFetching(true);
     }
   }
