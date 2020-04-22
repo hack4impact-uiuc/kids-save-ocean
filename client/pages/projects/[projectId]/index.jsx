@@ -68,7 +68,7 @@ export default function ProjectPage() {
 
   const renderLoader = () => (
     <>
-      <div className="container">
+      <div className="loading-container">
         <div className="dot dot-1"></div>
         <div className="dot dot-2"></div>
         <div className="dot dot-3"></div>

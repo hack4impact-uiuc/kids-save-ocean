@@ -174,21 +174,12 @@ router.delete("/userInfo", checkToken, async (req, res) => {
 });
 
 //get user's followed projects
-<<<<<<< HEAD
-router.get("/:id/followingProjects", checkToken, async (req, res) => {
-  const { db } = req;
-  const collection = db.get("users");
-  const { id } = req.params;
-  try {
-    const user = await collection.findOne({ _id: id });
-=======
 router.get("/followingProjects", checkToken, async (req, res) => {
   const { db } = req;
   const collection = db.get("users");
   const { email } = req.user;
   try {
     const user = await collection.findOne({ email });
->>>>>>> 74d2ec74b49857fb9cf2301e1c52c3a48037e7fd
     if (!user) {
       res.status(404).send({
         success: false,
@@ -206,18 +197,6 @@ router.get("/followingProjects", checkToken, async (req, res) => {
 });
 
 // follow a project
-<<<<<<< HEAD
-router.put("/:id/followingProjects", checkToken, async (req, res) => {
-  const { db } = req;
-  const userCollection = db.get("users");
-  const projCollection = db.get("projects");
-  const { id } = req.params;
-  const { followingProjects } = req.body;
-  try {
-    const project = await projCollection.findOne({ _id: followingProjects });
-    if (!project) {
-      res.status(NOT_FOUND).send({
-=======
 router.put("/followingProjects", checkToken, async (req, res) => {
   const { db } = req;
   const userCollection = db.get("users");
@@ -230,40 +209,17 @@ router.put("/followingProjects", checkToken, async (req, res) => {
     const project = await projCollection.findOne({ _id: projId });
     if (!project) {
       return res.status(NOT_FOUND).send({
->>>>>>> 74d2ec74b49857fb9cf2301e1c52c3a48037e7fd
         success: false,
         message: "Project not found."
       });
     }
-<<<<<<< HEAD
-    const user = await userCollection.findOne({ _id: id });
-    if (!user) {
-      res.status(NOT_FOUND).send({
-=======
     const user = await userCollection.findOne({ email });
     if (!user) {
       return res.status(NOT_FOUND).send({
->>>>>>> 74d2ec74b49857fb9cf2301e1c52c3a48037e7fd
         success: false,
         message: "User not found."
       });
     }
-<<<<<<< HEAD
-    await userCollection.update(
-      { _id: id },
-      { $push: { followingProjects } },
-      { new: true }
-    );
-    await projCollection.update(
-      { _id: followingProjects },
-      { $push: { followers: id } },
-      { new: true }
-    );
-    res.status(SUCCESS).send({
-      code: SUCCESS,
-      success: true,
-      message: `Successfully started following project ${followingProjects}.`
-=======
     if (user.followingProjects.includes(projId)) {
       return res.status(DUPLICATE).send({
         success: false,
@@ -283,7 +239,6 @@ router.put("/followingProjects", checkToken, async (req, res) => {
     res.status(SUCCESS).send({
       success: true,
       message: `Successfully started following project ${project.name}.`
->>>>>>> 74d2ec74b49857fb9cf2301e1c52c3a48037e7fd
     });
   } catch (err) {
     return err;
@@ -291,24 +246,6 @@ router.put("/followingProjects", checkToken, async (req, res) => {
 });
 
 // unfollow a project
-<<<<<<< HEAD
-router.delete("/:userId/followingProjects/:projId", async (req, res) => {
-  const { db } = req;
-  const userCollection = db.get("users");
-  const projCollection = db.get("projects");
-  const { userId, projId } = req.params;
-  try {
-    const user = await userCollection.findOne({ _id: userId });
-    if (!user) {
-      res.status(NOT_FOUND).send({
-        success: false,
-        message: "User not found."
-      });
-    }
-    const project = await projCollection.findOne({ _id: projId });
-    if (!project) {
-      res.status(NOT_FOUND).send({
-=======
 router.delete("/followingProjects", checkToken, async (req, res) => {
   const { db } = req;
   const userCollection = db.get("users");
@@ -319,15 +256,10 @@ router.delete("/followingProjects", checkToken, async (req, res) => {
     const project = await projCollection.findOne({ _id: projId });
     if (!project) {
       return res.status(NOT_FOUND).send({
->>>>>>> 74d2ec74b49857fb9cf2301e1c52c3a48037e7fd
         success: false,
         message: "Project not found."
       });
     }
-<<<<<<< HEAD
-    await userCollection.update(
-      { _id: userId },
-=======
     const user = await userCollection.findOne({ email });
     if (!user) {
       return res.status(NOT_FOUND).send({
@@ -337,27 +269,17 @@ router.delete("/followingProjects", checkToken, async (req, res) => {
     }
     await userCollection.update(
       { email },
->>>>>>> 74d2ec74b49857fb9cf2301e1c52c3a48037e7fd
       { $pull: { followingProjects: projId } },
       { new: true }
     );
     await projCollection.update(
       { _id: projId },
-<<<<<<< HEAD
-      { $pull: { followers: userId } },
-      { new: true }
-    );
-    res.status(200).send({
-      success: true,
-      message: `Successfully unfollowed project ${projId}`
-=======
       { $pull: { followers: user._id } },
       { new: true }
     );
     res.status(SUCCESS).send({
       success: true,
       message: `Successfully unfollowed project ${project.name}.`
->>>>>>> 74d2ec74b49857fb9cf2301e1c52c3a48037e7fd
     });
   } catch (err) {
     return err;
