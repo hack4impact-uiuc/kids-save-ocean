@@ -36,43 +36,17 @@ export default function ProjectsPage() {
 
   const [userInput, setUserInput] = useState("");
 
-  const handleUNGoals = selectedUNGoals => {
-    setSelectedUNGoals(selectedUNGoals);
-  };
-
-  const handleCountry = selectedCountry => {
-    setSelectedCountry(selectedCountry);
-  };
-
-  const handleGrpSize = selectedGrpSize => {
-    setSelectedGrpSize(selectedGrpSize);
-  };
-
-  const handleDifficulty = selectedDifficulty => {
-    setSelectedDifficulty(selectedDifficulty);
-  };
-
   const handleSearchChange = userInput => {
     setUserInput(userInput.target.value);
   };
 
-  const getSearchBarText = () => {
-    const text = document.getElementById("user-input").value;
-
-    return text;
-  };
-
-  const options = {
-    keys: ["name", "description"]
-  };
-
-  const populateAllProjects = async () => {
-    const response = await getModels(null, true);
-    setAllProjects(response.data);
-    setProjects(response.data);
-  };
-
   useEffect(() => {
+    const populateAllProjects = async () => {
+      const response = await getModels(null, true);
+      setAllProjects(response.data);
+      setProjects(response.data);
+    };
+
     populateAllProjects();
   }, []);
 
@@ -81,23 +55,22 @@ export default function ProjectsPage() {
       let dropdownFilteredModels = [];
 
       const models = allProjects;
-
       let isMatchingSDGs = false;
       let isMatchingCountry = false;
       let isMatchingGrpSize = false;
       let isMatchingDifficulty = false;
 
       if (
-        selectedUNGoals === null &&
-        selectedCountry === null &&
-        selectedGrpSize === null &&
-        selectedDifficulty === null
+        (selectedUNGoals === null || selectedUNGoals.length === 0) &&
+        (selectedCountry === null || selectedCountry.length === 0) &&
+        (selectedGrpSize === null || selectedGrpSize.length === 0) &&
+        (selectedDifficulty === null || selectedDifficulty.length === 0)
       ) {
+        setAlert(false);
         return [];
       }
 
       let sdgSelectedNums = [];
-
       if (selectedUNGoals !== null) {
         for (let i = 0; i < selectedUNGoals.length; i++) {
           sdgSelectedNums.push(parseInt(selectedUNGoals[i].value));
@@ -117,7 +90,6 @@ export default function ProjectsPage() {
 
           isMatchingSDGs = matches.length === sdgSelectedNums.length;
         }
-
         if (
           selectedCountry === null ||
           models[i].country === selectedCountry.label
@@ -153,25 +125,25 @@ export default function ProjectsPage() {
         isMatchingGrpSize = false;
         isMatchingDifficulty = false;
       }
-
       if (dropdownFilteredModels.length === 0) {
         setAlert(true);
       }
-
       return dropdownFilteredModels;
     };
 
     const populateSearchFilteredProjects = () => {
+      const options = {
+        keys: ["name", "description"]
+      };
+
       let searchFilteredModels = [];
 
-      let textInput = getSearchBarText();
-
-      if (textInput === null || textInput.length === 0) {
+      if (userInput === null || userInput.length === 0) {
         return [];
       }
 
       let fuse = new Fuse(allProjects, options);
-      searchFilteredModels = fuse.search(textInput);
+      searchFilteredModels = fuse.search(userInput);
 
       if (searchFilteredModels.length === 0) {
         setAlert(true);
@@ -235,7 +207,8 @@ export default function ProjectsPage() {
     selectedGrpSize,
     selectedDifficulty,
     userInput,
-    visAlert
+    visAlert,
+    allProjects
   ]);
 
   return (
@@ -266,31 +239,31 @@ export default function ProjectsPage() {
             className="un-goals-list"
             options={UNGoalData}
             placeholder="Select UN Goals"
-            onChange={handleUNGoals}
+            onChange={setSelectedUNGoals}
             value={selectedUNGoals}
           />
           <Select
-            isMulti
+            isClearable
             className="country-list"
             options={countryData}
             placeholder="Search country"
-            onChange={handleCountry}
+            onChange={setSelectedCountry}
             value={selectedCountry}
           />
           <Select
-            isMulti
+            isClearable
             className="grp-sizes-list"
             options={groupSizeData}
             placeholder="Select group size"
-            onChange={handleGrpSize}
+            onChange={setSelectedGrpSize}
             value={selectedGrpSize}
           />
           <Select
-            isMulti
+            isClearable
             className="difficulty-list"
             options={levelData}
             placeholder="Select difficulty"
-            onChange={handleDifficulty}
+            onChange={setSelectedDifficulty}
             value={selectedDifficulty}
           />
         </div>
