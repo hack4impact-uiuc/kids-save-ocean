@@ -15,5 +15,5 @@ export {
   ProjectForm,
   Stage,
   TipCard,
-  InfiniteScroller,
+  InfiniteScroller
 };
