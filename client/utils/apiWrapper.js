@@ -443,3 +443,47 @@ export const deleteUser = () => {
     return err;
   }
 };
+
+export const getFollowingProjects = () => {
+  try {
+    return fetch(`${BASE_URL}/users/followingProjects`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      }
+    });
+  } catch (err) {
+    return err;
+  }
+};
+
+export const followProject = projId => {
+  try {
+    return fetch(`${BASE_URL}/users/followingProjects`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      },
+      body: JSON.stringify({ projId })
+    });
+  } catch (err) {
+    return err;
+  }
+};
+
+export const unfollowProject = projId => {
+  try {
+    return fetch(`${BASE_URL}/users/followingProjects`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      },
+      body: JSON.stringify({ projId })
+    });
+  } catch (err) {
+    return err;
+  }
+};

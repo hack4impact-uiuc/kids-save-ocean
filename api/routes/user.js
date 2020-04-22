@@ -6,6 +6,7 @@ const { checkToken } = require("../auth/utils/checkToken");
 const UserSchema = require("../public/schema/userSchema.js").userSchema;
 const SUCCESS = 200;
 const NOT_FOUND = 404;
+const DUPLICATE = 409;
 
 router.get("/", checkToken, async (req, res) => {
   const { db } = req;
@@ -23,26 +24,23 @@ router.get("/", checkToken, async (req, res) => {
   }
 });
 
-router.get("/:id", checkToken, async (req, res) => {
+router.get("/userInfo", checkToken, async (req, res) => {
   const { db } = req;
   const collection = db.get("users");
-  const { id } = req.params;
+  const { email } = req.user;
   try {
-    const users = await collection.find({ _id: id });
-    const ret =
-      users.length === 1
-        ? {
-            code: SUCCESS,
-            success: true,
-            message: "User retrieved successfully.",
-            data: users[0]
-          }
-        : {
-            code: NOT_FOUND,
-            success: false,
-            message: "User not found."
-          };
-    res.status(ret.code).send(ret);
+    const user = await collection.findOne({ email });
+    if (!user) {
+      res.status(NOT_FOUND).send({
+        success: false,
+        message: "User not found."
+      });
+    }
+    res.status(SUCCESS).send({
+      success: true,
+      message: "User retrieved successfully.",
+      data: user
+    });
   } catch (err) {
     return err;
   }
@@ -176,12 +174,21 @@ router.delete("/userInfo", checkToken, async (req, res) => {
 });
 
 //get user's followed projects
+<<<<<<< HEAD
 router.get("/:id/followingProjects", checkToken, async (req, res) => {
   const { db } = req;
   const collection = db.get("users");
   const { id } = req.params;
   try {
     const user = await collection.findOne({ _id: id });
+=======
+router.get("/followingProjects", checkToken, async (req, res) => {
+  const { db } = req;
+  const collection = db.get("users");
+  const { email } = req.user;
+  try {
+    const user = await collection.findOne({ email });
+>>>>>>> 74d2ec74b49857fb9cf2301e1c52c3a48037e7fd
     if (!user) {
       res.status(404).send({
         success: false,
@@ -199,6 +206,7 @@ router.get("/:id/followingProjects", checkToken, async (req, res) => {
 });
 
 // follow a project
+<<<<<<< HEAD
 router.put("/:id/followingProjects", checkToken, async (req, res) => {
   const { db } = req;
   const userCollection = db.get("users");
@@ -209,17 +217,38 @@ router.put("/:id/followingProjects", checkToken, async (req, res) => {
     const project = await projCollection.findOne({ _id: followingProjects });
     if (!project) {
       res.status(NOT_FOUND).send({
+=======
+router.put("/followingProjects", checkToken, async (req, res) => {
+  const { db } = req;
+  const userCollection = db.get("users");
+  const projCollection = db.get("projects");
+  const { email } = req.user;
+  const { projId } = req.body;
+
+  // check for duplicate projects
+  try {
+    const project = await projCollection.findOne({ _id: projId });
+    if (!project) {
+      return res.status(NOT_FOUND).send({
+>>>>>>> 74d2ec74b49857fb9cf2301e1c52c3a48037e7fd
         success: false,
         message: "Project not found."
       });
     }
+<<<<<<< HEAD
     const user = await userCollection.findOne({ _id: id });
     if (!user) {
       res.status(NOT_FOUND).send({
+=======
+    const user = await userCollection.findOne({ email });
+    if (!user) {
+      return res.status(NOT_FOUND).send({
+>>>>>>> 74d2ec74b49857fb9cf2301e1c52c3a48037e7fd
         success: false,
         message: "User not found."
       });
     }
+<<<<<<< HEAD
     await userCollection.update(
       { _id: id },
       { $push: { followingProjects } },
@@ -234,6 +263,27 @@ router.put("/:id/followingProjects", checkToken, async (req, res) => {
       code: SUCCESS,
       success: true,
       message: `Successfully started following project ${followingProjects}.`
+=======
+    if (user.followingProjects.includes(projId)) {
+      return res.status(DUPLICATE).send({
+        success: false,
+        message: "Already following project."
+      });
+    }
+    await userCollection.update(
+      { email },
+      { $push: { followingProjects: projId } },
+      { new: true }
+    );
+    await projCollection.update(
+      { _id: projId },
+      { $push: { followers: user._id } },
+      { new: true }
+    );
+    res.status(SUCCESS).send({
+      success: true,
+      message: `Successfully started following project ${project.name}.`
+>>>>>>> 74d2ec74b49857fb9cf2301e1c52c3a48037e7fd
     });
   } catch (err) {
     return err;
@@ -241,6 +291,7 @@ router.put("/:id/followingProjects", checkToken, async (req, res) => {
 });
 
 // unfollow a project
+<<<<<<< HEAD
 router.delete("/:userId/followingProjects/:projId", async (req, res) => {
   const { db } = req;
   const userCollection = db.get("users");
@@ -257,23 +308,56 @@ router.delete("/:userId/followingProjects/:projId", async (req, res) => {
     const project = await projCollection.findOne({ _id: projId });
     if (!project) {
       res.status(NOT_FOUND).send({
+=======
+router.delete("/followingProjects", checkToken, async (req, res) => {
+  const { db } = req;
+  const userCollection = db.get("users");
+  const projCollection = db.get("projects");
+  const { email } = req.user;
+  const { projId } = req.body;
+  try {
+    const project = await projCollection.findOne({ _id: projId });
+    if (!project) {
+      return res.status(NOT_FOUND).send({
+>>>>>>> 74d2ec74b49857fb9cf2301e1c52c3a48037e7fd
         success: false,
         message: "Project not found."
       });
     }
+<<<<<<< HEAD
     await userCollection.update(
       { _id: userId },
+=======
+    const user = await userCollection.findOne({ email });
+    if (!user) {
+      return res.status(NOT_FOUND).send({
+        success: false,
+        message: "User not found."
+      });
+    }
+    await userCollection.update(
+      { email },
+>>>>>>> 74d2ec74b49857fb9cf2301e1c52c3a48037e7fd
       { $pull: { followingProjects: projId } },
       { new: true }
     );
     await projCollection.update(
       { _id: projId },
+<<<<<<< HEAD
       { $pull: { followers: userId } },
       { new: true }
     );
     res.status(200).send({
       success: true,
       message: `Successfully unfollowed project ${projId}`
+=======
+      { $pull: { followers: user._id } },
+      { new: true }
+    );
+    res.status(SUCCESS).send({
+      success: true,
+      message: `Successfully unfollowed project ${project.name}.`
+>>>>>>> 74d2ec74b49857fb9cf2301e1c52c3a48037e7fd
     });
   } catch (err) {
     return err;
