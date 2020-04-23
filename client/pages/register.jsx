@@ -112,8 +112,7 @@ export default function RegisterPage(props) {
       );
       
       const authUserRes = await authUserResp.json();
-      console.log(authUserRes);
-      if (authUserRes.status === SUCCESS) {
+      if (authUserRes.success) {
         // #2: store token in local storage
         const { token } = authUserRes;
         if (!token) {
@@ -134,7 +133,7 @@ export default function RegisterPage(props) {
         const ksoUserResp = await createUser(newUser);
         console.log(ksoUserResp);
         const ksoUserRes = await ksoUserResp.json();
-        if (ksoUserRes.code === SUCCESS) {
+        if (ksoUserRes.success) {
           setSuccessfulSubmit(true);
         } else {
           setErrorMessage(ksoUserRes.message);
