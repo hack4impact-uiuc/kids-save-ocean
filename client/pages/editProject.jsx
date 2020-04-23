@@ -12,19 +12,19 @@ import {
   Container,
   Alert
 } from "reactstrap";
-// import { Editor, EditorState, ContentState, RichUtils } from "draft-js";
 import { getModelsByID } from "../utils/apiWrapper";
 import { Head, Stage } from "../components";
 import "../public/styles/editProject.scss";
 
 export default function EditProjectPage() {
   const [visAlert, setAlert] = useState(false);
-  //const initialProjTitleState = EditorState.createEmpty();
-  //const initialDescriptionState = EditorState.createEmpty();
   const [projTitle, setProjTitle] = useState("");
   const [description, setDescription] = useState("");
   const [grpSize, setGrpSize] = useState("");
   const [grpSizeDropDownOpen, setGrpSizeDropDownOpen] = useState(false);
+  const [inspiration, setInspiration] = useState(null);
+  const [ideation, setIdeation] = useState(null);
+  const [implementation, setImplementation] = useState(null);
   const id = "5e901732090f7cdff2e6757a";
   const ideationStages = [
     ["beauti", "Description 1"] // ,
@@ -52,13 +52,9 @@ export default function EditProjectPage() {
       if (project) {
         setAlert(false);
         setProjTitle(project.data.name);
-        //initialProjTitleState = EditorState.createWithContent(project.data.name);
-        //[projTitle, setProjTitle] = useState(initialProjTitleState);
         setDescription(project.data.description);
         setGrpSize(project.data.groupSize);
-        console.log(grpSize);
-        //initialDescriptionState = EditorState.createWithContent(project.data.description);
-        //[description, setDescription] = useState(initialDescriptionState);
+        console.log(grpSize); //
       } else {
         setAlert(true);
       }
@@ -83,7 +79,7 @@ export default function EditProjectPage() {
           <Row>
             <Col className="home-block-col">
               <Row className="home-block-1-ep">
-                <h1 className="header2-text-ep-other">
+                <h1 className="proj-title">
                   <strong>Edit Project</strong>
                 </h1>
                 <div className="div-1-ep">
@@ -190,19 +186,15 @@ export default function EditProjectPage() {
               <Button className="inspiration-btn">Inspiration</Button>
               <Button className="ideation-btn">Ideation</Button>
               <Button className="implementation-btn">Implementation</Button>
+            </Row>
+            <Row>
               <h2 className="header2-text-ep-other">
                 {" "}
                 <strong> Inspiration </strong>{" "}
               </h2>
             </Row>
             <Row className="inspo-des">
-              <h4 className="header2-text-ep-other">
-                Morbi sit amet rutrum leo. Maecenas molestie, odio eu
-                condimentum elementum, enim ante posuere ante, nec suscipit
-                tellus erat quis mi. Suspendisse vehicula finibus leo, ut
-                molestie lacus eleifend non. Phasellus non risus nibh. In hac
-                habitasse platea dictumst.
-              </h4>
+              <h4 className="header2-text-ep-other"></h4>
             </Row>
             <Row className="header-row-ep">
               <Button className="button-add">Add Stage</Button>
@@ -220,43 +212,27 @@ export default function EditProjectPage() {
               ))}
             </div>
             <hr className="header-row-ep" />
-          </Col>
-          <Col>
-            <Row className="other-row">
+            <Row>
               <h2 className="header2-text-ep-other">
                 {" "}
                 <strong> Ideation </strong>{" "}
               </h2>
             </Row>
             <Row className="other-row">
-              <h4 className="header2-text-ep-other">
-                Morbi sit amet rutrum leo. Maecenas molestie, odio eu
-                condimentum elementum, enim ante posuere ante, nec suscipit
-                tellus erat quis mi. Suspendisse vehicula finibus leo, ut
-                molestie lacus eleifend non. Phasellus non risus nibh. In hac
-                habitasse platea dictumst.
-              </h4>
+              <h4 className="header2-text-ep-other"></h4>
             </Row>
             <Row className="header-row-ep">
               <Button className="button-add">Add Stage</Button>
             </Row>
             <hr className="header-row-ep" />
-          </Col>
-          <Col>
-            <Row className="other-row">
+            <Row>
               <h2 className="header2-text-ep-other">
                 {" "}
                 <strong> Implementation </strong>{" "}
               </h2>
             </Row>
             <Row className="other-row">
-              <h4 className="header2-text-ep-other">
-                Morbi sit amet rutrum leo. Maecenas molestie, odio eu
-                condimentum elementum, enim ante posuere ante, nec suscipit
-                tellus erat quis mi. Suspendisse vehicula finibus leo, ut
-                molestie lacus eleifend non. Phasellus non risus nibh. In hac
-                habitasse platea dictumst.
-              </h4>
+              <h4 className="header2-text-ep-other"></h4>
             </Row>
             <Row className="header-row-ep">
               <Button className="button-add">Add Stage</Button>
