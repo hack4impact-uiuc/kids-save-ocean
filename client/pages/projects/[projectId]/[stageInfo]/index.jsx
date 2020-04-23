@@ -25,7 +25,7 @@ export default function StagePage() {
         if (model) {
           setStage(
             model.data.phases[phase].stages.find(
-              stage => stage.name.toLowerCase() === stageName
+              (stage) => stage.name.toLowerCase() === stageName
             )
           );
         }
@@ -37,29 +37,35 @@ export default function StagePage() {
   }, [projectId, stageInfo]);
 
   return (
-    <div className="stage">
-      {loading && <Loader />}
-      {stage && (
-        <>
-          <Head title={stage.name} />
-          <h1 className="stage-title">{stage.name}</h1>
-          {stage.videoUrl && (
-            <div className="stage-video">
-              {/* 
+    <>
+      <Head title={stage?.name} />
+      <div className="stage">
+        {loading && <Loader />}
+        {stage && (
+          <>
+            <h1 className="stage-title">{stage.name}</h1>
+            {stage.videoUrl && (
+              <div className="stage-video">
+                {/* 
                 TODO: add YouTube iframe
                */}
+              </div>
+            )}
+            <div className="stage-description">
+              <p>{stage.description}</p>
             </div>
-          )}
-          <div className="stage-description">
-            <p>{stage.description}</p>
-          </div>
-        </>
-      )}
-      <Link href="/projects/[projectId]" as={`/projects/${projectId}`} passHref>
-        <a>
-          <Button color="danger">Return</Button>
-        </a>
-      </Link>
-    </div>
+          </>
+        )}
+        <Link
+          href="/projects/[projectId]"
+          as={`/projects/${projectId}`}
+          passHref
+        >
+          <a>
+            <Button color="danger">Return</Button>
+          </a>
+        </Link>
+      </div>
+    </>
   );
 }
