@@ -14,6 +14,7 @@ import CommentEditor from "./CommentEditor";
 export default function CommentsSection(props) {
   const { projectId } = props;
   const [comments, setComments] = useState([]);
+  const [fetching, setFetching] = useState(true);
 
   useEffect(() => {
     fetchComments();
@@ -30,9 +31,11 @@ export default function CommentsSection(props) {
     ));
 
   const fetchComments = useCallback(() => {
+    setFetching(true);
     getComments(projectId).then(response => {
       const { comments } = response.data;
       setComments(comments);
+      setFetching(false);
     });
   }, [projectId]);
 
@@ -51,9 +54,11 @@ export default function CommentsSection(props) {
   return (
     <div>
       <Col>{renderComments(comments)}</Col>
+      {(localStorage.getItem("token") && !fetching) &&
       <Row>
         <CommentEditor post={content => post(content)} />
       </Row>
+      }
     </div>
   );
 }
