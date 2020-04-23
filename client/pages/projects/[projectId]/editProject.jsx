@@ -155,8 +155,8 @@ export default function EditProjectPage() {
           <div className="stages">
             {project?.phases.inspiration.stages.map((value, idx) => (
               <Stage
+                readonly={false}
                 stageName={value.name}
-                description={value.description}
                 phaseName={"inspiration"}
                 id={project?._id}
                 key={idx}
@@ -187,8 +187,8 @@ export default function EditProjectPage() {
           <div className="stages">
             {project?.phases.ideation.stages.map((value, idx) => (
               <Stage
+                readonly={false}
                 stageName={value.name}
-                description={value.description}
                 phaseName={"ideation"}
                 id={project?._id}
                 key={idx}
@@ -219,8 +219,8 @@ export default function EditProjectPage() {
           <div className="stages">
             {project?.phases.implementation.stages.map((value, idx) => (
               <Stage
+                readonly={false}
                 stageName={value.name}
-                description={value.description}
                 phaseName={"implementation"}
                 id={project?._id}
                 key={idx}

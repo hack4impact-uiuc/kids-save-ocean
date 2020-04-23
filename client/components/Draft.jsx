@@ -36,7 +36,7 @@ export default function Draft(props) {
   };
   const saveCallback = useCallback(debounce(debounceSave, saveInterval), []);
 
-  const { id, phaseName, stageName } = props;
+  const { id, phaseName, stageName, readonly } = props;
 
   const handleChange = editor => {
     setUnsaved(true);
@@ -117,6 +117,7 @@ export default function Draft(props) {
 
       {!loading && (
         <Dante
+          readonly={readonly}
           content={editorContent}
           onChange={editor => handleChange(editor)}
         />

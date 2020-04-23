@@ -135,7 +135,7 @@ router.get("/:model_ID/canEdit", checkToken, async function(req, res) {
   .catch( () => res.sendStatus(404));
 });
 
-router.put("/:model_ID/:phaseName/:stageName/description", checkToken, function(req, res) {
+router.put("/:model_ID/:phaseName/:stageName/description", checkToken, async function(req, res) {
   const db = req.db;
   const collection = db.get("projects");
   const { model_ID, phaseName, stageName } = req.params;
