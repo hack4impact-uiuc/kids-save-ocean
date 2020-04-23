@@ -1,3 +1,4 @@
+import CommentsSection from "./CommentsSection";
 import Draft from "./Draft";
 import Gantt from "./Gantt";
 import Head from "./Head";
@@ -8,6 +9,7 @@ import TipCard from "./TipCard";
 import InfiniteScroller from "./InfiniteScroller";
 
 export {
+  CommentsSection,
   Draft,
   Gantt,
   Head,

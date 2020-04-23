@@ -479,3 +479,100 @@ export const checkAdminPrivilege = () => {
     return err;
   }
 };
+
+export const getFollowingProjects = () => {
+  try {
+    return fetch(`${BASE_URL}/users/followingProjects`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      }
+    });
+  } catch (err) {
+    return err;
+  }
+};
+
+export const followProject = projId => {
+  try {
+    return fetch(`${BASE_URL}/users/followingProjects`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      },
+      body: JSON.stringify({ projId })
+    });
+  } catch (err) {
+    return err;
+  }
+};
+
+export const unfollowProject = projId => {
+  try {
+    return fetch(`${BASE_URL}/users/followingProjects`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      },
+      body: JSON.stringify({ projId })
+    });
+  } catch (err) {
+    return err;
+  }
+};
+
+export const postComment = (model_id, commentBody) => {
+  const requestString = `${BASE_URL}/comment`;
+  return axios
+    .post(
+      requestString,
+      {
+        commentLocation: model_id,
+        comment: commentBody
+      },
+      {
+        headers: {
+          "Content-Type": "application/JSON",
+          "x-access-token": localStorage.getItem("token")
+        }
+      }
+    )
+    .catch(error => ({
+      type: "SAVE_COMMENT_FAIL",
+      error
+    }));
+};
+
+export const postCommentThread = (model_id, parentIndex, commentBody) => {
+  const requestString = `${BASE_URL}/comment/thread`;
+  return axios
+    .post(
+      requestString,
+      {
+        commentLocation: `${model_id}`,
+        commentIndex: parentIndex,
+        comment: commentBody
+      },
+      {
+        headers: {
+          "Content-Type": "application/JSON",
+          "x-access-token": localStorage.getItem("token")
+        }
+      }
+    )
+    .catch(error => ({
+      type: "SAVE_COMMENT_FAIL",
+      error
+    }));
+};
+
+export const getComments = model_id => {
+  const requestString = `${BASE_URL}/comment/${model_id}`;
+  return axios.get(requestString).catch(error => ({
+    type: "GET_COMMENT_FAIL",
+    error
+  }));
+};
