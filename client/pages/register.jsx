@@ -500,7 +500,7 @@ export default function RegisterPage(props) {
                       </Form>
                     </Col>
                   </Row>
-
+                    <Row>
                   <Button
                     size="m"
                     onClick={handlePINResend}
@@ -515,6 +515,7 @@ export default function RegisterPage(props) {
                   >
                     <div className=" vertAlign textField">Verify Email</div>
                   </Button>
+                  </Row>
                   <div className="forgot-password">
                     <Link href="/">
                       <a className=" vertAlign textField">Skip verification</a>

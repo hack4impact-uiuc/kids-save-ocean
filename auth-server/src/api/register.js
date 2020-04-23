@@ -56,7 +56,7 @@ router.post(
           "Can not read the security questions from the config file"
         );
       }
-      const question =
+      const question = 
         securityQuestionsResponse.securityQuestions[req.body.questionIdx];
       if (!question || !req.body.securityQuestionAnswer) {
         return sendResponse(

@@ -139,7 +139,7 @@ export const register = (
         email: emailInput,
         password: passwordInput,
         questionIdx,
-        answer,
+        securityQuestionAnswer: answer,
         role
       })
     });
