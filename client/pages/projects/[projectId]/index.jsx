@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import Dante from "Dante2";
+
 import { Gantt, Head, TipCard, CommentsSection } from "../../../components";
 import {
   Alert,
@@ -156,12 +158,12 @@ export default function ProjectPage() {
           {activeStage && (
             <Modal isOpen={modal} toggle={toggleModal}>
               <ModalHeader>{activeStage.name}</ModalHeader>
-              <ModalBody>{`${activeStage.description.slice(
-                0,
-                DESCRIPTION_LENGTH
-              )}${
-                activeStage.description.length > DESCRIPTION_LENGTH ? "..." : ""
-              }`}</ModalBody>
+              <ModalBody>
+                <Dante
+                  read_only
+                  content={JSON.parse(activeStage.description)}
+                />
+              </ModalBody>
               <ModalFooter>
                 <Link
                   href="/projects/[projectId]/[stageInfo]"

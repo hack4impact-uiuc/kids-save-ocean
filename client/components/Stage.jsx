@@ -5,7 +5,7 @@ import { Draft } from "../components";
 import "../public/styles/phase-stage.scss";
 
 export default function Stage(props) {
-  const { id, phaseName, stageName, readonly } = props;
+  const { id, phaseName, stageName, read_only } = props;
 
   return (
     <>
@@ -15,7 +15,7 @@ export default function Stage(props) {
             <strong>{stageName}</strong>
           </h5>
         </Label>
-        <Draft id={id} phaseName={phaseName} stageName={stageName} readonly={readonly} />
+        <Draft id={id} phaseName={phaseName} stageName={stageName} read_only={read_only} />
       </FormGroup>
     </>
   );
