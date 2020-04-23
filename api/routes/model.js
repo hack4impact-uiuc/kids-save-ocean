@@ -4,7 +4,6 @@ const validate = require("express-jsonschema").validate;
 const { checkToken } = require("../auth/utils/checkToken");
 
 const ModelSchema = require("../public/schema/projectSchema.js").projectSchema;
-const SUCCESS = 200;
 
 router.get("/", function(req, res) {
   let sdg_par = req.query.sdg;
@@ -56,7 +55,7 @@ router.post(
     const db = req.db;
     const projects = db.get("projects");
     const data = req.body;
-    let projectId;
+    let currProjectId;
 
     // Check if data includes proper fields
     projects.insert(data, function(err) {
@@ -102,6 +101,8 @@ router.delete("/:model_ID", function(req, res) {
         : res.sendStatus(404)
     )
     .catch(() => res.sendStatus(500));
+
+  // TODO: Remove project from userFollwowing if it gets deleted
 });
 
 router.put(
