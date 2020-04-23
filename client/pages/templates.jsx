@@ -5,17 +5,19 @@ import "../public/styles/templates.scss";
 export default function TemplatesPage() {
   return (
     <>
-      <Container>
-        <Row>
-          <Col>
-            <Row>
-              <h1>
-                <strong>Templates</strong>
-              </h1>
-            </Row>
-          </Col>
-        </Row>
-      </Container>
+      <form>
+        <Container>
+          <Row>
+            <Col>
+              <Row>
+                <h1 className="templates-title">
+                  <strong>Templates</strong>
+                </h1>
+              </Row>
+            </Col>
+          </Row>
+        </Container>
+      </form>
     </>
   );
 }

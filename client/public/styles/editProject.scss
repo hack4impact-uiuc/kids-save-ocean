@@ -60,12 +60,6 @@
   margin-left: 12%;
   margin-right: 10%;
 }
-.inspo-des {
-  margin-right: 5%;
-  margin-left: 5%;
-  margin-bottom: 1%;
-  margin-top: 2.5%;
-}
 .divider-stage {
   margin-right: 25%;
   margin-left: 25%;
@@ -88,4 +82,11 @@
 }
 .edit-form {
   border: thin gray solid;
+}
+.grp-sizes-list {
+  table-layout: fixed;
+  width: 200px;
+  max-width: 100%;
+  margin-bottom: 3%;
+  margin-left: 5%;
 }

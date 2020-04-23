@@ -1,27 +1,17 @@
 import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Col,
-  Input,
-  Row,
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
-  FormGroup,
-  Label,
-  Container,
-  Alert
-} from "reactstrap";
+import { Button, Col, Input, Row, Label, Container, Alert } from "reactstrap";
+import Select from "react-select";
 import { getModelsByID } from "../utils/apiWrapper";
 import { Head, Stage } from "../components";
+import groupSizeData from "../utils/groups";
 import "../public/styles/editProject.scss";
+import { is } from "immutable";
 
 export default function EditProjectPage() {
   const [visAlert, setAlert] = useState(false);
   const [projTitle, setProjTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [grpSize, setGrpSize] = useState("");
-  const [grpSizeDropDownOpen, setGrpSizeDropDownOpen] = useState(false);
+  const [grpSize, setGrpSize] = useState(false);
   const [inspiration, setInspiration] = useState(null);
   const [ideation, setIdeation] = useState(null);
   const [implementation, setImplementation] = useState(null);
@@ -31,7 +21,6 @@ export default function EditProjectPage() {
     // ["Stage 2", "Description 2"],
     // ["Stage 3", "Description 3"]
   ];
-  const toggleGrpSize = () => setGrpSizeDropDownOpen(prevState => !prevState);
 
   const handleTitleChange = projTitle => {
     setProjTitle(projTitle.target.value);
@@ -42,7 +31,19 @@ export default function EditProjectPage() {
   };
 
   const handleGrpSizeChange = grpSize => {
-    setGrpSize(grpSize.target.value);
+    setGrpSize(grpSize);
+  };
+
+  const handleInspirationChange = inspiration => {
+    setInspiration(inspiration);
+  };
+
+  const handleIdeationChange = ideation => {
+    setIdeation(ideation);
+  };
+
+  const handleImplementationChange = implementation => {
+    setImplementation(implementation);
   };
 
   useEffect(() => {
@@ -51,10 +52,15 @@ export default function EditProjectPage() {
 
       if (project) {
         setAlert(false);
+
         setProjTitle(project.data.name);
         setDescription(project.data.description);
         setGrpSize(project.data.groupSize);
-        console.log(grpSize); //
+
+        setInspiration(project.data.phases.inspiration);
+        console.log(project.data.phases.inspiration);
+        setIdeation(project.data.phases.ideation);
+        setImplementation(project.data.phases.implementation);
       } else {
         setAlert(true);
       }
@@ -65,7 +71,7 @@ export default function EditProjectPage() {
 
   return (
     <>
-      <form className="edit-form">
+      <form>
         <Head title="" />
         <Container>
           {visAlert && (
@@ -75,7 +81,6 @@ export default function EditProjectPage() {
               </div>
             </Alert>
           )}
-
           <Row>
             <Col className="home-block-col">
               <Row className="home-block-1-ep">
@@ -93,90 +98,23 @@ export default function EditProjectPage() {
                     onChange={handleTitleChange}
                   ></input>
                   <h4 className="num-ppl-h">How many people?</h4>
-                  <Dropdown
-                    className="dropdown"
-                    isOpen={grpSizeDropDownOpen}
-                    toggle={toggleGrpSize}
-                  >
-                    <DropdownToggle caret>Change Group Size</DropdownToggle>
-                    <DropdownMenu>
-                      <FormGroup
-                        radioGroup
-                        value={grpSize}
-                        onChange={handleGrpSizeChange}
-                      >
-                        <Col>
-                          <Row>
-                            <Label className="label" for="exampleCheck" check>
-                              Under 5 People
-                            </Label>
-                            <Input
-                              className="input"
-                              type="radio"
-                              name="check"
-                              id="exampleCheck"
-                            />
-                          </Row>
-                          <Row>
-                            <Label className="label" for="exampleCheck" check>
-                              {" "}
-                              5+ People
-                            </Label>
-                            <Input
-                              className="input"
-                              type="radio"
-                              name="check"
-                              id="exampleCheck"
-                            />
-                          </Row>
-                          <Row>
-                            <Label className="label" for="exampleCheck" check>
-                              {" "}
-                              10+ People
-                            </Label>
-                            <Input
-                              className="input"
-                              type="radio"
-                              name="check"
-                              id="exampleCheck"
-                            />
-                          </Row>
-                          <Row>
-                            <Label className="label" for="exampleCheck" check>
-                              20+ People
-                            </Label>
-                            <Input
-                              className="input"
-                              type="radio"
-                              name="check"
-                              id="exampleCheck"
-                            />
-                          </Row>
-                          <Row>
-                            <Label className="label" for="exampleCheck" check>
-                              {" "}
-                              50+ People
-                            </Label>
-                            <Input
-                              className="input"
-                              type="radio"
-                              name="check"
-                              id="exampleCheck"
-                            />
-                          </Row>
-                        </Col>
-                      </FormGroup>
-                    </DropdownMenu>
-                  </Dropdown>
+                  <Select
+                    isClearable
+                    className="grp-sizes-list"
+                    options={groupSizeData}
+                    placeholder="Change group size"
+                    value={grpSize}
+                    onChange={handleGrpSizeChange}
+                  />
                   <h4 className="proj-descrip-h">Project Description</h4>
-                  <input
-                    type="text"
+                  <textarea
                     class="form-control"
                     className="editor-top"
-                    size="100"
+                    rows="4"
+                    cols="105"
                     value={description}
                     onChange={handleDescriptionChange}
-                  ></input>
+                  ></textarea>
                 </div>
               </Row>
             </Col>
@@ -193,12 +131,6 @@ export default function EditProjectPage() {
                 <strong> Inspiration </strong>{" "}
               </h2>
             </Row>
-            <Row className="inspo-des">
-              <h4 className="header2-text-ep-other"></h4>
-            </Row>
-            <Row className="header-row-ep">
-              <Button className="button-add">Add Stage</Button>
-            </Row>
             <hr className="divider-stage" />
             <div className="stages">
               {ideationStages.map((value, idx) => (
@@ -211,15 +143,15 @@ export default function EditProjectPage() {
                 />
               ))}
             </div>
+            <Row className="header-row-ep">
+              <Button className="button-add">Add Stage</Button>
+            </Row>
             <hr className="header-row-ep" />
             <Row>
               <h2 className="header2-text-ep-other">
                 {" "}
                 <strong> Ideation </strong>{" "}
               </h2>
-            </Row>
-            <Row className="other-row">
-              <h4 className="header2-text-ep-other"></h4>
             </Row>
             <Row className="header-row-ep">
               <Button className="button-add">Add Stage</Button>
@@ -230,9 +162,6 @@ export default function EditProjectPage() {
                 {" "}
                 <strong> Implementation </strong>{" "}
               </h2>
-            </Row>
-            <Row className="other-row">
-              <h4 className="header2-text-ep-other"></h4>
             </Row>
             <Row className="header-row-ep">
               <Button className="button-add">Add Stage</Button>
