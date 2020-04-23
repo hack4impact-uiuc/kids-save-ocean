@@ -25,7 +25,7 @@ export default function StagePage() {
         if (model) {
           setStage(
             model.data.phases[phase].stages.find(
-              (stage) => stage.name.toLowerCase() === stageName
+              stage => stage.name.toLowerCase() === stageName
             )
           );
         }
