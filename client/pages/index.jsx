@@ -80,12 +80,7 @@ export default function Home() {
                 </Link>
               </Col>
               <Col>
-                {/* <ProjectForm></ProjectForm> */}
-                <Button type="primary" className="button-design">
-                  <a href="/projects">
-                    <strong>Create</strong>
-                  </a>
-                </Button>
+                <ProjectForm></ProjectForm>
               </Col>
               <Col xs="2"></Col>
             </Row>
