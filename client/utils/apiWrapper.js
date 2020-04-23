@@ -4,7 +4,7 @@ import fetch from "isomorphic-unfetch";
 const BASE_URL = process.env.BACKEND_URL ?? "http://localhost:5000/api";
 // const BASE_URL = process.env.BACKEND_URL ?? "http://52.240.158.249:5000/api"; // leave this in, this is Arpan's url
 
-export const getModels = (sdg_query = null) => {
+export const getModels = (sdg_query, searchPage = null) => {
   /**
    * Returns all models
    * Returns GET_MODEL_FAIL upon failure
@@ -12,6 +12,8 @@ export const getModels = (sdg_query = null) => {
   let requestString = ``;
   if (sdg_query) {
     requestString = `${BASE_URL}/models?sdg=${sdg_query}`;
+  } else if (searchPage) {
+    requestString = `${BASE_URL}/models?searchPage=true`;
   } else {
     requestString = `${BASE_URL}/models`;
   }
@@ -47,7 +49,25 @@ export const getModelsByID = Model_ID => {
       });
     });
 };
-
+export const getModelsGreaterThanID = (numUpdates, lastID) => {
+  /**
+   * Returns min(#projects > ID, numUpdates) projects with ID greater than last_id query
+   * Returns GET_MODEL_FAIL upon failure
+   */
+  const requestString = `${BASE_URL}/models/${numUpdates}/${lastID}`;
+  return axios
+    .get(requestString, {
+      headers: {
+        "Content-Type": "application/JSON"
+      }
+    })
+    .catch(error => {
+      ({
+        type: "GET_MODEL_GREATER_ID_FAIL",
+        error
+      });
+    });
+};
 export const addModel = data => {
   /**
    * Adds a model
@@ -104,9 +124,15 @@ export const deleteForm = Model_ID => {
     });
 };
 
-export const register = (emailInput, passwordInput, questionIdx, answer) => {
+export const register = (
+  emailInput,
+  passwordInput,
+  questionIdx,
+  answer,
+  role
+) => {
   try {
-    return fetch(`${BASE_URL}/auth/register/`, {
+    return fetch(`${BASE_URL}/auth/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -114,8 +140,7 @@ export const register = (emailInput, passwordInput, questionIdx, answer) => {
         password: passwordInput,
         questionIdx,
         securityQuestionAnswer: answer,
-        role: "guest",
-        answer
+        role
       })
     });
   } catch (err) {
@@ -379,9 +404,9 @@ export const getDescription = (model_id, phaseName, stageName) => {
   }));
 };
 
-export const getUser = userId => {
+export const getUser = () => {
   try {
-    return fetch(`${BASE_URL}/users/${userId}`, {
+    return fetch(`${BASE_URL}/users/userInfo`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -400,19 +425,17 @@ export const createUser = newUser => {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({
-        newUser
-      })
+      body: JSON.stringify(newUser)
     });
   } catch (err) {
     return err;
   }
 };
 
-export const updateUser = (userId, updatedUser) => {
+export const updateUser = updatedUser => {
   try {
     return (
-      fetch(`${BASE_URL}/users/${userId}`),
+      fetch(`${BASE_URL}/users/userInfo`),
       {
         method: "PUT",
         headers: {
@@ -427,9 +450,9 @@ export const updateUser = (userId, updatedUser) => {
   }
 };
 
-export const deleteUser = userId => {
+export const deleteUser = () => {
   try {
-    return fetch(`${BASE_URL}/users/${userId}`, {
+    return fetch(`${BASE_URL}/users/userInfo`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -439,4 +462,57 @@ export const deleteUser = userId => {
   } catch (err) {
     return err;
   }
+};
+
+export const postComment = (model_id, commentBody) => {
+  const requestString = `${BASE_URL}/comment`;
+  return axios
+    .post(
+      requestString,
+      {
+        commentLocation: model_id,
+        comment: commentBody
+      },
+      {
+        headers: {
+          "Content-Type": "application/JSON",
+          "x-access-token": localStorage.getItem("token")
+        }
+      }
+    )
+    .catch(error => ({
+      type: "SAVE_COMMENT_FAIL",
+      error
+    }));
+};
+
+export const postCommentThread = (model_id, parentIndex, commentBody) => {
+  const requestString = `${BASE_URL}/comment/thread`;
+  return axios
+    .post(
+      requestString,
+      {
+        commentLocation: `${model_id}`,
+        commentIndex: parentIndex,
+        comment: commentBody
+      },
+      {
+        headers: {
+          "Content-Type": "application/JSON",
+          "x-access-token": localStorage.getItem("token")
+        }
+      }
+    )
+    .catch(error => ({
+      type: "SAVE_COMMENT_FAIL",
+      error
+    }));
+};
+
+export const getComments = model_id => {
+  const requestString = `${BASE_URL}/comment/${model_id}`;
+  return axios.get(requestString).catch(error => ({
+    type: "GET_COMMENT_FAIL",
+    error
+  }));
 };
