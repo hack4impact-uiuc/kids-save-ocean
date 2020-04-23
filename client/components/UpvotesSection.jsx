@@ -1,11 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 
-import { Col, Row, Button } from "reactstrap";
+import { Row, Button } from "reactstrap";
 
-import {
-  postUpvote,
-  getUpvotes,
-} from "../utils/apiWrapper";
+import { postUpvote, getUpvotes } from "../utils/apiWrapper";
 
 export default function UpvotesSection(props) {
   const { projectId } = props;

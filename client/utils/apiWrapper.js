@@ -499,7 +499,7 @@ export const getComments = model_id => {
   }));
 };
 
-export const postUpvote = (model_id) => {
+export const postUpvote = model_id => {
   const requestString = `${BASE_URL}/upvote`;
   return axios
     .post(
@@ -511,12 +511,12 @@ export const postUpvote = (model_id) => {
           "x-access-token": localStorage.getItem("token")
         }
       }
-    ).catch(error => ({
+    )
+    .catch(error => ({
       type: "SAVE_UPVOTE_FAIL",
       error
     }));
 };
-
 
 export const getUpvotes = model_id => {
   const requestString = `${BASE_URL}/upvote/${model_id}`;
@@ -525,4 +525,3 @@ export const getUpvotes = model_id => {
     error
   }));
 };
-
