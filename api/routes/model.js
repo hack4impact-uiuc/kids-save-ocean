@@ -155,5 +155,26 @@ router.get("/:model_ID/:phaseName/:stageName/description", function(req, res) {
     })
     .catch(() => res.sendStatus(500));
 });
-
+router.get("/:numUpdates/:lastID", function(req, res) {
+  const ObjectId = require("mongodb").ObjectID;
+  const last_ID = new ObjectId(req.params.lastID);
+  const db = req.db;
+  const collection = db.get("projects");
+  collection.find(
+    {
+      _id: { $gt: last_ID }
+    },
+    {
+      $exists: true,
+      limit: parseInt(req.params.numUpdates)
+    },
+    function(e, docs) {
+      if (docs) {
+        res.send(docs);
+      } else {
+        res.sendStatus(400);
+      }
+    }
+  );
+});
 module.exports = router;
