@@ -13,11 +13,14 @@ function signAuthJWT(email, role) {
 function verifyAuthJWT(token, userEmail) {
   try {
     let { email } = jwt.verify(token, process.env.AUTH_SECRET);
+    if (!email) {
+      return false;
+    }
     if (String(userEmail) === String(email)) {
       return true;
     }
   } catch (err) {
-    console.log("Token was updated");
+    console.log("Invalid token.");
   }
   return false;
 }
@@ -32,16 +35,6 @@ function shouldUpdateJWT(token, email, role) {
   } catch (err) {
     return err;
   }
-  // } catch (err) {
-  //   if (process.env.AUTH_SECRET.length > 1) {
-  //     let { userId, hashedPassword } = jwt.verify(
-  //       token,
-  //       String(process.env.AUTH_SECRET[1])
-  //     );
-  //     return String(userId) === String(id) && hashedPassword == password;
-  //   }
-  //   return false;
-  // }
 }
 
 // Returns the auth JWT if it's valid, else return null if it's invalid
@@ -50,18 +43,6 @@ function decryptAuthJWT(token) {
     const { email } = jwt.verify(token, process.env.AUTH_SECRET);
     return email;
   } catch (err) {
-    // if (process.env.AUTH_SECRET.length > 1) {
-    //   try {
-    //     const { userId } = jwt.verify(
-    //       token,
-    //       String(process.env.AUTH_SECRET[1])
-    //     );
-    //     return userId;
-    //   } catch (err) {
-    //     return null;
-    //   }
-    // }
-    // return null;
     return err;
   }
 }

@@ -39,7 +39,10 @@ const schema = {
       required: false
     },
     followers: {
-      type: "string",
+      type: "array",
+      items: {
+        type: "string"
+      },
       required: false
     },
     phases: {

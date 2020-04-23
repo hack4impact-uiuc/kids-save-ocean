@@ -4,7 +4,7 @@ import fetch from "isomorphic-unfetch";
 const BASE_URL = process.env.BACKEND_URL ?? "http://localhost:5000/api";
 // const BASE_URL = process.env.BACKEND_URL ?? "http://52.240.158.249:5000/api"; // leave this in, this is Arpan's url
 
-export const getModels = (sdg_query = null) => {
+export const getModels = (sdg_query, searchPage = null) => {
   /**
    * Returns all models
    * Returns GET_MODEL_FAIL upon failure
@@ -12,6 +12,8 @@ export const getModels = (sdg_query = null) => {
   let requestString = ``;
   if (sdg_query) {
     requestString = `${BASE_URL}/models?sdg=${sdg_query}`;
+  } else if (searchPage) {
+    requestString = `${BASE_URL}/models?searchPage=true`;
   } else {
     requestString = `${BASE_URL}/models`;
   }
@@ -466,11 +468,7 @@ export const postComment = (model_id, commentBody) => {
     }));
 };
 
-export const postCommentThread = (
-  model_id,
-  parentIndex,
-  commentBody
-) => {
+export const postCommentThread = (model_id, parentIndex, commentBody) => {
   const requestString = `${BASE_URL}/comment/thread`;
   return axios
     .post(
