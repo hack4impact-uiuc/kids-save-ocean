@@ -14,6 +14,12 @@
   width: auto;
   opacity: 1;
   align-content: middle;
+
+  .grp-size {
+    margin-left: 40%;
+    margin-right: 40%;
+    display: flex;
+  }
 }
 .div-1-ep {
   padding-bottom: 5%;
@@ -23,7 +29,9 @@
   margin-left: 5%;
   padding-bottom: 2.5%;
 }
-.header3 {
+.proj-title-h,
+.num-ppl-h,
+.proj-descrip-h {
   margin-left: 5%;
   margin-right: 5%;
   color: white;
@@ -41,8 +49,8 @@
   margin-top: 2.5%;
 }
 .header2-text-ep-other {
-  margin-left: 5%;
-  margin-right: 5%;
+  margin-left: 40%;
+  margin-right: 30%;
 }
 .button-add {
   margin-left: 10%;
@@ -73,4 +81,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.edit-form {
+  border: thin gray solid;
 }
