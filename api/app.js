@@ -8,9 +8,10 @@ const logger = require("morgan");
 
 const indexRouter = require("./routes/index");
 const modelRouter = require("./routes/model");
+const userRouter = require("./routes/user");
+const commentRouter = require("./routes/comment");
 const filestoreRouter = require("./routes/filestore");
 const authRouter = require("./auth/api/index");
-const userRouter = require("./routes/user");
 
 require("dotenv").config();
 
@@ -57,8 +58,10 @@ app.use(function(req, res, next) {
 app.use("/api/auth/", authRouter);
 app.use("/api/", indexRouter);
 app.use("/api/models", modelRouter);
+app.use("/api/user", userRouter);
 app.use("/api/upload", filestoreRouter);
 app.use("/api/users", userRouter);
+app.use("/api/comment", commentRouter);
 
 app.use(function(req, res, next) {
   req.gfs = gfs;

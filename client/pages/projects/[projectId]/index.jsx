@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { Gantt, Head, TipCard } from "../../../components";
+import { Gantt, Head, TipCard, CommentsSection } from "../../../components";
 import {
   Alert,
   Button,
@@ -246,6 +246,8 @@ export default function ProjectPage() {
                   icon="fa-lightbulb-o"
                 />
               </div>
+
+              <CommentsSection projectId={projectId} />
             </div>
           )}
         </>
