@@ -49,7 +49,25 @@ export const getModelsByID = Model_ID => {
       });
     });
 };
-
+export const getModelsGreaterThanID = (numUpdates, lastID) => {
+  /**
+   * Returns min(#projects > ID, numUpdates) projects with ID greater than last_id query
+   * Returns GET_MODEL_FAIL upon failure
+   */
+  const requestString = `${BASE_URL}/models/${numUpdates}/${lastID}`;
+  return axios
+    .get(requestString, {
+      headers: {
+        "Content-Type": "application/JSON"
+      }
+    })
+    .catch(error => {
+      ({
+        type: "GET_MODEL_GREATER_ID_FAIL",
+        error
+      });
+    });
+};
 export const addModel = data => {
   /**
    * Adds a model

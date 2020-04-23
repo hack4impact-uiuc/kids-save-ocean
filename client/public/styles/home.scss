@@ -4,13 +4,36 @@
       rgba(12, 64, 184, 0.6) 1%,
       rgba(36, 167, 149, 0.651) 100%
     ),
-    url("/asset/images/splash.jpg");
+    url("/asset/images/stock-ocean.jpg");
   background-size: cover;
   background-position: center;
   height: 60vh;
   width: auto;
   opacity: 0.99;
   align-content: middle;
+}
+.welcome-h1 {
+  color: white;
+  font-weight: bolder;
+  font-size: 144px;
+  text-shadow: 4px 4px 2px #003366;
+  // text-shadow: 5px 5px #003366;
+}
+.header-box {
+  background-color: rgba(#ffcc66, 1);
+  text-align: center;
+  height: 35rem;
+  padding: 10rem;
+  box-shadow: 1px 1px 1.5px #003366;
+}
+.profile-header {
+  background-image: radial-gradient(
+      50% 141%,
+      rgba(12, 64, 184, 0.6) 1%,
+      rgba(36, 167, 149, 0.651) 100%
+    ),
+    url("/homepage-images/stock-ocean.jpg");
+  height: 10em;
 }
 .home-block-col {
   margin: auto;
@@ -62,14 +85,6 @@
   color: black;
   font-weight: bold;
   text-align: left;
-}
-.header-modal-text {
-  color: black;
-  font-weight: bold;
-  font-size: 2em;
-  text-align: center;
-  align-content: center;
-  width: 100%;
 }
 
 .body-text {
@@ -165,10 +180,6 @@
   height: 200px;
   font-size: 13px;
 }
-.select-sdg {
-  width: 10em;
-  border-radius: 10em;
-}
 .sdg-card:hover {
   border-width: 2px;
   border-color: darkblue;
@@ -192,35 +203,31 @@
   background-color: rgba(5, 46, 143, 0.6);
   border-color: rgba(12, 46, 240, 0.685);
 }
-.button-design-2 {
-  background-color: rgba(5, 7, 126, 0.616);
-  border-color: rgba(12, 46, 240, 0.685);
-  border-radius: 1em;
-  width: 30%;
+.wave {
+  position: relative;
+  height: 70px;
+  width: 600px;
+  background: #ffcc66;
 }
-.button-design-2:hover {
-  background-color: rgba(5, 46, 143, 0.6);
-  border-color: rgba(12, 46, 240, 0.685);
+.wave:before {
+  content: "";
+  display: block;
+  position: absolute;
+  border-radius: 100% 50%;
+  width: 340px;
+  height: 80px;
+  background-color: white;
+  right: -5px;
+  top: 40px;
 }
-
-.project-form-modal {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  max-width: none;
-
-  .modal-content {
-    padding: 2em;
-    width: 40vw;
-    margin: 0;
-  }
-
-  .modal-header {
-    justify-content: center;
-  }
-
-  .modal-footer {
-    justify-content: center;
-  }
+.wave:after {
+  content: "";
+  display: block;
+  position: absolute;
+  border-radius: 100% 50%;
+  width: 300px;
+  height: 70px;
+  background-color: #ffcc66;
+  left: 0;
+  top: 27px;
 }
