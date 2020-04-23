@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { Gantt, Head, TipCard, CommentsSection } from "../../../components";
+import {
+  Gantt,
+  Head,
+  TipCard,
+  CommentsSection,
+  UpvotesSection
+} from "../../../components";
 import {
   Alert,
   Button,
@@ -253,6 +259,7 @@ export default function ProjectPage() {
                 />
               </div>
 
+              <UpvotesSection projectId={projectId} />
               <CommentsSection projectId={projectId} />
             </div>
           )}
