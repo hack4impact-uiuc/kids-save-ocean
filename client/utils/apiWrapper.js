@@ -501,6 +501,14 @@ export const getComments = model_id => {
   }));
 };
 
+export const getCommentCount = model_id => {
+  const requestString = `${BASE_URL}/comment/${model_id}/count`;
+  return axios.get(requestString).catch(error => ({
+    type: "GET_COMMENT_FAIL",
+    error
+  }));
+};
+
 export const postUpvote = (model_id) => {
   const requestString = `${BASE_URL}/upvotes`;
   return axios
