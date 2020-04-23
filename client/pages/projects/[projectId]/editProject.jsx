@@ -35,12 +35,13 @@ export default function EditProjectPage() {
       setLoading(false);
     };
 
-    const loadOwner = async (projectId) => {
-      const isOwner = await canEdit(projectId).catch( () => return undefined );
-      if (isOwner) {
+    const loadOwner = (projectId) => {
+      canEdit(projectId).then(resp => {
         setIsOwner(true);
         loadProject(projectId);
-      }
+      }).catch(err => {
+        setLoading(false);
+      });
     };
 
     if (projectId !== undefined) {
