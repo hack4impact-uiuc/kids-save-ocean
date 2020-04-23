@@ -107,15 +107,17 @@ export default function ProjectPage() {
           setProject(model.data);
         }
       }
-      setLoading(true);
-      const resp = await getFollowingProjects();
-      const res = await resp.json();
-      if (projectId && res.data.includes(projectId)) {
-        setFollowing(true);
-      } else {
-        setFollowing(false);
+      if (localStorage.getItem("token")) {
+        setLoading(true);
+        const resp = await getFollowingProjects();
+        const res = await resp.json();
+        if (projectId && res.data.includes(projectId)) {
+          setFollowing(true);
+        } else {
+          setFollowing(false);
+        }
+        setLoading(false);
       }
-      setLoading(false);
     };
     loadModel(projectId);
   }, [projectId]);
@@ -181,14 +183,18 @@ export default function ProjectPage() {
             <div className="project">
               <div className="project-header">
                 <h1 className="project-info">{project.name}</h1>
-                {following ? (
-                  <Button className="follow-btn" onClick={unfollowProj}>
-                    Unfollow
-                  </Button>
-                ) : (
-                  <Button className="follow-btn" onClick={followProj}>
-                    Follow
-                  </Button>
+                {localStorage.getItem("token") && (
+                  <>
+                    {following ? (
+                      <Button className="follow-btn" onClick={unfollowProj}>
+                        Unfollow
+                      </Button>
+                    ) : (
+                      <Button className="follow-btn" onClick={followProj}>
+                        Follow
+                      </Button>
+                    )}
+                  </>
                 )}
               </div>
               <p className="project-info">{project.description}</p>
