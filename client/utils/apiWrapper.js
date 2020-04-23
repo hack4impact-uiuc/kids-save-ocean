@@ -560,3 +560,30 @@ export const getComments = model_id => {
     error
   }));
 };
+
+export const postUpvote = model_id => {
+  const requestString = `${BASE_URL}/upvote`;
+  return axios
+    .post(
+      requestString,
+      { upvoteLocation: model_id },
+      {
+        headers: {
+          "Content-Type": "application/JSON",
+          "x-access-token": localStorage.getItem("token")
+        }
+      }
+    )
+    .catch(error => ({
+      type: "SAVE_UPVOTE_FAIL",
+      error
+    }));
+};
+
+export const getUpvotes = model_id => {
+  const requestString = `${BASE_URL}/upvote/${model_id}`;
+  return axios.get(requestString).catch(error => ({
+    type: "GET_UPVOTE_FAIL",
+    error
+  }));
+};
