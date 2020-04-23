@@ -21,6 +21,9 @@ export default function EditProjectPage() {
     // ["Stage 2", "Description 2"],
     // ["Stage 3", "Description 3"]
   ];
+  var inspirationArr = [];
+  var ideationArr = [];
+  var implementationArr = [];
 
   const handleTitleChange = projTitle => {
     setProjTitle(projTitle.target.value);
@@ -36,14 +39,17 @@ export default function EditProjectPage() {
 
   const handleInspirationChange = inspiration => {
     setInspiration(inspiration);
+    inspirationArr = inspiration;
   };
 
   const handleIdeationChange = ideation => {
     setIdeation(ideation);
+    ideationArr = ideation;
   };
 
   const handleImplementationChange = implementation => {
     setImplementation(implementation);
+    implementationArr = implementation;
   };
 
   useEffect(() => {
@@ -58,9 +64,14 @@ export default function EditProjectPage() {
         setGrpSize(project.data.groupSize);
 
         setInspiration(project.data.phases.inspiration);
-        console.log(project.data.phases.inspiration);
+        inspirationArr = project.data.phases.inspiration;
+        console.log(project.data.phases.inspiration); // to delete
+
         setIdeation(project.data.phases.ideation);
+        ideationArr = project.data.phases.ideation;
+
         setImplementation(project.data.phases.implementation);
+        implementationArr = project.data.phases.implementation;
       } else {
         setAlert(true);
       }
@@ -133,6 +144,15 @@ export default function EditProjectPage() {
             </Row>
             <hr className="divider-stage" />
             <div className="stages">
+              {inspiration.map((value, idx) => (
+                <Stage
+                  stageName={value[0]}
+                  description={value[1]}
+                  phaseName={"inspiration"}
+                  id={id}
+                  value={idx}
+                />
+              ))}
               {ideationStages.map((value, idx) => (
                 <Stage
                   stageName={value[0]}
