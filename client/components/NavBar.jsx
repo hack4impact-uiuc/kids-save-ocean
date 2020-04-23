@@ -7,9 +7,14 @@ import {
   NavItem,
   Nav,
   Button,
+<<<<<<< HEAD
   Row,
   Col,
   Container,
+=======
+  Col,
+  Container
+>>>>>>> cb068f7d9a0fdae9eee27c19b22d44d357250327
 } from "reactstrap";
 
 import "../public/styles/navbar.scss";
@@ -25,11 +30,16 @@ export default function NavBar() {
         setTop(currTop);
       }
     });
+<<<<<<< HEAD
   });
+=======
+  }, [isTop]);
+>>>>>>> cb068f7d9a0fdae9eee27c19b22d44d357250327
   function toggleNavbar() {
     setCollapsed(!isCollapsed);
   }
   return (
+<<<<<<< HEAD
     <div className="enclosing-div">
       <div className="triangle"></div>
       <div className="rectangle"></div>
@@ -79,5 +89,50 @@ export default function NavBar() {
         </Container>
       </Navbar>
     </div>
+=======
+    <Navbar
+      className={`navbar-expand-lg navbar-light shadow fixed-top ${"navbar-body"}`}
+    >
+      <Container className="container-nav">
+        <NavbarBrand href="/">
+          <img
+            className="logo-settings"
+            id="logo"
+            src="/homepage-images/fatemaker-logo.png"
+            alt="FateMaker logo"
+          />
+        </NavbarBrand>
+        <NavbarToggler onClick={toggleNavbar} />
+        <Collapse navbar isOpen={!isCollapsed}>
+          <Nav navbar className="ml-auto">
+            <NavItem>
+              <Col className="button-col">
+                <Button className="button-create" color="#ffcc66">
+                  Create
+                </Button>
+              </Col>
+            </NavItem>
+            <NavItem>
+              <Col lg={{ size: 1 }} className="divider"></Col>
+            </NavItem>
+            <NavItem className="notif-col">
+              <img
+                className="nav-img"
+                src="/navbar-images/notification-icon.svg"
+                alt="Notifications"
+              />
+            </NavItem>
+            <NavItem className="user-col">
+              <img
+                className="nav-img"
+                src="/navbar-images/user-icon.svg"
+                alt="Profile"
+              />
+            </NavItem>
+          </Nav>
+        </Collapse>
+      </Container>
+    </Navbar>
+>>>>>>> cb068f7d9a0fdae9eee27c19b22d44d357250327
   );
 }

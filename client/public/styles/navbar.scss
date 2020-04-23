@@ -1,31 +1,23 @@
 body {
   padding-top: 4.75rem;
   font-family: Arvo, serif;
-  font-weight: bold;
-}
-.enclosing-div {
-  background-color: #2a2c2e;
 }
 .navbar-body {
   height: 4.75rem;
   background-color: rgba(#ffffff, 1);
 }
 .container-nav {
-  display: block;
   max-width: none !important;
   width: 100%;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
-  margin-left: 128px;
-  margin-right: 128px;
+  margin-left: 8rem;
+  margin-right: 8rem;
 }
 .logo-settings {
   height: 2rem;
   width: auto;
 }
-// .brandblock {
-//   background: rgba(#fff, 0);
-// }
 .button-create::before {
   content: "";
   position: absolute;
@@ -36,28 +28,22 @@ body {
   transition: 0.6s;
   bottom: 0;
   border-radius: 50% 50% 0 0;
-  background: rgba(#f6f5f6, 0.7);
+  background: rgba(#f6f5f6, 0.5z);
 }
 .button-create {
   color: #003366;
-  // text-shadow: 0.2px 0.2px #003366;
-  // font-style: normal;
-  // font-weight: 200;
-  font-family: Arvo, serif;
   font-weight: bold;
   font-size: 1.125rem;
   text-align: center;
-  height: 56px;
   border-radius: 20%;
-  // border-color: #003366;
-  // font-family: "usual", sans-serif;
 
+  height: 3.5rem;
   padding-left: 0.375rem;
   padding-right: 0.375rem;
   margin-left: 0rem;
   margin-right: 0.375rem;
 
-  transition: 0.6s;
+  transition: 0.4s;
   position: relative;
   overflow: hidden;
 }
@@ -65,14 +51,10 @@ body {
 .button-create:hover::before {
   height: 200%;
 }
-.button-create:hover {
-  color: #003366;
-}
 .button-create:active,
 .button-create:focus {
   filter: opacity(0.8);
   transition: 0.15s;
-  outline-color: #ffcc66;
 }
 
 .button-col {
@@ -81,14 +63,13 @@ body {
 
 .divider {
   background-color: rgba(#33cccc, 1);
+  height: 2.5rem;
+  width: 0.125rem;
   padding: 0rem;
   margin-left: 0.5rem;
   margin-right: 1rem;
-  // height: 75%;
-  height: 2.5rem;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
-  width: 0.125rem;
 }
 
 .notif-col,
@@ -109,44 +90,4 @@ body {
 .nav-img {
   width: auto;
   height: 1.75rem;
-}
-.dot {
-  width: 1rem;
-  height: 1rem;
-  background-color: white;
-  border-radius: 50%;
-  display: inline-block;
-}
-.triangle {
-  position: absolute;
-  z-index: 1;
-  top: -76px;
-  left: 112px;
-  width: 0;
-  height: 0px;
-  border-top: 38px solid transparent;
-  border-right: 54px solid #ffcc66;
-  border-bottom: 38px solid transparent;
-  overflow: hidden;
-}
-.triangle-2 {
-  position: absolute;
-  z-index: 1;
-  top: -76px;
-  left: 278px;
-  width: 0;
-  height: 0px;
-  border-top: 38px solid transparent;
-  border-right: 54px solid #33cccc;
-  border-bottom: 38px solid transparent;
-  overflow: hidden;
-}
-.rectangle {
-  position: absolute;
-  z-index: 1;
-  top: -76px;
-  left: 166px;
-  width: 166px;
-  height: 76px;
-  background: #ffcc66;
 }

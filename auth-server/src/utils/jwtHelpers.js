@@ -31,7 +31,7 @@ function shouldUpdateJWT(token, email, role) {
     if (String(userEmail) === String(email) && userRole === role) {
       return false;
     }
-    return false;
+    return true;
   } catch (err) {
     return err;
   }

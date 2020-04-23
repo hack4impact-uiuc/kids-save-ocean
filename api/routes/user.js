@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const validate = require("express-jsonschema").validate;
 const jwt = require("jsonwebtoken");
-// const guard = require("express-jwt-permissions");
 const { checkToken } = require("../auth/utils/checkToken");
 
 const UserSchema = require("../public/schema/userSchema.js").userSchema;
@@ -10,7 +9,6 @@ const SUCCESS = 200;
 const NOT_FOUND = 404;
 
 router.get("/", checkToken, async (req, res) => {
-  // const { db } = req;
   const { role } = req.user;
   if (role === "admin") {
     res.status(SUCCESS).send({
