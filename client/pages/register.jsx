@@ -6,6 +6,7 @@ import {
   verifyPIN,
   resendPIN,
   google,
+  getSecurityQuestions,
   createUser
 } from "../utils/apiWrapper";
 import {
@@ -34,12 +35,7 @@ export default function RegisterPage(props) {
   const INVALID = -1;
   const { role } = props;
 
-  // state
-  const [anon, setAnon] = useState(INVALID);
-  const [birthday, setBirthday] = useState("");
-  const [country, setCountry] = useState("");
-  const [person, setPerson] = useState("");
-  const [username, setUsername] = useState("");
+  // state related to auth user
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
@@ -49,22 +45,31 @@ export default function RegisterPage(props) {
   const [securityQuestionAnswer, setSecurityQuestionAnswer] = useState("");
   const [successfulSubmit, setSuccessfulSubmit] = useState(false);
   const [questionIdx, setQuestionIdx] = useState(INVALID);
-  // useEffect(() => {
-  //   const loadSecurityQuestions = async () => {
-  //     const resp = await getSecurityQuestions();
-  //     if (!resp) {
-  //       setErrorMessage("Unable to load data");
-  //       return;
-  //     }
-  //     const respJson = await resp.json();
-  //     if (respJson.questions) {
-  //       setQuestions(respJson.questions);
-  //     } else {
-  //       setErrorMessage(respJson.error.message);
-  //     }
-  //   };
-  //   loadSecurityQuestions();
-  // }, [setErrorMessage, setQuestions]);
+
+  // state related to kso user
+  const [username] = useState("test");
+  const [country] = useState("test");
+  const [birthday] = useState("test");
+  const [userRole] = useState("admin");
+  const [anon] = useState(false);
+
+  useEffect(() => {
+    const loadSecurityQuestions = async () => {
+      const resp = await getSecurityQuestions();
+      if (!resp) {
+        setErrorMessage("Unable to load data");
+        return;
+      }
+      const respJson = await resp.json();
+      if (respJson.questions) {
+        setQuestions(respJson.questions);
+      } else {
+        setErrorMessage(respJson.error.message);
+      }
+    };
+    loadSecurityQuestions();
+  }, [setErrorMessage, setQuestions]);
+
   const handleGoogle = async e => {
     const result = await google(e.tokenId);
     const resp = await result.json();

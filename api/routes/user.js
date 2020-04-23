@@ -175,15 +175,38 @@ router.delete("/userInfo", checkToken, async (req, res) => {
   }
 });
 
-//handle following
-router.put("/:id/follow", checkToken, async (req, res) => {
+//get user's followed projects
+router.get("/:id/followingProjects", checkToken, async (req, res) => {
+  const { db } = req;
+  const collection = db.get("users");
+  const { id } = req.params;
+  try {
+    const user = await collection.findOne({ _id: id });
+    if (!user) {
+      res.status(404).send({
+        success: false,
+        message: "User not found."
+      });
+    }
+    res.status(200).send({
+      success: true,
+      message: "Successfully retrived user's followingProjects.",
+      data: user.followingProjects
+    });
+  } catch (err) {
+    return err;
+  }
+});
+
+// follow a project
+router.put("/:id/followingProjects", checkToken, async (req, res) => {
   const { db } = req;
   const userCollection = db.get("users");
   const projCollection = db.get("projects");
   const { id } = req.params;
-  const { projToFollow } = req.body;
+  const { followingProjects } = req.body;
   try {
-    const project = await projCollection.findOne({ _id: projToFollow });
+    const project = await projCollection.findOne({ _id: followingProjects });
     if (!project) {
       res.status(NOT_FOUND).send({
         success: false,
@@ -199,18 +222,58 @@ router.put("/:id/follow", checkToken, async (req, res) => {
     }
     await userCollection.update(
       { _id: id },
-      { $push: { followingProjects: projToFollow } },
+      { $push: { followingProjects } },
       { new: true }
     );
     await projCollection.update(
-      { _id: projToFollow },
+      { _id: followingProjects },
       { $push: { followers: id } },
       { new: true }
     );
     res.status(SUCCESS).send({
       code: SUCCESS,
       success: true,
-      message: `Successfully started following project ${projToFollow}.`
+      message: `Successfully started following project ${followingProjects}.`
+    });
+  } catch (err) {
+    return err;
+  }
+});
+
+// unfollow a project
+router.delete("/:userId/followingProjects/:projId", async (req, res) => {
+  const { db } = req;
+  const userCollection = db.get("users");
+  const projCollection = db.get("projects");
+  const { userId, projId } = req.params;
+  try {
+    const user = await userCollection.findOne({ _id: userId });
+    if (!user) {
+      res.status(NOT_FOUND).send({
+        success: false,
+        message: "User not found."
+      });
+    }
+    const project = await projCollection.findOne({ _id: projId });
+    if (!project) {
+      res.status(NOT_FOUND).send({
+        success: false,
+        message: "Project not found."
+      });
+    }
+    await userCollection.update(
+      { _id: userId },
+      { $pull: { followingProjects: projId } },
+      { new: true }
+    );
+    await projCollection.update(
+      { _id: projId },
+      { $pull: { followers: userId } },
+      { new: true }
+    );
+    res.status(200).send({
+      success: true,
+      message: `Successfully unfollowed project ${projId}`
     });
   } catch (err) {
     return err;

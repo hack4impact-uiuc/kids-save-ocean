@@ -15,7 +15,8 @@ import {
   Col,
   Container,
   Input,
-  Row
+  Row,
+  Alert
 } from "reactstrap";
 
 import "../../public/styles/projects.scss";
@@ -26,8 +27,9 @@ import Fuse from "fuse.js";
 const DESCRIPTION_LENGTH = 150;
 
 export default function ProjectsPage() {
-  const [projects, setProjects] = useState(null);
-
+  const [allProjects, setAllProjects] = useState([]);
+  const [projects, setProjects] = useState([]);
+  const [visAlert, setAlert] = useState(false);
   const [selectedUNGoals, setSelectedUNGoals] = useState(null);
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedGrpSize, setSelectedGrpSize] = useState(null);
@@ -35,207 +37,166 @@ export default function ProjectsPage() {
 
   const [userInput, setUserInput] = useState("");
 
-  var dropdownFilteredModels = [];
-  var searchFilteredModels = [];
-
-  const handleUNGoals = selectedUNGoals => {
-    if (selectedUNGoals) {
-      setSelectedUNGoals(selectedUNGoals);
-    }
-  };
-
-  const handleCountry = selectedCountry => {
-    if (selectedCountry) {
-      setSelectedCountry(selectedCountry);
-    }
-  };
-
-  const handleGrpSize = selectedGrpSize => {
-    if (selectedGrpSize) {
-      setSelectedGrpSize(selectedGrpSize);
-    }
-  };
-
-  const handleDifficulty = selectedDifficulty => {
-    if (selectedDifficulty) {
-      setSelectedDifficulty(selectedDifficulty);
-    }
-  };
-
   const handleSearchChange = userInput => {
-    if (userInput) {
-      setUserInput(userInput.target.value);
-    }
-  };
-
-  var getSearchBarText = () => {
-    var text = document.getElementById("user-input").value;
-
-    return text;
-  };
-
-  var showModal = () => {
-    document.getElementById("pop-up-modal").modal("show");
-  };
-
-  const options = {
-    keys: ["name", "description"]
-  };
-
-  const populateAllProjects = async () => {
-    const numberOfProjects = 20;
-
-    const allModels = await getModels();
-    setProjects(allModels.data.slice(numberOfProjects));
+    setUserInput(userInput.target.value);
   };
 
   useEffect(() => {
+    const populateAllProjects = async () => {
+      const response = await getModels(null, true);
+      setAllProjects(response.data);
+      setProjects(response.data);
+    };
+
     populateAllProjects();
   }, []);
 
   useEffect(() => {
-    const populateDropDownFilteredProjects = async () => {
-      dropdownFilteredModels = [];
+    const populateDropDownFilteredProjects = () => {
+      let dropdownFilteredModels = [];
 
-      const models = await getModels();
-
-      var isMatchingSDGs = false;
-      var isMatchingCountry = false;
-      var isMatchingGrpSize = false;
-      var isMatchingDifficulty = false;
-
-      if (
-        selectedUNGoals == null &&
-        selectedCountry == null &&
-        selectedGrpSize == null &&
-        selectedDifficulty == null
-      ) {
-        return [];
-      } else {
-        let sdgSelectedNums = [];
-
-        if (selectedUNGoals != null) {
-          for (let i = 0; i < selectedUNGoals.length; i++) {
-            sdgSelectedNums.push(parseInt(selectedUNGoals[i].value));
-          }
-        }
-
-        for (var i = 0; i < models.data.length; i++) {
-          if (selectedUNGoals == null) {
-            isMatchingSDGs = true;
-          } else if (
-            selectedUNGoals != null &&
-            selectedUNGoals.length <= models.data[i].sdg.length
-          ) {
-            const matches = models.data[i].sdg.filter(sdg =>
-              sdgSelectedNums.includes(sdg)
-            );
-
-            isMatchingSDGs = matches.length === sdgSelectedNums.length;
-          }
-
-          if (
-            selectedCountry == null ||
-            models.data[i].country == selectedCountry.label
-          ) {
-            isMatchingCountry = true;
-          }
-
-          if (
-            selectedGrpSize == null ||
-            models.data[i].groupSize == selectedGrpSize.label
-          ) {
-            isMatchingGrpSize = true;
-          }
-
-          if (
-            selectedDifficulty == null ||
-            models.data[i].difficulty == selectedDifficulty.label.toLowerCase()
-          ) {
-            isMatchingDifficulty = true;
-          }
-
-          if (
-            isMatchingSDGs &&
-            isMatchingCountry &&
-            isMatchingGrpSize &&
-            isMatchingDifficulty
-          ) {
-            dropdownFilteredModels.push(models.data[i]);
-          }
-
-          isMatchingSDGs = false;
-          isMatchingCountry = false;
-          isMatchingGrpSize = false;
-          isMatchingDifficulty = false;
-        }
-
-        return dropdownFilteredModels;
-      }
-    };
-
-    const populateSearchFilteredProjects = async () => {
-      searchFilteredModels = [];
-
-      const models = await getModels();
-
-      var textInput = getSearchBarText();
-
-      if (textInput == null || textInput.length == 0) {
-        return [];
-      } else {
-        let fuse = new Fuse(models.data, options);
-        searchFilteredModels = fuse.search(textInput);
-
-        return searchFilteredModels;
-      }
-    };
-
-    const populateAllFilteredProjects = async () => {
-      dropdownFilteredModels = await populateDropDownFilteredProjects();
-      searchFilteredModels = await populateSearchFilteredProjects();
+      const models = allProjects;
+      let isMatchingSDGs = false;
+      let isMatchingCountry = false;
+      let isMatchingGrpSize = false;
+      let isMatchingDifficulty = false;
 
       if (
-        getSearchBarText() == null &&
-        selectedUNGoals == null &&
-        selectedCountry == null &&
-        selectedGrpSize == null &&
-        selectedDifficulty == null
+        (selectedUNGoals === null || selectedUNGoals.length === 0) &&
+        (selectedCountry === null || selectedCountry.length === 0) &&
+        (selectedGrpSize === null || selectedGrpSize.length === 0) &&
+        (selectedDifficulty === null || selectedDifficulty.length === 0)
       ) {
-        await populateAllProjects();
+        setAlert(false);
+        return [];
+      }
+
+      let sdgSelectedNums = [];
+      if (selectedUNGoals !== null) {
+        for (let i = 0; i < selectedUNGoals.length; i++) {
+          sdgSelectedNums.push(parseInt(selectedUNGoals[i].value));
+        }
+      }
+
+      for (let i = 0; i < models.length; i++) {
+        if (selectedUNGoals === null) {
+          isMatchingSDGs = true;
+        } else if (
+          selectedUNGoals !== null &&
+          selectedUNGoals.length <= models[i].sdg.length
+        ) {
+          const matches = models[i].sdg.filter(sdg =>
+            sdgSelectedNums.includes(sdg)
+          );
+
+          isMatchingSDGs = matches.length === sdgSelectedNums.length;
+        }
+        if (
+          selectedCountry === null ||
+          models[i].country === selectedCountry.label
+        ) {
+          isMatchingCountry = true;
+        }
+
+        if (
+          selectedGrpSize === null ||
+          models[i].groupSize === selectedGrpSize.label
+        ) {
+          isMatchingGrpSize = true;
+        }
+
+        if (
+          selectedDifficulty === null ||
+          models[i].difficulty === selectedDifficulty.label.toLowerCase()
+        ) {
+          isMatchingDifficulty = true;
+        }
+
+        if (
+          isMatchingSDGs &&
+          isMatchingCountry &&
+          isMatchingGrpSize &&
+          isMatchingDifficulty
+        ) {
+          dropdownFilteredModels.push(models[i]);
+        }
+
+        isMatchingSDGs = false;
+        isMatchingCountry = false;
+        isMatchingGrpSize = false;
+        isMatchingDifficulty = false;
+      }
+      if (dropdownFilteredModels.length === 0) {
+        setAlert(true);
+      }
+      return dropdownFilteredModels;
+    };
+
+    const populateSearchFilteredProjects = () => {
+      const options = {
+        keys: ["name", "description"]
+      };
+
+      let searchFilteredModels = [];
+
+      if (userInput === null || userInput.length === 0) {
+        return [];
+      }
+
+      let fuse = new Fuse(allProjects, options);
+      searchFilteredModels = fuse.search(userInput);
+
+      if (searchFilteredModels.length === 0) {
+        setAlert(true);
+      }
+
+      return searchFilteredModels;
+    };
+
+    const populateAllFilteredProjects = () => {
+      let dropdownFilteredModels = populateDropDownFilteredProjects();
+      let searchFilteredModels = populateSearchFilteredProjects();
+
+      let tempArr = [];
+      if (
+        dropdownFilteredModels.length === 0 &&
+        searchFilteredModels.length === 0
+      ) {
+        if (visAlert) {
+          setProjects([]);
+        } else {
+          setProjects(allProjects);
+        }
       } else if (
-        dropdownFilteredModels.length == 0 &&
-        searchFilteredModels.length == 0
+        dropdownFilteredModels.length !== 0 &&
+        searchFilteredModels.length === 0
       ) {
-        await populateAllProjects();
-        showModal();
-      } else if (dropdownFilteredModels.length != 0) {
-        let tempArr = [];
-
-        for (var i = 0; i < dropdownFilteredModels.length; i++) {
+        for (let i = 0; i < dropdownFilteredModels.length; i++) {
           tempArr.push(dropdownFilteredModels[i]);
         }
-
+        setAlert(false);
         setProjects(tempArr);
-      } else if (searchFilteredModels.length != 0) {
-        let tempArr = [];
-
-        for (var i = 0; i < searchFilteredModels.length; i++) {
+      } else if (
+        searchFilteredModels.length !== 0 &&
+        dropdownFilteredModels.length === 0
+      ) {
+        for (let i = 0; i < searchFilteredModels.length; i++) {
           tempArr.push(searchFilteredModels[i].item);
         }
-
+        setAlert(false);
         setProjects(tempArr);
-      } else {
-        let tempArr = [];
-
-        for (var i = 0; i < dropdownFilteredModels.length; i++) {
-          for (var j = 0; j < searchFilteredModels.length; j++) {
-            if (dropdownFilteredModels[i] == searchFilteredModels[j]) {
+      } else if (
+        dropdownFilteredModels.length !== 0 &&
+        searchFilteredModels.length !== 0
+      ) {
+        for (let i = 0; i < dropdownFilteredModels.length; i++) {
+          for (let j = 0; j < searchFilteredModels.length; j++) {
+            if (dropdownFilteredModels[i] === searchFilteredModels[j].item) {
               tempArr.push(searchFilteredModels[j].item);
             }
           }
         }
-
+        setAlert(false);
         setProjects(tempArr);
       }
     };
@@ -246,44 +207,23 @@ export default function ProjectsPage() {
     selectedCountry,
     selectedGrpSize,
     selectedDifficulty,
-    userInput
+    userInput,
+    visAlert,
+    allProjects
   ]);
 
   return (
     <>
       <Head title="Project Explorer" />
       <Container>
-        <div
-          className="modal"
-          class="modal fade"
-          id="pop-up-modal"
-          tabindex="-1"
-          role="dialog"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">
-                  Alert!
-                </h5>
-                <button
-                  type="button"
-                  class="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                No projects meet these categories / search. Please modify your
-                search / filters.
-              </div>
+        {visAlert && (
+          <Alert color="danger">
+            <div justify="center" align="middle">
+              No projects matching search
             </div>
-          </div>
-        </div>
+          </Alert>
+        )}
+
         <div className="search-bar">
           <Input
             type="text"
@@ -300,31 +240,31 @@ export default function ProjectsPage() {
             className="un-goals-list"
             options={UNGoalData}
             placeholder="Select UN Goals"
-            onChange={handleUNGoals}
+            onChange={setSelectedUNGoals}
             value={selectedUNGoals}
           />
           <Select
+            isClearable
             className="country-list"
             options={countryData}
             placeholder="Search country"
-            isClearable
-            onChange={handleCountry}
+            onChange={setSelectedCountry}
             value={selectedCountry}
           />
           <Select
+            isClearable
             className="grp-sizes-list"
             options={groupSizeData}
             placeholder="Select group size"
-            isClearable
-            onChange={handleGrpSize}
+            onChange={setSelectedGrpSize}
             value={selectedGrpSize}
           />
           <Select
+            isClearable
             className="difficulty-list"
             options={levelData}
             placeholder="Select difficulty"
-            isClearable
-            onChange={handleDifficulty}
+            onChange={setSelectedDifficulty}
             value={selectedDifficulty}
           />
         </div>

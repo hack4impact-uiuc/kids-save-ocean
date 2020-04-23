@@ -1,38 +1,76 @@
-import React from "react";
-import { Col, Row } from "reactstrap";
+import React, { useEffect, useState } from "react";
+import {
+  Navbar,
+  NavbarBrand,
+  NavbarToggler,
+  Collapse,
+  NavItem,
+  Nav,
+  Button,
+  Col,
+  Container
+} from "reactstrap";
+
 import "../public/styles/navbar.scss";
 
 export default function NavBar() {
+  const [isTop, setTop] = useState(true);
+  const [isCollapsed, setCollapsed] = useState(true);
+  useEffect(() => {
+    document.addEventListener("scroll", () => {
+      let topBound = 100;
+      const currTop = window.scrollY < topBound;
+      if (currTop !== isTop) {
+        setTop(currTop);
+      }
+    });
+  }, [isTop]);
+  function toggleNavbar() {
+    setCollapsed(!isCollapsed);
+  }
   return (
-    <Row className="header-row" justify="center" align="middle">
-      <Col xs="1">
-        <img
-          className="header-img"
-          src="/homepage-images/menu-icon.png"
-          alt="Menu"
-        />
-      </Col>
-      <Col xs="1">
-        <img
-          className="header-img"
-          src="/homepage-images/kso-icon.png"
-          alt="Kids Save Ocean logo"
-        />
-      </Col>
-      <Col xs={{ size: 1, offset: 8 }}>
-        <img
-          className="header-img"
-          src="/homepage-images/notification-icon.png"
-          alt="Notifications"
-        />
-      </Col>
-      <Col xs="1">
-        <img
-          className="header-img"
-          src="/homepage-images/user-icon.png"
-          alt="User"
-        />
-      </Col>
-    </Row>
+    <Navbar
+      className={`navbar-expand-lg navbar-light shadow fixed-top ${"navbar-body"}`}
+    >
+      <Container className="container-nav">
+        <NavbarBrand href="/">
+          <img
+            className="logo-settings"
+            id="logo"
+            src="/homepage-images/fatemaker-logo.png"
+            alt="FateMaker logo"
+          />
+        </NavbarBrand>
+        <NavbarToggler onClick={toggleNavbar} />
+        <Collapse navbar isOpen={!isCollapsed}>
+          <Nav navbar className="ml-auto">
+            <NavItem>
+              <Col className="button-col">
+                <Button className="button-create" color="#ffcc66">
+                  Create
+                </Button>
+              </Col>
+            </NavItem>
+            <NavItem>
+              <Col lg={{ size: 1 }} className="divider"></Col>
+            </NavItem>
+            <NavItem className="notif-col">
+              <img
+                className="nav-img"
+                src="/navbar-images/notification-icon.svg"
+                alt="Notifications"
+              />
+            </NavItem>
+            <NavItem className="user-col">
+              <img
+                className="nav-img"
+                src="/navbar-images/user-icon.svg"
+                alt="Profile"
+              />
+            </NavItem>
+          </Nav>
+        </Collapse>
+      </Container>
+    </Navbar>
   );
 }

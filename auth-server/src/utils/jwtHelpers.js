@@ -13,11 +13,14 @@ function signAuthJWT(email, role) {
 function verifyAuthJWT(token, userEmail) {
   try {
     let { email } = jwt.verify(token, process.env.AUTH_SECRET);
+    if (!email) {
+      return false;
+    }
     if (String(userEmail) === String(email)) {
       return true;
     }
   } catch (err) {
-    console.log("Token was updated");
+    console.log("Invalid token.");
   }
   return false;
 }
@@ -50,18 +53,6 @@ function decryptAuthJWT(token) {
     const { email } = jwt.verify(token, process.env.AUTH_SECRET);
     return email;
   } catch (err) {
-    // if (process.env.AUTH_SECRET.length > 1) {
-    //   try {
-    //     const { userId } = jwt.verify(
-    //       token,
-    //       String(process.env.AUTH_SECRET[1])
-    //     );
-    //     return userId;
-    //   } catch (err) {
-    //     return null;
-    //   }
-    // }
-    // return null;
     return err;
   }
 }

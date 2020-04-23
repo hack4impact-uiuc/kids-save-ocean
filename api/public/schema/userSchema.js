@@ -26,12 +26,6 @@ const schema = {
       type: "array",
       items: {
         type: "string"
-      }
-    },
-    commentIds: {
-      type: "array",
-      items: {
-        type: "string"
       },
       required: true
     },

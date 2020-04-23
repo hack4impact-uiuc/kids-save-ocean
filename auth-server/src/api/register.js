@@ -58,8 +58,7 @@ router.post(
       }
       const question =
         securityQuestionsResponse.securityQuestions[req.body.questionIdx];
-      console.log(question);
-      if (!question || !req.body.answer) {
+      if (!question || !req.body.securityQuestionAnswer) {
         return sendResponse(
           res,
           400,
@@ -69,18 +68,9 @@ router.post(
       userData["question"] = question;
       userData[
         "answer"
-      ] = req.body.answer.toLowerCase().replace(/\s/g, "");
+      ] = req.body.securityQuestionAnswer.toLowerCase().replace(/\s/g, "");
     }
 
-    // Checks the permission level of the user using the config file
-    // const requiredAuthFrom = await getRolesForUser(req.body.role);
-    // if (requiredAuthFrom != null) {
-    //   return sendResponse(
-    //     res,
-    //     400,
-    //     "User needs a higher permission level for that role"
-    //   );
-    // }
     const user = new User(userData);
 
     // If gmail is enabled, it sends an email with a generated PIN to verify the user

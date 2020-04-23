@@ -4,7 +4,7 @@ import fetch from "isomorphic-unfetch";
 const BASE_URL = process.env.BACKEND_URL ?? "http://localhost:5000/api";
 // const BASE_URL = process.env.BACKEND_URL ?? "http://52.240.158.249:5000/api"; // leave this in, this is Arpan's url
 
-export const getModels = (sdg_query = null) => {
+export const getModels = (sdg_query, searchPage = null) => {
   /**
    * Returns all models
    * Returns GET_MODEL_FAIL upon failure
@@ -12,6 +12,8 @@ export const getModels = (sdg_query = null) => {
   let requestString = ``;
   if (sdg_query) {
     requestString = `${BASE_URL}/models?sdg=${sdg_query}`;
+  } else if (searchPage) {
+    requestString = `${BASE_URL}/models?searchPage=true`;
   } else {
     requestString = `${BASE_URL}/models`;
   }
@@ -47,7 +49,25 @@ export const getModelsByID = Model_ID => {
       });
     });
 };
-
+export const getModelsGreaterThanID = (numUpdates, lastID) => {
+  /**
+   * Returns min(#projects > ID, numUpdates) projects with ID greater than last_id query
+   * Returns GET_MODEL_FAIL upon failure
+   */
+  const requestString = `${BASE_URL}/models/${numUpdates}/${lastID}`;
+  return axios
+    .get(requestString, {
+      headers: {
+        "Content-Type": "application/JSON"
+      }
+    })
+    .catch(error => {
+      ({
+        type: "GET_MODEL_GREATER_ID_FAIL",
+        error
+      });
+    });
+};
 export const addModel = data => {
   /**
    * Adds a model
@@ -109,7 +129,7 @@ export const register = (
   passwordInput,
   questionIdx,
   answer,
-  role,
+  role
 ) => {
   try {
     return fetch(`${BASE_URL}/auth/register`, {
@@ -119,8 +139,8 @@ export const register = (
         email: emailInput,
         password: passwordInput,
         questionIdx,
-        answer,
-        role,
+        securityQuestionAnswer: answer,
+        role
       })
     });
   } catch (err) {
