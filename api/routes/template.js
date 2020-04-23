@@ -56,7 +56,7 @@ router.get("/", function(req, res) {
   });
 });
 
-// get specific template by id (clicking on template in dropdown menu, or maybe not used lol)
+// get specific template by id (clicking on template in dropdown menu)
 router.get("/:template_ID", function(req, res) {
   const db = req.db;
   let id = req.params.template_ID;
@@ -68,76 +68,26 @@ router.get("/:template_ID", function(req, res) {
     )
     .catch(() => res.sendStatus(500));
 });
-
-// get draft pertaining to template specified by id (for pulling up template by user or by admin)
-router.get("/:template_ID/draft", function(req, res) {
-  const db = req.db;
-  const collection = db.get("templates");
-  const { template_ID } = req.params;
-  collection
-    .findOne({ _id: template_ID })
-    .then(template => {
-      if (template === null) {
-        res.sendStatus(404);
-      } else {
-        const draft = template.draft;
-        draft !== undefined
-          ? res.json({
-              draft: draft // { draft } ??
-            })
-          : res.sendStatus(404);
-      }
-    })
-    .catch(() => res.sendStatus(500));
-});
-
-// get template's name by id
-router.get("/:template_ID/name", function(req, res) {
-  const db = req.db;
-  const collection = db.get("templates");
-  const { template_ID } = req.params;
-  collection
-    .findOne({ _id: template_ID })
-    .then(template => {
-      if (template === null) {
-        res.sendStatus(404);
-      } else {
-        const draft = template.draft;
-        draft !== undefined
-          ? res.json({
-              draft: draft // { draft } ??
-            })
-          : res.sendStatus(404);
-      }
-    })
-    .catch(() => res.sendStatus(500));
-});
-
 // edit entire template by ID (hitting save and exit)
-router.put(
-  "/:template_ID",
-  validate({
-    body: TemplateSchema
-  }),
-  function(req, res) {
-    const db = req.db;
-    const id = req.params.template_ID;
-    const collection = db.get("templates");
-    collection
-      .findOneAndUpdate(
-        {
-          _id: id
-        },
-        req.body
-      )
-      .then(template =>
-        template !== null
-          ? res.json({ success: `${id} updated!` })
-          : res.sendStatus(404)
-      )
-      .catch(() => res.sendStatus(500));
-  }
-);
+router.put("/:template_ID", function(req, res) {
+  const db = req.db;
+  const collection = db.get("templates");
+  const { template_ID } = req.params;
+  const { draft, name, phases, creatorID } = req.body;
+  collection
+    .findOneAndUpdate(
+      {
+        _id: template_ID
+      },
+      { $set: { draft, phases, name, creatorID } }
+    )
+    .then(template =>
+      template !== null
+        ? res.json({ success: `${template_ID} updated!` })
+        : res.sendStatus(404)
+    )
+    .catch(() => res.sendStatus(500));
+});
 
 // edit draft of template by ID (what draftjs will do for template draft)
 router.put("/:template_ID/draft", function(req, res) {

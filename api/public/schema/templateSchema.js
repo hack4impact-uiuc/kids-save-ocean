@@ -15,8 +15,8 @@ const schema = {
       required: false
     },
     creatorID: {
-      type: "number",
-      required: true
+      type: "string",
+      required: false
     },
     draft: {
       type: "string",
