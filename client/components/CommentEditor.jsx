@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import { Button } from "reactstrap";
 
@@ -9,17 +9,15 @@ export default function CommentEditor(props) {
 
   const submitComment = () => {
     props.post(JSON.stringify(content));
-    setContent(null);
   };
 
   return (
-    <div>
+    <div className="comment-editor">
       <Dante
-        content={content}
         onChange={editor => setContent(editor.emitSerializedOutput())}
         widgets={[]}
       />
-      <Button onClick={() => submitComment()}></Button>
+      <Button onClick={submitComment}>Submit</Button>
     </div>
   );
 }

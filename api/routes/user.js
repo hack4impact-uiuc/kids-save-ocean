@@ -6,6 +6,7 @@ const { checkToken } = require("../auth/utils/checkToken");
 const UserSchema = require("../public/schema/userSchema.js").userSchema;
 const SUCCESS = 200;
 const NOT_FOUND = 404;
+const DUPLICATE = 409;
 
 router.get("/", checkToken, async (req, res) => {
   const { db } = req;
@@ -23,12 +24,34 @@ router.get("/", checkToken, async (req, res) => {
   }
 });
 
-router.get("/:id", checkToken, async (req, res) => {
+router.get("/userInfo", checkToken, async (req, res) => {
   const { db } = req;
   const collection = db.get("users");
-  const { id } = req.params;
+  const { email } = req.user;
   try {
-    const users = await collection.find({ _id: id });
+    const user = await collection.findOne({ email });
+    if (!user) {
+      res.status(NOT_FOUND).send({
+        success: false,
+        message: "User not found."
+      });
+    }
+    res.status(SUCCESS).send({
+      success: true,
+      message: "User retrieved successfully.",
+      data: user
+    });
+  } catch (err) {
+    return err;
+  }
+});
+
+router.get("/userInfo", checkToken, async (req, res) => {
+  const { db } = req;
+  const collection = db.get("users");
+  const { email } = req.user;
+  try {
+    const users = await collection.find({ email });
     const ret =
       users.length === 1
         ? {
@@ -175,42 +198,113 @@ router.delete("/userInfo", checkToken, async (req, res) => {
   }
 });
 
-//handle following
-router.put("/:id/follow", checkToken, async (req, res) => {
+//get user's followed projects
+router.get("/followingProjects", checkToken, async (req, res) => {
+  const { db } = req;
+  const collection = db.get("users");
+  const { email } = req.user;
+  try {
+    const user = await collection.findOne({ email });
+    if (!user) {
+      res.status(404).send({
+        success: false,
+        message: "User not found."
+      });
+    }
+    res.status(200).send({
+      success: true,
+      message: "Successfully retrived user's followingProjects.",
+      data: user.followingProjects
+    });
+  } catch (err) {
+    return err;
+  }
+});
+
+// follow a project
+router.put("/followingProjects", checkToken, async (req, res) => {
   const { db } = req;
   const userCollection = db.get("users");
   const projCollection = db.get("projects");
-  const { id } = req.params;
-  const { projToFollow } = req.body;
+  const { email } = req.user;
+  const { projId } = req.body;
+
+  // check for duplicate projects
   try {
-    const project = await projCollection.findOne({ _id: projToFollow });
+    const project = await projCollection.findOne({ _id: projId });
     if (!project) {
-      res.status(NOT_FOUND).send({
+      return res.status(NOT_FOUND).send({
         success: false,
         message: "Project not found."
       });
     }
-    const user = await userCollection.findOne({ _id: id });
+    const user = await userCollection.findOne({ email });
     if (!user) {
-      res.status(NOT_FOUND).send({
+      return res.status(NOT_FOUND).send({
+        success: false,
+        message: "User not found."
+      });
+    }
+    if (user.followingProjects.includes(projId)) {
+      return res.status(DUPLICATE).send({
+        success: false,
+        message: "Already following project."
+      });
+    }
+    await userCollection.update(
+      { email },
+      { $push: { followingProjects: projId } },
+      { new: true }
+    );
+    await projCollection.update(
+      { _id: projId },
+      { $push: { followers: user._id } },
+      { new: true }
+    );
+    res.status(SUCCESS).send({
+      success: true,
+      message: `Successfully started following project ${project.name}.`
+    });
+  } catch (err) {
+    return err;
+  }
+});
+
+// unfollow a project
+router.delete("/followingProjects", checkToken, async (req, res) => {
+  const { db } = req;
+  const userCollection = db.get("users");
+  const projCollection = db.get("projects");
+  const { email } = req.user;
+  const { projId } = req.body;
+  try {
+    const project = await projCollection.findOne({ _id: projId });
+    if (!project) {
+      return res.status(NOT_FOUND).send({
+        success: false,
+        message: "Project not found."
+      });
+    }
+    const user = await userCollection.findOne({ email });
+    if (!user) {
+      return res.status(NOT_FOUND).send({
         success: false,
         message: "User not found."
       });
     }
     await userCollection.update(
-      { _id: id },
-      { $push: { followingProjects: projToFollow } },
+      { email },
+      { $pull: { followingProjects: projId } },
       { new: true }
     );
     await projCollection.update(
-      { _id: projToFollow },
-      { $push: { followers: id } },
+      { _id: projId },
+      { $pull: { followers: user._id } },
       { new: true }
     );
     res.status(SUCCESS).send({
-      code: SUCCESS,
       success: true,
-      message: `Successfully started following project ${projToFollow}.`
+      message: `Successfully unfollowed project ${project.name}.`
     });
   } catch (err) {
     return err;

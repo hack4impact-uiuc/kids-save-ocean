@@ -8,8 +8,9 @@ const { getUserId } = require("../utils/user_utils");
 const ModelSchema = require("../public/schema/projectSchema.js").projectSchema;
 
 router.get("/", function(req, res) {
-  var sdg_par = req.query.sdg;
-  var sdg_num = parseInt(sdg_par);
+  let sdg_par = req.query.sdg;
+  let sdg_num = parseInt(sdg_par);
+  let searchPageReq = req.query.searchPage;
   const db = req.db;
   const collection = db.get("projects");
   if (sdg_par && !isNaN(sdg_num)) {
@@ -24,6 +25,10 @@ router.get("/", function(req, res) {
         res.send(docs);
       }
     );
+  } else if (searchPageReq) {
+    collection.find({}, { fields: { phases: 0 } }, function(e, docs) {
+      res.send(docs);
+    });
   } else {
     collection.find({}, {}, function(e, docs) {
       res.send(docs);
@@ -158,5 +163,26 @@ router.get("/:model_ID/:phaseName/:stageName/description", function(req, res) {
     })
     .catch(() => res.sendStatus(500));
 });
-
+router.get("/:numUpdates/:lastID", function(req, res) {
+  const ObjectId = require("mongodb").ObjectID;
+  const last_ID = new ObjectId(req.params.lastID);
+  const db = req.db;
+  const collection = db.get("projects");
+  collection.find(
+    {
+      _id: { $gt: last_ID }
+    },
+    {
+      $exists: true,
+      limit: parseInt(req.params.numUpdates)
+    },
+    function(e, docs) {
+      if (docs) {
+        res.send(docs);
+      } else {
+        res.sendStatus(400);
+      }
+    }
+  );
+});
 module.exports = router;

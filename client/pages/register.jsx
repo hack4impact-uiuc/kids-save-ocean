@@ -52,11 +52,11 @@ export default function RegisterPage(props) {
   const [questionIdx, setQuestionIdx] = useState(INVALID);
 
   // state related to kso user
-  const [username, setUsername] = useState("test");
-  const [country, setCountry] = useState("test");
-  const [birthday, setBirthday] = useState("test");
-  const [userRole, setUserRole] = useState("admin");
-  const [anon, setAnon] = useState(false);
+  const [username] = useState("test");
+  const [country] = useState("test");
+  const [birthday] = useState("test");
+  const [userRole] = useState("admin");
+  const [anon] = useState(false);
 
   useEffect(() => {
     const loadSecurityQuestions = async () => {
@@ -73,7 +73,7 @@ export default function RegisterPage(props) {
       }
     };
     loadSecurityQuestions();
-  }, []);
+  }, [setErrorMessage, setQuestions]);
 
   const handleGoogle = async e => {
     const result = await google(e.tokenId);
@@ -111,7 +111,7 @@ export default function RegisterPage(props) {
         userRole
       );
       const authUserRes = await authUserResp.json();
-      if (authUserRes.status === SUCCESS) {
+      if (authUserRes.success) {
         // #2: store token in local storage
         const { token } = authUserRes;
         if (!token) {
@@ -135,7 +135,7 @@ export default function RegisterPage(props) {
         };
         const ksoUserResp = await createUser(newUser);
         const ksoUserRes = await ksoUserResp.json();
-        if (ksoUserRes.code === SUCCESS) {
+        if (ksoUserRes.success) {
           setSuccessfulSubmit(true);
         } else {
           setErrorMessage(ksoUserRes.message);
