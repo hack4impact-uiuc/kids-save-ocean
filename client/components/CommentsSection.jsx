@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 
 import { Col, Row } from "reactstrap";
 
@@ -17,29 +17,24 @@ export default function CommentsSection(props) {
 
   useEffect(() => {
     fetchComments();
-  }, []);
+  }, [fetchComments]);
 
-  const renderComments = comments => {
-    let commentList = [];
-    for (let [index, comment] of comments.entries()) {
-      commentList.push(
-        <Row>
-          <Comment
-            comment={comment}
-            postThread={content => postThread(content, index)}
-          />
-        </Row>
-      );
-    }
-    return commentList;
-  };
+  const renderComments = comments =>
+    comments.map((comment, index) => (
+      <Row key={index}>
+        <Comment
+          comment={comment}
+          postThread={content => postThread(content, index)}
+        />
+      </Row>
+    ));
 
-  const fetchComments = () => {
+  const fetchComments = useCallback(() => {
     getComments(projectId).then(response => {
       const { comments } = response.data;
       setComments(comments);
     });
-  };
+  }, [projectId]);
 
   const post = content => {
     postComment(projectId, content).then(() => {

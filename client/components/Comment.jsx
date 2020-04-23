@@ -23,16 +23,10 @@ export default function Comment(props) {
     </div>
   );
 
-  const renderThread = thread => {
-    let threadList = [];
-    for (let comment of thread) {
-      threadList.push(
-        renderBlock(comment.authorName, comment.createdAt, comment.content)
-      );
-    }
-
-    return threadList;
-  };
+  const renderThread = thread =>
+    thread.map(comment =>
+      renderBlock(comment.authorName, comment.createdAt, comment.content)
+    );
 
   const postThreadHelper = content => {
     postThread(content);
