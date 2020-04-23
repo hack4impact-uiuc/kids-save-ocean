@@ -21,22 +21,27 @@
     height: 5%;
 }
 .parentRow{
-  font-family: "Arvo";
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   color: #003366;
 }
 .columnLeft{
-  background: #66CCCC;
-  height: 90%;
+  background: #FFCC66;
+  // background: #66CCCC;
+  height: 120%;
+  color: #003366 ;
+  font-weight: bolder;
+  font-size: 144px;
+  text-shadow: 4px 4px 2px white;
 }
 .motto{
   font-size: 3rem;
   margin-top: 5%;
   margin-left: 5%;
   margin-right: 5%;
-  margin-bottom: 59%;
+  height : 800px;
 }
 .vertAlign {
-  margin-top: 0.75%;
+  margin-top: 1.5%;
   margin-bottom: 2%;
 }
 .colBoxes{
@@ -58,14 +63,12 @@
   margin-top: 3.5%;
 }
 .textField {
-  font-size: 1.20rem;
+  font-size: 1.0rem;
 }
 
 .outer {
-  
     width: 80%;
     margin-left: 10%;
     margin-right: 10%;
-    margin-top: 7.5%;
-  
+    margin-top: 5%;
 }

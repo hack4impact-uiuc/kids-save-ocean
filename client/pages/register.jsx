@@ -34,8 +34,14 @@ export default function RegisterPage(props) {
   const SUCCESS = 200;
   const INVALID = -1;
   const { role } = props;
-
+  
   // state related to auth user
+  
+  const [anon, setAnon] = useState(false);
+  const [person, setPerson] = useState("");
+  const [username, setUsername] = useState("");
+  const [country, setCountry] = useState("");
+  const [birthday, setBirthday] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
@@ -47,28 +53,25 @@ export default function RegisterPage(props) {
   const [questionIdx, setQuestionIdx] = useState(INVALID);
 
   // state related to kso user
-  const [username] = useState("test");
-  const [country] = useState("test");
-  const [birthday] = useState("test");
-  const [userRole] = useState("admin");
-  const [anon] = useState(false);
+  
 
-  useEffect(() => {
-    const loadSecurityQuestions = async () => {
-      const resp = await getSecurityQuestions();
-      if (!resp) {
-        setErrorMessage("Unable to load data");
-        return;
-      }
-      const respJson = await resp.json();
-      if (respJson.questions) {
-        setQuestions(respJson.questions);
-      } else {
-        setErrorMessage(respJson.error.message);
-      }
-    };
-    loadSecurityQuestions();
-  }, [setErrorMessage, setQuestions]);
+
+  // useEffect(() => {
+  //   const loadSecurityQuestions = async () => {
+  //     const resp = await getSecurityQuestions();
+  //     if (!resp) {
+  //       setErrorMessage("Unable to load data");
+  //       return;
+  //     }
+  //     const respJson = await resp.json();
+  //     if (respJson.questions) {
+  //       setQuestions(respJson.questions);
+  //     } else {
+  //       setErrorMessage(respJson.error.message);
+  //     }
+  //   };
+  //   loadSecurityQuestions();
+  // }, [setErrorMessage, setQuestions]);
 
   const handleGoogle = async e => {
     const result = await google(e.tokenId);
@@ -100,7 +103,6 @@ export default function RegisterPage(props) {
       country.label !== "" && anon != INVALID
     ) {
       // #1: create user in auth db
-  
       const authUserResp = await register(
         email,
         password,
@@ -198,7 +200,7 @@ export default function RegisterPage(props) {
 
       <div>
         <Row className="parentRow">
-          <Col className="columnLeft" xs="6">
+          <Col className="columnLeft" xs="6" >
             <div className="motto">
             {/* <Image 
                 source={require('https://www.google.com/imgres?imgurl=https%3A%2F%2Fwww.gettyimages.ca%2Fgi-resources%2Fimages%2F500px%2F983801190.jpg&imgrefurl=https%3A%2F%2Fwww.gettyimages.ca%2Fcollections%2F500px&tbnid=IPCHuzhMDMWSwM&vet=12ahUKEwiws-77iPjoAhXFnZ4KHRj9CeAQMygbegQIARBr..i&docid=g_FeCARn6BUwiM&w=929&h=700&q=images&ved=2ahUKEwiws-77iPjoAhXFnZ4KHRj9CeAQMygbegQIARBr')}  
