@@ -124,7 +124,6 @@ export default function RegisterPage(props) {
         const newUser = {
           email,
           username,
-          password,
           country,
           birthday,
           anon,
