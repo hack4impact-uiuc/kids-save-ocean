@@ -49,7 +49,25 @@ export const getModelsByID = Model_ID => {
       });
     });
 };
-
+export const getModelsGreaterThanID = (numUpdates, lastID) => {
+  /**
+   * Returns min(#projects > ID, numUpdates) projects with ID greater than last_id query
+   * Returns GET_MODEL_FAIL upon failure
+   */
+  const requestString = `${BASE_URL}/models/${numUpdates}/${lastID}`;
+  return axios
+    .get(requestString, {
+      headers: {
+        "Content-Type": "application/JSON"
+      }
+    })
+    .catch(error => {
+      ({
+        type: "GET_MODEL_GREATER_ID_FAIL",
+        error
+      });
+    });
+};
 export const addModel = data => {
   /**
    * Adds a model
@@ -440,6 +458,50 @@ export const deleteUser = () => {
         "Content-Type": "application/json",
         "x-access-token": localStorage.getItem("token")
       }
+    });
+  } catch (err) {
+    return err;
+  }
+};
+
+export const getFollowingProjects = () => {
+  try {
+    return fetch(`${BASE_URL}/users/followingProjects`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      }
+    });
+  } catch (err) {
+    return err;
+  }
+};
+
+export const followProject = projId => {
+  try {
+    return fetch(`${BASE_URL}/users/followingProjects`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      },
+      body: JSON.stringify({ projId })
+    });
+  } catch (err) {
+    return err;
+  }
+};
+
+export const unfollowProject = projId => {
+  try {
+    return fetch(`${BASE_URL}/users/followingProjects`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      },
+      body: JSON.stringify({ projId })
     });
   } catch (err) {
     return err;
