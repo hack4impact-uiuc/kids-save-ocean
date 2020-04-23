@@ -13,14 +13,15 @@ import {
   Container,
   Alert
 } from "reactstrap";
-import { getModelsByID } from"../../../utils/apiWrapper";
+import { getModelsByID, canEdit } from"../../../utils/apiWrapper";
 import { Head, Stage } from "../../../components";
 import "../../../public/styles/editProject.scss";
 
 export default function EditProjectPage() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [visAlert, setAlert] = useState(false);
   const [project, setProject] = useState(null);
+  const [isOwner, setIsOwner] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const router = useRouter();
   const { projectId } = router.query;
@@ -31,31 +32,25 @@ export default function EditProjectPage() {
     const loadProject = async (projectId) => {
       const project = await getModelsByID(projectId);
       setProject(project.data);
+      setLoading(false);
+    };
 
-      if (project) {
-        setAlert(false);
-      } else {
-        setAlert(true);
+    const loadOwner = async (projectId) => {
+      const isOwner = await canEdit(projectId).catch( () => return undefined );
+      if (isOwner) {
+        setIsOwner(true);
+        loadProject(projectId);
       }
     };
 
     if (projectId !== undefined) {
-      loadProject(projectId);
+      loadOwner(projectId);
     }
   }, [projectId]);
 
-  return (
-    <>
-      <Head title={project?.name} />
-      <Container>
-        {visAlert && (
-          <Alert color="danger">
-            <div justify="center" align="middle">
-              Load Failed
-            </div>
-          </Alert>
-        )}
-
+  const renderProjectEdit = (project, dropdownOpen) => {
+    return (
+      <div>
         <Row>
           <Col className="home-block-col">
             <Row className="home-block-1-ep">
@@ -163,7 +158,7 @@ export default function EditProjectPage() {
                 stageName={value.name}
                 description={value.description}
                 phaseName={"inspiration"}
-                id={projectId}
+                id={project?._id}
                 key={idx}
               />
             ))}
@@ -195,7 +190,7 @@ export default function EditProjectPage() {
                 stageName={value.name}
                 description={value.description}
                 phaseName={"ideation"}
-                id={projectId}
+                id={project?._id}
                 key={idx}
               />
             ))}
@@ -227,13 +222,39 @@ export default function EditProjectPage() {
                 stageName={value.name}
                 description={value.description}
                 phaseName={"implementation"}
-                id={projectId}
+                id={project?._id}
                 key={idx}
               />
             ))}
           </div>
           <hr className="header-row-ep" />
         </Col>
+      </div>
+    );
+  };
+
+  return (
+    <>
+      <Head title={project?.name} />
+      <Container>
+        {loading && (
+          <Alert color="danger">
+            <div justify="center" align="middle">
+              Loading...
+            </div>
+          </Alert>
+        )}
+
+        {isOwner ?
+          renderProjectEdit(project, dropdownOpen)
+          :
+          <Alert color="danger">
+            <div justify="center" align="middle">
+              You cannot edit this project
+            </div>
+          </Alert>
+        }
+        
       </Container>
     </>
   );

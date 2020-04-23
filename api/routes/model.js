@@ -116,10 +116,32 @@ router.put(
   }
 );
 
-router.put("/:model_ID/:phaseName/:stageName/description", function(req, res) {
+router.get("/:model_ID/canEdit", checkToken, async function(req, res) {
+  const db = req.db;
+  const collection = db.get("projects");
+  const { model_ID } = req.params;
+
+  const userEmail = req.decoded.sub;
+  const userId = await getUserId(db, userEmail);
+
+  collection.findOne({
+    _id: model_ID,
+    ownerId: userId,
+  })
+  .then(
+    model => model !== null
+    ? res.json({ success: true })
+    : res.sendStatus(404))
+  .catch( () => res.sendStatus(404));
+});
+
+router.put("/:model_ID/:phaseName/:stageName/description", checkToken, function(req, res) {
   const db = req.db;
   const collection = db.get("projects");
   const { model_ID, phaseName, stageName } = req.params;
+
+  const userEmail = req.decoded.sub;
+  const userId = await getUserId(db, userEmail);
 
   const description = req.body.description;
   if (description === undefined) {
@@ -130,6 +152,7 @@ router.put("/:model_ID/:phaseName/:stageName/description", function(req, res) {
     .findOneAndUpdate(
       {
         _id: model_ID,
+        ownerId: userId,
         [`phases.${phaseName}.stages.name`]: stageName
       },
       { $set: { [`phases.${phaseName}.stages.$.description`]: description } }

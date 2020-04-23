@@ -373,6 +373,11 @@ export const userInfo = () => {
   }
 };
 
+export const canEdit = model_id => {
+  const requestString = `${BASE_URL}/models/${model_id}/canEdit`;
+  return axios.get(requestString)
+};
+
 export const saveDescription = (
   model_id,
   phaseName,
