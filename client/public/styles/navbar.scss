@@ -1,25 +1,93 @@
-.header-row {
-  height: 5em;
-  background-image: radial-gradient(
-      50% 141%,
-      rgba(11, 47, 129, 0.6) 1%,
-      rgba(43, 134, 161, 0.651) 100%
-    ),
-    url("/asset/images/splash.jpg");
-  vertical-align: top;
-  padding: 0.5em;
-
-  .col-1 {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
+body {
+  padding-top: 4.75rem;
+  font-family: Arvo, serif;
 }
-
-.header-img {
-  height: 3em;
+.navbar-body {
+  height: 4.75rem;
+  background-color: rgba(#ffffff, 1);
+}
+.container-nav {
+  max-width: none !important;
+  width: 100%;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  margin-left: 8rem;
+  margin-right: 8rem;
+}
+.logo-settings {
+  height: 2rem;
   width: auto;
 }
-.header-img:hover {
-  cursor: pointer;
+.button-create::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 0%;
+  z-index: -1;
+  transition: 0.6s;
+  bottom: 0;
+  border-radius: 50% 50% 0 0;
+  background: rgba(#f6f5f6, 0.5z);
+}
+.button-create {
+  color: #003366;
+  font-weight: bold;
+  font-size: 1.125rem;
+  text-align: center;
+  border-radius: 20%;
+
+  height: 3.5rem;
+  padding-left: 0.375rem;
+  padding-right: 0.375rem;
+  margin-left: 0rem;
+  margin-right: 0.375rem;
+
+  transition: 0.4s;
+  position: relative;
+  overflow: hidden;
+}
+
+.button-create:hover::before {
+  height: 200%;
+}
+.button-create:active,
+.button-create:focus {
+  filter: opacity(0.8);
+  transition: 0.15s;
+}
+
+.button-col {
+  padding: 0rem;
+}
+
+.divider {
+  background-color: rgba(#33cccc, 1);
+  height: 2.5rem;
+  width: 0.125rem;
+  padding: 0rem;
+  margin-left: 0.5rem;
+  margin-right: 1rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.notif-col,
+.user-col {
+  width: 100%;
+  padding-left: 0.125rem;
+  padding-right: 0.125rem;
+  margin-top: 0.875rem;
+  margin-bottom: 0.875rem;
+}
+.notif-col {
+  margin-right: 0.5rem;
+}
+.user-col {
+  margin-left: 0.5rem;
+}
+
+.nav-img {
+  width: auto;
+  height: 1.75rem;
 }

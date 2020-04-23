@@ -14,19 +14,7 @@ import {
 } from "reactstrap";
 import sdgs from "../utils/goals";
 
-import "../public/styles/home.scss";
-
-const customStyles = {
-  content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-    borderRadius: "1em",
-    height: "65%"
-  }
-};
+import "../public/styles/projectForm.scss";
 
 export default function ProjectForm() {
   const [sdg, setSdg] = useState(1);
@@ -39,12 +27,11 @@ export default function ProjectForm() {
   return (
     <div>
       <Button className="button-design" type="primary" onClick={toggleModal}>
-        <strong>Get Started</strong>
+        Create
       </Button>
       <Modal
         isOpen={modalIsOpen}
         toggle={toggleModal}
-        style={customStyles}
         className="project-form-modal"
       >
         <ModalHeader>
@@ -114,13 +101,13 @@ export default function ProjectForm() {
 
           <ModalFooter>
             <Button
-              className="button-design-2"
+              className="button-modal"
               type="primary"
               onClick={toggleModal}
             >
               <strong>Exit</strong>
             </Button>
-            <Button className="button-design-2" type="submit">
+            <Button className="button-modal" type="submit">
               <strong>Start</strong>
             </Button>
           </ModalFooter>

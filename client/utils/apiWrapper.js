@@ -4,7 +4,7 @@ import fetch from "isomorphic-unfetch";
 const BASE_URL = process.env.BACKEND_URL ?? "http://localhost:5000/api";
 // const BASE_URL = process.env.BACKEND_URL ?? "http://52.240.158.249:5000/api"; // leave this in, this is Arpan's url
 
-export const getModels = (sdg_query = null) => {
+export const getModels = (sdg_query, searchPage = null) => {
   /**
    * Returns all models
    * Returns GET_MODEL_FAIL upon failure
@@ -12,6 +12,8 @@ export const getModels = (sdg_query = null) => {
   let requestString = ``;
   if (sdg_query) {
     requestString = `${BASE_URL}/models?sdg=${sdg_query}`;
+  } else if (searchPage) {
+    requestString = `${BASE_URL}/models?searchPage=true`;
   } else {
     requestString = `${BASE_URL}/models`;
   }
@@ -47,7 +49,25 @@ export const getModelsByID = Model_ID => {
       });
     });
 };
-
+export const getModelsGreaterThanID = (numUpdates, lastID) => {
+  /**
+   * Returns min(#projects > ID, numUpdates) projects with ID greater than last_id query
+   * Returns GET_MODEL_FAIL upon failure
+   */
+  const requestString = `${BASE_URL}/models/${numUpdates}/${lastID}`;
+  return axios
+    .get(requestString, {
+      headers: {
+        "Content-Type": "application/JSON"
+      }
+    })
+    .catch(error => {
+      ({
+        type: "GET_MODEL_GREATER_ID_FAIL",
+        error
+      });
+    });
+};
 export const addModel = data => {
   /**
    * Adds a model
@@ -486,4 +506,84 @@ export const unfollowProject = projId => {
   } catch (err) {
     return err;
   }
+};
+
+export const postComment = (model_id, commentBody) => {
+  const requestString = `${BASE_URL}/comment`;
+  return axios
+    .post(
+      requestString,
+      {
+        commentLocation: model_id,
+        comment: commentBody
+      },
+      {
+        headers: {
+          "Content-Type": "application/JSON",
+          "x-access-token": localStorage.getItem("token")
+        }
+      }
+    )
+    .catch(error => ({
+      type: "SAVE_COMMENT_FAIL",
+      error
+    }));
+};
+
+export const postCommentThread = (model_id, parentIndex, commentBody) => {
+  const requestString = `${BASE_URL}/comment/thread`;
+  return axios
+    .post(
+      requestString,
+      {
+        commentLocation: `${model_id}`,
+        commentIndex: parentIndex,
+        comment: commentBody
+      },
+      {
+        headers: {
+          "Content-Type": "application/JSON",
+          "x-access-token": localStorage.getItem("token")
+        }
+      }
+    )
+    .catch(error => ({
+      type: "SAVE_COMMENT_FAIL",
+      error
+    }));
+};
+
+export const getComments = model_id => {
+  const requestString = `${BASE_URL}/comment/${model_id}`;
+  return axios.get(requestString).catch(error => ({
+    type: "GET_COMMENT_FAIL",
+    error
+  }));
+};
+
+export const postUpvote = model_id => {
+  const requestString = `${BASE_URL}/upvote`;
+  return axios
+    .post(
+      requestString,
+      { upvoteLocation: model_id },
+      {
+        headers: {
+          "Content-Type": "application/JSON",
+          "x-access-token": localStorage.getItem("token")
+        }
+      }
+    )
+    .catch(error => ({
+      type: "SAVE_UPVOTE_FAIL",
+      error
+    }));
+};
+
+export const getUpvotes = model_id => {
+  const requestString = `${BASE_URL}/upvote/${model_id}`;
+  return axios.get(requestString).catch(error => ({
+    type: "GET_UPVOTE_FAIL",
+    error
+  }));
 };

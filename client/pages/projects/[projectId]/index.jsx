@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { Gantt, Head, TipCard } from "../../../components";
+import {
+  Gantt,
+  Head,
+  TipCard,
+  CommentsSection,
+  UpvotesSection
+} from "../../../components";
 import {
   Alert,
   Button,
@@ -107,15 +113,17 @@ export default function ProjectPage() {
           setProject(model.data);
         }
       }
-      setLoading(true);
-      const resp = await getFollowingProjects();
-      const res = await resp.json();
-      if (projectId && res.data.includes(projectId)) {
-        setFollowing(true);
-      } else {
-        setFollowing(false);
+      if (localStorage.getItem("token")) {
+        setLoading(true);
+        const resp = await getFollowingProjects();
+        const res = await resp.json();
+        if (projectId && res.data.includes(projectId)) {
+          setFollowing(true);
+        } else {
+          setFollowing(false);
+        }
+        setLoading(false);
       }
-      setLoading(false);
     };
     loadModel(projectId);
   }, [projectId]);
@@ -181,14 +189,18 @@ export default function ProjectPage() {
             <div className="project">
               <div className="project-header">
                 <h1 className="project-info">{project.name}</h1>
-                {following ? (
-                  <Button className="follow-btn" onClick={unfollowProj}>
-                    Unfollow
-                  </Button>
-                ) : (
-                  <Button className="follow-btn" onClick={followProj}>
-                    Follow
-                  </Button>
+                {localStorage.getItem("token") && (
+                  <>
+                    {following ? (
+                      <Button className="follow-btn" onClick={unfollowProj}>
+                        Unfollow
+                      </Button>
+                    ) : (
+                      <Button className="follow-btn" onClick={followProj}>
+                        Follow
+                      </Button>
+                    )}
+                  </>
                 )}
               </div>
               <p className="project-info">{project.description}</p>
@@ -246,6 +258,9 @@ export default function ProjectPage() {
                   icon="fa-lightbulb-o"
                 />
               </div>
+
+              <UpvotesSection projectId={projectId} />
+              <CommentsSection projectId={projectId} />
             </div>
           )}
         </>
