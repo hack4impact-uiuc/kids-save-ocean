@@ -39,8 +39,8 @@ export default function StagePage() {
   return (
     <>
       <Head title={stage?.name} />
+      {loading && <Loader />}
       <div className="stage">
-        {loading && <Loader />}
         {stage && (
           <>
             <h1 className="stage-title">{stage.name}</h1>
