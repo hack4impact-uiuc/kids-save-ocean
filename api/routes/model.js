@@ -156,8 +156,8 @@ router.get("/:model_ID/:phaseName/:stageName/description", function(req, res) {
     .catch(() => res.sendStatus(500));
 });
 router.get("/:numUpdates/:lastID", function(req, res) {
-  var ObjectId = require("mongodb").ObjectID;
-  var last_ID = new ObjectId(req.params.lastID);
+  const ObjectId = require("mongodb").ObjectID;
+  const last_ID = new ObjectId(req.params.lastID);
   const db = req.db;
   const collection = db.get("projects");
   collection.find(

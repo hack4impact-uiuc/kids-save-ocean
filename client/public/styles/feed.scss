@@ -1,6 +1,7 @@
 body {
   background-color: #eee;
   font-family: Arvo, serif;
+  font-weight: bold;
   color: #003366;
 }
 .feed-page-div {
@@ -58,6 +59,7 @@ body {
   padding-top: 0.5rem;
   color: #003366;
   text-align: center;
+  margin-bottom: 0rem;
 }
 .follow-counters {
   font-size: 1.125rem;
@@ -145,6 +147,7 @@ body {
   margin-left: auto;
   margin-right: auto;
   font-size: 1.5rem;
+  margin-bottom: 0rem;
 }
 .feed-card-profile-pic {
   width: 3.3125rem;
@@ -165,13 +168,13 @@ body {
 .feed-card-description {
   font-weight: lighter;
   font-family: Lato;
-  font-size: 1.125rem;
+  font-size: 18px;
   color: rgba(#003366, 0.75);
   width: 32.8125rem;
   height: 4.125rem;
   margin-left: 6.3125rem;
   line-height: 1.375rem;
-  margin-top: 0.6875rem;
+  margin-top: 0.5rem;
 }
 .feed-card-footer {
   margin-left: 0.8125rem;
@@ -225,6 +228,7 @@ body {
 
 .featured-caption-title {
   padding-top: 0.25rem;
+  margin-bottom: 0rem;
 }
 .featured-description {
   color: rgba(#003366, 0.75);
@@ -293,7 +297,7 @@ body {
   margin: auto;
 }
 .dot-3 {
-  background-color: #f74d75;
+  background-color: #003366;
   animation: dot-3-move 2s ease infinite, index 6s ease infinite;
 }
 

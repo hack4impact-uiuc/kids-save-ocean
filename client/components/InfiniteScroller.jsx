@@ -6,36 +6,35 @@ export default function InfiniteScroller() {
   const debounceTime = 100;
   const bottomOffset = 6;
   useEffect(() => {
+    const handleScroll = () => {
+      const windowHeight =
+        "innerHeight" in window
+          ? window.innerHeight
+          : document.documentElement.offsetHeight;
+      const body = document.body;
+      const html = document.documentElement;
+      const docHeight = Math.max(
+        body.scrollHeight,
+        body.offsetHeight,
+        body.clientHeight,
+        html.clientHeight,
+        html.scrollHeight,
+        html.offsetHeight
+      );
+      const windowBottom = windowHeight + window.pageYOffset;
+      if (isFetching) {
+        return;
+      }
+      if (windowBottom >= docHeight - bottomOffset * window.innerHeight) {
+        setIsFetching(true);
+      }
+    };
     window.addEventListener("scroll", debounce(handleScroll, debounceTime));
     return () =>
       window.removeEventListener(
         "scroll",
         debounce(handleScroll, debounceTime)
       );
-  }, []);
-
-  function handleScroll() {
-    const windowHeight =
-      "innerHeight" in window
-        ? window.innerHeight
-        : document.documentElement.offsetHeight;
-    const body = document.body;
-    const html = document.documentElement;
-    const docHeight = Math.max(
-      body.scrollHeight,
-      body.offsetHeight,
-      body.clientHeight,
-      html.clientHeight,
-      html.scrollHeight,
-      html.offsetHeight
-    );
-    const windowBottom = windowHeight + window.pageYOffset;
-    if (isFetching) {
-      return;
-    }
-    if (windowBottom >= docHeight - bottomOffset * window.innerHeight) {
-      setIsFetching(true);
-    }
-  }
+  }, [isFetching]);
   return [isFetching, setIsFetching];
 }

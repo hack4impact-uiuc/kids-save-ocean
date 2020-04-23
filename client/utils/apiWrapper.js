@@ -17,7 +17,6 @@ export const getModels = (sdg_query, searchPage = null) => {
   } else {
     requestString = `${BASE_URL}/models`;
   }
-  console.log(requestString);
   return axios
     .get(requestString, {
       headers: {
