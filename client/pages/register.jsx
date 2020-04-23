@@ -195,6 +195,10 @@ export default function RegisterPage(props) {
         <Row className="parentRow">
           <Col className="columnLeft" xs="6">
             <div className="motto">
+            {/* <Image 
+                source={require('https://www.google.com/imgres?imgurl=https%3A%2F%2Fwww.gettyimages.ca%2Fgi-resources%2Fimages%2F500px%2F983801190.jpg&imgrefurl=https%3A%2F%2Fwww.gettyimages.ca%2Fcollections%2F500px&tbnid=IPCHuzhMDMWSwM&vet=12ahUKEwiws-77iPjoAhXFnZ4KHRj9CeAQMygbegQIARBr..i&docid=g_FeCARn6BUwiM&w=929&h=700&q=images&ved=2ahUKEwiws-77iPjoAhXFnZ4KHRj9CeAQMygbegQIARBr')}  
+                style={{width: 400, height: 400, borderRadius: 400/ 2}} 
+              /> */}
               <strong>
                 Change your community, <br /> Change the world.
                 <br /> <br /> Join FateMaker today.
