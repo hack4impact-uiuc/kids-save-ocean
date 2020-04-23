@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { Head } from "../../../../components";
+import { Head, Loader } from "../../../../components";
 import { Button } from "reactstrap";
 import { getModelsByID } from "../../../../utils/apiWrapper";
 
@@ -9,12 +9,14 @@ import "../../../../public/styles/stage.scss";
 
 export default function StagePage() {
   const [stage, setStage] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
   const { projectId, stageInfo } = router.query;
 
   useEffect(() => {
     if (projectId && stageInfo) {
+      setLoading(true);
       let [phase, stageName] = stageInfo.split("-");
       stageName = stageName.replace("-", " ");
 
@@ -30,11 +32,13 @@ export default function StagePage() {
       };
 
       loadModel(projectId, phase, stageName);
+      setLoading(false);
     }
   }, [projectId, stageInfo]);
 
   return (
     <div className="stage">
+      {loading && <Loader />}
       {stage && (
         <>
           <Head title={stage.name} />
