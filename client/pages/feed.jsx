@@ -2,23 +2,12 @@ import React, { useEffect, useState, Fragment } from "react";
 import Link from "next/link";
 import {
   Container,
-<<<<<<< HEAD
-  Row,
-  Button,
-=======
->>>>>>> cb068f7d9a0fdae9eee27c19b22d44d357250327
   Card,
   CardBody,
   CardTitle,
   CardSubtitle,
   CardText,
-<<<<<<< HEAD
-  CardGroup,
-  CardImg,
-  Col,
-=======
   CardImg
->>>>>>> cb068f7d9a0fdae9eee27c19b22d44d357250327
 } from "reactstrap";
 import { getModelsGreaterThanID } from "../utils/apiWrapper";
 import { Head, InfiniteScroller } from "../components";
@@ -235,6 +224,134 @@ export default function Feed() {
         <div className="featured-title">
           <strong>Featured</strong>
         </div>
+        <Card className="featured-card">
+          <CardImg
+            width="100%"
+            src="/homepage-images/stock-ocean.jpg"
+            alt="Card image cap"
+          ></CardImg>
+          <CardBody className="featured-body">
+            <CardTitle className="featured-caption-title">
+              <strong>Sustainable Recycling Project</strong>
+            </CardTitle>
+            <CardText className="featured-description">
+              A project which helps people take over the world and save it at
+              the same time.
+            </CardText>
+            <div className="featured-footer">
+              <div className="featured-interactions">
+                123{" "}
+                <img
+                  className="featured-comment-icon"
+                  src="/feed-images/comment-icon.svg"
+                  alt="comment"
+                />
+                123
+                <img
+                  className="featured-like-icon"
+                  src="/feed-images/like-icon.svg"
+                  alt="like"
+                />
+              </div>
+            </div>
+          </CardBody>
+        </Card>
+        <Card className="featured-card">
+          <CardImg
+            width="100%"
+            src="/homepage-images/stock-ocean.jpg"
+            alt="Card image cap"
+          ></CardImg>
+          <CardBody className="featured-body">
+            <CardTitle className="featured-caption-title">
+              <strong>Sustainable Recycling Project</strong>
+            </CardTitle>
+            <CardText className="featured-description">
+              A project which helps people take over the world and save it at
+              the same time.
+            </CardText>
+            <div className="featured-footer">
+              <div className="featured-interactions">
+                123{" "}
+                <img
+                  className="featured-comment-icon"
+                  src="/feed-images/comment-icon.svg"
+                  alt="comment"
+                />
+                123
+                <img
+                  className="featured-like-icon"
+                  src="/feed-images/like-icon.svg"
+                  alt="like"
+                />
+              </div>
+            </div>
+          </CardBody>
+        </Card>
+        <Card className="featured-card">
+          <CardImg
+            width="100%"
+            src="/homepage-images/stock-ocean.jpg"
+            alt="Card image cap"
+          ></CardImg>
+          <CardBody className="featured-body">
+            <CardTitle className="featured-caption-title">
+              <strong>Sustainable Recycling Project</strong>
+            </CardTitle>
+            <CardText className="featured-description">
+              A project which helps people take over the world and save it at
+              the same time.
+            </CardText>
+            <div className="featured-footer">
+              <div className="featured-interactions">
+                123{" "}
+                <img
+                  className="featured-comment-icon"
+                  src="/feed-images/comment-icon.svg"
+                  alt="comment"
+                />
+                123
+                <img
+                  className="featured-like-icon"
+                  src="/feed-images/like-icon.svg"
+                  alt="like"
+                />
+              </div>
+            </div>
+          </CardBody>
+        </Card>
+        <Card className="featured-card">
+          <CardImg
+            width="100%"
+            src="/homepage-images/stock-ocean.jpg"
+            alt="Card image cap"
+          ></CardImg>
+          <CardBody className="featured-body">
+            <CardTitle className="featured-caption-title">
+              <strong>Sustainable Recycling Project</strong>
+            </CardTitle>
+            <CardText className="featured-description">
+              A project which helps people take over the world and save it at
+              the same time.
+            </CardText>
+            <div className="featured-footer">
+              <div className="featured-interactions">
+                123{" "}
+                <img
+                  className="featured-comment-icon"
+                  src="/feed-images/comment-icon.svg"
+                  alt="comment"
+                />
+                123
+                <img
+                  className="featured-like-icon"
+                  src="/feed-images/like-icon.svg"
+                  alt="like"
+                />
+              </div>
+            </div>
+          </CardBody>
+        </Card>
         <Card className="featured-card">
           <CardImg
             width="100%"
