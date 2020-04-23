@@ -54,11 +54,11 @@ export default function CommentsSection(props) {
   return (
     <div>
       <Col>{renderComments(comments)}</Col>
-      {(localStorage.getItem("token") && !fetching) &&
-      <Row>
-        <CommentEditor post={content => post(content)} />
-      </Row>
-      }
+      {localStorage.getItem("token") && !fetching && (
+        <Row>
+          <CommentEditor post={content => post(content)} />
+        </Row>
+      )}
     </div>
   );
 }
