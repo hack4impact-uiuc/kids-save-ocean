@@ -12,17 +12,18 @@ import {
   Container,
   Alert
 } from "reactstrap";
-import { Editor, EditorState, ContentState } from "draft-js";
+// import { Editor, EditorState, ContentState, RichUtils } from "draft-js";
 import { getModelsByID } from "../utils/apiWrapper";
 import { Head, Stage } from "../components";
 import "../public/styles/editProject.scss";
 
 export default function EditProjectPage() {
   const [visAlert, setAlert] = useState(false);
-  const initialProjTitleState = EditorState.createEmpty();
-  const initialDescriptionState = EditorState.createEmpty();
-  const [projTitle, setProjTitle] = useState(initialProjTitleState);
-  const [description, setDescription] = useState(initialDescriptionState);
+  //const initialProjTitleState = EditorState.createEmpty();
+  //const initialDescriptionState = EditorState.createEmpty();
+  const [projTitle, setProjTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [grpSize, setGrpSize] = useState("");
   const [grpSizeDropDownOpen, setGrpSizeDropDownOpen] = useState(false);
   const id = "5e901732090f7cdff2e6757a";
   const ideationStages = [
@@ -32,16 +33,30 @@ export default function EditProjectPage() {
   ];
   const toggleGrpSize = () => setGrpSizeDropDownOpen(prevState => !prevState);
 
+  const handleTitleChange = projTitle => {
+    setProjTitle(projTitle.target.value);
+  };
+
+  const handleDescriptionChange = description => {
+    setDescription(description.target.value);
+  };
+
+  const handleGrpSizeChange = grpSize => {
+    setGrpSize(grpSize.target.value);
+  };
+
   useEffect(() => {
     const loadProject = async () => {
       const project = await getModelsByID(id);
 
       if (project) {
         setAlert(false);
-        //setProjTitle(project.data.name);
+        setProjTitle(project.data.name);
         //initialProjTitleState = EditorState.createWithContent(project.data.name);
         //[projTitle, setProjTitle] = useState(initialProjTitleState);
-        //setDescription(project.data.description);
+        setDescription(project.data.description);
+        setGrpSize(project.data.groupSize);
+        console.log(grpSize);
         //initialDescriptionState = EditorState.createWithContent(project.data.description);
         //[description, setDescription] = useState(initialDescriptionState);
       } else {
@@ -68,15 +83,19 @@ export default function EditProjectPage() {
           <Row>
             <Col className="home-block-col">
               <Row className="home-block-1-ep">
+                <h1 className="header2-text-ep-other">
+                  <strong>Edit Project</strong>
+                </h1>
                 <div className="div-1-ep">
-                  <h1 className="header2-text-ep-other">
-                    <strong>Edit Project</strong>
-                  </h1>
                   <h4 className="proj-title-h">Project Title</h4>
-                  <Editor
-                    editorState={projTitle}
-                    onChange={setProjTitle}
-                  ></Editor>
+                  <input
+                    type="text"
+                    class="form-control"
+                    className="editor-top"
+                    size="50"
+                    value={projTitle}
+                    onChange={handleTitleChange}
+                  ></input>
                   <h4 className="num-ppl-h">How many people?</h4>
                   <Dropdown
                     className="dropdown"
@@ -85,7 +104,11 @@ export default function EditProjectPage() {
                   >
                     <DropdownToggle caret>Change Group Size</DropdownToggle>
                     <DropdownMenu>
-                      <FormGroup radioGroup>
+                      <FormGroup
+                        radioGroup
+                        value={grpSize}
+                        onChange={handleGrpSizeChange}
+                      >
                         <Col>
                           <Row>
                             <Label className="label" for="exampleCheck" check>
@@ -150,23 +173,27 @@ export default function EditProjectPage() {
                     </DropdownMenu>
                   </Dropdown>
                   <h4 className="proj-descrip-h">Project Description</h4>
-                  <Editor
-                    editorState={description}
-                    onChange={setDescription}
-                  ></Editor>
+                  <input
+                    type="text"
+                    class="form-control"
+                    className="editor-top"
+                    size="100"
+                    value={description}
+                    onChange={handleDescriptionChange}
+                  ></input>
                 </div>
               </Row>
             </Col>
           </Row>
           <Col>
             <Row className="other-row">
+              <Button className="inspiration-btn">Inspiration</Button>
+              <Button className="ideation-btn">Ideation</Button>
+              <Button className="implementation-btn">Implementation</Button>
               <h2 className="header2-text-ep-other">
                 {" "}
                 <strong> Inspiration </strong>{" "}
               </h2>
-              <Button className="inspiration-btn">Inspiration</Button>
-              <Button className="ideation-btn">Ideation</Button>
-              <Button className="implementation-btn">Implementation</Button>
             </Row>
             <Row className="inspo-des">
               <h4 className="header2-text-ep-other">

@@ -2,12 +2,6 @@
   margin-right: 5%;
   margin-left: 5%;
   margin-top: 5%;
-  background-image: radial-gradient(
-      50% 141%,
-      rgba(11, 47, 129, 0.6) 1%,
-      rgba(43, 134, 161, 0.651) 100%
-    ),
-    url("/asset/images/splash.jpg");
   background-size: cover;
   background-position: center;
   height: auto;
@@ -15,26 +9,30 @@
   opacity: 1;
   align-content: middle;
 
-  .grp-size {
-    margin-left: 40%;
-    margin-right: 40%;
-    display: flex;
+  .div-1-ep {
+    padding-bottom: 5%;
+    padding-top: 5%;
+    .proj-title-h,
+    .num-ppl-h,
+    .proj-descrip-h {
+      margin-left: 5%;
+      margin-right: -5%;
+      margin-bottom: 1.5%;
+    }
+
+    .dropdown {
+      margin-left: 5%;
+      margin-bottom: 5%;
+    }
+    .editor-top {
+      margin-left: 5%;
+      margin-bottom: 3%;
+    }
   }
 }
-.div-1-ep {
-  padding-bottom: 5%;
-  padding-top: 5%;
-}
 .header2-text-ep {
-  margin-left: 5%;
+  margin-left: 20%;
   padding-bottom: 2.5%;
-}
-.proj-title-h,
-.num-ppl-h,
-.proj-descrip-h {
-  margin-left: 5%;
-  margin-right: 5%;
-  color: white;
 }
 .label {
   margin-left: 11%;
@@ -44,9 +42,10 @@
 }
 .other-row {
   margin-right: 5%;
-  margin-left: 5%;
+  margin-left: 10%;
   margin-bottom: 2.5%;
-  margin-top: 2.5%;
+  margin-top: -1.5%;
+  display: flex;
 }
 .header2-text-ep-other {
   margin-left: 40%;
@@ -72,17 +71,16 @@
   margin-right: 15%;
   margin-bottom: 1%;
 }
-.dropdown {
-  margin-left: 5%;
+.inspiration-btn,
+.ideation-btn {
+  margin-right: 1%;
 }
-
 .stages {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
-
 .edit-form {
   border: thin gray solid;
 }
