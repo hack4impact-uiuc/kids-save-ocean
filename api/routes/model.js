@@ -116,13 +116,14 @@ router.put(
   }
 );
 
-router.get("/:model_ID/canEdit", checkToken, async function(req, res) {
+router.get("/:model_ID/canEdit", async function(req, res) {
   const db = req.db;
   const collection = db.get("projects");
   const { model_ID } = req.params;
 
-  const userEmail = req.decoded.sub;
-  const userId = await getUserId(db, userEmail);
+  // const userEmail = req.decoded.sub;
+  // const userId = await getUserId(db, userEmail);
+  const userId = "ownerid";
 
   collection
     .findOne({
@@ -135,7 +136,7 @@ router.get("/:model_ID/canEdit", checkToken, async function(req, res) {
     .catch(() => res.sendStatus(404));
 });
 
-router.post("/:model_ID/:phaseName/:stageName", checkToken, async function (req, res) {
+router.post("/:model_ID/:phaseName/:stageName", async function (req, res) {
   const db = req.db;
   const collection = db.get("projects");
   const { model_ID, phaseName, stageName } = req.params;
@@ -146,8 +147,9 @@ router.post("/:model_ID/:phaseName/:stageName", checkToken, async function (req,
     return;
   }
 
-  const userEmail = req.decoded.sub;
-  const userId = await getUserId(db, userEmail);
+  // const userEmail = req.decoded.sub;
+  // const userId = await getUserId(db, userEmail);
+  const userId = "ownerid";
 
   const newStage = {name: stageName, description: "", startdate, enddate};
 

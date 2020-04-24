@@ -87,25 +87,18 @@ export const addModel = data => {
       });
     });
 };
-export const editModel = (data, Model_ID) => {
-  /**
-   * Edits a model
-   * Returns UPDATE_MODEL_FAIL upon failure
-   */
-  const requestString = `${BASE_URL}/models/${Model_ID}`;
+
+export const addModelStage = (model_id, phaseName, stageName, startdate, enddate) => {
+  const requestString = `${BASE_URL}/models/${model_id}/${phaseName}/${stageName}`;
   return axios
-    .put(requestString, data, {
+    .post(requestString, { startdate, enddate }, {
       headers: {
-        "Content-Type": "application/JSON"
+        "Content-Type": "application/JSON",
+        token: localStorage.getItem("token")
       }
-    })
-    .catch(error => {
-      ({
-        type: "UPDATE_MODEL_FAIL",
-        error
-      });
     });
 };
+
 export const deleteForm = Model_ID => {
   /**
    * Deletes a model

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { Stage } from "../../../../components";
+import { Head, Stage } from "../../../../components";
 import { Button } from "reactstrap";
 
 import "../../../../public/styles/stage.scss";
@@ -23,7 +23,8 @@ export default function StagePage() {
   }, [projectId, stageInfo]);
 
   return (
-    <div>
+    <>
+      <Head />
       {projectId && stage && phase && (
         <Stage read_only stageName={stage} phaseName={phase} id={projectId} />
       )}
@@ -32,6 +33,6 @@ export default function StagePage() {
           <Button color="danger">Return</Button>
         </a>
       </Link>
-    </div>
+    </>
   );
 }

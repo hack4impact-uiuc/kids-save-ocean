@@ -11,9 +11,9 @@ export default function Stage(props) {
     <>
       <FormGroup className="title">
         <Label for="exampleText">
-          <h5 className="header2-text">
+          <h6 className="header2-text">
             <strong>{stageName}</strong>
-          </h5>
+          </h6>
         </Label>
         <Draft
           id={id}

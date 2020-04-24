@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/router";
 import {
   Button,
   Col,
   Input,
+  Form,
   Row,
   Dropdown,
   DropdownToggle,
@@ -13,8 +14,8 @@ import {
   Container,
   Alert
 } from "reactstrap";
-import { getModelsByID, canEdit } from "../../../utils/apiWrapper";
-import { Head, Stage } from "../../../components";
+import { getModelsByID, canEdit, addModelStage } from "../../../utils/apiWrapper";
+import { Head, Stage, AddStage } from "../../../components";
 import "../../../public/styles/editProject.scss";
 
 export default function EditProjectPage() {
@@ -28,19 +29,26 @@ export default function EditProjectPage() {
 
   const toggle = () => setDropdownOpen(prevState => !prevState);
 
-  useEffect(() => {
-    const loadProject = async projectId => {
-      const project = await getModelsByID(projectId);
-      setProject(project.data);
-      setLoading(false);
-    };
+  const loadProject = useCallback( async () => {
+    const project = await getModelsByID(projectId);
+    setProject(project.data);
+    setLoading(false);
+  }, [projectId]);
 
+  const addStage = (projectId, phaseName, stageName, start, end) => {
+    addModelStage(projectId, phaseName, stageName, start, end).then(() => {
+      loadProject();
+    }).catch(() => {
+      return;
+    });
+  };
+
+  useEffect(() => {
     const loadOwner = projectId => {
       canEdit(projectId)
         .then(resp => {
-          console.log(resp);
           setIsOwner(true);
-          loadProject(projectId);
+          loadProject();
         })
         .catch(() => {
           setLoading(false);
@@ -50,7 +58,7 @@ export default function EditProjectPage() {
     if (projectId !== undefined) {
       loadOwner(projectId);
     }
-  }, [projectId]);
+  }, [projectId, loadProject]);
 
   const renderProjectEdit = (project, dropdownOpen) => (
     <div>
@@ -151,9 +159,9 @@ export default function EditProjectPage() {
             Phasellus non risus nibh. In hac habitasse platea dictumst.
           </h4>
         </Row>
-        <Row className="header-row-ep">
-          <Button className="button-add">Add Stage</Button>
-        </Row>
+        <AddStage
+          addStage={(stageName, startdate, enddate) => addStage(projectId, "inspiration", stageName, startdate, enddate) }
+        />
         <hr className="divider-stage" />
         <div className="stages">
           {project?.phases.inspiration.stages.map((value, idx) => (
@@ -183,9 +191,9 @@ export default function EditProjectPage() {
             Phasellus non risus nibh. In hac habitasse platea dictumst.
           </h4>
         </Row>
-        <Row className="header-row-ep">
-          <Button className="button-add">Add Stage</Button>
-        </Row>
+        <AddStage
+          addStage={(stageName, startdate, enddate) => addStage(projectId, "ideation", stageName, startdate, enddate) }
+        />
         <hr className="divider-stage" />
         <div className="stages">
           {project?.phases.ideation.stages.map((value, idx) => (
@@ -215,9 +223,9 @@ export default function EditProjectPage() {
             Phasellus non risus nibh. In hac habitasse platea dictumst.
           </h4>
         </Row>
-        <Row className="header-row-ep">
-          <Button className="button-add">Add Stage</Button>
-        </Row>
+        <AddStage
+          addStage={(stageName, startdate, enddate) => addStage(projectId, "implementation", stageName, startdate, enddate) }
+        />
         <hr className="divider-stage" />
         <div className="stages">
           {project?.phases.implementation.stages.map((value, idx) => (
