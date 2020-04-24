@@ -47,6 +47,13 @@ export default function NavBar() {
             <NavItem>
               <Col className="button-col">
                 <Button className="button-create" color="#ffcc66">
+                  Explore
+                </Button>
+              </Col>
+            </NavItem>
+            <NavItem>
+              <Col className="button-col">
+                <Button className="button-create" color="#ffcc66">
                   Create
                 </Button>
               </Col>
