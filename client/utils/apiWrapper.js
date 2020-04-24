@@ -102,7 +102,7 @@ export const addModelStage = (
     {
       headers: {
         "Content-Type": "application/JSON",
-        token: localStorage.getItem("token")
+        "x-access-token": localStorage.getItem("token")
       }
     }
   );
@@ -377,7 +377,11 @@ export const userInfo = () => {
 
 export const canEdit = model_id => {
   const requestString = `${BASE_URL}/models/${model_id}/canEdit`;
-  return axios.get(requestString);
+  return axios.get(requestString, {
+    headers: {
+      "x-access-token": localStorage.getItem("token")
+    }
+  });
 };
 
 export const saveDescription = (

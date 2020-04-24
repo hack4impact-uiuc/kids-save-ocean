@@ -52,7 +52,7 @@ export default function ProjectPage() {
   const [ganttData, setGanttData] = useState(null);
   const [error, setError] = useState("");
   const [following, setFollowing] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [isOwner, setIsOwner] = useState(false);
 
   const router = useRouter();
@@ -87,9 +87,20 @@ export default function ProjectPage() {
   }, [setWidth]);
 
   useEffect(() => {
-    const loadModel = async id => {
-      setLoading(true);
+    const loadOwner = projectId => {
+      canEdit(projectId)
+        .then(() => {
+          setIsOwner(true);
+        })
+        .catch(() => {
+          setIsOwner(false);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    };
 
+    const load = async id => {
       if (id) {
         const model = await getModelsByID(id);
         if (model) {
@@ -105,21 +116,11 @@ export default function ProjectPage() {
           setFollowing(false);
         }
       }
-      setLoading(false);
+      loadOwner(id);
     };
 
-    const loadOwner = projectId => {
-      canEdit(projectId)
-        .then(() => {
-          setIsOwner(true);
-        })
-        .catch(() => {
-          setIsOwner(false);
-        });
-    };
-
-    loadModel(projectId);
-    loadOwner(projectId);
+    setLoading(true);
+    load(projectId);
   }, [projectId]);
 
   useEffect(() => {
@@ -143,6 +144,48 @@ export default function ProjectPage() {
       });
     }
   }, [project]);
+
+  const renderHeaderButtons = (isOwner, following) => {
+    let buttons = [];
+    if (!isOwner && localStorage.getItem("token")) {
+      if (following) {
+        buttons.push(
+          <Button className="project-header-buttons" onClick={unfollowProj}>
+            Unfollow
+          </Button>
+        );
+      } else {
+        buttons.push(
+          <Button className="project-header-buttons" onClick={followProj}>
+            Follow
+          </Button>
+        );
+      }
+    }
+
+    if (isOwner) {
+      buttons.push(
+        <Link
+          href="/projects/[projectId]/editProject"
+          as={`/projects/${projectId}/editProject`}
+          passHref
+        >
+          <Button className="project-header-buttons">Edit</Button>
+        </Link>
+      );
+    } else {
+      buttons.push(
+        <Button
+          className="project-header-buttons"
+          onClick={() => duplicateModel(project._id)}
+        >
+          Build off this project
+        </Button>
+      );
+    }
+
+    return buttons;
+  };
 
   return (
     <>
@@ -183,32 +226,7 @@ export default function ProjectPage() {
             <div className="project">
               <div className="project-header">
                 <h1 className="project-info">{project.name}</h1>
-                {localStorage.getItem("token") && (
-                  <>
-                    {following ? (
-                      <Button className="follow-btn" onClick={unfollowProj}>
-                        Unfollow
-                      </Button>
-                    ) : (
-                      <Button className="follow-btn" onClick={followProj}>
-                        Follow
-                      </Button>
-                    )}
-                  </>
-                )}
-                {isOwner ? (
-                  <Link
-                    href="/projects/[projectId]/editProject"
-                    as={`/projects/${projectId}/editProject`}
-                    passHref
-                  >
-                    <Button>Edit</Button>
-                  </Link>
-                ) : (
-                  <Button onClick={() => duplicateModel(project._id)}>
-                    Build off this project
-                  </Button>
-                )}
+                {renderHeaderButtons(isOwner, following)}
               </div>
               <p className="project-info">{project.description}</p>
               <hr />
