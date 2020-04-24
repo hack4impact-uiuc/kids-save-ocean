@@ -32,9 +32,10 @@ export default function Profile() {
     populateAllProjects();
     const getUserInfo = async () => {
       const response = await getUser();
+      const resp = await response.json();
       // const resJson = await response.json();
       // setUser(resJson.data);
-      console.log(response);
+      console.log(resp);
     };
     getUserInfo();
   }, []);

@@ -359,18 +359,21 @@ export const resendPIN = () => {
 };
 
 export const userInfo = () => {
-  try {
-    return fetch(`${BASE_URL}/auth/getUser`, {
-      method: "GET",
+  const requestString = `${BASE_URL}/auth/getUser`;
+  return axios
+    .get(requestString, {
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/JSON",
         token: localStorage.getItem("token"),
         google: localStorage.getItem("google") ? true : false
       }
+    })
+    .catch(error => {
+      ({
+        type: "GET_USER_FAIL",
+        error
+      });
     });
-  } catch (err) {
-    return err;
-  }
 };
 
 export const saveDescription = (
