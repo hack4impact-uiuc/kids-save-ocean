@@ -10,7 +10,7 @@ import {
   CardImg,
 } from "reactstrap";
 import { getModelsGreaterThanID } from "../utils/apiWrapper";
-import { Head, InfiniteScroller } from "../components";
+import { Head, InfiniteScroller, Loader } from "../components";
 import "../public/styles/feed.scss";
 
 export default function Feed() {
@@ -58,27 +58,6 @@ export default function Feed() {
   return (
     <div className="feed-page-div">
       <Head />
-      <svg
-        height="0px"
-        width="0px"
-        xmlns="http://www.w3.org/2000/svg"
-        version="1.1"
-      >
-        <defs>
-          <filter id="goo">
-            <feGaussianBlur
-              in="SourceGraphic"
-              stdDeviation="10"
-              result="blur"
-            />
-            <feColorMatrix
-              in="blur"
-              mode="matrix"
-              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 21 -7"
-            />
-          </filter>
-        </defs>
-      </svg>
       <Container className="user-sidebar">
         <Card className="user-card">
           <div className="user-profile-pic"></div>
@@ -160,14 +139,8 @@ export default function Feed() {
         </Card>
       </Container>
       <Container className="feed-wrapper">
-        {willMount && (
-          <div className="gooey-loader">
-            <div className="dot-1"></div>
-            <div className="dot-2"></div>
-            <div className="dot-3"></div>
-          </div>
-        )}
-        {updates.map((update) => (
+        {willMount && <Loader />}
+        {updates.map(update => (
           <Fragment key={update._id}>
             <Card className="feed-card">
               <CardBody className="feed-card-body">
