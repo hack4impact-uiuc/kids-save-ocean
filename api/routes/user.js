@@ -205,6 +205,7 @@ router.get("/followingProjects", checkToken, async (req, res) => {
         message: "User not found.",
       });
     }
+
     res.status(200).send({
       success: true,
       message: "Successfully retrived user's followingProjects.",

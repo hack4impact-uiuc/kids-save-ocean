@@ -53,7 +53,7 @@ router.post(
     body: ModelSchema
   }),
   checkToken,
-  function(req, res) {
+  async function(req, res) {
     const db = req.db;
     const projects = db.get("projects");
     const data = req.body;
@@ -134,7 +134,7 @@ router.put(
   }
 );
 
-router.put("/:model_ID/:phaseName/:stageName/description", checkToken, function(req, res) {
+router.put("/:model_ID/:phaseName/:stageName/description", checkToken, async function(req, res) {
   const db = req.db;
   const collection = db.get("projects");
   const { model_ID, phaseName, stageName } = req.params;
