@@ -1,0 +1,30 @@
+.parent {
+    font-family: "Arvo";  
+    color: #003366;
+}
+.left-btn {
+    width: 30%;
+    margin-top: 1em;
+    background-color: #FFCC66;
+    color: #003366;
+    border: none;
+  }
+  
+  .left-btn:hover {
+    background-color: #003366;
+    color:  #FFCC66;
+    border: none;
+  }
+  .gold-circle {
+    width: 75%;
+    height: 150px;
+    background-color: #ffcc66;
+    border-radius: 50%;
+  }
+  .gold-line {
+    width: 15px;
+    margin-left: 0%;
+    height: 500px;
+    background-color: #ffcc66;
+    border-radius: 0%;
+  }
