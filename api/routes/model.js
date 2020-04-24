@@ -5,6 +5,8 @@ const { checkToken } = require("../auth/utils/checkToken");
 
 const ModelSchema = require("../public/schema/projectSchema.js").projectSchema;
 
+const { getUsername } = require("../utils/user_utils");
+
 router.get("/", function(req, res) {
   let sdg_par = req.query.sdg;
   let sdg_num = parseInt(sdg_par);
@@ -67,11 +69,13 @@ router.post(
     });
 
     const updates = db.get("updates");
+    const email = req.user.email;
+    const username = await getUsername(db, email);
     const update = {
       updateType: "project",
-      email: req.user.email,
+      email: email,
       projectId: currProjectId,
-      description: `${req.user.email} created ${data.name}`,
+      description: `${username} created ${data.name}`,
       date: Date.now()
     };
 
@@ -130,7 +134,7 @@ router.put(
   }
 );
 
-router.put("/:model_ID/:phaseName/:stageName/description", function(req, res) {
+router.put("/:model_ID/:phaseName/:stageName/description", checkToken, function(req, res) {
   const db = req.db;
   const collection = db.get("projects");
   const { model_ID, phaseName, stageName } = req.params;
@@ -148,12 +152,33 @@ router.put("/:model_ID/:phaseName/:stageName/description", function(req, res) {
       },
       { $set: { [`phases.${phaseName}.stages.$.description`]: description } }
     )
-    .then(model =>
-      model !== null
-        ? res.json({ success: `${stageName} description updated!` })
-        : res.sendStatus(404)
+    .then(model => {
+        if (model === null) {
+          res.sendStatus(404)
+        }
+      }
     )
     .catch(() => res.sendStatus(500));
+  
+  const updates = db.get("updates");
+  const email = req.user.email;
+  const username = await getUsername(db, email);
+  const update = {
+    updateType: "project",
+    email: email,
+    projectId: model_ID,
+    description: `${username} updated their ${stageName} stage`,
+    subDescription: `${description}`,
+    date: Date.now()
+  };
+
+  try {
+    updates.insert(update);
+  } catch (err) {
+    return err;
+  }
+
+  res.json({ success: `${stageName} description updated!` })
 });
 
 router.get("/:model_ID/:phaseName/:stageName/description", function(req, res) {
@@ -177,6 +202,7 @@ router.get("/:model_ID/:phaseName/:stageName/description", function(req, res) {
     })
     .catch(() => res.sendStatus(500));
 });
+
 router.get("/:numUpdates/:lastID", function(req, res) {
   const ObjectId = require("mongodb").ObjectID;
   const last_ID = new ObjectId(req.params.lastID);

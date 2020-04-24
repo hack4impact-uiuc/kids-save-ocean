@@ -317,30 +317,31 @@ router.delete("/", async (req, res) => {
   });
 });
 
-router.get("/updates/:numUpdates", async function(req, res) {
+router.get("/updates/:numUpdates", checkToken, async function(req, res) {
   const { numUpdates } = req.params;
   const ObjectId = require("mongodb").ObjectID;
-  // const last_ID = new ObjectId(lastID);
 
   const db = req.db;
-  // const userCollection = db.get("users");
+  const userCollection = db.get("users");
+  const email = req.user.email;
 
-  // const user = await userCollection.findOne({ _id: userId });
-  // if (!user) {
-  //   res.status(NOT_FOUND).send({
-  //     success: false,
-  //     message: "User not found.",
-  //   });
-  // }
-  ids = ["5ea122f78fe2ca8a5d428ca4", "5ea1343e772a08144eb87f32"];
-  // const check_id = new ObjectId("5ea122f78fe2ca8a5d428ca4");
+  const user = await userCollection.findOne({ email });
+  if (!user) {
+    res.status(NOT_FOUND).send({
+      success: false,
+      message: "User not found.",
+    });
+  }
+
+  projectIds = user.followingProjects;
+  
   const obj_ids = ids.map(function(id) {
     return ObjectId(id);
   });
+
   const updates = db.get("updates");
   updates.find(
     {
-      // _id: { $gt: last_ID },
       projectId: { $in: obj_ids },
     },
     {
@@ -349,11 +350,12 @@ router.get("/updates/:numUpdates", async function(req, res) {
     },
     function(e, docs) {
       if (docs) {
-        res.send(docs);
+        res.status(SUCCESS).send(docs);
       } else {
-        res.sendStatus(400);
+        res.sendStatus(404);
       }
     }
   );
 });
+
 module.exports = router;
