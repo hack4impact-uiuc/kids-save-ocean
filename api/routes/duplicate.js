@@ -6,25 +6,19 @@ const { checkToken } = require("../auth/utils/checkToken");
 const { getUserId } = require("../utils/user_utils");
 
 async function addProjectId(db, modelId, userId) {
-  collection = db.get("users");
+  const collection = db.get("users");
   await collection.update(
     { _id: userId },
-    { $push: { createdProjects: modelId } },
+    { $push: { createdProjects: modelId } }
   );
-};
+}
 
 async function addReferences(db, srcId, destId) {
-  collection = db.get("projects");
-  await collection.update(
-    { _id: srcId },
-    { $push: { referencedBy: destId } },
-  );
+  const collection = db.get("projects");
+  await collection.update({ _id: srcId }, { $push: { referencedBy: destId } });
 
-  await collection.update(
-    { _id: destId },
-    { $push: { references: srcId } },
-  );
-};
+  await collection.update({ _id: destId }, { $push: { references: srcId } });
+}
 
 router.post("/:model_ID", checkToken, async function(req, res) {
   const db = req.db;
@@ -44,13 +38,13 @@ router.post("/:model_ID", checkToken, async function(req, res) {
       if (err) {
         res.sendStatus(500);
       } else {
-        const oldId = doc['_id'];
-        doc['ownerId'] = userId;
-        delete doc['_id'];
-        delete doc['email'];
-        delete doc['phone'];
-        delete doc['referencedBy'];
-        delete doc['references'];
+        const oldId = doc["_id"];
+        doc["ownerId"] = userId;
+        delete doc["_id"];
+        delete doc["email"];
+        delete doc["phone"];
+        delete doc["referencedBy"];
+        delete doc["references"];
         collection.insert(doc, async function(err, doc) {
           if (err) {
             res.sendStatus(500);

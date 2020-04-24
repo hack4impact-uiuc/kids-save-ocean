@@ -60,7 +60,7 @@ router.post(
 
     const collection = db.get("projects");
     let data = req.body;
-    data['ownerId'] = userId;
+    data["ownerId"] = userId;
 
     // Check if data includes proper fields
     collection.insert(data, function(err) {
@@ -124,46 +124,50 @@ router.get("/:model_ID/canEdit", checkToken, async function(req, res) {
   const userEmail = req.decoded.sub;
   const userId = await getUserId(db, userEmail);
 
-  collection.findOne({
-    _id: model_ID,
-    ownerId: userId,
-  })
-  .then(
-    model => model !== null
-    ? res.json({ success: true })
-    : res.sendStatus(404))
-  .catch( () => res.sendStatus(404));
-});
-
-router.put("/:model_ID/:phaseName/:stageName/description", checkToken, async function(req, res) {
-  const db = req.db;
-  const collection = db.get("projects");
-  const { model_ID, phaseName, stageName } = req.params;
-
-  const userEmail = req.decoded.sub;
-  const userId = await getUserId(db, userEmail);
-
-  const description = req.body.description;
-  if (description === undefined) {
-    res.sendStatus(400);
-  }
-
   collection
-    .findOneAndUpdate(
-      {
-        _id: model_ID,
-        ownerId: userId,
-        [`phases.${phaseName}.stages.name`]: stageName
-      },
-      { $set: { [`phases.${phaseName}.stages.$.description`]: description } }
-    )
+    .findOne({
+      _id: model_ID,
+      ownerId: userId
+    })
     .then(model =>
-      model !== null
-        ? res.json({ success: `${stageName} description updated!` })
-        : res.sendStatus(404)
+      model !== null ? res.json({ success: true }) : res.sendStatus(404)
     )
-    .catch(() => res.sendStatus(500));
+    .catch(() => res.sendStatus(404));
 });
+
+router.put(
+  "/:model_ID/:phaseName/:stageName/description",
+  checkToken,
+  async function(req, res) {
+    const db = req.db;
+    const collection = db.get("projects");
+    const { model_ID, phaseName, stageName } = req.params;
+
+    const userEmail = req.decoded.sub;
+    const userId = await getUserId(db, userEmail);
+
+    const description = req.body.description;
+    if (description === undefined) {
+      res.sendStatus(400);
+    }
+
+    collection
+      .findOneAndUpdate(
+        {
+          _id: model_ID,
+          ownerId: userId,
+          [`phases.${phaseName}.stages.name`]: stageName
+        },
+        { $set: { [`phases.${phaseName}.stages.$.description`]: description } }
+      )
+      .then(model =>
+        model !== null
+          ? res.json({ success: `${stageName} description updated!` })
+          : res.sendStatus(404)
+      )
+      .catch(() => res.sendStatus(500));
+  }
+);
 
 router.get("/:model_ID/:phaseName/:stageName/description", function(req, res) {
   const db = req.db;

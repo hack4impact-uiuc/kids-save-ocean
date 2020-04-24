@@ -375,7 +375,7 @@ export const userInfo = () => {
 
 export const canEdit = model_id => {
   const requestString = `${BASE_URL}/models/${model_id}/canEdit`;
-  return axios.get(requestString)
+  return axios.get(requestString);
 };
 
 export const saveDescription = (
@@ -574,7 +574,7 @@ export const getCommentCount = model_id => {
   }));
 };
 
-export const postUpvote = (model_id) => {
+export const postUpvote = model_id => {
   const requestString = `${BASE_URL}/upvotes`;
   return axios
     .post(
@@ -586,7 +586,8 @@ export const postUpvote = (model_id) => {
           "x-access-token": localStorage.getItem("token")
         }
       }
-    ).catch(error => ({
+    )
+    .catch(error => ({
       type: "SAVE_UPVOTE_FAIL",
       error
     }));
@@ -600,18 +601,15 @@ export const getUpvotes = model_id => {
   }));
 };
 
-export const duplicateModel = (model_id) => {
+export const duplicateModel = model_id => {
   const requestString = `${BASE_URL}/duplicate/${model_id}`;
   return axios
-    .post(
-      requestString,
-      {
-        headers: {
-          "Content-Type": "application/JSON",
-          "x-access-token": localStorage.getItem("token")
-        }
+    .post(requestString, {
+      headers: {
+        "Content-Type": "application/JSON",
+        "x-access-token": localStorage.getItem("token")
       }
-    )
+    })
     .catch(error => ({
       type: "DUPLICATE_MODEL_FAIL",
       error

@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { Head, Stage } from "../../../../components";
+import { Stage } from "../../../../components";
 import { Button } from "reactstrap";
-import { getModelsByID } from "../../../../utils/apiWrapper";
 
 import "../../../../public/styles/stage.scss";
 
@@ -25,14 +24,9 @@ export default function StagePage() {
 
   return (
     <div>
-      {(projectId && stage && phase) &&
-        <Stage
-          read_only
-          stageName={stage}
-          phaseName={phase}
-          id={projectId}
-        />
-      }
+      {projectId && stage && phase && (
+        <Stage read_only stageName={stage} phaseName={phase} id={projectId} />
+      )}
       <Link href="/projects/[projectId]" as={`/projects/${projectId}`} passHref>
         <a>
           <Button color="danger">Return</Button>

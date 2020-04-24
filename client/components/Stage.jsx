@@ -15,7 +15,12 @@ export default function Stage(props) {
             <strong>{stageName}</strong>
           </h5>
         </Label>
-        <Draft id={id} phaseName={phaseName} stageName={stageName} read_only={read_only} />
+        <Draft
+          id={id}
+          phaseName={phaseName}
+          stageName={stageName}
+          read_only={read_only}
+        />
       </FormGroup>
     </>
   );

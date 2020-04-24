@@ -29,7 +29,7 @@ import {
 
 import "../../../public/styles/project.scss";
 
-const DESCRIPTION_LENGTH = 400;
+// const DESCRIPTION_LENGTH = 400;
 const HUNDRED = 100;
 
 const capitalize = str =>
@@ -99,14 +99,15 @@ export default function ProjectPage() {
       }
     };
 
-    const loadOwner = (projectId) => {
-      canEdit(projectId).then(resp => {
-        setIsOwner(true);
-      }).catch(err => {
-        setIsOwner(false);
-      });
+    const loadOwner = projectId => {
+      canEdit(projectId)
+        .then(() => {
+          setIsOwner(true);
+        })
+        .catch(() => {
+          setIsOwner(false);
+        });
     };
-
 
     loadModel(projectId);
     loadOwner(projectId);
@@ -213,7 +214,7 @@ export default function ProjectPage() {
                     )}
                   </>
                 )}
-                {isOwner ?
+                {isOwner ? (
                   <Link
                     href="/projects/[projectId]/editProject"
                     as={`/projects/${projectId}/editProject`}
@@ -221,11 +222,11 @@ export default function ProjectPage() {
                   >
                     <Button>Edit</Button>
                   </Link>
-                  :
-                  <Button onClick={ () => duplicateModel(project._id) }>
+                ) : (
+                  <Button onClick={() => duplicateModel(project._id)}>
                     Build off this project
                   </Button>
-                }
+                )}
               </div>
               <p className="project-info">{project.description}</p>
               <hr />
