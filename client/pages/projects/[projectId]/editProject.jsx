@@ -37,6 +37,7 @@ export default function EditProjectPage() {
 
     const loadOwner = (projectId) => {
       canEdit(projectId).then(resp => {
+        console.log(resp);
         setIsOwner(true);
         loadProject(projectId);
       }).catch(err => {
@@ -238,22 +239,16 @@ export default function EditProjectPage() {
     <>
       <Head title={project?.name} />
       <Container>
-        {loading && (
-          <Alert color="danger">
-            <div justify="center" align="middle">
-              Loading...
-            </div>
-          </Alert>
-        )}
-
-        {isOwner ?
-          renderProjectEdit(project, dropdownOpen)
-          :
+        {(!loading && !isOwner) && (
           <Alert color="danger">
             <div justify="center" align="middle">
               You cannot edit this project
             </div>
           </Alert>
+        )}
+
+        {(!loading && isOwner) &&
+          renderProjectEdit(project, dropdownOpen)
         }
         
       </Container>

@@ -23,7 +23,8 @@ import {
   duplicateModel,
   getFollowingProjects,
   followProject,
-  unfollowProject
+  unfollowProject,
+  canEdit
 } from "../../../utils/apiWrapper";
 
 import "../../../public/styles/project.scss";
@@ -44,6 +45,8 @@ export default function ProjectPage() {
   const [error, setError] = useState("");
   const [following, setFollowing] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isOwner, setIsOwner] = useState(false);
+
   const router = useRouter();
   const { projectId } = router.query;
 
@@ -68,33 +71,6 @@ export default function ProjectPage() {
       setError(res.message);
     }
   };
-
-  const renderLoader = () => (
-    <>
-      <div className="loading-container">
-        <div className="dot dot-1"></div>
-        <div className="dot dot-2"></div>
-        <div className="dot dot-3"></div>
-      </div>
-
-      <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
-        <defs>
-          <filter id="goo">
-            <feGaussianBlur
-              in="SourceGraphic"
-              stdDeviation="10"
-              result="blur"
-            />
-            <feColorMatrix
-              in="blur"
-              mode="matrix"
-              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 21 -7"
-            />
-          </filter>
-        </defs>
-      </svg>
-    </>
-  );
 
   useEffect(() => {
     if (process.browser) {
@@ -122,7 +98,18 @@ export default function ProjectPage() {
         setLoading(false);
       }
     };
+
+    const loadOwner = (projectId) => {
+      canEdit(projectId).then(resp => {
+        setIsOwner(true);
+      }).catch(err => {
+        setIsOwner(false);
+      });
+    };
+
+
     loadModel(projectId);
+    loadOwner(projectId);
   }, [projectId]);
 
   useEffect(() => {
@@ -146,6 +133,33 @@ export default function ProjectPage() {
       });
     }
   }, [project]);
+
+  const renderLoader = () => (
+    <>
+      <div className="loading-container">
+        <div className="dot dot-1"></div>
+        <div className="dot dot-2"></div>
+        <div className="dot dot-3"></div>
+      </div>
+
+      <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+        <defs>
+          <filter id="goo">
+            <feGaussianBlur
+              in="SourceGraphic"
+              stdDeviation="10"
+              result="blur"
+            />
+            <feColorMatrix
+              in="blur"
+              mode="matrix"
+              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 21 -7"
+            />
+          </filter>
+        </defs>
+      </svg>
+    </>
+  );
 
   return (
     <>
@@ -199,6 +213,19 @@ export default function ProjectPage() {
                     )}
                   </>
                 )}
+                {isOwner ?
+                  <Link
+                    href="/projects/[projectId]/editProject"
+                    as={`/projects/${projectId}/editProject`}
+                    passHref
+                  >
+                    <Button>Edit</Button>
+                  </Link>
+                  :
+                  <Button onClick={ () => duplicateModel(project._id) }>
+                    Build off this project
+                  </Button>
+                }
               </div>
               <p className="project-info">{project.description}</p>
               <hr />
@@ -256,9 +283,6 @@ export default function ProjectPage() {
                 />
               </div>
 
-              <Button onClick={ () => duplicateModel(project._id) }>
-                Build off this project
-              </Button>
               <CommentsSection projectId={projectId} />
             </div>
           )}

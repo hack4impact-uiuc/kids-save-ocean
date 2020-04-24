@@ -9,10 +9,7 @@ let checkToken = (req, res, next) => {
     }
     jwt.verify(token, process.env.AUTH_SECRET, (err, decoded) => {
       if (err) {
-        return res.json({
-          success: false,
-          message: "Token not valid!"
-        });
+        return res.sendStatus(400);
       }
       req.decoded = decoded;
       req.user = {
@@ -22,10 +19,7 @@ let checkToken = (req, res, next) => {
       next();
     });
   } else {
-    return res.json({
-      success: false,
-      message: "Auth token not provided!"
-    });
+    return res.sendStatus(400);
   }
 };
 
