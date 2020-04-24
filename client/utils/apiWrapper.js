@@ -479,6 +479,49 @@ export const checkAdminPrivilege = () => {
     return err;
   }
 };
+export const getFollowingProjects = () => {
+  try {
+    return fetch(`${BASE_URL}/users/followingProjects`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      }
+    });
+  } catch (err) {
+    return err;
+  }
+};
+
+export const followProject = projId => {
+  try {
+    return fetch(`${BASE_URL}/users/followingProjects`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      },
+      body: JSON.stringify({ projId })
+    });
+  } catch (err) {
+    return err;
+  }
+};
+
+export const unfollowProject = projId => {
+  try {
+    return fetch(`${BASE_URL}/users/followingProjects`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": localStorage.getItem("token")
+      },
+      body: JSON.stringify({ projId })
+    });
+  } catch (err) {
+    return err;
+  }
+};
 
 export const postComment = (model_id, commentBody) => {
   const requestString = `${BASE_URL}/comment`;
@@ -534,7 +577,6 @@ export const getComments = model_id => {
 };
 
 // TEMPLATE WRAPPERS -----------
-
 export const addTemplate = data => {
   /**
    * Adds a template
@@ -690,4 +732,30 @@ export const saveTemplatePhases = (data, Template_ID) => {
         error
       });
     });
+};
+export const postUpvote = model_id => {
+  const requestString = `${BASE_URL}/upvote`;
+  return axios
+    .post(
+      requestString,
+      { upvoteLocation: model_id },
+      {
+        headers: {
+          "Content-Type": "application/JSON",
+          "x-access-token": localStorage.getItem("token")
+        }
+      }
+    )
+    .catch(error => ({
+      type: "SAVE_UPVOTE_FAIL",
+      error
+    }));
+};
+
+export const getUpvotes = model_id => {
+  const requestString = `${BASE_URL}/upvote/${model_id}`;
+  return axios.get(requestString).catch(error => ({
+    type: "GET_UPVOTE_FAIL",
+    error
+  }));
 };

@@ -124,7 +124,6 @@ export default function RegisterPage(props) {
         const newUser = {
           email,
           username,
-          password,
           country,
           birthday,
           anon,
@@ -135,7 +134,7 @@ export default function RegisterPage(props) {
         };
         const ksoUserResp = await createUser(newUser);
         const ksoUserRes = await ksoUserResp.json();
-        if (ksoUserRes.code === SUCCESS) {
+        if (ksoUserRes.success) {
           setSuccessfulSubmit(true);
         } else {
           setErrorMessage(ksoUserRes.message);
