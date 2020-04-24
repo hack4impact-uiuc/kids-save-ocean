@@ -28,7 +28,9 @@ export default function UpvotesSection(props) {
   return (
     <Row className="justify-content-start">
       <p>{`Upvotes: ${upvotes}`}</p>
-      <Button onClick={upvote}>Upvote</Button>
+      {localStorage.getItem("token") && (
+        <Button onClick={upvote}>Upvote</Button>
+      )}
     </Row>
   );
 }

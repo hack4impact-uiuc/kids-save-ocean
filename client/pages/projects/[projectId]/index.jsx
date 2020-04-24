@@ -258,7 +258,6 @@ export default function ProjectPage() {
                   icon="fa-lightbulb-o"
                 />
               </div>
-
               <UpvotesSection projectId={projectId} />
               <CommentsSection projectId={projectId} />
             </div>
