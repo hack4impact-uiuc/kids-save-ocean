@@ -9,6 +9,7 @@ import debounce from "lodash/debounce";
 
 import firebase from "firebase/app";
 import "firebase/storage";
+
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_APIKEY,
   authDomain: process.env.AUTH_DOMAIN,
@@ -30,14 +31,14 @@ export default function TemplateDraft(props) {
   const saveInterval = 1000;
   const debounceSave = json => {
     const { id } = props; // get/save draft props (id, name, phases)
-
+    console.log("saving...");
     saveTemplateDraft(id, json); // save draft function
+    console.log("saved");
     setUnsaved(false);
   };
   const saveCallback = useCallback(debounce(debounceSave, saveInterval), []);
 
   const { id } = props;
-
   const handleChange = editor => {
     setUnsaved(true);
     const content = editor.emitSerializedOutput();
@@ -84,9 +85,11 @@ export default function TemplateDraft(props) {
   };
 
   useEffect(() => {
+    console.log("getting template");
     // getDescription(id, phaseName, stageName)
     getTemplateByID(id) // get draft function
       .then(template => {
+        console.log(template);
         const draft = template.data.draft;
         const json = JSON.parse(draft);
         if ("blocks" in json) {

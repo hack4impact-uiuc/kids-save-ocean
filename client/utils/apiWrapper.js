@@ -629,21 +629,25 @@ export const saveTemplate = (data, Template_ID) => {
       });
     });
 };
-export const saveTemplateDraft = (data, Template_ID) => {
+export const saveTemplateDraft = (Template_ID, draft) => {
   /**
    * Edits a template's draft
    * Returns UPDATE_TEMPLATE_DRAFT_FAIL upon failure
    */
   const requestString = `${BASE_URL}/templates/${Template_ID}/draft`;
   return axios
-    .put(requestString, data, {
-      headers: {
-        "Content-Type": "application/JSON"
+    .put(
+      requestString,
+      { draft },
+      {
+        headers: {
+          "Content-Type": "application/JSON"
+        }
       }
-    })
+    )
     .catch(error => {
       ({
-        type: "UPDATE_TEMPLATE_DRAFT_FAIL",
+        type: "SAVE_TEMPLATE_DRAFT_FAIL",
         error
       });
     });

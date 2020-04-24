@@ -28,18 +28,18 @@ export default function EditProjectPage() {
     // ["Stage 2", "Description 2"],
     // ["Stage 3", "Description 3"]
   ];
-  const successStatus = 200;
   const toggle = () => setDropdownOpen(prevState => !prevState);
 
   useEffect(() => {
     const checkPriv = async () => {
       const raw_priv = await checkAdminPrivilege(id);
       const isAdmin = await raw_priv.json();
-      if (isAdmin.status === successStatus) {
+      const success_status = 200;
+      if (isAdmin.status === success_status) {
         setIsAdmin(true);
-        // console.log("HIII");
+        console.log("HIII");
       } else {
-        // console.log(isAdmin);
+        console.log(isAdmin);
       }
     };
     checkPriv();
