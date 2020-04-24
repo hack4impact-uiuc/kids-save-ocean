@@ -57,10 +57,14 @@ router.get("/:upvoteLocation", (req, res) => {
       if (e) {
         res.sendStatus(500);
       } else {
-        const { upvotes } = docs[0];
-        res.json({
-          upvotes: Object.keys(upvotes).length
-        });
+        if (docs.length === 0) {
+          res.json({ upvotes: 0 });
+        } else {
+          const { upvotes } = docs[0];
+          res.json({
+            upvotes: Object.keys(upvotes).length
+          });
+        }
       }
     }
   );

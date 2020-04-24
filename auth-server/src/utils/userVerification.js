@@ -5,11 +5,12 @@ async function verifyUser(token) {
   if (!token) {
     return { errorMessage: "Token not provided" };
   }
-  const userId = await decryptAuthJWT(token);
-  if (userId === null) {
+  const tokenEmail = await decryptAuthJWT(token);
+  if (tokenEmail === null) {
     return { errorMessage: "Invalid Token" };
   }
-  const user = await User.findById(userId);
+  console.log(tokenEmail);
+  const user = await User.findOne({ email: tokenEmail });
   if (!user) {
     return { errorMessage: "User does not exist in the database" };
   }

@@ -3,7 +3,15 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import Dante from "Dante2";
 
-import { Gantt, Head, TipCard, CommentsSection } from "../../../components";
+import {
+  CommentsSection,
+  Gantt,
+  Head,
+  Loader,
+  TipCard,
+  UpvotesSection
+} from "../../../components";
+
 import {
   Alert,
   Button,
@@ -80,6 +88,8 @@ export default function ProjectPage() {
 
   useEffect(() => {
     const loadModel = async id => {
+      setLoading(true);
+
       if (id) {
         const model = await getModelsByID(id);
         if (model) {
@@ -87,7 +97,6 @@ export default function ProjectPage() {
         }
       }
       if (localStorage.getItem("token")) {
-        setLoading(true);
         const resp = await getFollowingProjects();
         const res = await resp.json();
         if (projectId && res.data.includes(projectId)) {
@@ -95,8 +104,8 @@ export default function ProjectPage() {
         } else {
           setFollowing(false);
         }
-        setLoading(false);
       }
+      setLoading(false);
     };
 
     const loadOwner = projectId => {
@@ -166,7 +175,7 @@ export default function ProjectPage() {
     <>
       <Head title={project?.name} />
       {loading ? (
-        renderLoader()
+        <Loader />
       ) : (
         <>
           {error && <Alert color="danger">{error}</Alert>}
@@ -284,6 +293,7 @@ export default function ProjectPage() {
                 />
               </div>
 
+              <UpvotesSection projectId={projectId} />
               <CommentsSection projectId={projectId} />
             </div>
           )}
