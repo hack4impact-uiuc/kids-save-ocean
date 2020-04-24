@@ -25,9 +25,11 @@ router.get("/", checkToken, async (req, res) => {
 });
 
 router.get("/userInfo", checkToken, async (req, res) => {
+  console.log("test");
   const { db } = req;
   const collection = db.get("users");
   const { email } = req.user;
+  console.log(req.user);
   try {
     const user = await collection.findOne({ email });
     if (!user) {

@@ -9,15 +9,7 @@ import {
   getSecurityQuestions,
   createUser
 } from "../utils/apiWrapper";
-import {
-  Alert,
-  Form,
-  Button,
-  FormGroup,
-  Input,
-  Row,
-  Col
-} from "reactstrap";
+import { Alert, Form, Button, FormGroup, Input, Row, Col } from "reactstrap";
 import { GoogleLogin } from "react-google-login";
 import { Head } from "../components";
 
@@ -34,9 +26,9 @@ export default function RegisterPage(props) {
   const SUCCESS = 200;
   const INVALID = -1;
   const { role } = props;
-  
+
   // state related to auth user
-  
+
   const [anon, setAnon] = useState(false);
   const [person, setPerson] = useState("");
   const [username, setUsername] = useState("");
@@ -51,10 +43,7 @@ export default function RegisterPage(props) {
   const [securityQuestionAnswer, setSecurityQuestionAnswer] = useState("");
   const [successfulSubmit, setSuccessfulSubmit] = useState(false);
   const [questionIdx, setQuestionIdx] = useState(INVALID);
-
   // state related to kso user
-  
-
 
   // useEffect(() => {
   //   const loadSecurityQuestions = async () => {
@@ -91,7 +80,7 @@ export default function RegisterPage(props) {
   // const toggle = () => {
   //   setDropdownOpen(prevState => !prevState);
   // };
-  
+
   const handleSubmit = async e => {
     e.preventDefault();
     if (
@@ -100,7 +89,8 @@ export default function RegisterPage(props) {
       securityQuestionAnswer !== "" &&
       person.label !== "" &&
       birthday !== "" &&
-      country.label !== "" && anon != INVALID
+      country.label !== "" &&
+      anon != INVALID
     ) {
       // #1: create user in auth db
       const authUserResp = await register(
@@ -110,9 +100,9 @@ export default function RegisterPage(props) {
         securityQuestionAnswer,
         person.label
       );
-      
+      // hello
       const authUserRes = await authUserResp.json();
-      if (authUserRes.success) {
+      if (authUserRes.status === SUCCESS) {
         // #2: store token in local storage
         const { token } = authUserRes;
         if (!token) {
@@ -125,14 +115,14 @@ export default function RegisterPage(props) {
         const newUser = {
           email,
           username,
-          password,
-          country : country.label,
+          country: country.label,
           birthday,
-          anon: anon.value,
+          anon: anon.value
         };
         const ksoUserResp = await createUser(newUser);
         console.log(ksoUserResp);
         const ksoUserRes = await ksoUserResp.json();
+        console.log(ksoUserRes);
         if (ksoUserRes.success) {
           setSuccessfulSubmit(true);
         } else {
@@ -199,9 +189,9 @@ export default function RegisterPage(props) {
 
       <div>
         <Row className="parentRow">
-          <Col className="columnLeft" xs="6" >
+          <Col className="columnLeft" xs="6">
             <div className="motto">
-            {/* <Image 
+              {/* <Image 
                 source={require('https://www.google.com/imgres?imgurl=https%3A%2F%2Fwww.gettyimages.ca%2Fgi-resources%2Fimages%2F500px%2F983801190.jpg&imgrefurl=https%3A%2F%2Fwww.gettyimages.ca%2Fcollections%2F500px&tbnid=IPCHuzhMDMWSwM&vet=12ahUKEwiws-77iPjoAhXFnZ4KHRj9CeAQMygbegQIARBr..i&docid=g_FeCARn6BUwiM&w=929&h=700&q=images&ved=2ahUKEwiws-77iPjoAhXFnZ4KHRj9CeAQMygbegQIARBr')}  
                 style={{width: 400, height: 400, borderRadius: 400/ 2}} 
               /> */}
@@ -413,7 +403,7 @@ export default function RegisterPage(props) {
                     account type
                   </Col>
                   <Col xs="9">
-                  <Form>
+                    <Form>
                       <FormGroup>
                         <Select
                           options={anonOptions}
@@ -464,6 +454,9 @@ export default function RegisterPage(props) {
             ) : (
               <div className="auth-card-wrapper">
                 <div className="auth-card">
+                  <h1 className="auth-card-title">
+                    <strong>Welcome to FateMaker!</strong>
+                  </h1>
                   {pinMessage === "Invalid request" ||
                   pinMessage === "PIN does not match" ? (
                     <Alert className="auth-alert" color="danger">
@@ -476,9 +469,7 @@ export default function RegisterPage(props) {
                       </Alert>
                     )
                   )}
-                  <h1 className="auth-card-title">
-                    <strong>Welcome to FateMaker!</strong>
-                  </h1>
+
                   <Row>
                     <Col xs="2" align="right">
                       <div className=" vertAlign textField">enter pin</div>
@@ -499,21 +490,21 @@ export default function RegisterPage(props) {
                       </Form>
                     </Col>
                   </Row>
-                    <Row>
-                  <Button
-                    size="m"
-                    onClick={handlePINResend}
-                    className="left-btn"
-                  >
-                    <div className=" vertAlign textField">Resend PIN</div>
-                  </Button>
-                  <Button
-                    size="m"
-                    onClick={handlePINVerify}
-                    className="right-btn"
-                  >
-                    <div className=" vertAlign textField">Verify Email</div>
-                  </Button>
+                  <Row>
+                    <Button
+                      size="m"
+                      onClick={handlePINResend}
+                      className="left-btn"
+                    >
+                      <div className=" vertAlign textField">Resend PIN</div>
+                    </Button>
+                    <Button
+                      size="m"
+                      onClick={handlePINVerify}
+                      className="right-btn"
+                    >
+                      <div className=" vertAlign textField">Verify Email</div>
+                    </Button>
                   </Row>
                   <div className="forgot-password">
                     <Link href="/">
@@ -529,4 +520,3 @@ export default function RegisterPage(props) {
     </div>
   );
 }
-
