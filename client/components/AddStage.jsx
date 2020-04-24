@@ -1,12 +1,5 @@
-import React, { useState } from 'react';
-import {
-  Button,
-  Col,
-  Input,
-  Row,
-  FormGroup,
-  Label
-} from "reactstrap";
+import React, { useState } from "react";
+import { Button, Col, Input, Row, FormGroup, Label } from "reactstrap";
 
 import WrappedError from "./WrappedError";
 
@@ -60,7 +53,12 @@ export default WrappedError(function AddStage(props) {
         </FormGroup>
       </Col>
       <Col sm="2">
-        <Button className="button-add" onClick={() => submit(stageName, startdate, enddate)}>Add Stage</Button>
+        <Button
+          className="button-add"
+          onClick={() => submit(stageName, startdate, enddate)}
+        >
+          Add Stage
+        </Button>
       </Col>
     </Row>
   );

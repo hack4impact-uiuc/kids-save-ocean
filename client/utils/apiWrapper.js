@@ -88,15 +88,24 @@ export const addModel = data => {
     });
 };
 
-export const addModelStage = (model_id, phaseName, stageName, startdate, enddate) => {
+export const addModelStage = (
+  model_id,
+  phaseName,
+  stageName,
+  startdate,
+  enddate
+) => {
   const requestString = `${BASE_URL}/models/${model_id}/${phaseName}/${stageName}`;
-  return axios
-    .post(requestString, { startdate, enddate }, {
+  return axios.post(
+    requestString,
+    { startdate, enddate },
+    {
       headers: {
         "Content-Type": "application/JSON",
         token: localStorage.getItem("token")
       }
-    });
+    }
+  );
 };
 
 export const deleteForm = Model_ID => {

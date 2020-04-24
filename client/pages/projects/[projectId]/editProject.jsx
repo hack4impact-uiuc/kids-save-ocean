@@ -12,11 +12,15 @@ import {
   Container,
   Alert
 } from "reactstrap";
-import { getModelsByID, canEdit, addModelStage } from "../../../utils/apiWrapper";
+import {
+  getModelsByID,
+  canEdit,
+  addModelStage
+} from "../../../utils/apiWrapper";
 import { Head, Stage, AddStage, WrappedError } from "../../../components";
 import "../../../public/styles/editProject.scss";
 
-export default WrappedError(function EditProjectPage() {
+export default WrappedError(function EditProjectPage(props) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [project, setProject] = useState(null);
   const [isOwner, setIsOwner] = useState(false);
@@ -27,16 +31,18 @@ export default WrappedError(function EditProjectPage() {
 
   const toggle = () => setDropdownOpen(prevState => !prevState);
 
-  const loadProject = useCallback( async () => {
+  const loadProject = useCallback(async () => {
     const project = await getModelsByID(projectId);
     setProject(project.data);
     setLoading(false);
   }, [projectId]);
 
   const addStage = (projectId, phaseName, stageName, start, end) => {
-    addModelStage(projectId, phaseName, stageName, start, end).then(() => {
-      loadProject();
-    }).catch(() => props.setError("Failed to add stage"));
+    addModelStage(projectId, phaseName, stageName, start, end)
+      .then(() => {
+        loadProject();
+      })
+      .catch(() => props.setError("Failed to add stage"));
   };
 
   useEffect(() => {
@@ -168,7 +174,9 @@ export default WrappedError(function EditProjectPage() {
           ))}
         </div>
         <AddStage
-          addStage={(stageName, startdate, enddate) => addStage(projectId, "inspiration", stageName, startdate, enddate) }
+          addStage={(stageName, startdate, enddate) =>
+            addStage(projectId, "inspiration", stageName, startdate, enddate)
+          }
         />
         <hr className="header-row-ep" />
       </Col>
@@ -200,7 +208,9 @@ export default WrappedError(function EditProjectPage() {
           ))}
         </div>
         <AddStage
-          addStage={(stageName, startdate, enddate) => addStage(projectId, "ideation", stageName, startdate, enddate) }
+          addStage={(stageName, startdate, enddate) =>
+            addStage(projectId, "ideation", stageName, startdate, enddate)
+          }
         />
         <hr className="header-row-ep" />
       </Col>
@@ -232,7 +242,9 @@ export default WrappedError(function EditProjectPage() {
           ))}
         </div>
         <AddStage
-          addStage={(stageName, startdate, enddate) => addStage(projectId, "implementation", stageName, startdate, enddate) }
+          addStage={(stageName, startdate, enddate) =>
+            addStage(projectId, "implementation", stageName, startdate, enddate)
+          }
         />
         <hr className="header-row-ep" />
       </Col>
@@ -255,4 +267,4 @@ export default WrappedError(function EditProjectPage() {
       </Container>
     </>
   );
-})
+});
