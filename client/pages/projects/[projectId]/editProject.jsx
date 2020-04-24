@@ -226,7 +226,7 @@ export default WrappedError(function EditProjectPage(props) {
             Morbi sit amet rutrum leo. Maecenas molestie, odio eu condimentum
             elementum, enim ante posuere ante, nec suscipit tellus erat quis mi.
             Suspendisse vehicula finibus leo, ut molestie lacus eleifend non.
-            Phasellus non risus nibh. In hac habitasse platea dictumst.
+            Phasellus non risus nibh. In hac habitasse platea dictums.
           </h4>
         </Row>
         <hr className="divider-stage" />
