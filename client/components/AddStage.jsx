@@ -11,8 +11,6 @@ import {
 import WrappedError from "./WrappedError";
 
 export default WrappedError(function AddStage(props) {
-  const { projectId, phaseName } = props;
-
   const [startdate, setStartdate] = useState("");
   const [enddate, setEnddate] = useState("");
   const [stageName, setStageName] = useState("");

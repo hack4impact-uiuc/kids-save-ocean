@@ -1,10 +1,8 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/router";
 import {
-  Button,
   Col,
   Input,
-  Form,
   Row,
   Dropdown,
   DropdownToggle,
@@ -38,15 +36,13 @@ export default function EditProjectPage() {
   const addStage = (projectId, phaseName, stageName, start, end) => {
     addModelStage(projectId, phaseName, stageName, start, end).then(() => {
       loadProject();
-    }).catch(() => {
-      return;
-    });
+    }).catch();
   };
 
   useEffect(() => {
     const loadOwner = projectId => {
       canEdit(projectId)
-        .then(resp => {
+        .then(() => {
           setIsOwner(true);
           loadProject();
         })

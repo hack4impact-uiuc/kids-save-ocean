@@ -4,8 +4,8 @@ import { Alert } from 'reactstrap';
 
 import debounce from "lodash/debounce";
 
-const WrappedError = WrappedComponent => {
-  return function ErrorComponent(props) {
+const WrappedError = WrappedComponent => (
+  function ErrorComponent(props) {
     const [error, setError] = useState(undefined);
 
     const disappearTime = 3000;
@@ -13,7 +13,6 @@ const WrappedError = WrappedComponent => {
     const disappearCallback = useCallback(debounce(debounceDisappear, disappearTime), []);
 
     const setMessage = message => {
-      console.log(message);
       setError(message);
       disappearCallback();
     };
@@ -26,7 +25,7 @@ const WrappedError = WrappedComponent => {
         />
         <br/>
         {error !== undefined &&
-          <Alert color="danger">
+          <Alert className="error" color="danger">
             <div justify="center" align="middle">
               {error}
             </div>
@@ -35,6 +34,6 @@ const WrappedError = WrappedComponent => {
       </>
     );
   }
-}
+);
 
 export default WrappedError;

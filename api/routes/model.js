@@ -135,11 +135,14 @@ router.get("/:model_ID/canEdit", checkToken, async function(req, res) {
     .catch(() => res.sendStatus(404));
 });
 
-router.post("/:model_ID/:phaseName/:stageName", checkToken, async function (req, res) {
+router.post("/:model_ID/:phaseName/:stageName", checkToken, async function(
+  req,
+  res
+) {
   const db = req.db;
   const collection = db.get("projects");
   const { model_ID, phaseName, stageName } = req.params;
-  
+
   const { startdate, enddate } = req.body;
   if (startdate === undefined || enddate === undefined) {
     res.sendStatus(400);
@@ -149,13 +152,13 @@ router.post("/:model_ID/:phaseName/:stageName", checkToken, async function (req,
   const userEmail = req.decoded.sub;
   const userId = await getUserId(db, userEmail);
 
-  const newStage = {name: stageName, description: "", startdate, enddate};
+  const newStage = { name: stageName, description: "", startdate, enddate };
 
   collection
     .findOneAndUpdate(
       {
         _id: model_ID,
-        ownerId: userId,
+        ownerId: userId
       },
       { $push: { [`phases.${phaseName}.stages`]: newStage } }
     )
