@@ -159,9 +159,6 @@ export default function EditProjectPage() {
             Phasellus non risus nibh. In hac habitasse platea dictumst.
           </h4>
         </Row>
-        <AddStage
-          addStage={(stageName, startdate, enddate) => addStage(projectId, "inspiration", stageName, startdate, enddate) }
-        />
         <hr className="divider-stage" />
         <div className="stages">
           {project?.phases.inspiration.stages.map((value, idx) => (
@@ -174,6 +171,9 @@ export default function EditProjectPage() {
             />
           ))}
         </div>
+        <AddStage
+          addStage={(stageName, startdate, enddate) => addStage(projectId, "inspiration", stageName, startdate, enddate) }
+        />
         <hr className="header-row-ep" />
       </Col>
       <Col>
@@ -191,9 +191,6 @@ export default function EditProjectPage() {
             Phasellus non risus nibh. In hac habitasse platea dictumst.
           </h4>
         </Row>
-        <AddStage
-          addStage={(stageName, startdate, enddate) => addStage(projectId, "ideation", stageName, startdate, enddate) }
-        />
         <hr className="divider-stage" />
         <div className="stages">
           {project?.phases.ideation.stages.map((value, idx) => (
@@ -206,6 +203,9 @@ export default function EditProjectPage() {
             />
           ))}
         </div>
+        <AddStage
+          addStage={(stageName, startdate, enddate) => addStage(projectId, "ideation", stageName, startdate, enddate) }
+        />
         <hr className="header-row-ep" />
       </Col>
       <Col>
@@ -223,9 +223,6 @@ export default function EditProjectPage() {
             Phasellus non risus nibh. In hac habitasse platea dictumst.
           </h4>
         </Row>
-        <AddStage
-          addStage={(stageName, startdate, enddate) => addStage(projectId, "implementation", stageName, startdate, enddate) }
-        />
         <hr className="divider-stage" />
         <div className="stages">
           {project?.phases.implementation.stages.map((value, idx) => (
@@ -238,6 +235,9 @@ export default function EditProjectPage() {
             />
           ))}
         </div>
+        <AddStage
+          addStage={(stageName, startdate, enddate) => addStage(projectId, "implementation", stageName, startdate, enddate) }
+        />
         <hr className="header-row-ep" />
       </Col>
     </div>

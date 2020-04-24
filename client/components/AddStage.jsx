@@ -8,7 +8,9 @@ import {
   Label
 } from "reactstrap";
 
-export default function AddStage(props) {
+import WrappedError from "./WrappedError";
+
+export default WrappedError(function AddStage(props) {
   const { projectId, phaseName } = props;
 
   const [startdate, setStartdate] = useState("");
@@ -17,6 +19,7 @@ export default function AddStage(props) {
 
   const submit = (stageName, startdate, enddate) => {
     if (stageName === "" || startdate === "" || enddate === "") {
+      props.setError("Missing required fields");
       return;
     }
 
@@ -63,4 +66,4 @@ export default function AddStage(props) {
       </Col>
     </Row>
   );
-};
+});

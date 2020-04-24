@@ -8,6 +8,7 @@ import AddStage from "./AddStage";
 import ProjectForm from "./ProjectForm";
 import TipCard from "./TipCard";
 import InfiniteScroller from "./InfiniteScroller";
+import WrappedError from "./WrappedError";
 
 export {
   CommentsSection,
@@ -19,5 +20,6 @@ export {
   AddStage,
   Stage,
   TipCard,
-  InfiniteScroller
+  InfiniteScroller,
+  WrappedError
 };
