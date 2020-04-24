@@ -13,10 +13,10 @@ import {
   Alert
 } from "reactstrap";
 import { getModelsByID, canEdit, addModelStage } from "../../../utils/apiWrapper";
-import { Head, Stage, AddStage } from "../../../components";
+import { Head, Stage, AddStage, WrappedError } from "../../../components";
 import "../../../public/styles/editProject.scss";
 
-export default function EditProjectPage() {
+export default WrappedError(function EditProjectPage() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [project, setProject] = useState(null);
   const [isOwner, setIsOwner] = useState(false);
@@ -36,7 +36,7 @@ export default function EditProjectPage() {
   const addStage = (projectId, phaseName, stageName, start, end) => {
     addModelStage(projectId, phaseName, stageName, start, end).then(() => {
       loadProject();
-    }).catch();
+    }).catch(() => props.setError("Failed to add stage"));
   };
 
   useEffect(() => {
@@ -255,4 +255,4 @@ export default function EditProjectPage() {
       </Container>
     </>
   );
-}
+})

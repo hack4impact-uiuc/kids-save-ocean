@@ -4,6 +4,8 @@ import { Alert } from 'reactstrap';
 
 import debounce from "lodash/debounce";
 
+import "../public/styles/error.scss";
+
 const WrappedError = WrappedComponent => (
   function ErrorComponent(props) {
     const [error, setError] = useState(undefined);
