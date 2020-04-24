@@ -135,6 +135,38 @@ router.get("/:model_ID/canEdit", checkToken, async function(req, res) {
     .catch(() => res.sendStatus(404));
 });
 
+router.post("/:model_ID/:phaseName/:stageName", checkToken, async function (req, res) {
+  const db = req.db;
+  const collection = db.get("projects");
+  const { model_ID, phaseName, stageName } = req.params;
+  
+  const { startdate, enddate } = req.body;
+  if (startdate === undefined || enddate === undefined) {
+    res.sendStatus(400);
+    return;
+  }
+
+  const userEmail = req.decoded.sub;
+  const userId = await getUserId(db, userEmail);
+
+  const newStage = {name: stageName, description: "", startdate, enddate};
+
+  collection
+    .findOneAndUpdate(
+      {
+        _id: model_ID,
+        ownerId: userId,
+      },
+      { $push: { [`phases.${phaseName}.stages`]: newStage } }
+    )
+    .then(model =>
+      model !== null
+        ? res.json({ success: `${stageName} added!` })
+        : res.sendStatus(404)
+    )
+    .catch(() => res.sendStatus(500));
+});
+
 router.put(
   "/:model_ID/:phaseName/:stageName/description",
   checkToken,
@@ -190,6 +222,7 @@ router.get("/:model_ID/:phaseName/:stageName/description", function(req, res) {
     })
     .catch(() => res.sendStatus(500));
 });
+
 router.get("/:numUpdates/:lastID", function(req, res) {
   const ObjectId = require("mongodb").ObjectID;
   const last_ID = new ObjectId(req.params.lastID);
