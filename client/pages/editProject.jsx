@@ -56,7 +56,6 @@ export default function EditProjectPage() {
             </div>
           </Alert>
         )}
-
         <Row>
           <Col className="home-block-col">
             <Row className="home-block-1-ep">
