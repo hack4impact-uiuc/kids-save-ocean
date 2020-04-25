@@ -117,7 +117,11 @@ export default function RegisterPage(props) {
           username,
           country: country.label,
           birthday,
-          anon: anon.value
+          anon: anon.value,
+          projectIds: [],
+          followingProjects: [],
+          followingUsers: [],
+          followers: []
         };
         const ksoUserResp = await createUser(newUser);
         console.log(ksoUserResp);

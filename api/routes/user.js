@@ -74,9 +74,10 @@ router.get("/userInfo", checkToken, async (req, res) => {
 });
 
 router.post("/", validate({ body: UserSchema }), async (req, res) => {
+  console.log("akdjfhsk");
   const { db } = req;
   const collection = db.get("users");
-  const { email, username, password, country, birthday } = req.body;
+  const { email, username, country, birthday } = req.body;
   let { anon } = req.body;
   if (!anon) {
     anon = false;
@@ -84,7 +85,6 @@ router.post("/", validate({ body: UserSchema }), async (req, res) => {
   const newUser = {
     email,
     username,
-    password,
     country,
     birthday,
     anon,
@@ -95,7 +95,9 @@ router.post("/", validate({ body: UserSchema }), async (req, res) => {
     followers: []
   };
   try {
+    console.log(newUser);
     const resp = await collection.insert(newUser);
+    console.log("reached");
     res.status(SUCCESS).send({
       code: SUCCESS,
       success: true,
