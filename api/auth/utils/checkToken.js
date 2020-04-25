@@ -21,10 +21,6 @@ let checkToken = (req, res) => {
         email: decoded.sub,
         role: decoded.permission
       };
-      return res.json({
-        success: true,
-        message: "Token valid!"
-      });
     });
   } else {
     return res.json({
@@ -32,10 +28,16 @@ let checkToken = (req, res) => {
       message: "Auth token not provided!"
     });
   }
+  return true;
 };
 
 router.get("/checkToken", function(req, res) {
-  res.json(checkToken(req, res));
+  if (checkToken(req, res)) {
+    res.json({
+      success: true,
+      message: "Token valid!"
+    });
+  }
 });
 
 module.exports = {
