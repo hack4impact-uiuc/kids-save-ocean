@@ -22,7 +22,7 @@ export default function EditProjectPage() {
   const [implementation, setImplementation] = useState(null);
   const id = "5e901732090f7cdff2e6757a";
   const ideationStages = [
-    ["beauti", "Description 1"],
+    ["Stage 1", "Description 1"],
     ["Stage 2", "Description 2"],
     ["Stage 3", "Description 3"]
   ];
@@ -79,13 +79,17 @@ export default function EditProjectPage() {
 
         setInspiration(project.data.phases.inspiration);
         inspirationArr = project.data.phases.inspiration;
-        console.log(project.data.phases.inspiration); // to delete
+        console.log(inspirationArr.stages); // to delete
+        console.log(inspirationArr.stages[0].name); // to delete
+        console.log(inspirationArr.stages[0].description); // to delete
 
         setIdeation(project.data.phases.ideation);
         ideationArr = project.data.phases.ideation;
+        console.log(ideationArr.stages); // to delete
 
         setImplementation(project.data.phases.implementation);
         implementationArr = project.data.phases.implementation;
+        console.log(implementationArr.stages); // to delete
       } else {
         setAlert(true);
       }
@@ -161,11 +165,11 @@ export default function EditProjectPage() {
             </Row>
             <hr className="divider-stage" />
             <div className="stages">
-              {inspirationArr &&
-                inspirationArr.map((value, idx) => (
+              {inspirationArr.stages &&
+                inspirationArr.stages.map((value, idx) => (
                   <Stage
-                    stageName={value[0]}
-                    description={value[1]}
+                    stageName={value.name}
+                    description={value.description}
                     phaseName={"inspiration"}
                     id={id}
                     value={idx}
@@ -174,7 +178,7 @@ export default function EditProjectPage() {
               {ideationStages.map((value, idx) => (
                 <Stage
                   stageName={value[0]}
-                  description={value[1]}
+                  description={value[0]}
                   phaseName={"inspiration"}
                   id={id}
                   key={idx}
@@ -197,8 +201,8 @@ export default function EditProjectPage() {
             <div className="stages">
               {ideationStages.map((value, idx) => (
                 <Stage
-                  stageName={value[1]}
-                  description={value[1]}
+                  stageName={value[0]}
+                  description={value[0]}
                   phaseName={"ideation"}
                   id={id}
                   key={idx}
@@ -221,8 +225,8 @@ export default function EditProjectPage() {
             <div className="stages">
               {ideationStages.map((value, idx) => (
                 <Stage
-                  stageName={value[2]}
-                  description={value[1]}
+                  stageName={value[0]}
+                  description={value[0]}
                   phaseName={"implementation"}
                   id={id}
                   key={idx}
