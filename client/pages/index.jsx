@@ -9,7 +9,7 @@ import {
   CardImg,
   Col,
   Container,
-  Row,
+  Row
 } from "reactstrap";
 
 import "../public/styles/home.scss";
@@ -22,14 +22,14 @@ const populateImages = () => {
   for (let i = 1; i <= numSDGs; i++) {
     const sdgObject = {
       id: i,
-      imageLink: `/sdg-images/${i}.png`,
+      imageLink: `/sdg-images/${i}.png`
     };
     images[i - 1] = sdgObject;
   }
 
   const sdgObject = {
     id: numSDGs + 1,
-    imageLink: `/sdg-images/sdg.png`,
+    imageLink: `/sdg-images/sdg.png`
   };
   images[numSDGs] = sdgObject;
 
@@ -87,7 +87,7 @@ export default function Home() {
           </Col>
         </Row>
         <Row className="sdg-row">
-          {images.map((sdgImage) => (
+          {images.map(sdgImage => (
             <Col key={sdgImage.id} className="sdg-col" sm="2">
               <CardGroup>
                 <Card

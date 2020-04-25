@@ -31,8 +31,9 @@ export default function Draft(props) {
   const saveInterval = 1000;
   const debounceSave = (json, text) => {
     const { id, phaseName, stageName } = props;
-    const cutoff = 100;
-    const abbrv = text.length > cutoff ? `${text.substring(0, cutoff)}...` : text;
+    const cutoff = 300;
+    const abbrv =
+      text.length > cutoff ? `${text.substring(0, cutoff)}...` : text;
     saveDescription(id, phaseName, stageName, json, abbrv);
     setUnsaved(false);
   };

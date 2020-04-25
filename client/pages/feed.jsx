@@ -7,9 +7,9 @@ import {
   CardTitle,
   CardSubtitle,
   CardText,
-  CardImg,
+  CardImg
 } from "reactstrap";
-import { getModelsGreaterThanID } from "../utils/apiWrapper";
+import { getUpdates } from "../utils/apiWrapper";
 import { Head, InfiniteScroller, Loader } from "../components";
 import "../public/styles/feed.scss";
 
@@ -17,7 +17,7 @@ export default function Feed() {
   const maxUpdatesAtOnce = 20;
   const maxUpdatesTotal = 200;
 
-  const [lastID, setLastID] = useState("5e901732090f7cdff2e67565");
+  const [nextIdx, setNextIdx] = useState(0);
   const [willMount, setWillMount] = useState(true);
   const [hasMore, setHasMore] = useState(true);
   const [updates, setUpdates] = useState([]);
@@ -28,11 +28,9 @@ export default function Feed() {
       if (!hasMore || (!isFetching && !willMount)) {
         return;
       }
-      const nextUpdates = await getModelsGreaterThanID(
-        maxUpdatesAtOnce,
-        lastID
-      );
+      const nextUpdates = await getUpdates(maxUpdatesAtOnce, nextIdx);
       if (nextUpdates === undefined || nextUpdates.data.length === 0) {
+        setWillMount(false);
         return;
       }
       if (
@@ -42,14 +40,11 @@ export default function Feed() {
         setHasMore(false);
       }
 
-      setLastID(nextUpdates.data[nextUpdates.data.length - 1]._id);
+      setNextIdx(nextUpdates.data.length);
 
-      nextUpdates.data.map((update) => {
-        setUpdates((prevState) => [...prevState, update]);
+      nextUpdates.data.map(update => {
+        setUpdates(prevState => [...prevState, update]);
       });
-      if (willMount) {
-        setWillMount(false);
-      }
       setIsFetching(false);
     };
     loadUpdates();
@@ -147,19 +142,14 @@ export default function Feed() {
                 <CardTitle className="feed-card-title">
                   <div className="feed-card-profile-pic"></div>
                   <div className="feed-card-title-text">
-                    <strong>Arpan Laha</strong> edited{" "}
-                    <strong>Sustainable Recycling Project</strong>
+                    <strong>{update.description}</strong>
                   </div>
                 </CardTitle>
-                <CardSubtitle className="feed-card-subtitle">
-                  <strong>Updated</strong> 10 more interviews
-                </CardSubtitle>
-                <CardText className="feed-card-description">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                  nec magna sed nibh varius porttitor. Proin pulvinar, odio at
-                  accumsan pharetra, tellus augue scelerisque leo, faucibus
-                  sodales libero nulla at tellus.
-                </CardText>
+                {update.subDescription !== null && (
+                  <CardText className="feed-card-description">
+                    {update.subDescription}
+                  </CardText>
+                )}
                 <div className="feed-card-footer">
                   <div className="feed-card-date">Mar 20</div>
                   <div className="feed-card-interactions">
@@ -181,10 +171,10 @@ export default function Feed() {
             </Card>
           </Fragment>
         ))}
-        {hasMore && !willMount && (
+        {updates.length !== 0 && hasMore && !willMount && (
           <div className="loading-text">Loading...</div>
         )}
-        {!hasMore && (
+        {((updates.length === 0 && !willMount) || !hasMore) && (
           <div className="loading-text">
             <Link href="/projects">
               <a className="featured-see-more">Find more projects!</a>

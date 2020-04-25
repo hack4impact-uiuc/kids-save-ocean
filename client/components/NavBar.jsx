@@ -8,7 +8,7 @@ import {
   Nav,
   Button,
   Col,
-  Container,
+  Container
 } from "reactstrap";
 
 import "../public/styles/navbar.scss";
