@@ -29,8 +29,6 @@ export default function Profile() {
     const getUserInfo = async () => {
       const response = await getUser();
       const resp = await response.json();
-      // const resJson = await response.json();
-      // setUser(resJson.data);
       setUser(resp);
       setHasUser(true);
     };
@@ -192,12 +190,6 @@ export default function Profile() {
                       >
                         <a>
                           <Card className="project-card">
-                            {/* <CardImg
-                                  className="project-card-img"
-                                  top
-                                  width="100%"
-                                  alt="Project image"
-                                ></CardImg> */}
                             <CardText width="100%" height="100%">
                               <div className="project-card-name">
                                 <strong>{project.name}</strong>
@@ -260,12 +252,6 @@ export default function Profile() {
                       >
                         <a>
                           <Card className="project-card">
-                            {/* <CardImg
-                                  className="project-card-img"
-                                  top
-                                  width="100%"
-                                  alt="Project image"
-                                ></CardImg> */}
                             <CardText width="100%" height="100%">
                               <div className="project-card-name">
                                 <strong>{project.name}</strong>

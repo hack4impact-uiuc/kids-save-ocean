@@ -42,24 +42,6 @@ export default function RegisterPage(props) {
   const [securityQuestionAnswer, setSecurityQuestionAnswer] = useState("");
   const [successfulSubmit, setSuccessfulSubmit] = useState(false);
   const [questionIdx, setQuestionIdx] = useState(INVALID);
-  // state related to kso user
-
-  // useEffect(() => {
-  //   const loadSecurityQuestions = async () => {
-  //     const resp = await getSecurityQuestions();
-  //     if (!resp) {
-  //       setErrorMessage("Unable to load data");
-  //       return;
-  //     }
-  //     const respJson = await resp.json();
-  //     if (respJson.questions) {
-  //       setQuestions(respJson.questions);
-  //     } else {
-  //       setErrorMessage(respJson.error.message);
-  //     }
-  //   };
-  //   loadSecurityQuestions();
-  // }, [setErrorMessage, setQuestions]);
 
   const handleGoogle = async e => {
     const result = await google(e.tokenId);
@@ -72,13 +54,6 @@ export default function RegisterPage(props) {
       Router.push("/");
     }
   };
-  // const pickDropDown = idx => {
-  //   setQuestionIdx(idx);
-  // };
-
-  // const toggle = () => {
-  //   setDropdownOpen(prevState => !prevState);
-  // };
 
   const handleSubmit = async e => {
     e.preventDefault();
