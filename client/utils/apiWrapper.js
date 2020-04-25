@@ -617,4 +617,4 @@ export const checkToken = () => {
         error
       });
     });
-}
+};
