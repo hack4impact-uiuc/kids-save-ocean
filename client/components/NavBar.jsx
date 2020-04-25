@@ -14,7 +14,7 @@ import {
   ModalHeader,
   Popover,
   PopoverHeader,
-  PopoverBody
+  PopoverBody,
 } from "reactstrap";
 // import Popover from "react-tiny-popover";
 import Link from "next/link";
