@@ -17,18 +17,10 @@ export default function EditProjectPage() {
   const [projTitle, setProjTitle] = useState("");
   const [description, setDescription] = useState("");
   const [grpSize, setGrpSize] = useState(false);
-  const [inspiration, setInspiration] = useState(null);
-  const [ideation, setIdeation] = useState(null);
-  const [implementation, setImplementation] = useState(null);
+  const [inspiration, setInspiration] = useState([]);
+  const [ideation, setIdeation] = useState([]);
+  const [implementation, setImplementation] = useState([]);
   const id = "5e901732090f7cdff2e6757a";
-  const ideationStages = [
-    ["Stage 1", "Description 1"],
-    ["Stage 2", "Description 2"],
-    ["Stage 3", "Description 3"]
-  ];
-  var inspirationArr = [];
-  var ideationArr = [];
-  var implementationArr = [];
 
   const handleTitleChange = projTitle => {
     setProjTitle(projTitle.target.value);
@@ -44,17 +36,14 @@ export default function EditProjectPage() {
 
   const handleInspirationChange = inspiration => {
     setInspiration(inspiration);
-    inspirationArr = inspiration;
   };
 
   const handleIdeationChange = ideation => {
     setIdeation(ideation);
-    ideationArr = ideation;
   };
 
   const handleImplementationChange = implementation => {
     setImplementation(implementation);
-    implementationArr = implementation;
   };
 
   const deleteProject = id => {
@@ -78,18 +67,8 @@ export default function EditProjectPage() {
         setGrpSize(project.data.groupSize);
 
         setInspiration(project.data.phases.inspiration);
-        inspirationArr = project.data.phases.inspiration;
-        console.log(inspirationArr.stages); // to delete
-        console.log(inspirationArr.stages[0].name); // to delete
-        console.log(inspirationArr.stages[0].description); // to delete
-
         setIdeation(project.data.phases.ideation);
-        ideationArr = project.data.phases.ideation;
-        console.log(ideationArr.stages); // to delete
-
         setImplementation(project.data.phases.implementation);
-        implementationArr = project.data.phases.implementation;
-        console.log(implementationArr.stages); // to delete
       } else {
         setAlert(true);
       }
@@ -120,7 +99,7 @@ export default function EditProjectPage() {
                   <h4 className="proj-title-h">Project Title</h4>
                   <input
                     type="text"
-                    class="form-control"
+                    className="form-control"
                     className="editor-top"
                     size="50"
                     value={projTitle}
@@ -165,25 +144,15 @@ export default function EditProjectPage() {
             </Row>
             <hr className="divider-stage" />
             <div className="stages">
-              {inspirationArr.stages &&
-                inspirationArr.stages.map((value, idx) => (
+              {inspiration.stages &&
+                inspiration.stages.map(stage => (
                   <Stage
-                    stageName={value.name}
-                    description={value.description}
+                    stageName={stage.name}
+                    description={stage.description}
                     phaseName={"inspiration"}
                     id={id}
-                    value={idx}
                   />
                 ))}
-              {ideationStages.map((value, idx) => (
-                <Stage
-                  stageName={value[0]}
-                  description={value[0]}
-                  phaseName={"inspiration"}
-                  id={id}
-                  key={idx}
-                />
-              ))}
             </div>
             <Row className="header-row-ep">
               <Button className="button-add">Add Stage</Button>
@@ -199,15 +168,15 @@ export default function EditProjectPage() {
               </h2>
             </Row>
             <div className="stages">
-              {ideationStages.map((value, idx) => (
-                <Stage
-                  stageName={value[0]}
-                  description={value[0]}
-                  phaseName={"ideation"}
-                  id={id}
-                  key={idx}
-                />
-              ))}
+              {ideation.stages &&
+                ideation.stages.map(stage => (
+                  <Stage
+                    stageName={stage.name}
+                    description={stage.description}
+                    phaseName={"ideation"}
+                    id={id}
+                  />
+                ))}
             </div>
             <Row className="header-row-ep">
               <Button className="button-add">Add Stage</Button>
@@ -223,15 +192,15 @@ export default function EditProjectPage() {
               </h2>
             </Row>
             <div className="stages">
-              {ideationStages.map((value, idx) => (
-                <Stage
-                  stageName={value[0]}
-                  description={value[0]}
-                  phaseName={"implementation"}
-                  id={id}
-                  key={idx}
-                />
-              ))}
+              {implementation.stages &&
+                implementation.stages.map(stage => (
+                  <Stage
+                    stageName={stage.name}
+                    description={stage.description}
+                    phaseName={"implementation"}
+                    id={id}
+                  />
+                ))}
             </div>
             <Row className="header-row-ep">
               <Button className="button-add">Add Stage</Button>
