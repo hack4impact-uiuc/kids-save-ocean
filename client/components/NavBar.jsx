@@ -11,9 +11,12 @@ import {
   Container,
   Modal,
   ModalBody,
-  ModalHeader
+  ModalHeader,
+  Popover,
+  PopoverHeader,
+  PopoverBody
 } from "reactstrap";
-import Popover from "react-tiny-popover";
+// import Popover from "react-tiny-popover";
 import Link from "next/link";
 import "../public/styles/navbar.scss";
 
@@ -53,18 +56,7 @@ export default function NavBar() {
                 id="logo"
                 src="/homepage-images/fatemaker-logo.png"
                 alt="FateMaker logo"
-                onClick={() => setDisplayNotif(!displayNotif)}
               />
-              <Popover
-                isOpen={displayNotif}
-                position={"bottom"} // preferred position
-                content={
-                  <div>
-                    <h1>Notifications</h1>
-                    <p>Notification 1</p>
-                  </div>
-                }
-              ></Popover>
             </a>
           </Link>
         </NavbarBrand>
@@ -99,7 +91,21 @@ export default function NavBar() {
                     className="nav-img"
                     src="/navbar-images/notification-icon.svg"
                     alt="Notifications"
+                    id="notif-icon"
                   />
+                  <Popover
+                    placement="bottom"
+                    isOpen={displayNotif}
+                    target="notif-icon"
+                    toggle={() => setDisplayNotif(!displayNotif)}
+                  >
+                    <PopoverHeader>Popover Title</PopoverHeader>
+                    <PopoverBody>
+                      Sed posuere consectetur est at lobortis. Aenean eu leo
+                      quam. Pellentesque ornare sem lacinia quam venenatis
+                      vestibulum.
+                    </PopoverBody>
+                  </Popover>
                 </a>
               </Link>
             </NavItem>
