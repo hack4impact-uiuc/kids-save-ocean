@@ -1,4 +1,6 @@
 const jwt = require("jsonwebtoken");
+const express = require("express");
+const router = express.Router();
 
 let checkToken = (req, res, next) => {
   let token = req.headers["x-access-token"] || req.headers["authorization"];
@@ -29,6 +31,11 @@ let checkToken = (req, res, next) => {
   }
 };
 
+router.get("/checkToken", function(req, res) {
+  res.json(checkToken(req, res));
+});
+
 module.exports = {
-  checkToken: checkToken
+  checkToken: checkToken,
+  router
 };

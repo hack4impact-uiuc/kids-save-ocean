@@ -1,5 +1,6 @@
 import axios from "axios";
 import fetch from "isomorphic-unfetch";
+import { checkValidUser } from "./validator";
 
 const BASE_URL = process.env.BACKEND_URL ?? "http://localhost:5000/api";
 // const BASE_URL = process.env.BACKEND_URL ?? "http://52.240.158.249:5000/api"; // leave this in, this is Arpan's url
@@ -73,6 +74,7 @@ export const addModel = data => {
    * Adds a model
    * Returns POST_MODEL_FAIL upon failure
    */
+  checkValidUser();
   const requestString = `${BASE_URL}/models`;
   return axios
     .post(requestString, data, {
@@ -92,6 +94,7 @@ export const editModel = (data, Model_ID) => {
    * Edits a model
    * Returns UPDATE_MODEL_FAIL upon failure
    */
+  checkValidUser();
   const requestString = `${BASE_URL}/models/${Model_ID}`;
   return axios
     .put(requestString, data, {
@@ -111,6 +114,7 @@ export const deleteForm = Model_ID => {
    * Deletes a model
    * Returns DELETE_MODEL_FAIL upon failure
    */
+  checkValidUser();
   const requestString = `${BASE_URL}/models/${Model_ID}`;
   return axios
     .delete(requestString, {
@@ -587,3 +591,20 @@ export const getUpvotes = model_id => {
     error
   }));
 };
+
+export const checkToken = () => {
+  const requestString = `${BASE_URL}/auth/checkToken`;
+  return axios
+    .get(requestString, {
+      headers: {
+        "Content-Type": "application/JSON",
+        "x-access-token": localStorage.getItem("token")
+      }
+    })
+    .catch(error => {
+      ({
+        type: "GET_TOKEN_CHECK_FAIL",
+        error
+      });
+    });
+}
