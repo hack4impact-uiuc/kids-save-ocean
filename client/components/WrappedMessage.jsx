@@ -35,10 +35,11 @@ const WrappedMessage = WrappedComponent =>
 
     return (
       <>
-        <WrappedComponent {...props}
+        <WrappedComponent
+          {...props}
           setError={msg => setErrorMessage(msg)}
           setSuccess={msg => setSuccessMessage(msg)}
-          />
+        />
         <br />
         {error !== undefined && (
           <Alert className="message" color="danger">

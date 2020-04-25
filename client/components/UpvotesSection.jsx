@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 
-import { Row, Button } from "reactstrap";
+import { Row } from "reactstrap";
 
 import { postUpvote, getUpvotes } from "../utils/apiWrapper";
 import "../public/styles/upvotes.scss";

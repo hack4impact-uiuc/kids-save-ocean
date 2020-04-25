@@ -15,7 +15,6 @@ import {
 import {
   Alert,
   Button,
-  Col,
   Modal,
   ModalBody,
   ModalFooter,
@@ -23,7 +22,6 @@ import {
   Nav,
   NavItem,
   NavLink,
-  Row,
   TabContent,
   TabPane
 } from "reactstrap";

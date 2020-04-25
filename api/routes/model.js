@@ -61,9 +61,10 @@ router.post(
     const collection = db.get("projects");
     let data = req.body;
     data["ownerId"] = userId;
+    let currProjectId;
 
     // Check if data includes proper fields
-    projects.insert(data, function(err) {
+    collection.insert(data, function(err) {
       if (err) {
         res.sendStatus(500);
       } else {
@@ -165,17 +166,20 @@ router.post("/:model_ID", checkToken, async (req, res) => {
   const userEmail = req.decoded.sub;
   const userId = await getUserId(db, userEmail);
 
-  collection.findOneAndUpdate(
+  collection
+    .findOneAndUpdate(
       {
         _id: model_ID,
         ownerId: userId
       },
       { $set: { name, description, groupSize } }
-    ).then(model =>
+    )
+    .then(model =>
       model !== null
         ? res.json({ success: `${name} updated!` })
         : res.sendStatus(404)
-    ).catch(() => res.sendStatus(500));
+    )
+    .catch(() => res.sendStatus(500));
 });
 
 router.post("/:model_ID/:phaseName/:stageName", checkToken, async function(

@@ -57,7 +57,7 @@ export default function CommentsSection(props) {
     <div>
       <h1 className="comment-header">Comments</h1>
       <Col>{renderComments(comments)}</Col>
-      <hr/>
+      <hr />
       {localStorage.getItem("token") && !fetching && (
         <Row>
           <CommentEditor post={content => post(content)} />

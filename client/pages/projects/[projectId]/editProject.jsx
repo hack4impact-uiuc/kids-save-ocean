@@ -6,19 +6,13 @@ import classnames from "classnames";
 
 import {
   Col,
-  Input,
   Button,
   Row,
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
-  FormGroup,
-  Label,
   Container,
   Alert,
   Nav,
   NavItem,
-  NavLink,
+  NavLink
 } from "reactstrap";
 import {
   getModelsByID,
@@ -42,7 +36,6 @@ const capitalize = str =>
   str.length > 0 ? str.charAt(0).toUpperCase() + str.slice(1) : str;
 
 export default WrappedMessage(function EditProjectPage(props) {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
   const [project, setProject] = useState(null);
   const [isOwner, setIsOwner] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -54,8 +47,6 @@ export default WrappedMessage(function EditProjectPage(props) {
 
   const router = useRouter();
   const { projectId } = router.query;
-
-  const toggle = () => setDropdownOpen(prevState => !prevState);
 
   const handleTitleChange = projTitle => {
     setProjTitle(projTitle.target.value);
@@ -87,7 +78,9 @@ export default WrappedMessage(function EditProjectPage(props) {
     setProjTitle(project.data.name);
     setDescription(project.data.description);
 
-    const groupSizeVal = groupSizeData.find(x => x.label === project.data.groupSize);
+    const groupSizeVal = groupSizeData.find(
+      x => x.label === project.data.groupSize
+    );
     // alert(groupSizeVal);
     setGrpSize(groupSizeVal);
   }, [projectId]);
@@ -117,31 +110,29 @@ export default WrappedMessage(function EditProjectPage(props) {
     }
   }, [projectId, loadProject]);
 
-  const renderPhaseEdit = (phase) => {
-    return (
-      <Col>
-        <div className="stages">
-          {project?.phases[phase].stages.map((value, idx) => (
-            <Stage
-              readonly={false}
-              stageName={value.name}
-              phaseName={phase}
-              id={projectId}
-              key={idx}
-            />
-          ))}
-          <AddStage
-            addStage={(stageName, startdate, enddate) =>
-              addStage(projectId, phase, stageName, startdate, enddate)
-            }
+  const renderPhaseEdit = phase => (
+    <Col>
+      <div className="stages">
+        {project?.phases[phase].stages.map((value, idx) => (
+          <Stage
+            readonly={false}
+            stageName={value.name}
+            phaseName={phase}
+            id={projectId}
+            key={idx}
           />
-        </div>
-        <hr className="header-row-ep" />
-      </Col>
-    );
-  };
+        ))}
+        <AddStage
+          addStage={(stageName, startdate, enddate) =>
+            addStage(projectId, phase, stageName, startdate, enddate)
+          }
+        />
+      </div>
+      <hr className="header-row-ep" />
+    </Col>
+  );
 
-  const renderProjectEdit = (project, dropdownOpen) => (
+  const renderProjectEdit = project => (
     <div>
       <Head title={project?.name} />
       {loading ? (
@@ -158,8 +149,7 @@ export default WrappedMessage(function EditProjectPage(props) {
                   <h4 className="proj-title-h">Project Title</h4>
                   <input
                     type="text"
-                    className="form-control"
-                    className="editor-top"
+                    className="form-control editor-top"
                     size="50"
                     value={projTitle}
                     onChange={handleTitleChange}
@@ -175,21 +165,31 @@ export default WrappedMessage(function EditProjectPage(props) {
                   />
                   <h4 className="proj-descrip-h">Project Description</h4>
                   <textarea
-                    className="form-control"
-                    className="editor-top"
+                    className="form-control editor-top"
                     rows="4"
                     cols="105"
                     value={description}
                     onChange={handleDescriptionChange}
                   ></textarea>
                   <Row className="justify-content-around">
-                    <Button color="primary" className="save-top-btn"
-                      onClick={() => saveTopChanges(projTitle, description, grpSize)}>
+                    <Button
+                      color="primary"
+                      className="save-top-btn"
+                      onClick={() =>
+                        saveTopChanges(projTitle, description, grpSize)
+                      }
+                    >
                       Save Changes
                     </Button>
-                     <Link href="/projects" as="/projects" passHref>
+                    <Link href="/projects" as="/projects" passHref>
                       <a>
-                        <Button color="danger" className="delete-btn" onClick={deleteProject}>Delete Project</Button>
+                        <Button
+                          color="danger"
+                          className="delete-btn"
+                          onClick={deleteProject}
+                        >
+                          Delete Project
+                        </Button>
                       </a>
                     </Link>
                   </Row>
@@ -215,12 +215,18 @@ export default WrappedMessage(function EditProjectPage(props) {
                 </NavItem>
               ))}
             </Nav>
-            <br/>
+            <br />
             {renderPhaseEdit(activePhase)}
           </div>
-          <Link href="/projects/[projectId]" as={`/projects/${projectId}`} passHref>
+          <Link
+            href="/projects/[projectId]"
+            as={`/projects/${projectId}`}
+            passHref
+          >
             <a>
-              <Button className="button-return-project">Return to Project Page</Button>
+              <Button className="button-return-project">
+                Return to Project Page
+              </Button>
             </a>
           </Link>
         </>
@@ -240,7 +246,7 @@ export default WrappedMessage(function EditProjectPage(props) {
           </Alert>
         )}
 
-        {!loading && isOwner && renderProjectEdit(project, dropdownOpen)}
+        {!loading && isOwner && renderProjectEdit(project)}
       </Container>
     </>
   );
