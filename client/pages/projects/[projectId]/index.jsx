@@ -15,6 +15,7 @@ import {
 import {
   Alert,
   Button,
+  Col,
   Modal,
   ModalBody,
   ModalFooter,
@@ -22,6 +23,7 @@ import {
   Nav,
   NavItem,
   NavLink,
+  Row,
   TabContent,
   TabPane
 } from "reactstrap";
@@ -146,42 +148,47 @@ export default function ProjectPage() {
   }, [project]);
 
   const renderHeaderButtons = (isOwner, following) => {
+    if (!localStorage.getItem("token")) {
+      return [];
+    }
     let buttons = [];
-    if (!isOwner && localStorage.getItem("token")) {
-      if (following) {
+    if (localStorage.getItem("token")) {
+      if (!isOwner) {
+        if (following) {
+          buttons.push(
+            <Button className="project-header-buttons" onClick={unfollowProj}>
+              Unfollow
+            </Button>
+          );
+        } else {
+          buttons.push(
+            <Button className="project-header-buttons" onClick={followProj}>
+              Follow
+            </Button>
+          );
+        }
+      }
+
+      if (isOwner) {
         buttons.push(
-          <Button className="project-header-buttons" onClick={unfollowProj}>
-            Unfollow
-          </Button>
+          <Link
+            href="/projects/[projectId]/editProject"
+            as={`/projects/${projectId}/editProject`}
+            passHref
+          >
+            <Button className="project-header-buttons">Edit</Button>
+          </Link>
         );
       } else {
         buttons.push(
-          <Button className="project-header-buttons" onClick={followProj}>
-            Follow
+          <Button
+            className="project-header-buttons"
+            onClick={() => duplicateModel(project._id)}
+          >
+            Build off this project
           </Button>
         );
       }
-    }
-
-    if (isOwner) {
-      buttons.push(
-        <Link
-          href="/projects/[projectId]/editProject"
-          as={`/projects/${projectId}/editProject`}
-          passHref
-        >
-          <Button className="project-header-buttons">Edit</Button>
-        </Link>
-      );
-    } else {
-      buttons.push(
-        <Button
-          className="project-header-buttons"
-          onClick={() => duplicateModel(project._id)}
-        >
-          Build off this project
-        </Button>
-      );
     }
 
     return buttons;
@@ -225,7 +232,12 @@ export default function ProjectPage() {
           {project && (
             <div className="project">
               <div className="project-header">
+                <div className="upvote-btn">
+                  <UpvotesSection projectId={projectId} />
+                </div>
+
                 <h1 className="project-info">{project.name}</h1>
+
                 {renderHeaderButtons(isOwner, following)}
               </div>
               <p className="project-info">{project.description}</p>
@@ -283,8 +295,6 @@ export default function ProjectPage() {
                   icon="fa-lightbulb-o"
                 />
               </div>
-
-              <UpvotesSection projectId={projectId} />
               <CommentsSection projectId={projectId} />
             </div>
           )}
