@@ -7,19 +7,22 @@ import {
   saveDescription,
   deleteForm
 } from "../utils/apiWrapper";
-import { Head, Stage } from "../components";
+import { Head, Draft } from "../components";
 import groupSizeData from "../utils/groups";
 import "../public/styles/editProject.scss";
 import { is } from "immutable";
 
 export default function EditProjectPage() {
   const [visAlert, setAlert] = useState(false);
+
   const [projTitle, setProjTitle] = useState("");
   const [description, setDescription] = useState("");
   const [grpSize, setGrpSize] = useState(false);
+
   const [inspiration, setInspiration] = useState([]);
   const [ideation, setIdeation] = useState([]);
   const [implementation, setImplementation] = useState([]);
+
   const id = "5e901732090f7cdff2e6757a";
 
   const handleTitleChange = projTitle => {
@@ -50,6 +53,16 @@ export default function EditProjectPage() {
     deleteForm(id);
   };
 
+  const saveTopChanges = (projTitle, description, grpSize) => {
+    model_id, phaseName, stageName, description, subDescription;
+    saveDescription(
+      id,
+      "inspiration",
+      inspiration.stages[0].name,
+      inspiration.stages[0].description
+    );
+  };
+
   // finish
   const savePhase = id => {
     //saveDescription(id, );
@@ -67,6 +80,8 @@ export default function EditProjectPage() {
         setGrpSize(project.data.groupSize);
 
         setInspiration(project.data.phases.inspiration);
+        console.log(project.data.phases.inspiration); // to delete
+
         setIdeation(project.data.phases.ideation);
         setImplementation(project.data.phases.implementation);
       } else {
@@ -116,13 +131,16 @@ export default function EditProjectPage() {
                   />
                   <h4 className="proj-descrip-h">Project Description</h4>
                   <textarea
-                    class="form-control"
+                    className="form-control"
                     className="editor-top"
                     rows="4"
                     cols="105"
                     value={description}
                     onChange={handleDescriptionChange}
                   ></textarea>
+                  <Button className="save-top-btn" onClick={saveTopChanges}>
+                    Save Changes
+                  </Button>
                 </div>
               </Row>
             </Col>
@@ -146,19 +164,14 @@ export default function EditProjectPage() {
             <div className="stages">
               {inspiration.stages &&
                 inspiration.stages.map(stage => (
-                  <Stage
-                    stageName={stage.name}
-                    description={stage.description}
-                    phaseName={"inspiration"}
-                    id={id}
-                  />
+                  <div className="stages">
+                    <h2>{stage.name}</h2>
+                    <h5>{stage.description}</h5>
+                  </div>
                 ))}
             </div>
             <Row className="header-row-ep">
               <Button className="button-add">Add Stage</Button>
-              <Button className="save-btn" onClick={savePhase}>
-                Save Phase
-              </Button>
             </Row>
             <hr className="header-row-ep" />
             <Row>
@@ -170,19 +183,14 @@ export default function EditProjectPage() {
             <div className="stages">
               {ideation.stages &&
                 ideation.stages.map(stage => (
-                  <Stage
-                    stageName={stage.name}
-                    description={stage.description}
-                    phaseName={"ideation"}
-                    id={id}
-                  />
+                  <div className="stages">
+                    <h2>{stage.name}</h2>
+                    <h5>{stage.description}</h5>
+                  </div>
                 ))}
             </div>
             <Row className="header-row-ep">
               <Button className="button-add">Add Stage</Button>
-              <Button className="save-btn" onClick={savePhase}>
-                Save Phase
-              </Button>
             </Row>
             <hr className="header-row-ep" />
             <Row>
@@ -194,19 +202,14 @@ export default function EditProjectPage() {
             <div className="stages">
               {implementation.stages &&
                 implementation.stages.map(stage => (
-                  <Stage
-                    stageName={stage.name}
-                    description={stage.description}
-                    phaseName={"implementation"}
-                    id={id}
-                  />
+                  <div className="stages">
+                    <h2>{stage.name}</h2>
+                    <h5>{stage.description}</h5>
+                  </div>
                 ))}
             </div>
             <Row className="header-row-ep">
               <Button className="button-add">Add Stage</Button>
-              <Button className="save-btn" onClick={savePhase}>
-                Save Phase
-              </Button>
             </Row>
             <hr className="header-row-ep" />
           </Col>
