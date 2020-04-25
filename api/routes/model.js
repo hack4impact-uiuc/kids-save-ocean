@@ -156,6 +156,28 @@ router.get("/:model_ID/canEdit", checkToken, async function(req, res) {
     .catch(() => res.sendStatus(404));
 });
 
+router.post("/:model_ID", checkToken, async (req, res) => {
+  const db = req.db;
+  const collection = db.get("projects");
+  const { model_ID } = req.params;
+  const { name, description, groupSize } = req.body;
+
+  const userEmail = req.decoded.sub;
+  const userId = await getUserId(db, userEmail);
+
+  collection.findOneAndUpdate(
+      {
+        _id: model_ID,
+        ownerId: userId
+      },
+      { $set: { name, description, groupSize } }
+    ).then(model =>
+      model !== null
+        ? res.json({ success: `${name} updated!` })
+        : res.sendStatus(404)
+    ).catch(() => res.sendStatus(500));
+});
+
 router.post("/:model_ID/:phaseName/:stageName", checkToken, async function(
   req,
   res

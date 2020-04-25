@@ -24,14 +24,15 @@ import {
   getModelsByID,
   canEdit,
   addModelStage,
-  deleteForm
+  deleteForm,
+  updateProject
 } from "../../../utils/apiWrapper";
 import {
   Head,
   Stage,
   Loader,
   AddStage,
-  WrappedError
+  WrappedMessage
 } from "../../../components";
 import groupSizeData from "../../../utils/groups";
 
@@ -40,7 +41,7 @@ import "../../../public/styles/editProject.scss";
 const capitalize = str =>
   str.length > 0 ? str.charAt(0).toUpperCase() + str.slice(1) : str;
 
-export default WrappedError(function EditProjectPage(props) {
+export default WrappedMessage(function EditProjectPage(props) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [project, setProject] = useState(null);
   const [isOwner, setIsOwner] = useState(false);
@@ -73,8 +74,10 @@ export default WrappedError(function EditProjectPage(props) {
     deleteForm(id);
   };
 
-  const saveTopChanges = () => {
-    return;
+  const saveTopChanges = (name, description, groupSize) => {
+    updateProject(projectId, name, description, groupSize)
+      .then(() => props.setSuccess("Successfully updated!"))
+      .catch(() => props.setError("Failed to update project"));
   };
 
   const loadProject = useCallback(async () => {
@@ -180,7 +183,8 @@ export default WrappedError(function EditProjectPage(props) {
                     onChange={handleDescriptionChange}
                   ></textarea>
                   <Row className="justify-content-around">
-                    <Button color="primary" className="save-top-btn" onClick={saveTopChanges}>
+                    <Button color="primary" className="save-top-btn"
+                      onClick={() => saveTopChanges(projTitle, description, grpSize)}>
                       Save Changes
                     </Button>
                      <Link href="/projects" as="/projects" passHref>

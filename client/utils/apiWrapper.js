@@ -89,6 +89,18 @@ export const addModel = data => {
     });
 };
 
+export const updateProject = (model_id, name, description, groupSize) => {
+  const requestString = `${BASE_URL}/models/${model_id}`;
+  return axios
+    .post(requestString, { name, description, groupSize }, {
+      headers: {
+        "Content-Type": "application/JSON",
+        "x-access-token": localStorage.getItem("token")
+      }
+    }
+  );
+};
+
 export const addModelStage = (
   model_id,
   phaseName,
