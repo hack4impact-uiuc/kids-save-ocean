@@ -16,7 +16,6 @@ import {
   PopoverHeader,
   PopoverBody,
 } from "reactstrap";
-// import Popover from "react-tiny-popover";
 import Link from "next/link";
 import "../public/styles/navbar.scss";
 
@@ -24,6 +23,13 @@ export default function NavBar() {
   const [isTop, setTop] = useState(true);
   const [isCollapsed, setCollapsed] = useState(true);
   const [displayNotif, setDisplayNotif] = useState(true);
+  const [renderPopover, setRenderPopover] = useState(false);
+
+  useEffect(() => {
+    if (process.browser) {
+      setRenderPopover(true);
+    }
+  }, [renderPopover]);
 
   useEffect(() => {
     document.addEventListener("scroll", () => {
@@ -93,19 +99,21 @@ export default function NavBar() {
                     alt="Notifications"
                     id="notif-icon"
                   />
-                  <Popover
-                    placement="bottom"
-                    isOpen={displayNotif}
-                    target="notif-icon"
-                    toggle={() => setDisplayNotif(!displayNotif)}
-                  >
-                    <PopoverHeader>Popover Title</PopoverHeader>
-                    <PopoverBody>
-                      Sed posuere consectetur est at lobortis. Aenean eu leo
-                      quam. Pellentesque ornare sem lacinia quam venenatis
-                      vestibulum.
-                    </PopoverBody>
-                  </Popover>
+                  {renderPopover && (
+                    <Popover
+                      placement="bottom"
+                      isOpen={displayNotif}
+                      target="notif-icon"
+                      toggle={() => setDisplayNotif(!displayNotif)}
+                    >
+                      <PopoverHeader>Popover Title</PopoverHeader>
+                      <PopoverBody>
+                        Sed posuere consectetur est at lobortis. Aenean eu leo
+                        quam. Pellentesque ornare sem lacinia quam venenatis
+                        vestibulum.
+                      </PopoverBody>
+                    </Popover>
+                  )}
                 </a>
               </Link>
             </NavItem>
