@@ -378,16 +378,18 @@ export const saveDescription = (
   model_id,
   phaseName,
   stageName,
-  description
+  description,
+  subDescription
 ) => {
   const requestString = `${BASE_URL}/models/${model_id}/${phaseName}/${stageName}/description`;
   return axios
     .put(
       requestString,
-      { description },
+      { description, subDescription },
       {
         headers: {
           "Content-Type": "application/JSON",
+          "x-access-token": localStorage.getItem("token"),
         },
       }
     )

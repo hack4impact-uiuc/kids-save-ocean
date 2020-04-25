@@ -138,12 +138,11 @@ router.put("/:model_ID/:phaseName/:stageName/description", checkToken, async fun
   const db = req.db;
   const collection = db.get("projects");
   const { model_ID, phaseName, stageName } = req.params;
-
   const description = req.body.description;
+  const subDescription = req.body.subDescription;
   if (description === undefined) {
     res.sendStatus(400);
   }
-
   collection
     .findOneAndUpdate(
       {
@@ -159,7 +158,7 @@ router.put("/:model_ID/:phaseName/:stageName/description", checkToken, async fun
       }
     )
     .catch(() => res.sendStatus(500));
-  
+
   const updates = db.get("updates");
   const email = req.user.email;
   const username = await getUsername(db, email);
@@ -168,7 +167,7 @@ router.put("/:model_ID/:phaseName/:stageName/description", checkToken, async fun
     email: email,
     projectId: model_ID,
     description: `${username} updated their ${stageName} stage`,
-    subDescription: `${description}`,
+    subDescription: `${subDescription}`,
     date: Date.now()
   };
 

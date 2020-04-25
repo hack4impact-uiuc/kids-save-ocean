@@ -336,14 +336,10 @@ router.get("/updates/:numUpdates", checkToken, async function(req, res) {
 
   projectIds = user.followingProjects;
   
-  const obj_ids = ids.map(function(id) {
-    return ObjectId(id);
-  });
-
   const updates = db.get("updates");
   updates.find(
     {
-      projectId: { $in: obj_ids },
+      projectId: { $in: projectIds },
     },
     {
       limit: parseInt(numUpdates),
