@@ -1,15 +1,19 @@
 import Router from "next/router";
 import { checkToken } from "./apiWrapper";
 
-export const checkValidUser = async () => {
+export const checkValidUser = async (redir = true) => {
   if (!localStorage.getItem("token")) {
-    Router.replace("/login");
+    if (redir) {
+      Router.replace("/login");
+    }
     return false;
   }
   const resp = await checkToken();
   if (!resp.data.success) {
     localStorage.removeItem("token");
-    Router.replace("/login");
+    if (redir) {
+      Router.replace("/login");
+    }
     return false;
   }
   return true;
