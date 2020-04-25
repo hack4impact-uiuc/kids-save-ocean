@@ -6,7 +6,6 @@ import {
   verifyPIN,
   resendPIN,
   google,
-  getSecurityQuestions,
   createUser
 } from "../utils/apiWrapper";
 import { Alert, Form, Button, FormGroup, Input, Row, Col } from "reactstrap";
