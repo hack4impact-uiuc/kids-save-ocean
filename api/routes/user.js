@@ -1,31 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const validate = require("express-jsonschema").validate;
-// const guard = require("express-jwt-permissions");
 const { checkToken } = require("../auth/utils/checkToken");
 
 const UserSchema = require("../public/schema/userSchema.js").userSchema;
 const SUCCESS = 200;
 const NOT_FOUND = 404;
 const DUPLICATE = 409;
-
-router.get("/", checkToken, (req, res) => {
-  // const { db } = req;
-  const { role } = req.user;
-  if (role === "admin") {
-    res.status(SUCCESS).send({
-      code: SUCCESS,
-      success: true,
-      message: "admin"
-    });
-  } else {
-    res.status(NOT_FOUND).send({
-      code: NOT_FOUND,
-      success: false,
-      message: "not admin"
-    });
-  }
-});
 
 router.get("/", checkToken, async (req, res) => {
   const { db } = req;
@@ -205,7 +186,6 @@ router.get("/followingProjects", checkToken, async (req, res) => {
         message: "User not found."
       });
     }
-
     res.status(200).send({
       success: true,
       message: "Successfully retrived user's followingProjects.",

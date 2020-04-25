@@ -17,7 +17,6 @@ export const getModels = (sdg_query, searchPage = null) => {
   } else {
     requestString = `${BASE_URL}/models`;
   }
-  console.log(requestString);
   return axios
     .get(requestString, {
       headers: {
@@ -458,21 +457,6 @@ export const deleteUser = () => {
   try {
     return fetch(`${BASE_URL}/users/userInfo`, {
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": localStorage.getItem("token")
-      }
-    });
-  } catch (err) {
-    return err;
-  }
-};
-
-export const checkAdminPrivilege = () => {
-  const requestString = `${BASE_URL}/users/`;
-  try {
-    return fetch(requestString, {
-      method: "GET",
       headers: {
         "Content-Type": "application/json",
         "x-access-token": localStorage.getItem("token")
