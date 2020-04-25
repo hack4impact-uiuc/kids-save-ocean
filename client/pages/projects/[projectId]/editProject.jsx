@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import Select from "react-select";
+import classnames from "classnames";
 
 import {
   Col,
@@ -13,7 +15,10 @@ import {
   FormGroup,
   Label,
   Container,
-  Alert
+  Alert,
+  Nav,
+  NavItem,
+  NavLink,
 } from "reactstrap";
 import {
   getModelsByID,
@@ -28,13 +33,19 @@ import {
   AddStage,
   WrappedError
 } from "../../../components";
+import groupSizeData from "../../../utils/groups";
+
 import "../../../public/styles/editProject.scss";
+
+const capitalize = str =>
+  str.length > 0 ? str.charAt(0).toUpperCase() + str.slice(1) : str;
 
 export default WrappedError(function EditProjectPage(props) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [project, setProject] = useState(null);
   const [isOwner, setIsOwner] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [activePhase, setActivePhase] = useState("inspiration");
 
   const [projTitle, setProjTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -54,6 +65,7 @@ export default WrappedError(function EditProjectPage(props) {
   };
 
   const handleGrpSizeChange = grpSize => {
+    alert(grpSize);
     setGrpSize(grpSize);
   };
 
@@ -61,10 +73,20 @@ export default WrappedError(function EditProjectPage(props) {
     deleteForm(id);
   };
 
+  const saveTopChanges = () => {
+    return;
+  };
+
   const loadProject = useCallback(async () => {
     const project = await getModelsByID(projectId);
     setProject(project.data);
     setLoading(false);
+    setProjTitle(project.data.name);
+    setDescription(project.data.description);
+
+    const groupSizeVal = groupSizeData.find(x => x.label === project.data.groupSize);
+    // alert(groupSizeVal);
+    setGrpSize(groupSizeVal);
   }, [projectId]);
 
   const addStage = (projectId, phaseName, stageName, start, end) => {
@@ -92,18 +114,11 @@ export default WrappedError(function EditProjectPage(props) {
     }
   }, [projectId, loadProject]);
 
-  const renderPhaseEdit = (phase, phaseName, stages) => {
+  const renderPhaseEdit = (phase) => {
     return (
       <Col>
-        <Row className="other-row">
-          <h2 className="header2-text-ep-other">
-            {" "}
-            <strong> {phaseName} </strong>{" "}
-          </h2>
-        </Row>
-        <hr className="divider-stage" />
         <div className="stages">
-          {stages.map((value, idx) => (
+          {project?.phases[phase].stages.map((value, idx) => (
             <Stage
               readonly={false}
               stageName={value.name}
@@ -164,24 +179,41 @@ export default WrappedError(function EditProjectPage(props) {
                     value={description}
                     onChange={handleDescriptionChange}
                   ></textarea>
-                  <Button className="save-top-btn" onClick={saveTopChanges}>
-                    Save Changes
-                  </Button>
+                  <Row className="justify-content-around">
+                    <Button color="primary" className="save-top-btn" onClick={saveTopChanges}>
+                      Save Changes
+                    </Button>
+                     <Link href="/projects" as="/projects" passHref>
+                      <a>
+                        <Button color="danger" className="delete-btn" onClick={deleteProject}>Delete Project</Button>
+                      </a>
+                    </Link>
+                  </Row>
                 </div>
               </Row>
             </Col>
           </Row>
-          <Row className="other-row">
-            <Button className="inspiration-btn">Inspiration</Button>
-            <Button className="ideation-btn">Ideation</Button>
-            <Button className="implementation-btn">Implementation</Button>
-            <Button className="delete-btn" onClick={deleteProject}>
-              <a href="/projects">Delete Project</a>
-            </Button>
-          </Row>
-          {renderPhaseEdit("inspiration", "Inspiration", project?.phases.inspiration.stages)}
-          {renderPhaseEdit("ideation", "Ideation", project?.phases.ideation.stages)}
-          {renderPhaseEdit("implementation", "Implementation", project?.phases.implementation.stages)}
+          <div className="phase-edit-section">
+            <Nav tabs justified>
+              {Object.keys(project?.phases).map(phase => (
+                <NavItem key={phase}>
+                  <NavLink
+                    className={classnames(
+                      { active: activePhase === phase },
+                      "tab"
+                    )}
+                    onClick={() => {
+                      setActivePhase(phase);
+                    }}
+                  >
+                    {capitalize(phase)}
+                  </NavLink>
+                </NavItem>
+              ))}
+            </Nav>
+            <br/>
+            {renderPhaseEdit(activePhase)}
+          </div>
           <Link href="/projects/[projectId]" as={`/projects/${projectId}`} passHref>
             <a>
               <Button className="button-return-project">Return to Project Page</Button>

@@ -10,26 +10,26 @@
   align-content: middle;
 
   .div-1-ep {
-    padding-bottom: 5%;
-    padding-top: 5%;
+    padding: 5%;
+
     .proj-title-h,
     .num-ppl-h,
-    .proj-descrip-h {
-      margin-left: 5%;
-      margin-right: -5%;
+    .proj-descrip-h,
+    .dropdown,
+    .editor-top,
+    .save-top-btn {
       margin-bottom: 1.5%;
     }
 
-    .dropdown {
-      margin-left: 5%;
-      margin-bottom: 5%;
-    }
     .editor-top {
-      margin-left: 5%;
-      margin-bottom: 3%;
+      width: 100%;
     }
-    .save-top-btn {
-      margin-left: 5%;
+
+    .grp-sizes-list {
+      table-layout: fixed;
+      width: 200px;
+      max-width: 100%;
+      margin-bottom: 3%;
     }
   }
 }
@@ -77,12 +77,6 @@
 .ideation-btn {
   margin-right: 1%;
 }
-.delete-btn {
-  margin-left: 44%;
-  a {
-    color: #fff;
-  }
-}
 .stages {
   display: flex;
   flex-direction: column;
@@ -92,12 +86,10 @@
 .edit-form {
   border: thin gray solid;
 }
-.grp-sizes-list {
-  table-layout: fixed;
-  width: 200px;
-  max-width: 100%;
-  margin-bottom: 3%;
-  margin-left: 5%;
+.phase-edit-section {
+  width: 80vw;
+  margin-left: 50%;
+  transform: translateX(-50%);
 }
 .button-return-project {
   left: 50%;

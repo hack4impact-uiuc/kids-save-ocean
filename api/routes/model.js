@@ -3,12 +3,9 @@ const router = express.Router();
 const validate = require("express-jsonschema").validate;
 const { checkToken } = require("../auth/utils/checkToken");
 
-const { checkToken } = require("../auth/utils/checkToken");
-const { getUserId } = require("../utils/user_utils");
+const { getUserId, getUsername } = require("../utils/user_utils");
 
 const ModelSchema = require("../public/schema/projectSchema.js").projectSchema;
-
-const { getUsername } = require("../utils/user_utils");
 
 router.get("/", function(req, res) {
   let sdg_par = req.query.sdg;
@@ -140,7 +137,6 @@ router.put(
   }
 );
 
-<<<<<<< HEAD
 router.get("/:model_ID/canEdit", checkToken, async function(req, res) {
   const db = req.db;
   const collection = db.get("projects");
@@ -194,7 +190,7 @@ router.post("/:model_ID/:phaseName/:stageName", checkToken, async function(
     )
     .catch(() => res.sendStatus(500));
 });
-=======
+
 router.put(
   "/:model_ID/:phaseName/:stageName/description",
   checkToken,
@@ -252,41 +248,6 @@ router.put(
     }
 
     res.json({ success: `${stageName} description updated!` });
-  }
-);
->>>>>>> sm/templates
-
-router.put(
-  "/:model_ID/:phaseName/:stageName/description",
-  checkToken,
-  async function(req, res) {
-    const db = req.db;
-    const collection = db.get("projects");
-    const { model_ID, phaseName, stageName } = req.params;
-
-    const userEmail = req.decoded.sub;
-    const userId = await getUserId(db, userEmail);
-
-    const description = req.body.description;
-    if (description === undefined) {
-      res.sendStatus(400);
-    }
-
-    collection
-      .findOneAndUpdate(
-        {
-          _id: model_ID,
-          ownerId: userId,
-          [`phases.${phaseName}.stages.name`]: stageName
-        },
-        { $set: { [`phases.${phaseName}.stages.$.description`]: description } }
-      )
-      .then(model =>
-        model !== null
-          ? res.json({ success: `${stageName} description updated!` })
-          : res.sendStatus(404)
-      )
-      .catch(() => res.sendStatus(500));
   }
 );
 
