@@ -50,45 +50,50 @@ export const getModelsByID = Model_ID => {
       });
     });
 };
-export const getUpdates = (numUpdates, currentIndex) => {
+export const getUpdates = async (numUpdates, currentIndex) => {
   /**
    * Returns min(available updates, numUpdates) projects with ID greater than last_id query
    * Returns GET_UPDATES_FAIL upon failure
    */
-  const requestString = `${BASE_URL}/user/updates/${numUpdates}/${currentIndex}`;
-  return axios
-    .get(requestString, {
-      headers: {
-        "Content-Type": "application/JSON",
-        "x-access-token": localStorage.getItem("token")
-      }
-    })
-    .catch(error => {
-      ({
-        type: "GET_UPDATES_FAIL",
-        error
+  const validUser = await checkValidUser();
+  if (validUser) {
+    const requestString = `${BASE_URL}/user/updates/${numUpdates}/${currentIndex}`;
+    return axios
+      .get(requestString, {
+        headers: {
+          "Content-Type": "application/JSON",
+          "x-access-token": localStorage.getItem("token")
+        }
+      })
+      .catch(error => {
+        ({
+          type: "GET_UPDATES_FAIL",
+          error
+        });
       });
-    });
+  }
 };
-export const addModel = data => {
+export const addModel = async data => {
   /**
    * Adds a model
    * Returns POST_MODEL_FAIL upon failure
    */
-  checkValidUser();
-  const requestString = `${BASE_URL}/models`;
-  return axios
-    .post(requestString, data, {
-      headers: {
-        "Content-Type": "application/JSON"
-      }
-    })
-    .catch(error => {
-      ({
-        type: "POST_MODEL_FAIL",
-        error
+  const validUser = await checkValidUser();
+  if (validUser) {
+    const requestString = `${BASE_URL}/models`;
+    return axios
+      .post(requestString, data, {
+        headers: {
+          "Content-Type": "application/JSON"
+        }
+      })
+      .catch(error => {
+        ({
+          type: "POST_MODEL_FAIL",
+          error
+        });
       });
-    });
+  }
 };
 export const editModel = async (data, Model_ID) => {
   /**
