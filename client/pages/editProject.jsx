@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Button, Col, Input, Row, Label, Container, Alert } from "reactstrap";
 import Select from "react-select";
-import { getModelsByID } from "../utils/apiWrapper";
+import {
+  getModelsByID,
+  saveDescription,
+  deleteForm
+} from "../utils/apiWrapper";
 import { Head, Stage } from "../components";
 import groupSizeData from "../utils/groups";
 import "../public/styles/editProject.scss";
@@ -50,6 +54,10 @@ export default function EditProjectPage() {
   const handleImplementationChange = implementation => {
     setImplementation(implementation);
     implementationArr = implementation;
+  };
+
+  const deleteProject = id => {
+    deleteForm(id);
   };
 
   useEffect(() => {
@@ -135,6 +143,9 @@ export default function EditProjectPage() {
               <Button className="inspiration-btn">Inspiration</Button>
               <Button className="ideation-btn">Ideation</Button>
               <Button className="implementation-btn">Implementation</Button>
+              <Button className="delete-btn" onClick={deleteProject}>
+                <a href="/projects">Delete Project</a>
+              </Button>
             </Row>
             <Row>
               <h2 className="header2-text-ep-other">
@@ -144,15 +155,16 @@ export default function EditProjectPage() {
             </Row>
             <hr className="divider-stage" />
             <div className="stages">
-              {inspiration.map((value, idx) => (
-                <Stage
-                  stageName={value[0]}
-                  description={value[1]}
-                  phaseName={"inspiration"}
-                  id={id}
-                  value={idx}
-                />
-              ))}
+              {inspirationArr &&
+                inspirationArr.map((value, idx) => (
+                  <Stage
+                    stageName={value[0]}
+                    description={value[1]}
+                    phaseName={"inspiration"}
+                    id={id}
+                    value={idx}
+                  />
+                ))}
               {ideationStages.map((value, idx) => (
                 <Stage
                   stageName={value[0]}
