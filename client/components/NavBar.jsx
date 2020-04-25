@@ -10,7 +10,6 @@ import {
   Col,
   Container
 } from "reactstrap";
-
 import "../public/styles/navbar.scss";
 
 export default function NavBar() {
@@ -46,6 +45,15 @@ export default function NavBar() {
           <Nav navbar className="ml-auto">
             <NavItem>
               <Col className="button-col">
+                <a href="/projects">
+                  <Button className="button-create" color="#ffcc66">
+                    Explore
+                  </Button>
+                </a>
+              </Col>
+            </NavItem>
+            <NavItem>
+              <Col className="button-col">
                 <Button className="button-create" color="#ffcc66">
                   Create
                 </Button>
@@ -55,18 +63,22 @@ export default function NavBar() {
               <Col lg={{ size: 1 }} className="divider"></Col>
             </NavItem>
             <NavItem className="notif-col">
-              <img
-                className="nav-img"
-                src="/navbar-images/notification-icon.svg"
-                alt="Notifications"
-              />
+              <a href="#notifications">
+                <img
+                  className="nav-img"
+                  src="/navbar-images/notification-icon.svg"
+                  alt="Notifications"
+                />
+              </a>
             </NavItem>
             <NavItem className="user-col">
-              <img
-                className="nav-img"
-                src="/navbar-images/user-icon.svg"
-                alt="Profile"
-              />
+              <a href="#profile">
+                <img
+                  className="nav-img"
+                  src="/navbar-images/user-icon.svg"
+                  alt="Profile"
+                />
+              </a>
             </NavItem>
           </Nav>
         </Collapse>
