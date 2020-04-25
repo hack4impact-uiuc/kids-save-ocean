@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const express = require("express");
 const router = express.Router();
 
-let checkToken = (req, res) => {
+let checkToken = (req, res, next) => {
   let token = req.headers["x-access-token"] || req.headers["authorization"];
   if (token) {
     if (token.startsWith("Bearer ")) {
@@ -27,6 +27,9 @@ let checkToken = (req, res) => {
       success: false,
       message: "Auth token not provided!"
     });
+  }
+  if (next) {
+    next();
   }
   return true;
 };
