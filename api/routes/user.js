@@ -337,6 +337,7 @@ router.get("/updates/:numUpdates", checkToken, async function(req, res) {
   projectIds = user.followingProjects;
   
   const updates = db.get("updates");
+  updates.createIndex({ projectId: 1, date: 1 });
   updates.find(
     {
       projectId: { $in: projectIds },
