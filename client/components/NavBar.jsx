@@ -15,12 +15,15 @@ import {
 } from "reactstrap";
 import Link from "next/link";
 import "../public/styles/navbar.scss";
+import { getUpdates } from "../utils/apiWrapper";
 
 export default function NavBar() {
   const [isTop, setTop] = useState(true);
   const [isCollapsed, setCollapsed] = useState(true);
   const [displayNotif, setDisplayNotif] = useState(false);
   const [renderPopover, setRenderPopover] = useState(false);
+  const [notifications, setNotifications] = useState([]);
+  const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
     if (process.browser) {
@@ -37,6 +40,20 @@ export default function NavBar() {
       }
     });
   }, [isTop]);
+
+  useEffect(() => {
+    const populateNotifs = async () => {
+      const updates = await getUpdates(10, 0);
+      if (updates.status >= 400) {
+        setErrorMsg("An error occured while retriving notifications.");
+      } else if (updates.data.length == 0) {
+        setNotifications(["No new notifications."]);
+      } else {
+        setNotifications(updates.data);
+      }
+    };
+    populateNotifs();
+  }, []);
 
   function toggleNavbar() {
     setCollapsed(!isCollapsed);
@@ -84,30 +101,28 @@ export default function NavBar() {
               <Col lg={{ size: 1 }} className="divider"></Col>
             </NavItem>
             <NavItem className="notif-col">
-              <Link href="#notifications">
-                <a>
-                  <img
-                    className="nav-img"
-                    src="/navbar-images/notification-icon.svg"
-                    alt="Notifications"
-                    id="notif-icon"
-                  />
-                  {renderPopover && (
-                    <Popover
-                      placement="bottom"
-                      isOpen={displayNotif}
-                      target="notif-icon"
-                      toggle={() => setDisplayNotif(!displayNotif)}
-                    >
-                      <PopoverHeader>Notifications</PopoverHeader>
-                      <PopoverBody>
-                        <p>Arpan editied project The The.</p>
-                        <p>Yousef commented on project The The.</p>
-                      </PopoverBody>
-                    </Popover>
-                  )}
-                </a>
-              </Link>
+              <img
+                className="nav-img"
+                src="/navbar-images/notification-icon.svg"
+                alt="Notifications"
+                id="notif-icon"
+                type="button"
+              />
+              {renderPopover && (
+                <Popover
+                  placement="bottom"
+                  isOpen={displayNotif}
+                  target="notif-icon"
+                  toggle={() => setDisplayNotif(!displayNotif)}
+                >
+                  <PopoverHeader>Notifications</PopoverHeader>
+                  <PopoverBody>
+                    {notifications.map(notification => (
+                      <p>{notification}</p>
+                    ))}
+                  </PopoverBody>
+                </Popover>
+              )}
             </NavItem>
             <NavItem className="user-col">
               <Link href="#profile">
