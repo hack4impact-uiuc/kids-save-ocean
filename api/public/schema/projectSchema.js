@@ -47,7 +47,7 @@ const schema = {
     },
     phases: {
       type: "object",
-      required: true,
+      required: false,
       properties: {
         inspiration: {
           type: "object",

@@ -1,5 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import Router from "next/router";
+import { addModel } from "../utils/apiWrapper";
 import {
+  Alert,
   Button,
   Col,
   Form,
@@ -7,111 +10,190 @@ import {
   Input,
   Label,
   Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
   Row
 } from "reactstrap";
-import sdgs from "../utils/goals";
+import Select from "react-select";
+import UNGoalData from "../utils/goals";
+import countryData from "../utils/countries";
+import groupSizeData from "../utils/groups";
+import levelData from "../utils/levels";
 
 import "../public/styles/projectForm.scss";
 
-export default function ProjectForm() {
-  const [sdg, setSdg] = useState(1);
+export default function ProjectForm(props) {
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [groupSize, setGroupSize] = useState("");
+  const [difficulty, setDifficulty] = useState("");
+  const [country, setCountry] = useState("");
+  const [error, setError] = useState(false);
+  const [sdg, setSDGs] = useState([]);
   const [modalIsOpen, setIsOpen] = useState(false);
 
+  useEffect(() => {
+    if (props.isModalActivated === true) {
+      toggleModal();
+    }
+  }, [props]);
+
+  const handleStart = async e => {
+    e.preventDefault();
+    if (
+      sdg.length === 0 ||
+      !difficulty ||
+      !country ||
+      !groupSize ||
+      name === "" ||
+      description === ""
+    ) {
+      setError(true);
+      return;
+    }
+    setError(false);
+    const sdgs = [];
+    sdg.map(single => {
+      let temp = parseInt(single.value);
+      sdgs.push(temp);
+    });
+    const project = {
+      name,
+      description,
+      country: country.value,
+      groupSize: groupSize.value,
+      difficulty: difficulty.value,
+      sdg: sdgs
+    };
+    await addModel(project);
+    Router.push("/editProject");
+  };
   function toggleModal() {
     setIsOpen(!modalIsOpen);
   }
 
   return (
     <div>
-      <Button className="button-design" type="primary" onClick={toggleModal}>
-        Create
-      </Button>
       <Modal
         isOpen={modalIsOpen}
         toggle={toggleModal}
+        returnFocusAfterClose={false}
         className="project-form-modal"
       >
-        <ModalHeader>
-          <h3 className="header-modal-text">Create a Project</h3>
-        </ModalHeader>
         <Form>
-          <ModalBody>
-            <FormGroup>
-              <Label for="project-title">Project Title</Label>
-              <Input
-                className="form-input"
-                id="project-title"
-                placeholder="Add a title..."
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label for="project-description">Description</Label>
-              <Input
-                className="form-input-description"
-                id="project-description"
-                placeholder="Add a description..."
-                rowSpan="10px"
-              />
-            </FormGroup>
-            <Row>
-              <Col>
-                <FormGroup>
-                  <Label for="project-date">Date</Label>
-                  <Input
-                    className="form-input"
-                    id="project-date"
-                    placeholder="MM/DD/YYYY"
-                  />
-                </FormGroup>
-              </Col>
-              <Col>
-                <FormGroup>
-                  <Label for="project-sdg">SDG</Label>
-                  <Input
-                    className="select-sdg"
-                    id="project-sdg"
-                    type="select"
-                    value={sdg}
-                    onChange={e => setSdg(e.target.value)}
-                  >
-                    {sdgs.map(option => (
-                      <option
-                        label={option.label}
-                        value={option.value}
-                        key={option.value}
-                      />
-                    ))}
-                  </Input>
-                </FormGroup>
-              </Col>
-            </Row>
+          <div className="header-modal-text">Create a Project</div>
+          {error && (
+            <Alert color="danger">
+              You have not filled out one or more fields. Please fill out all
+              shown fields and resubmit.
+            </Alert>
+          )}
+          <FormGroup>
+            <Label for="projectTitle" className="form-label">
+              Project Title
+            </Label>
+            <Input
+              type="text"
+              // valid={true}
+              // invalid={true}
+              className="project-title-input"
+              value={name}
+              id="project-title-input"
+              placeholder="My Project"
+              onChange={e => setName(e.target.value)}
+              required
+            />
+          </FormGroup>
+          <FormGroup>
+            <Label for="projectDesc" className="form-label">
+              Description
+            </Label>
+            <Input
+              type="text"
+              // valid={true}
+              // invalid={true}
+              className="project-desc-input"
+              value={description}
+              id="project-desc-input"
+              placeholder="A unique project that is effective."
+              onChange={e => setDescription(e.target.value)}
+              required
+            />
+          </FormGroup>
 
-            <FormGroup>
-              <Label for="project-country">Country</Label>
-              <Input
-                className="form-input"
-                id="project-country"
-                placeholder="United States"
-              />
-            </FormGroup>
-          </ModalBody>
-
-          <ModalFooter>
-            <Button
-              className="button-modal"
-              type="primary"
-              onClick={toggleModal}
-            >
-              <strong>Exit</strong>
-            </Button>
-            <Button className="button-modal" type="submit">
-              <strong>Start</strong>
-            </Button>
-          </ModalFooter>
+          <Row form>
+            <Col className="left-col">
+              <FormGroup>
+                <Label for="projectGroupSize" className="form-label">
+                  Group Size
+                </Label>
+                <Select
+                  isClearable
+                  className="project-groupsize-input"
+                  options={groupSizeData}
+                  placeholder="Select group size"
+                  onChange={setGroupSize}
+                  value={groupSize}
+                />
+              </FormGroup>
+            </Col>
+            <Col className="right-col">
+              <FormGroup>
+                <Label for="projectDifficulty" className="form-label">
+                  Difficulty
+                </Label>
+                <Select
+                  isClearable
+                  className="project-groupsize-input"
+                  options={levelData}
+                  placeholder="Select difficulty"
+                  onChange={setDifficulty}
+                  value={difficulty}
+                />
+              </FormGroup>
+            </Col>
+          </Row>
+          <Row form>
+            <Col className="left-col">
+              <FormGroup>
+                <Label for="projectSDGs" className="form-label">
+                  SDGs
+                </Label>
+                <Select
+                  isMulti
+                  className="project-groupsize-input"
+                  options={UNGoalData}
+                  placeholder="Select UN Goals"
+                  onChange={setSDGs}
+                  value={sdg}
+                />
+              </FormGroup>
+            </Col>
+            <Col className="right-col">
+              <FormGroup>
+                <Label for="projectDifficulty" className="form-label">
+                  Country
+                </Label>
+                <Select
+                  isClearable
+                  className="project-groupsize-input"
+                  options={countryData}
+                  placeholder="Select country"
+                  onChange={setCountry}
+                  value={country}
+                />
+              </FormGroup>
+            </Col>
+          </Row>
         </Form>
+
+        <Row>
+          <Button
+            onClick={handleStart}
+            className="button-modal"
+            color="#ffcc66"
+          >
+            <strong>Start</strong>
+          </Button>
+        </Row>
       </Modal>
     </div>
   );

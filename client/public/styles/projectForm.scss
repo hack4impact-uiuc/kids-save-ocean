@@ -1,43 +1,99 @@
-.button-modal {
-  background-color: rgba(5, 7, 126, 0.616);
-  border-color: rgba(12, 46, 240, 0.685);
-  border-radius: 1em;
-  width: 30%;
-}
-.button-modal:hover {
-  background-color: rgba(5, 46, 143, 0.6);
-  border-color: rgba(12, 46, 240, 0.685);
-}
-.select-sdg {
-  width: 10em;
-  border-radius: 10em;
-}
 .project-form-modal {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  max-width: none;
-
-  .modal-content {
-    padding: 2em;
-    width: 40vw;
-    margin: 0;
-  }
-
-  .modal-header {
-    justify-content: center;
-  }
-
-  .modal-footer {
-    justify-content: center;
-  }
+  max-width: 495px;
+  max-height: 529px;
+}
+.project-desc-input {
+  height: 108px;
+  margin-top: 5px;
+  border-radius: 11px !important;
+  box-sizing: border-box;
+  border: 1px solid #bdbdbd;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  color: #8f8f8f;
+  line-height: 20px;
+}
+.project-difficulty-input,
+.project-groupsize-input {
+  height: 40px;
+  width: 197.75px;
+  margin-top: 5px;
+  border-radius: 11px !important;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  color: #8f8f8f;
+  line-height: 20px;
+}
+.right-col {
+  margin-left: 0px;
+}
+.left-col {
+  margin-right: 40px;
 }
 .header-modal-text {
   color: black;
+  font-family: Arvo;
+  font-style: normal;
   font-weight: bold;
-  font-size: 2em;
+  font-size: 24px;
+  line-height: 30px;
   text-align: center;
-  align-content: center;
-  width: 100%;
+  height: 45px;
+  padding-top: 7.5px;
+  padding-bottom: 7.5px;
+  margin-bottom: 5px;
+}
+.modal-content {
+  padding-left: 16px;
+  padding-top: 8px;
+  padding-right: 27px;
+  padding-bottom: 38px;
+  border-radius: 22px;
+}
+.form-label {
+  font-family: Lato;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  padding-left: 2px;
+  line-height: 22px;
+  padding-bottom: 5px;
+  box-sizing: border-box;
+  height: 34px;
+  color: #000000;
+  margin: 0;
+}
+.project-title-input {
+  height: 30px;
+  margin-top: 5px;
+  border-radius: 11px !important;
+  border: 1px solid #bdbdbd;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  color: #8f8f8f;
+  line-height: 20px;
+}
+
+.button-modal {
+  background-color: rgba(#003366, 1);
+  border-radius: 15px;
+  width: 132px;
+  height: 37px;
+  margin-top: 17px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  font-family: Arvo;
+  font-size: 24px;
+  font-weight: lighter;
+  line-height: 15px;
+  color: white;
+}
+.button-modal:hover {
+  background-color: rgba(#003366, 0.85);
+  color: white;
+  transition: 0.2s;
 }

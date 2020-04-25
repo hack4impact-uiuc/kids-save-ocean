@@ -78,7 +78,8 @@ export const addModel = data => {
   return axios
     .post(requestString, data, {
       headers: {
-        "Content-Type": "application/JSON"
+        "Content-Type": "application/JSON",
+        "x-access-token": localStorage.getItem("token")
       }
     })
     .catch(error => {
