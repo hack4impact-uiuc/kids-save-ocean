@@ -1,8 +1,11 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/router";
+import Link from "next/link";
+
 import {
   Col,
   Input,
+  Button,
   Row,
   Dropdown,
   DropdownToggle,
@@ -184,18 +187,18 @@ export default WrappedError(function EditProjectPage(props) {
                   key={idx}
                 />
               ))}
+              <AddStage
+                addStage={(stageName, startdate, enddate) =>
+                  addStage(
+                    projectId,
+                    "inspiration",
+                    stageName,
+                    startdate,
+                    enddate
+                  )
+                }
+              />
             </div>
-            <AddStage
-              addStage={(stageName, startdate, enddate) =>
-                addStage(
-                  projectId,
-                  "inspiration",
-                  stageName,
-                  startdate,
-                  enddate
-                )
-              }
-            />
             <hr className="header-row-ep" />
           </Col>
           <Col>
@@ -225,12 +228,12 @@ export default WrappedError(function EditProjectPage(props) {
                   key={idx}
                 />
               ))}
+              <AddStage
+                addStage={(stageName, startdate, enddate) =>
+                  addStage(projectId, "ideation", stageName, startdate, enddate)
+                }
+              />
             </div>
-            <AddStage
-              addStage={(stageName, startdate, enddate) =>
-                addStage(projectId, "ideation", stageName, startdate, enddate)
-              }
-            />
             <hr className="header-row-ep" />
           </Col>
           <Col>
@@ -260,20 +263,25 @@ export default WrappedError(function EditProjectPage(props) {
                   key={idx}
                 />
               ))}
+              <AddStage
+                addStage={(stageName, startdate, enddate) =>
+                  addStage(
+                    projectId,
+                    "implementation",
+                    stageName,
+                    startdate,
+                    enddate
+                  )
+                }
+              />
             </div>
-            <AddStage
-              addStage={(stageName, startdate, enddate) =>
-                addStage(
-                  projectId,
-                  "implementation",
-                  stageName,
-                  startdate,
-                  enddate
-                )
-              }
-            />
             <hr className="header-row-ep" />
           </Col>
+          <Link href="/projects/[projectId]" as={`/projects/${projectId}`} passHref>
+            <a>
+              <Button className="button-return-project">Return to Project Page</Button>
+            </a>
+          </Link>
         </>
       )}
     </div>

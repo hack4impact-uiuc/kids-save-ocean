@@ -11,6 +11,8 @@ import {
 import Comment from "./Comment";
 import CommentEditor from "./CommentEditor";
 
+import "../public/styles/commentSection.scss";
+
 export default function CommentsSection(props) {
   const { projectId } = props;
   const [comments, setComments] = useState([]);
@@ -53,7 +55,9 @@ export default function CommentsSection(props) {
 
   return (
     <div>
+      <h1 className="comment-header">Comments</h1>
       <Col>{renderComments(comments)}</Col>
+      <hr/>
       {localStorage.getItem("token") && !fetching && (
         <Row>
           <CommentEditor post={content => post(content)} />

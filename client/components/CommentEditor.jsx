@@ -14,13 +14,12 @@ export default function CommentEditor(props) {
 
   return (
     <div className="comment-editor">
-      <h1 className="comment-header">Comments</h1>
       <Dante
         onChange={editor => setContent(editor.emitSerializedOutput())}
         widgets={[]}
       />
       <Button className="comment-btn" onClick={submitComment}>
-        Submit
+        Post Comment
       </Button>
     </div>
   );

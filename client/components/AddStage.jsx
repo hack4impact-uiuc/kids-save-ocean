@@ -3,6 +3,8 @@ import { Button, Col, Input, Row, FormGroup, Label } from "reactstrap";
 
 import WrappedError from "./WrappedError";
 
+import "../public/styles/addstage.scss";
+
 export default WrappedError(function AddStage(props) {
   const [startdate, setStartdate] = useState("");
   const [enddate, setEnddate] = useState("");
@@ -23,12 +25,15 @@ export default WrappedError(function AddStage(props) {
   return (
     <Row className="header-row-ep">
       <Col sm="4">
-        <Input
-          className="form-input"
-          placeholder="Stage name"
-          onChange={e => setStageName(e.target.value)}
-          value={stageName}
-        />
+        <FormGroup>
+          <Label>Stage Name</Label>
+          <Input
+            className="form-input"
+            placeholder="Enter a stage name"
+            onChange={e => setStageName(e.target.value)}
+            value={stageName}
+          />
+        </FormGroup>
       </Col>
       <Col sm="3">
         <FormGroup>
@@ -54,7 +59,7 @@ export default WrappedError(function AddStage(props) {
       </Col>
       <Col sm="2">
         <Button
-          className="button-add"
+          className="button-add-stage"
           onClick={() => submit(stageName, startdate, enddate)}
         >
           Add Stage

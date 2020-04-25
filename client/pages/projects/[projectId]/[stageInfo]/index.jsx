@@ -26,7 +26,7 @@ export default function StagePage() {
   }, [projectId, stageInfo]);
 
   return (
-    <>
+    <div className="stage">
       <Head title={stage?.name} />
       {loading && <Loader />}
       {projectId && stage && phase && (
@@ -34,9 +34,9 @@ export default function StagePage() {
       )}
       <Link href="/projects/[projectId]" as={`/projects/${projectId}`} passHref>
         <a>
-          <Button color="danger">Return</Button>
+          <Button className="button-return-project">Return</Button>
         </a>
       </Link>
-    </>
+    </div>
   );
 }

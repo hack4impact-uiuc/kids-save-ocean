@@ -124,6 +124,8 @@ export default function Draft(props) {
           onChange={editor => handleChange(editor)}
         />
       )}
+
+      <hr />
     </div>
   );
 }
