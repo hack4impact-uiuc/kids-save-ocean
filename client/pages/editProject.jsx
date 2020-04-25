@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Input, Row, Label, Container, Alert } from "reactstrap";
+import { Button, Col, Row, Container, Alert } from "reactstrap";
+import { Editor, EditorState, ContentState } from "draft-js";
 import Select from "react-select";
 import {
   getModelsByID,
@@ -21,9 +22,9 @@ export default function EditProjectPage() {
   const [implementation, setImplementation] = useState(null);
   const id = "5e901732090f7cdff2e6757a";
   const ideationStages = [
-    ["beauti", "Description 1"] // ,
-    // ["Stage 2", "Description 2"],
-    // ["Stage 3", "Description 3"]
+    ["beauti", "Description 1"],
+    ["Stage 2", "Description 2"],
+    ["Stage 3", "Description 3"]
   ];
   var inspirationArr = [];
   var ideationArr = [];
@@ -58,6 +59,11 @@ export default function EditProjectPage() {
 
   const deleteProject = id => {
     deleteForm(id);
+  };
+
+  // finish
+  const savePhase = id => {
+    //saveDescription(id, );
   };
 
   useEffect(() => {
@@ -177,6 +183,9 @@ export default function EditProjectPage() {
             </div>
             <Row className="header-row-ep">
               <Button className="button-add">Add Stage</Button>
+              <Button className="save-btn" onClick={savePhase}>
+                Save Phase
+              </Button>
             </Row>
             <hr className="header-row-ep" />
             <Row>
@@ -185,8 +194,22 @@ export default function EditProjectPage() {
                 <strong> Ideation </strong>{" "}
               </h2>
             </Row>
+            <div className="stages">
+              {ideationStages.map((value, idx) => (
+                <Stage
+                  stageName={value[1]}
+                  description={value[1]}
+                  phaseName={"ideation"}
+                  id={id}
+                  key={idx}
+                />
+              ))}
+            </div>
             <Row className="header-row-ep">
               <Button className="button-add">Add Stage</Button>
+              <Button className="save-btn" onClick={savePhase}>
+                Save Phase
+              </Button>
             </Row>
             <hr className="header-row-ep" />
             <Row>
@@ -195,8 +218,22 @@ export default function EditProjectPage() {
                 <strong> Implementation </strong>{" "}
               </h2>
             </Row>
+            <div className="stages">
+              {ideationStages.map((value, idx) => (
+                <Stage
+                  stageName={value[2]}
+                  description={value[1]}
+                  phaseName={"implementation"}
+                  id={id}
+                  key={idx}
+                />
+              ))}
+            </div>
             <Row className="header-row-ep">
               <Button className="button-add">Add Stage</Button>
+              <Button className="save-btn" onClick={savePhase}>
+                Save Phase
+              </Button>
             </Row>
             <hr className="header-row-ep" />
           </Col>
