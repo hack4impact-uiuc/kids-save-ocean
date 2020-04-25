@@ -39,7 +39,7 @@ export default function Draft(props) {
   };
   const saveCallback = useCallback(debounce(debounceSave, saveInterval), []);
 
-  const { id, phaseName, stageName } = props;
+  const { id, phaseName, stageName, read_only } = props;
 
   const handleChange = editor => {
     setUnsaved(true);
@@ -121,19 +121,24 @@ export default function Draft(props) {
         href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"
       />
 
-      <Row>
-        <Col sm="9"></Col>
-        <Col sm="3" className="draft-status">
-          {status()}
-        </Col>
-      </Row>
+      {!read_only && (
+        <Row>
+          <Col sm="9"></Col>
+          <Col sm="3" className="draft-status">
+            {status()}
+          </Col>
+        </Row>
+      )}
 
       {!loading && (
         <Dante
+          read_only={read_only}
           content={editorContent}
           onChange={editor => handleChange(editor)}
         />
       )}
+
+      <hr />
     </div>
   );
 }

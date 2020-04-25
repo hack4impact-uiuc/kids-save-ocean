@@ -88,25 +88,27 @@ export const addModel = data => {
       });
     });
 };
-export const editModel = (data, Model_ID) => {
-  /**
-   * Edits a model
-   * Returns UPDATE_MODEL_FAIL upon failure
-   */
-  const requestString = `${BASE_URL}/models/${Model_ID}`;
-  return axios
-    .put(requestString, data, {
+
+export const addModelStage = (
+  model_id,
+  phaseName,
+  stageName,
+  startdate,
+  enddate
+) => {
+  const requestString = `${BASE_URL}/models/${model_id}/${phaseName}/${stageName}`;
+  return axios.post(
+    requestString,
+    { startdate, enddate },
+    {
       headers: {
-        "Content-Type": "application/JSON"
+        "Content-Type": "application/JSON",
+        "x-access-token": localStorage.getItem("token")
       }
-    })
-    .catch(error => {
-      ({
-        type: "UPDATE_MODEL_FAIL",
-        error
-      });
-    });
+    }
+  );
 };
+
 export const deleteForm = Model_ID => {
   /**
    * Deletes a model
@@ -374,6 +376,15 @@ export const userInfo = () => {
   }
 };
 
+export const canEdit = model_id => {
+  const requestString = `${BASE_URL}/models/${model_id}/canEdit`;
+  return axios.get(requestString, {
+    headers: {
+      "x-access-token": localStorage.getItem("token")
+    }
+  });
+};
+
 export const saveDescription = (
   model_id,
   phaseName,
@@ -564,6 +575,14 @@ export const getComments = model_id => {
   }));
 };
 
+export const getCommentCount = model_id => {
+  const requestString = `${BASE_URL}/comment/${model_id}/count`;
+  return axios.get(requestString).catch(error => ({
+    type: "GET_COMMENT_FAIL",
+    error
+  }));
+};
+
 export const postUpvote = model_id => {
   const requestString = `${BASE_URL}/upvote`;
   return axios
@@ -589,4 +608,19 @@ export const getUpvotes = model_id => {
     type: "GET_UPVOTE_FAIL",
     error
   }));
+};
+
+export const duplicateModel = model_id => {
+  const requestString = `${BASE_URL}/duplicate/${model_id}`;
+  return axios
+    .post(requestString, {
+      headers: {
+        "Content-Type": "application/JSON",
+        "x-access-token": localStorage.getItem("token")
+      }
+    })
+    .catch(error => ({
+      type: "DUPLICATE_MODEL_FAIL",
+      error
+    }));
 };

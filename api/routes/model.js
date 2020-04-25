@@ -3,6 +3,9 @@ const router = express.Router();
 const validate = require("express-jsonschema").validate;
 const { checkToken } = require("../auth/utils/checkToken");
 
+const { checkToken } = require("../auth/utils/checkToken");
+const { getUserId } = require("../utils/user_utils");
+
 const ModelSchema = require("../public/schema/projectSchema.js").projectSchema;
 
 const { getUsername } = require("../utils/user_utils");
@@ -49,15 +52,18 @@ router.get("/:model_ID", function(req, res) {
 // TODO; Check Validate
 router.post(
   "/",
+  checkToken,
   validate({
     body: ModelSchema
   }),
-  checkToken,
   async function(req, res) {
     const db = req.db;
-    const projects = db.get("projects");
-    const data = req.body;
-    let currProjectId;
+    const userEmail = req.decoded.sub;
+    const userId = await getUserId(db, userEmail);
+
+    const collection = db.get("projects");
+    let data = req.body;
+    data["ownerId"] = userId;
 
     // Check if data includes proper fields
     projects.insert(data, function(err) {
@@ -191,6 +197,93 @@ router.put(
     }
 
     res.json({ success: `${stageName} description updated!` });
+  }
+);
+router.get("/:model_ID/canEdit", checkToken, async function(req, res) {
+  const db = req.db;
+  const collection = db.get("projects");
+  const { model_ID } = req.params;
+
+  const userEmail = req.decoded.sub;
+  const userId = await getUserId(db, userEmail);
+
+  collection
+    .findOne({
+      _id: model_ID,
+      ownerId: userId
+    })
+    .then(model =>
+      model !== null ? res.json({ success: true }) : res.sendStatus(404)
+    )
+    .catch(() => res.sendStatus(404));
+});
+
+router.post("/:model_ID/:phaseName/:stageName", checkToken, async function(
+  req,
+  res
+) {
+  const db = req.db;
+  const collection = db.get("projects");
+  const { model_ID, phaseName, stageName } = req.params;
+
+  const { startdate, enddate } = req.body;
+  if (startdate === undefined || enddate === undefined) {
+    res.sendStatus(400);
+    return;
+  }
+
+  const userEmail = req.decoded.sub;
+  const userId = await getUserId(db, userEmail);
+
+  const newStage = { name: stageName, description: "", startdate, enddate };
+
+  collection
+    .findOneAndUpdate(
+      {
+        _id: model_ID,
+        ownerId: userId
+      },
+      { $push: { [`phases.${phaseName}.stages`]: newStage } }
+    )
+    .then(model =>
+      model !== null
+        ? res.json({ success: `${stageName} added!` })
+        : res.sendStatus(404)
+    )
+    .catch(() => res.sendStatus(500));
+});
+
+router.put(
+  "/:model_ID/:phaseName/:stageName/description",
+  checkToken,
+  async function(req, res) {
+    const db = req.db;
+    const collection = db.get("projects");
+    const { model_ID, phaseName, stageName } = req.params;
+
+    const userEmail = req.decoded.sub;
+    const userId = await getUserId(db, userEmail);
+
+    const description = req.body.description;
+    if (description === undefined) {
+      res.sendStatus(400);
+    }
+
+    collection
+      .findOneAndUpdate(
+        {
+          _id: model_ID,
+          ownerId: userId,
+          [`phases.${phaseName}.stages.name`]: stageName
+        },
+        { $set: { [`phases.${phaseName}.stages.$.description`]: description } }
+      )
+      .then(model =>
+        model !== null
+          ? res.json({ success: `${stageName} description updated!` })
+          : res.sendStatus(404)
+      )
+      .catch(() => res.sendStatus(500));
   }
 );
 

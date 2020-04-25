@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import Dante from "Dante2";
+
 import {
   CommentsSection,
   Gantt,
@@ -9,9 +11,11 @@ import {
   TipCard,
   UpvotesSection
 } from "../../../components";
+
 import {
   Alert,
   Button,
+  Col,
   Modal,
   ModalBody,
   ModalFooter,
@@ -19,20 +23,23 @@ import {
   Nav,
   NavItem,
   NavLink,
+  Row,
   TabContent,
   TabPane
 } from "reactstrap";
 import classnames from "classnames";
 import {
   getModelsByID,
+  duplicateModel,
   getFollowingProjects,
   followProject,
-  unfollowProject
+  unfollowProject,
+  canEdit
 } from "../../../utils/apiWrapper";
 
 import "../../../public/styles/project.scss";
 
-const DESCRIPTION_LENGTH = 400;
+// const DESCRIPTION_LENGTH = 400;
 const HUNDRED = 100;
 
 const capitalize = str =>
@@ -47,7 +54,9 @@ export default function ProjectPage() {
   const [ganttData, setGanttData] = useState(null);
   const [error, setError] = useState("");
   const [following, setFollowing] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [isOwner, setIsOwner] = useState(false);
+
   const router = useRouter();
   const { projectId } = router.query;
 
@@ -80,9 +89,20 @@ export default function ProjectPage() {
   }, [setWidth]);
 
   useEffect(() => {
-    const loadModel = async id => {
-      setLoading(true);
+    const loadOwner = projectId => {
+      canEdit(projectId)
+        .then(() => {
+          setIsOwner(true);
+        })
+        .catch(() => {
+          setIsOwner(false);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    };
 
+    const load = async id => {
       if (id) {
         const model = await getModelsByID(id);
         if (model) {
@@ -98,9 +118,11 @@ export default function ProjectPage() {
           setFollowing(false);
         }
       }
-      setLoading(false);
+      loadOwner(id);
     };
-    loadModel(projectId);
+
+    setLoading(true);
+    load(projectId);
   }, [projectId]);
 
   useEffect(() => {
@@ -125,6 +147,53 @@ export default function ProjectPage() {
     }
   }, [project]);
 
+  const renderHeaderButtons = (isOwner, following) => {
+    if (!localStorage.getItem("token")) {
+      return [];
+    }
+    let buttons = [];
+    if (localStorage.getItem("token")) {
+      if (!isOwner) {
+        if (following) {
+          buttons.push(
+            <Button className="project-header-buttons" onClick={unfollowProj}>
+              Unfollow
+            </Button>
+          );
+        } else {
+          buttons.push(
+            <Button className="project-header-buttons" onClick={followProj}>
+              Follow
+            </Button>
+          );
+        }
+      }
+
+      if (isOwner) {
+        buttons.push(
+          <Link
+            href="/projects/[projectId]/editProject"
+            as={`/projects/${projectId}/editProject`}
+            passHref
+          >
+            <Button className="project-header-buttons">Edit</Button>
+          </Link>
+        );
+      } else {
+        buttons.push(
+          <Button
+            className="project-header-buttons"
+            onClick={() => duplicateModel(project._id)}
+          >
+            Build off this project
+          </Button>
+        );
+      }
+    }
+
+    return buttons;
+  };
+
   return (
     <>
       <Head title={project?.name} />
@@ -136,12 +205,12 @@ export default function ProjectPage() {
           {activeStage && (
             <Modal isOpen={modal} toggle={toggleModal}>
               <ModalHeader>{activeStage.name}</ModalHeader>
-              <ModalBody>{`${activeStage.description.slice(
-                0,
-                DESCRIPTION_LENGTH
-              )}${
-                activeStage.description.length > DESCRIPTION_LENGTH ? "..." : ""
-              }`}</ModalBody>
+              <ModalBody>
+                <Dante
+                  read_only
+                  content={JSON.parse(activeStage.description)}
+                />
+              </ModalBody>
               <ModalFooter>
                 <Link
                   href="/projects/[projectId]/[stageInfo]"
@@ -163,20 +232,13 @@ export default function ProjectPage() {
           {project && (
             <div className="project">
               <div className="project-header">
+                <div className="upvote-btn">
+                  <UpvotesSection projectId={projectId} />
+                </div>
+
                 <h1 className="project-info">{project.name}</h1>
-                {localStorage.getItem("token") && (
-                  <>
-                    {following ? (
-                      <Button className="follow-btn" onClick={unfollowProj}>
-                        Unfollow
-                      </Button>
-                    ) : (
-                      <Button className="follow-btn" onClick={followProj}>
-                        Follow
-                      </Button>
-                    )}
-                  </>
-                )}
+
+                {renderHeaderButtons(isOwner, following)}
               </div>
               <p className="project-info">{project.description}</p>
               <hr />
@@ -233,7 +295,6 @@ export default function ProjectPage() {
                   icon="fa-lightbulb-o"
                 />
               </div>
-              <UpvotesSection projectId={projectId} />
               <CommentsSection projectId={projectId} />
             </div>
           )}

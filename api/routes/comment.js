@@ -109,4 +109,28 @@ router.get("/:commentLocation", function(req, res) {
   );
 });
 
+router.get("/:commentLocation/count", function(req, res) {
+  const { commentLocation } = req.params;
+  const db = req.db;
+  const collection = db.get("comments");
+
+  collection.find(
+    { commentLocation },
+    {
+      $exists: true
+    },
+    function(e, docs) {
+      if (e) {
+        res.sendStatus(500);
+      } else {
+        if (docs.length === 0) {
+          res.json({ comments: 0 });
+        } else {
+          res.json({ comments: docs[0].comments.length });
+        }
+      }
+    }
+  );
+});
+
 module.exports = router;
