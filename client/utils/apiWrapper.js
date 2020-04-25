@@ -363,6 +363,7 @@ export const resendPIN = () => {
 };
 
 export const userInfo = () => {
+  checkValidUser();
   try {
     return fetch(`${BASE_URL}/auth/getUser`, {
       method: "GET",
@@ -383,6 +384,7 @@ export const saveDescription = (
   stageName,
   description
 ) => {
+  checkValidUser();
   const requestString = `${BASE_URL}/models/${model_id}/${phaseName}/${stageName}/description`;
   return axios
     .put(
@@ -437,6 +439,7 @@ export const createUser = newUser => {
 };
 
 export const updateUser = updatedUser => {
+  checkValidUser();
   try {
     return (
       fetch(`${BASE_URL}/users/userInfo`),
@@ -455,6 +458,7 @@ export const updateUser = updatedUser => {
 };
 
 export const deleteUser = () => {
+  checkValidUser();
   try {
     return fetch(`${BASE_URL}/users/userInfo`, {
       method: "DELETE",
@@ -469,6 +473,7 @@ export const deleteUser = () => {
 };
 
 export const getFollowingProjects = () => {
+  checkValidUser();
   try {
     return fetch(`${BASE_URL}/users/followingProjects`, {
       method: "GET",
@@ -483,6 +488,7 @@ export const getFollowingProjects = () => {
 };
 
 export const followProject = projId => {
+  checkValidUser();
   try {
     return fetch(`${BASE_URL}/users/followingProjects`, {
       method: "PUT",
@@ -498,6 +504,7 @@ export const followProject = projId => {
 };
 
 export const unfollowProject = projId => {
+  checkValidUser();
   try {
     return fetch(`${BASE_URL}/users/followingProjects`, {
       method: "DELETE",
@@ -513,6 +520,7 @@ export const unfollowProject = projId => {
 };
 
 export const postComment = (model_id, commentBody) => {
+  checkValidUser();
   const requestString = `${BASE_URL}/comment`;
   return axios
     .post(
@@ -535,6 +543,7 @@ export const postComment = (model_id, commentBody) => {
 };
 
 export const postCommentThread = (model_id, parentIndex, commentBody) => {
+  checkValidUser();
   const requestString = `${BASE_URL}/comment/thread`;
   return axios
     .post(
@@ -566,6 +575,7 @@ export const getComments = model_id => {
 };
 
 export const postUpvote = model_id => {
+  checkValidUser();
   const requestString = `${BASE_URL}/upvote`;
   return axios
     .post(
