@@ -111,7 +111,7 @@ export default function RegisterPage(props) {
         userRole
       );
       const authUserRes = await authUserResp.json();
-      if (authUserRes.success) {
+      if (authUserRes.status === SUCCESS) {
         // #2: store token in local storage
         const { token } = authUserRes;
         if (!token) {
@@ -124,7 +124,6 @@ export default function RegisterPage(props) {
         const newUser = {
           email,
           username,
-          password,
           country,
           birthday,
           anon,

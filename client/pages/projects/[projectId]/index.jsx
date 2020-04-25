@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { Gantt, Head, TipCard, CommentsSection } from "../../../components";
+import {
+  CommentsSection,
+  Gantt,
+  Head,
+  Loader,
+  TipCard,
+  UpvotesSection
+} from "../../../components";
 import {
   Alert,
   Button,
@@ -66,33 +73,6 @@ export default function ProjectPage() {
     }
   };
 
-  const renderLoader = () => (
-    <>
-      <div className="loading-container">
-        <div className="dot dot-1"></div>
-        <div className="dot dot-2"></div>
-        <div className="dot dot-3"></div>
-      </div>
-
-      <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
-        <defs>
-          <filter id="goo">
-            <feGaussianBlur
-              in="SourceGraphic"
-              stdDeviation="10"
-              result="blur"
-            />
-            <feColorMatrix
-              in="blur"
-              mode="matrix"
-              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 21 -7"
-            />
-          </filter>
-        </defs>
-      </svg>
-    </>
-  );
-
   useEffect(() => {
     if (process.browser) {
       setWidth(document.body.clientWidth);
@@ -101,6 +81,8 @@ export default function ProjectPage() {
 
   useEffect(() => {
     const loadModel = async id => {
+      setLoading(true);
+
       if (id) {
         const model = await getModelsByID(id);
         if (model) {
@@ -108,7 +90,6 @@ export default function ProjectPage() {
         }
       }
       if (localStorage.getItem("token")) {
-        setLoading(true);
         const resp = await getFollowingProjects();
         const res = await resp.json();
         if (projectId && res.data.includes(projectId)) {
@@ -116,8 +97,8 @@ export default function ProjectPage() {
         } else {
           setFollowing(false);
         }
-        setLoading(false);
       }
+      setLoading(false);
     };
     loadModel(projectId);
   }, [projectId]);
@@ -148,7 +129,7 @@ export default function ProjectPage() {
     <>
       <Head title={project?.name} />
       {loading ? (
-        renderLoader()
+        <Loader />
       ) : (
         <>
           {error && <Alert color="danger">{error}</Alert>}
@@ -253,6 +234,7 @@ export default function ProjectPage() {
                 />
               </div>
 
+              <UpvotesSection projectId={projectId} />
               <CommentsSection projectId={projectId} />
             </div>
           )}

@@ -49,21 +49,22 @@ export const getModelsByID = Model_ID => {
       });
     });
 };
-export const getModelsGreaterThanID = (numUpdates, lastID) => {
+export const getUpdates = (numUpdates, currentIndex) => {
   /**
-   * Returns min(#projects > ID, numUpdates) projects with ID greater than last_id query
-   * Returns GET_MODEL_FAIL upon failure
+   * Returns min(available updates, numUpdates) projects with ID greater than last_id query
+   * Returns GET_UPDATES_FAIL upon failure
    */
-  const requestString = `${BASE_URL}/models/${numUpdates}/${lastID}`;
+  const requestString = `${BASE_URL}/user/updates/${numUpdates}/${currentIndex}`;
   return axios
     .get(requestString, {
       headers: {
-        "Content-Type": "application/JSON"
+        "Content-Type": "application/JSON",
+        "x-access-token": localStorage.getItem("token")
       }
     })
     .catch(error => {
       ({
-        type: "GET_MODEL_GREATER_ID_FAIL",
+        type: "GET_UPDATES_FAIL",
         error
       });
     });
@@ -377,16 +378,18 @@ export const saveDescription = (
   model_id,
   phaseName,
   stageName,
-  description
+  description,
+  subDescription
 ) => {
   const requestString = `${BASE_URL}/models/${model_id}/${phaseName}/${stageName}/description`;
   return axios
     .put(
       requestString,
-      { description },
+      { description, subDescription },
       {
         headers: {
-          "Content-Type": "application/JSON"
+          "Content-Type": "application/JSON",
+          "x-access-token": localStorage.getItem("token")
         }
       }
     )
@@ -557,6 +560,33 @@ export const getComments = model_id => {
   const requestString = `${BASE_URL}/comment/${model_id}`;
   return axios.get(requestString).catch(error => ({
     type: "GET_COMMENT_FAIL",
+    error
+  }));
+};
+
+export const postUpvote = model_id => {
+  const requestString = `${BASE_URL}/upvote`;
+  return axios
+    .post(
+      requestString,
+      { upvoteLocation: model_id },
+      {
+        headers: {
+          "Content-Type": "application/JSON",
+          "x-access-token": localStorage.getItem("token")
+        }
+      }
+    )
+    .catch(error => ({
+      type: "SAVE_UPVOTE_FAIL",
+      error
+    }));
+};
+
+export const getUpvotes = model_id => {
+  const requestString = `${BASE_URL}/upvote/${model_id}`;
+  return axios.get(requestString).catch(error => ({
+    type: "GET_UPVOTE_FAIL",
     error
   }));
 };
