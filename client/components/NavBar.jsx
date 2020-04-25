@@ -9,12 +9,9 @@ import {
   Button,
   Col,
   Container,
-  Modal,
-  ModalBody,
-  ModalHeader,
   Popover,
   PopoverHeader,
-  PopoverBody,
+  PopoverBody
 } from "reactstrap";
 import Link from "next/link";
 import "../public/styles/navbar.scss";
@@ -22,7 +19,7 @@ import "../public/styles/navbar.scss";
 export default function NavBar() {
   const [isTop, setTop] = useState(true);
   const [isCollapsed, setCollapsed] = useState(true);
-  const [displayNotif, setDisplayNotif] = useState(true);
+  const [displayNotif, setDisplayNotif] = useState(false);
   const [renderPopover, setRenderPopover] = useState(false);
 
   useEffect(() => {
@@ -45,10 +42,6 @@ export default function NavBar() {
     setCollapsed(!isCollapsed);
   }
 
-  const toggleNotifs = () => {
-    console.log("CLICKED");
-    setDisplayNotif(!displayNotif);
-  };
   return (
     <Navbar
       className={`navbar-expand-lg navbar-light shadow fixed-top ${"navbar-body"}`}
@@ -106,11 +99,10 @@ export default function NavBar() {
                       target="notif-icon"
                       toggle={() => setDisplayNotif(!displayNotif)}
                     >
-                      <PopoverHeader>Popover Title</PopoverHeader>
+                      <PopoverHeader>Notifications</PopoverHeader>
                       <PopoverBody>
-                        Sed posuere consectetur est at lobortis. Aenean eu leo
-                        quam. Pellentesque ornare sem lacinia quam venenatis
-                        vestibulum.
+                        <p>Arpan editied project The The.</p>
+                        <p>Yousef commented on project The The.</p>
                       </PopoverBody>
                     </Popover>
                   )}

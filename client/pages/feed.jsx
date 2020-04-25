@@ -48,7 +48,7 @@ export default function Feed() {
       setIsFetching(false);
     };
     loadUpdates();
-  }, [isFetching, hasMore, willMount]);
+  }, [isFetching, hasMore, willMount, nextIdx, setIsFetching, updates.length]);
 
   return (
     <div className="feed-page-div">
