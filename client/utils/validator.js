@@ -7,6 +7,7 @@ export const checkValidUser = async () => {
   } else {
     const resp = await checkToken();
     if (!resp.data.success) {
+      localStorage.removeItem("token");
       Router.replace("/login");
     }
   }

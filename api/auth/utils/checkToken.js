@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const express = require("express");
 const router = express.Router();
 
-let checkToken = (req, res, next) => {
+let checkToken = (req, res) => {
   let token = req.headers["x-access-token"] || req.headers["authorization"];
   if (token) {
     if (token.startsWith("Bearer ")) {
@@ -21,7 +21,10 @@ let checkToken = (req, res, next) => {
         email: decoded.sub,
         role: decoded.permission
       };
-      next();
+      return res.json({
+        success: true,
+        message: "Token valid!"
+      });
     });
   } else {
     return res.json({
