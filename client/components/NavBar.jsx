@@ -10,7 +10,7 @@ import {
   Col,
   Container
 } from "reactstrap";
-
+import Link from "next/link";
 import "../public/styles/navbar.scss";
 
 export default function NavBar() {
@@ -33,17 +33,32 @@ export default function NavBar() {
       className={`navbar-expand-lg navbar-light shadow fixed-top ${"navbar-body"}`}
     >
       <Container className="container-nav">
-        <NavbarBrand href="/">
-          <img
-            className="logo-settings"
-            id="logo"
-            src="/homepage-images/fatemaker-logo.png"
-            alt="FateMaker logo"
-          />
+        <NavbarBrand>
+          <Link href="/">
+            <a>
+              <img
+                className="logo-settings"
+                id="logo"
+                src="/homepage-images/fatemaker-logo.png"
+                alt="FateMaker logo"
+              />
+            </a>
+          </Link>
         </NavbarBrand>
         <NavbarToggler onClick={toggleNavbar} />
         <Collapse navbar isOpen={!isCollapsed}>
           <Nav navbar className="ml-auto">
+            <NavItem>
+              <Col className="button-col">
+                <Link href="/projects">
+                  <a>
+                    <Button className="button-create" color="#ffcc66">
+                      Explore
+                    </Button>
+                  </a>
+                </Link>
+              </Col>
+            </NavItem>
             <NavItem>
               <Col className="button-col">
                 <Button className="button-create" color="#ffcc66">
@@ -55,18 +70,26 @@ export default function NavBar() {
               <Col lg={{ size: 1 }} className="divider"></Col>
             </NavItem>
             <NavItem className="notif-col">
-              <img
-                className="nav-img"
-                src="/navbar-images/notification-icon.svg"
-                alt="Notifications"
-              />
+              <Link href="#notifications">
+                <a>
+                  <img
+                    className="nav-img"
+                    src="/navbar-images/notification-icon.svg"
+                    alt="Notifications"
+                  />
+                </a>
+              </Link>
             </NavItem>
             <NavItem className="user-col">
-              <img
-                className="nav-img"
-                src="/navbar-images/user-icon.svg"
-                alt="Profile"
-              />
+              <Link href="#profile">
+                <a>
+                  <img
+                    className="nav-img"
+                    src="/navbar-images/user-icon.svg"
+                    alt="Profile"
+                  />
+                </a>
+              </Link>
             </NavItem>
           </Nav>
         </Collapse>
