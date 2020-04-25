@@ -90,7 +90,7 @@ export default function RegisterPage(props) {
       person.label !== "" &&
       birthday !== "" &&
       country.label !== "" &&
-      anon != INVALID
+      anon !== INVALID
     ) {
       // #1: create user in auth db
       const authUserResp = await register(
@@ -149,7 +149,7 @@ export default function RegisterPage(props) {
       setErrorMessage("Select country of origin");
     } else if (!birthday) {
       setErrorMessage("Enter birthday");
-    } else if (anon == INVALID) {
+    } else if (anon === INVALID) {
       setErrorMessage("Select account type");
     }
   };
