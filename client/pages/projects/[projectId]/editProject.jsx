@@ -18,7 +18,8 @@ import {
 import {
   getModelsByID,
   canEdit,
-  addModelStage
+  addModelStage,
+  deleteForm
 } from "../../../utils/apiWrapper";
 import {
   Head,
@@ -35,10 +36,30 @@ export default WrappedError(function EditProjectPage(props) {
   const [isOwner, setIsOwner] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  const [projTitle, setProjTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [grpSize, setGrpSize] = useState(false);
+
   const router = useRouter();
   const { projectId } = router.query;
 
   const toggle = () => setDropdownOpen(prevState => !prevState);
+
+  const handleTitleChange = projTitle => {
+    setProjTitle(projTitle.target.value);
+  };
+
+  const handleDescriptionChange = description => {
+    setDescription(description.target.value);
+  };
+
+  const handleGrpSizeChange = grpSize => {
+    setGrpSize(grpSize);
+  };
+
+  const deleteProject = id => {
+    deleteForm(id);
+  };
 
   const loadProject = useCallback(async () => {
     const project = await getModelsByID(projectId);
@@ -71,6 +92,37 @@ export default WrappedError(function EditProjectPage(props) {
     }
   }, [projectId, loadProject]);
 
+  const renderPhaseEdit = (phase, phaseName, stages) => {
+    return (
+      <Col>
+        <Row className="other-row">
+          <h2 className="header2-text-ep-other">
+            {" "}
+            <strong> {phaseName} </strong>{" "}
+          </h2>
+        </Row>
+        <hr className="divider-stage" />
+        <div className="stages">
+          {stages.map((value, idx) => (
+            <Stage
+              readonly={false}
+              stageName={value.name}
+              phaseName={phase}
+              id={projectId}
+              key={idx}
+            />
+          ))}
+          <AddStage
+            addStage={(stageName, startdate, enddate) =>
+              addStage(projectId, phase, stageName, startdate, enddate)
+            }
+          />
+        </div>
+        <hr className="header-row-ep" />
+      </Col>
+    );
+  };
+
   const renderProjectEdit = (project, dropdownOpen) => (
     <div>
       <Head title={project?.name} />
@@ -81,202 +133,55 @@ export default WrappedError(function EditProjectPage(props) {
           <Row>
             <Col className="home-block-col">
               <Row className="home-block-1-ep">
+                <h1 className="proj-title">
+                  <strong>Edit Project</strong>
+                </h1>
                 <div className="div-1-ep">
-                  <h1 className="header2-text-ep-other">
-                    <strong>{project?.name}</strong>
-                  </h1>
-                  <h3 className="header3">{project?.description}</h3>
-
-                  <Dropdown
-                    className="dropdown"
-                    isOpen={dropdownOpen}
-                    toggle={toggle}
-                  >
-                    <DropdownToggle caret>Choose SDG's</DropdownToggle>
-                    <DropdownMenu>
-                      <FormGroup check>
-                        <Row>
-                          <Label className="label" for="exampleCheck" check>
-                            No Poverty
-                          </Label>
-                          <Input
-                            className="input"
-                            type="checkbox"
-                            name="check"
-                            id="exampleCheck"
-                          />
-                        </Row>
-                        <Row>
-                          <Label className="label" for="exampleCheck" check>
-                            {" "}
-                            Zero Hunger
-                          </Label>
-                          <Input
-                            className="input"
-                            type="checkbox"
-                            name="check"
-                            id="exampleCheck"
-                          />
-                        </Row>
-                        <Row>
-                          <Label className="label" for="exampleCheck" check>
-                            {" "}
-                            Good Health & Well-Being
-                          </Label>
-                          <Input
-                            className="input"
-                            type="checkbox"
-                            name="check"
-                            id="exampleCheck"
-                          />
-                        </Row>
-                        <Row>
-                          <Label className="label" for="exampleCheck" check>
-                            Quality Education
-                          </Label>
-                          <Input
-                            className="input"
-                            type="checkbox"
-                            name="check"
-                            id="exampleCheck"
-                          />
-                        </Row>
-                        <Row>
-                          <Label className="label" for="exampleCheck" check>
-                            {" "}
-                            Gender Equality
-                          </Label>
-                          <Input
-                            className="input"
-                            type="checkbox"
-                            name="check"
-                            id="exampleCheck"
-                          />
-                        </Row>
-                      </FormGroup>
-                    </DropdownMenu>
-                  </Dropdown>
+                  <h4 className="proj-title-h">Project Title</h4>
+                  <input
+                    type="text"
+                    className="form-control"
+                    className="editor-top"
+                    size="50"
+                    value={projTitle}
+                    onChange={handleTitleChange}
+                  ></input>
+                  <h4 className="num-ppl-h">How many people?</h4>
+                  <Select
+                    isClearable
+                    className="grp-sizes-list"
+                    options={groupSizeData}
+                    placeholder="Change group size"
+                    value={grpSize}
+                    onChange={handleGrpSizeChange}
+                  />
+                  <h4 className="proj-descrip-h">Project Description</h4>
+                  <textarea
+                    className="form-control"
+                    className="editor-top"
+                    rows="4"
+                    cols="105"
+                    value={description}
+                    onChange={handleDescriptionChange}
+                  ></textarea>
+                  <Button className="save-top-btn" onClick={saveTopChanges}>
+                    Save Changes
+                  </Button>
                 </div>
               </Row>
             </Col>
           </Row>
-          <Col>
-            <Row className="other-row">
-              <h2 className="header2-text-ep-other">
-                {" "}
-                <strong> Inspiration </strong>{" "}
-              </h2>
-            </Row>
-            <Row className="inspo-des">
-              <h4 className="header2-text-ep-other">
-                Morbi sit amet rutrum leo. Maecenas molestie, odio eu
-                condimentum elementum, enim ante posuere ante, nec suscipit
-                tellus erat quis mi. Suspendisse vehicula finibus leo, ut
-                molestie lacus eleifend non. Phasellus non risus nibh. In hac
-                habitasse platea dictumst.
-              </h4>
-            </Row>
-            <hr className="divider-stage" />
-            <div className="stages">
-              {project?.phases.inspiration.stages.map((value, idx) => (
-                <Stage
-                  readonly={false}
-                  stageName={value.name}
-                  phaseName={"inspiration"}
-                  id={project?._id}
-                  key={idx}
-                />
-              ))}
-              <AddStage
-                addStage={(stageName, startdate, enddate) =>
-                  addStage(
-                    projectId,
-                    "inspiration",
-                    stageName,
-                    startdate,
-                    enddate
-                  )
-                }
-              />
-            </div>
-            <hr className="header-row-ep" />
-          </Col>
-          <Col>
-            <Row className="other-row">
-              <h2 className="header2-text-ep-other">
-                {" "}
-                <strong> Ideation </strong>{" "}
-              </h2>
-            </Row>
-            <Row className="other-row">
-              <h4 className="header2-text-ep-other">
-                Morbi sit amet rutrum leo. Maecenas molestie, odio eu
-                condimentum elementum, enim ante posuere ante, nec suscipit
-                tellus erat quis mi. Suspendisse vehicula finibus leo, ut
-                molestie lacus eleifend non. Phasellus non risus nibh. In hac
-                habitasse platea dictumst.
-              </h4>
-            </Row>
-            <hr className="divider-stage" />
-            <div className="stages">
-              {project?.phases.ideation.stages.map((value, idx) => (
-                <Stage
-                  readonly={false}
-                  stageName={value.name}
-                  phaseName={"ideation"}
-                  id={project?._id}
-                  key={idx}
-                />
-              ))}
-              <AddStage
-                addStage={(stageName, startdate, enddate) =>
-                  addStage(projectId, "ideation", stageName, startdate, enddate)
-                }
-              />
-            </div>
-            <hr className="header-row-ep" />
-          </Col>
-          <Col>
-            <Row className="other-row">
-              <h2 className="header2-text-ep-other">
-                {" "}
-                <strong> Implementation </strong>{" "}
-              </h2>
-            </Row>
-            <Row className="other-row">
-              <h4 className="header2-text-ep-other">
-                Morbi sit amet rutrum leo. Maecenas molestie, odio eu
-                condimentum elementum, enim ante posuere ante, nec suscipit
-                tellus erat quis mi. Suspendisse vehicula finibus leo, ut
-                molestie lacus eleifend non. Phasellus non risus nibh. In hac
-                habitasse platea dictums.
-              </h4>
-            </Row>
-            <hr className="divider-stage" />
-            <div className="stages">
-              {project?.phases.implementation.stages.map((value, idx) => (
-                <Stage
-                  readonly={false}
-                  stageName={value.name}
-                  phaseName={"implementation"}
-                  id={project?._id}
-                  key={idx}
-                />
-              ))}
-              <AddStage
-                addStage={(stageName, startdate, enddate) =>
-                  addStage(
-                    projectId,
-                    "implementation",
-                    stageName,
-                    startdate,
-                    enddate
-                  )
-                }
-              />
-            </div>
-            <hr className="header-row-ep" />
-          </Col>
+          <Row className="other-row">
+            <Button className="inspiration-btn">Inspiration</Button>
+            <Button className="ideation-btn">Ideation</Button>
+            <Button className="implementation-btn">Implementation</Button>
+            <Button className="delete-btn" onClick={deleteProject}>
+              <a href="/projects">Delete Project</a>
+            </Button>
+          </Row>
+          {renderPhaseEdit("inspiration", "Inspiration", project?.phases.inspiration.stages)}
+          {renderPhaseEdit("ideation", "Ideation", project?.phases.ideation.stages)}
+          {renderPhaseEdit("implementation", "Implementation", project?.phases.implementation.stages)}
           <Link href="/projects/[projectId]" as={`/projects/${projectId}`} passHref>
             <a>
               <Button className="button-return-project">Return to Project Page</Button>

@@ -29,9 +29,12 @@ export default function Draft(props) {
   const [editorContent, setEditorContent] = useState(null);
 
   const saveInterval = 1000;
-  const debounceSave = json => {
+  const debounceSave = (json, text) => {
     const { id, phaseName, stageName } = props;
-    saveDescription(id, phaseName, stageName, json);
+    const cutoff = 300;
+    const abbrv =
+      text.length > cutoff ? `${text.substring(0, cutoff)}...` : text;
+    saveDescription(id, phaseName, stageName, json, abbrv);
     setUnsaved(false);
   };
   const saveCallback = useCallback(debounce(debounceSave, saveInterval), []);
@@ -41,10 +44,20 @@ export default function Draft(props) {
   const handleChange = editor => {
     setUnsaved(true);
     const content = editor.emitSerializedOutput();
+
+    const editorState = editor.getEditorState();
+    const contentState = editorState.getCurrentContent();
+    const selectionState = editorState.getSelection();
+    const key = selectionState.getStartKey();
+    const blockMap = contentState.getBlockMap();
+    const block = blockMap.get(key);
+
+    const text = block.getText();
+
     uploadImagesAndFixUrls(content).then(() => {
       const json = JSON.stringify(content);
       if (json !== prevContent) {
-        saveCallback(json);
+        saveCallback(json, text);
         setPrevContent(json);
       } else {
         setUnsaved(false);
