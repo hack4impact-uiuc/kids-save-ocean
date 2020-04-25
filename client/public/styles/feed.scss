@@ -271,46 +271,6 @@ body {
   text-align: center;
 }
 
-.gooey-loader {
-  width: 200px;
-  height: 200px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  margin: auto;
-  filter: url("#goo");
-  animation: rotate-move 2s ease-in-out infinite;
-}
-.dot-1,
-.dot-2,
-.dot-3 {
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  background-color: #000;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
-}
-.dot-3 {
-  background-color: #003366;
-  animation: dot-3-move 2s ease infinite, index 6s ease infinite;
-}
-
-.dot-2 {
-  background-color: #33cccc;
-  animation: dot-2-move 2s ease infinite, index 6s -4s ease infinite;
-}
-
-.dot-1 {
-  background-color: #ffcc66;
-  animation: dot-1-move 2s ease infinite, index 6s -2s ease infinite;
-}
-
 @keyframes dot-3-move {
   20% {
     transform: scale(1);

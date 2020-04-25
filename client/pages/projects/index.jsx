@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { Head } from "../../components";
+import { Head, Loader } from "../../components";
 import Select from "react-select";
 import countryData from "../../utils/countries";
 import UNGoalData from "../../utils/goals";
@@ -27,6 +27,7 @@ const DESCRIPTION_LENGTH = 150;
 
 export default function ProjectsPage() {
   const [allProjects, setAllProjects] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [projects, setProjects] = useState([]);
   const [visAlert, setAlert] = useState(false);
   const [selectedUNGoals, setSelectedUNGoals] = useState(null);
@@ -42,9 +43,11 @@ export default function ProjectsPage() {
 
   useEffect(() => {
     const populateAllProjects = async () => {
+      setLoading(true);
       const response = await getModels(null, true);
       setAllProjects(response.data);
       setProjects(response.data);
+      setLoading(false);
     };
 
     populateAllProjects();
@@ -267,6 +270,7 @@ export default function ProjectsPage() {
             value={selectedDifficulty}
           />
         </div>
+        {loading && <Loader />}
         <div className="project-cards">
           <Row>
             {projects &&
