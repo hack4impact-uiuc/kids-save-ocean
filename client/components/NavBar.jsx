@@ -8,14 +8,20 @@ import {
   Nav,
   Button,
   Col,
-  Container
+  Container,
+  Modal,
+  ModalBody,
+  ModalHeader
 } from "reactstrap";
+import Popover from "react-tiny-popover";
 import Link from "next/link";
 import "../public/styles/navbar.scss";
 
 export default function NavBar() {
   const [isTop, setTop] = useState(true);
   const [isCollapsed, setCollapsed] = useState(true);
+  const [displayNotif, setDisplayNotif] = useState(true);
+
   useEffect(() => {
     document.addEventListener("scroll", () => {
       let topBound = 100;
@@ -25,9 +31,15 @@ export default function NavBar() {
       }
     });
   }, [isTop]);
+
   function toggleNavbar() {
     setCollapsed(!isCollapsed);
   }
+
+  const toggleNotifs = () => {
+    console.log("CLICKED");
+    setDisplayNotif(!displayNotif);
+  };
   return (
     <Navbar
       className={`navbar-expand-lg navbar-light shadow fixed-top ${"navbar-body"}`}
@@ -41,7 +53,18 @@ export default function NavBar() {
                 id="logo"
                 src="/homepage-images/fatemaker-logo.png"
                 alt="FateMaker logo"
+                onClick={() => setDisplayNotif(!displayNotif)}
               />
+              <Popover
+                isOpen={displayNotif}
+                position={"bottom"} // preferred position
+                content={
+                  <div>
+                    <h1>Notifications</h1>
+                    <p>Notification 1</p>
+                  </div>
+                }
+              ></Popover>
             </a>
           </Link>
         </NavbarBrand>
