@@ -18,6 +18,7 @@ import "../public/styles/navbar.scss";
 import { getUpdates } from "../utils/apiWrapper";
 import WrappedMessage from "./WrappedMessage";
 import Router from "next/router";
+import { checkValidUser } from "../utils/validator";
 
 export default WrappedMessage(function NavBar(props) {
   const [isTop, setTop] = useState(true);
@@ -56,13 +57,16 @@ export default WrappedMessage(function NavBar(props) {
 
   useEffect(() => {
     const populateNotifs = async () => {
-      const updateResp = await getUpdates(NOTIF_LIMIT, 0);
-      if (updateResp.status >= ERROR_STATUS) {
-        props.setError("An error occured while retriving notifications.");
-      } else if (updateResp.data.length === 0) {
-        setUpdates(["No new notifications."]);
-      } else {
-        setUpdates(updateResp.data);
+      const validUser = await checkValidUser(false);
+      if (validUser) {
+        const updateResp = await getUpdates(NOTIF_LIMIT, 0);
+        if (updateResp.status >= ERROR_STATUS) {
+          props.setError("An error occured while retriving notifications.");
+        } else if (updateResp.data.length === 0) {
+          setUpdates(["No new notifications."]);
+        } else {
+          setUpdates(updateResp.data);
+        }
       }
     };
     populateNotifs();
