@@ -10,7 +10,7 @@ import Stage from "./Stage";
 import TipCard from "./TipCard";
 import UpvotesSection from "./UpvotesSection";
 import InfiniteScroller from "./InfiniteScroller";
-import WrappedError from "./WrappedError";
+import WrappedMessage from "./WrappedMessage";
 
 export {
   CommentsSection,
@@ -25,5 +25,5 @@ export {
   TipCard,
   InfiniteScroller,
   UpvotesSection,
-  WrappedError
+  WrappedMessage
 };

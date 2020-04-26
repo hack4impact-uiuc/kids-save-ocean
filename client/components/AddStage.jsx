@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { Button, Col, Input, Row, FormGroup, Label } from "reactstrap";
 
-import WrappedError from "./WrappedError";
+import WrappedMessage from "./WrappedMessage";
 
 import "../public/styles/addstage.scss";
 
-export default WrappedError(function AddStage(props) {
+export default WrappedMessage(function AddStage(props) {
   const [startdate, setStartdate] = useState("");
   const [enddate, setEnddate] = useState("");
   const [stageName, setStageName] = useState("");
