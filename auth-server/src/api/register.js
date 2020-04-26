@@ -27,7 +27,6 @@ router.post(
   handleAsyncErrors(async function(req, res) {
     // Checks that the request has the required fields (email, password, and role)
     const errors = validationResult(req);
-    console.log(errors.array());
     if (!errors.isEmpty()) {
       return sendResponse(res, 400, "Invalid Request", {
         errors: errors.array({ onlyFirstError: true })

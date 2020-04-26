@@ -25,11 +25,10 @@ router.get("/", checkToken, async (req, res) => {
 });
 
 router.get("/userInfo", checkToken, async (req, res) => {
-  console.log("test");
+  
   const { db } = req;
   const collection = db.get("users");
   const { email } = req.user;
-  console.log(req.user);
   try {
     const user = await collection.findOne({ email });
     if (!user) {
@@ -74,7 +73,6 @@ router.get("/userInfo", checkToken, async (req, res) => {
 });
 
 router.post("/", validate({ body: UserSchema }), async (req, res) => {
-  console.log("akdjfhsk");
   const { db } = req;
   const collection = db.get("users");
   const { email, username, country, birthday } = req.body;
@@ -95,9 +93,7 @@ router.post("/", validate({ body: UserSchema }), async (req, res) => {
     followers: []
   };
   try {
-    console.log(newUser);
     const resp = await collection.insert(newUser);
-    console.log("reached");
     res.status(SUCCESS).send({
       code: SUCCESS,
       success: true,

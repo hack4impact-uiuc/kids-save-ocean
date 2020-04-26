@@ -57,7 +57,7 @@ export default function Profile() {
       }
     }
     getProjects();
-  }, [hasUser, user]);
+  }, [hasUser, user, projectParsed]);
 
   return (
     <>
