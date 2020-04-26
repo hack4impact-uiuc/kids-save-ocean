@@ -44,17 +44,17 @@ router.post("/", validate({ body: CommentSchema }), checkToken, async function(
 
   if (doc.nModified) {
     const projects = db.get("projects");
-      projects
+    projects
       .findOneAndUpdate(
         {
           _id: commentLocation
         },
         {
-          $inc: {"numComments": 1}
+          $inc: { numComments: 1 }
         }
       )
       .catch(() => res.sendStatus(500));
-  } 
+  }
 
   res.json({
     success: `comment added!`
@@ -92,26 +92,26 @@ router.post(
         }
       }
     );
-  
+
     if (doc.nModified) {
       const projects = db.get("projects");
-        projects
+      projects
         .findOneAndUpdate(
           {
             _id: commentLocation
           },
           {
-            $inc: {"numComments": 1}
+            $inc: { numComments: 1 }
           }
         )
         .catch(() => res.sendStatus(500));
-    } 
-  
+    }
+
     res.json({
       success: `comment added!`
     });
-  });
-
+  }
+);
 
 router.get("/:commentLocation", function(req, res) {
   const { commentLocation } = req.params;

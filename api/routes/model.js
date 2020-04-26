@@ -59,7 +59,7 @@ router.post(
     const data = req.body;
     let currProjectId;
     const userEmail = req.decoded.sub;
-    
+
     data.numUpvotes = 0;
     data.numComments = 0;
     data.username = await getUsername(db, userEmail);
@@ -128,7 +128,7 @@ router.put(
         {
           _id: id
         },
-        {$set: req.body}
+        { $set: req.body }
       )
       .then(model =>
         model !== null

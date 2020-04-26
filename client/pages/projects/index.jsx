@@ -298,16 +298,17 @@ export default function ProjectsPage() {
                             </div>
                             <br />
                             <Row>
-                              <Col>
-                                <div className="prof-pic"></div>
+                              <Col className="inside-col">
+                                <div className="username">
+                                  @{project.username}
+                                </div>
                               </Col>
-                              <Col>
-                                <div className="username"></div>
+                              <Col className="inside-col">
+                                <div className="project-likes">
+                                  Upvotes: {project.numUpvotes}
+                                </div>
                               </Col>
-                              <Col>
-                              <div className="project-likes">Upvotes: {project.numUpvotes}</div>
-                              </Col>
-                              <Col>
+                              <Col className="inside-col">
                                 <div className="project-comments">
                                   Comments: {project.numComments}
                                 </div>

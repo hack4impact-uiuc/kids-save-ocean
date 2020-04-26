@@ -36,19 +36,19 @@ router.post(
         }
       }
     );
-    
+
     if (doc.nModified) {
       const projects = db.get("projects");
       projects
-      .findOneAndUpdate(
-        {
-          _id: upvoteLocation
-        },
-        {
-          $inc: {"numUpvotes": 1}
-        }
-      )
-      .catch(() => res.sendStatus(500));
+        .findOneAndUpdate(
+          {
+            _id: upvoteLocation
+          },
+          {
+            $inc: { numUpvotes: 1 }
+          }
+        )
+        .catch(() => res.sendStatus(500));
     }
 
     res.json({
