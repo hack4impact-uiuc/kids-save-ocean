@@ -37,7 +37,7 @@ export default function Login(props) {
     } else {
       localStorage.setItem("token", e.tokenId);
       localStorage.setItem("google", true);
-      Router.push("/");
+      Router.push("/feed");
     }
   };
 
@@ -51,7 +51,7 @@ export default function Login(props) {
     } else {
       localStorage.setItem("token", resp.token);
       localStorage.setItem("google", false);
-      Router.push("/");
+      Router.push("/feed");
     }
   };
 

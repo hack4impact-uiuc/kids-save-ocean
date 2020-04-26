@@ -41,7 +41,6 @@ function shouldUpdateJWT(token, email, role) {
 function decryptAuthJWT(token) {
   try {
     const { sub } = jwt.verify(token, process.env.AUTH_SECRET);
-    console.log(sub)
     return sub;
   } catch (err) {
     return err;
