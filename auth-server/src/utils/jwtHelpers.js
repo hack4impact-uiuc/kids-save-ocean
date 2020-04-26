@@ -40,8 +40,8 @@ function shouldUpdateJWT(token, email, role) {
 // Returns the auth JWT if it's valid, else return null if it's invalid
 function decryptAuthJWT(token) {
   try {
-    const { email } = jwt.verify(token, process.env.AUTH_SECRET);
-    return email;
+    const { sub } = jwt.verify(token, process.env.AUTH_SECRET);
+    return sub;
   } catch (err) {
     return err;
   }
