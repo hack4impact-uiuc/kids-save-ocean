@@ -57,7 +57,7 @@ export default WrappedMessage(function EditProjectPage(props) {
   };
 
   const handleGrpSizeChange = grpSize => {
-    setGrpSize(grpSize.label);
+    setGrpSize(grpSize);
   };
 
   const deleteProject = id => {
@@ -65,7 +65,7 @@ export default WrappedMessage(function EditProjectPage(props) {
   };
 
   const saveTopChanges = (name, description, groupSize) => {
-    updateProject(projectId, name, description, groupSize)
+    updateProject(projectId, name, description, groupSize.label)
       .then(() => props.setSuccess("Successfully updated!"))
       .catch(() => props.setError("Failed to update project"));
   };
@@ -111,7 +111,7 @@ export default WrappedMessage(function EditProjectPage(props) {
   const renderPhaseEdit = phase => (
     <Col>
       <div className="stages">
-        {project?.phases[phase].stages.map((value, idx) => (
+        {project?.phases[phase].stages.map(value => (
           <Stage
             readonly={false}
             stageName={value.name}
