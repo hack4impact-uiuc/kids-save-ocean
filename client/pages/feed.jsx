@@ -46,7 +46,7 @@ export default function Feed() {
 
       nextUpdates.data.map(update => {
         const dateObj = new Date(update.date);
-        update.date = `${dateObj.toLocaleString('default', { month: 'long' })} ${dateObj.getDate()}`;
+        update.date = `${dateObj.toLocaleString('default', { month: 'long' })} ${dateObj.getDate()}, ${dateObj.getFullYear()}`;
         setUpdates(prevState => [...prevState, update]);
       });
       setIsFetching(false);
