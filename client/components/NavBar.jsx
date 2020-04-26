@@ -22,7 +22,7 @@ export default function NavBar() {
   const handleLogout = () => {
     localStorage.removeItem("token");
     Router.replace("/");
-  }
+  };
 
   useEffect(() => {
     if (process.browser) {
@@ -82,52 +82,66 @@ export default function NavBar() {
                 </Button>
               </Col>
             </NavItem>
-            {loggedIn && <NavItem>
-              <Col lg={{ size: 1 }} className="divider"></Col>
-            </NavItem>}
-            {loggedIn && <NavItem className="notif-col">
-              <Link href="#notifications">
-                <a>
-                  <img
-                    className="nav-img"
-                    src="/navbar-images/notification-icon.svg"
-                    alt="Notifications"
-                  />
-                </a>
-              </Link>
-            </NavItem>}
-            {loggedIn && <NavItem className="user-col">
-              <Link href="#profile">
-                <a>
-                  <img
-                    className="nav-img"
-                    src="/navbar-images/user-icon.svg"
-                    alt="Profile"
-                  />
-                </a>
-              </Link>
-            </NavItem>}
+            {loggedIn && (
+              <NavItem>
+                <Col lg={{ size: 1 }} className="divider"></Col>
+              </NavItem>
+            )}
+            {loggedIn && (
+              <NavItem className="notif-col">
+                <Link href="#notifications">
+                  <a>
+                    <img
+                      className="nav-img"
+                      src="/navbar-images/notification-icon.svg"
+                      alt="Notifications"
+                    />
+                  </a>
+                </Link>
+              </NavItem>
+            )}
+            {loggedIn && (
+              <NavItem className="user-col">
+                <Link href="#profile">
+                  <a>
+                    <img
+                      className="nav-img"
+                      src="/navbar-images/user-icon.svg"
+                      alt="Profile"
+                    />
+                  </a>
+                </Link>
+              </NavItem>
+            )}
             <NavItem>
               <Col lg={{ size: 1 }} className="secondDivider"></Col>
             </NavItem>
-            {!loggedIn && <NavItem>
-              <Col className="button-col">
-                <Link href="/login">
-                  <a>
-                    <Button className="button-login" color="#ffcc66">
-                      Login
-                    </Button>
-                  </a>
-                </Link>
-              </Col>
-            </NavItem>}
-            {loggedIn && <NavItem>
-              <Col className="button-col">
-                <Button className="button-login" color="#ffcc66" onClick={handleLogout}>
-                  Logout
-                </Button>
-              </Col>
-            </NavItem>}
+            {!loggedIn && (
+              <NavItem>
+                <Col className="button-col">
+                  <Link href="/login">
+                    <a>
+                      <Button className="button-login" color="#ffcc66">
+                        Login
+                      </Button>
+                    </a>
+                  </Link>
+                </Col>
+              </NavItem>
+            )}
+            {loggedIn && (
+              <NavItem>
+                <Col className="button-col">
+                  <Button
+                    className="button-login"
+                    color="#ffcc66"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </Button>
+                </Col>
+              </NavItem>
+            )}
           </Nav>
         </Collapse>
       </Container>
