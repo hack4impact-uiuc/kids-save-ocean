@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { Head } from "../../components";
+import { Head, Loader } from "../../components";
 import Select from "react-select";
 import countryData from "../../utils/countries";
 import UNGoalData from "../../utils/goals";
@@ -28,6 +28,7 @@ const DESCRIPTION_LENGTH = 150;
 
 export default function ProjectsPage() {
   const [allProjects, setAllProjects] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [projects, setProjects] = useState([]);
   const [visAlert, setAlert] = useState(false);
   const [selectedUNGoals, setSelectedUNGoals] = useState(null);
@@ -43,9 +44,11 @@ export default function ProjectsPage() {
 
   useEffect(() => {
     const populateAllProjects = async () => {
+      setLoading(true);
       const response = await getModels(null, true);
       setAllProjects(response.data);
       setProjects(response.data);
+      setLoading(false);
     };
 
     populateAllProjects();
@@ -268,6 +271,7 @@ export default function ProjectsPage() {
             value={selectedDifficulty}
           />
         </div>
+        {loading && <Loader />}
         <div className="project-cards">
           <Row>
             {projects &&
@@ -301,18 +305,19 @@ export default function ProjectsPage() {
                             </div>
                             <br />
                             <Row>
-                              <Col>
-                                <div className="prof-pic"></div>
+                              <Col className="inside-col">
+                                <div className="username">
+                                  @{project.username}
+                                </div>
                               </Col>
-                              <Col>
-                                <div className="username"></div>
+                              <Col className="inside-col">
+                                <div className="project-likes">
+                                  Upvotes: {project.numUpvotes}
+                                </div>
                               </Col>
-                              <Col>
-                                <div className="project-likes">Likes: </div>
-                              </Col>
-                              <Col>
+                              <Col className="inside-col">
                                 <div className="project-comments">
-                                  Comments:
+                                  Comments: {project.numComments}
                                 </div>
                               </Col>
                             </Row>
