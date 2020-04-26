@@ -46,6 +46,10 @@ export default function Feed() {
       }
       setNextIdx(nextUpdates.data.length);
       nextUpdates.data.map(update => {
+        const dateObj = new Date(update.date);
+        update.date = `${dateObj.toLocaleString("default", {
+          month: "long"
+        })} ${dateObj.getDate()}, ${dateObj.getFullYear()}`;
         setUpdates(prevState => [...prevState, update]);
       });
       setWillMount(false);
@@ -162,7 +166,7 @@ export default function Feed() {
                   </CardText>
                 )}
                 <div className="feed-card-footer">
-                  <div className="feed-card-date">Mar 20</div>
+                  <div className="feed-card-date">{update.date}</div>
                   <div className="feed-card-interactions">
                     123{" "}
                     <img
