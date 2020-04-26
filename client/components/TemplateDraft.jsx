@@ -86,7 +86,6 @@ export default function TemplateDraft(props) {
 
   useEffect(() => {
     console.log("getting template");
-    // getDescription(id, phaseName, stageName)
     getTemplateByID(id) // get draft function
       .then(template => {
         console.log(template);

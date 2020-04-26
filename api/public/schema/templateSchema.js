@@ -20,7 +20,7 @@ const schema = {
     },
     draft: {
       type: "string",
-      required: true
+      required: false
     }
   }
 };
