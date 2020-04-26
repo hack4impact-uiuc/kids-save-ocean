@@ -73,6 +73,17 @@ body {
   margin-bottom: 0.5rem;
 }
 
+.secondDivider {
+  background-color: rgba(#33cccc, 1);
+  height: 2.5rem;
+  width: 0.125rem;
+  padding: 0rem;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
 .notif-col,
 .user-col {
   width: 100%;
@@ -92,4 +103,37 @@ body {
   width: auto;
   height: 1.75rem;
   cursor: pointer;
+}
+
+.button-login::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 0%;
+  z-index: -1;
+  transition: 0.45s;
+  bottom: 0;
+  border-radius: 50% 50% 0 0;
+  background: rgba(#ffcc66, 1);
+}
+.button-login {
+  color: #003366;
+  font-weight: bold;
+  font-size: 1.125rem;
+  text-align: center;
+  border-radius: 20%;
+
+  height: 3.5rem;
+  padding-left: 0.375rem;
+  padding-right: 0.375rem;
+  margin-left: 0rem;
+
+  transition: 0.45s;
+  position: relative;
+  overflow: hidden;
+}
+
+.button-login:hover::before {
+  height: 140%;
 }

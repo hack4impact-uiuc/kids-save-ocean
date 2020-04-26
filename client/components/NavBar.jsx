@@ -17,6 +17,7 @@ import Link from "next/link";
 import "../public/styles/navbar.scss";
 import { getUpdates } from "../utils/apiWrapper";
 import WrappedMessage from "./WrappedMessage";
+import Router from "next/router";
 
 export default WrappedMessage(function NavBar(props) {
   const [isTop, setTop] = useState(true);
@@ -34,15 +35,23 @@ export default WrappedMessage(function NavBar(props) {
       setRenderPopover(true);
     }
   }, [renderPopover]);
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    Router.replace("/");
+  };
 
   useEffect(() => {
-    document.addEventListener("scroll", () => {
-      let topBound = 100;
-      const currTop = window.scrollY < topBound;
-      if (currTop !== isTop) {
-        setTop(currTop);
-      }
-    });
+    if (process.browser) {
+      document.addEventListener("scroll", () => {
+        let topBound = 100;
+        const currTop = window.scrollY < topBound;
+        if (currTop !== isTop) {
+          setTop(currTop);
+        }
+      });
+    }
   }, [isTop]);
 
   useEffect(() => {
@@ -58,6 +67,10 @@ export default WrappedMessage(function NavBar(props) {
     };
     populateNotifs();
   }, [error]);
+
+  useEffect(() => {
+    setLoggedIn(localStorage.getItem("token"));
+  });
 
   function toggleNavbar() {
     setCollapsed(!isCollapsed);
@@ -101,6 +114,37 @@ export default WrappedMessage(function NavBar(props) {
                 </Button>
               </Col>
             </NavItem>
+            {loggedIn && (
+              <NavItem>
+                <Col lg={{ size: 1 }} className="divider"></Col>
+              </NavItem>
+            )}
+            {loggedIn && (
+              <NavItem className="notif-col">
+                <Link href="#notifications">
+                  <a>
+                    <img
+                      className="nav-img"
+                      src="/navbar-images/notification-icon.svg"
+                      alt="Notifications"
+                    />
+                  </a>
+                </Link>
+              </NavItem>
+            )}
+            {loggedIn && (
+              <NavItem className="user-col">
+                <Link href="#profile">
+                  <a>
+                    <img
+                      className="nav-img"
+                      src="/navbar-images/user-icon.svg"
+                      alt="Profile"
+                    />
+                  </a>
+                </Link>
+              </NavItem>
+            )}
             <NavItem>
               <Col lg={{ size: 1 }} className="divider"></Col>
             </NavItem>
@@ -138,7 +182,34 @@ export default WrappedMessage(function NavBar(props) {
                   />
                 </a>
               </Link>
+              <Col lg={{ size: 1 }} className="secondDivider"></Col>
             </NavItem>
+            {!loggedIn && (
+              <NavItem>
+                <Col className="button-col">
+                  <Link href="/login">
+                    <a>
+                      <Button className="button-login" color="#ffcc66">
+                        Login
+                      </Button>
+                    </a>
+                  </Link>
+                </Col>
+              </NavItem>
+            )}
+            {loggedIn && (
+              <NavItem>
+                <Col className="button-col">
+                  <Button
+                    className="button-login"
+                    color="#ffcc66"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </Button>
+                </Col>
+              </NavItem>
+            )}
           </Nav>
         </Collapse>
       </Container>
