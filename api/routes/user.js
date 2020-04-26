@@ -315,4 +315,47 @@ router.delete("/", async (req, res) => {
   });
 });
 
+router.get("/updates/:numUpdates/:currentIndex", checkToken, async function(
+  req,
+  res
+) {
+  const { numUpdates, currentIndex } = req.params;
+
+  const db = req.db;
+  const userCollection = db.get("users");
+  const email = req.user.email;
+
+  const user = await userCollection.findOne({ email });
+  if (!user) {
+    res.status(NOT_FOUND).send({
+      success: false,
+      message: "User not found."
+    });
+  }
+
+  const projectIds = user.followingProjects;
+
+  const updates = db.get("updates");
+
+  updates.createIndex({ projectId: 1, date: 1 });
+
+  const feedUpdates = await updates.find(
+    {
+      projectId: { $in: projectIds }
+    },
+    {
+      sort: { date: -1 }
+    },
+    function(e, docs) {
+      if (docs === null) {
+        res.sendStatus(404);
+      }
+    }
+  );
+
+  res
+    .status(SUCCESS)
+    .send(feedUpdates.slice(currentIndex, currentIndex + numUpdates));
+});
+
 module.exports = router;

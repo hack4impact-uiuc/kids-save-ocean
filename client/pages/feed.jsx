@@ -9,15 +9,15 @@ import {
   CardText,
   CardImg
 } from "reactstrap";
-import { getModelsGreaterThanID } from "../utils/apiWrapper";
-import { Head, InfiniteScroller } from "../components";
+import { getUpdates } from "../utils/apiWrapper";
+import { Head, InfiniteScroller, Loader } from "../components";
 import "../public/styles/feed.scss";
 
 export default function Feed() {
   const maxUpdatesAtOnce = 20;
   const maxUpdatesTotal = 200;
 
-  const [lastID, setLastID] = useState("5e901732090f7cdff2e67565");
+  const [nextIdx, setNextIdx] = useState(0);
   const [willMount, setWillMount] = useState(true);
   const [hasMore, setHasMore] = useState(true);
   const [updates, setUpdates] = useState([]);
@@ -28,11 +28,9 @@ export default function Feed() {
       if (!hasMore || (!isFetching && !willMount)) {
         return;
       }
-      const nextUpdates = await getModelsGreaterThanID(
-        maxUpdatesAtOnce,
-        lastID
-      );
+      const nextUpdates = await getUpdates(maxUpdatesAtOnce, nextIdx);
       if (nextUpdates === undefined || nextUpdates.data.length === 0) {
+        setWillMount(false);
         return;
       }
       if (
@@ -42,14 +40,11 @@ export default function Feed() {
         setHasMore(false);
       }
 
-      setLastID(nextUpdates.data[nextUpdates.data.length - 1]._id);
+      setNextIdx(nextUpdates.data.length);
 
       nextUpdates.data.map(update => {
         setUpdates(prevState => [...prevState, update]);
       });
-      if (willMount) {
-        setWillMount(false);
-      }
       setIsFetching(false);
     };
     loadUpdates();
@@ -58,27 +53,6 @@ export default function Feed() {
   return (
     <div className="feed-page-div">
       <Head />
-      <svg
-        height="0px"
-        width="0px"
-        xmlns="http://www.w3.org/2000/svg"
-        version="1.1"
-      >
-        <defs>
-          <filter id="goo">
-            <feGaussianBlur
-              in="SourceGraphic"
-              stdDeviation="10"
-              result="blur"
-            />
-            <feColorMatrix
-              in="blur"
-              mode="matrix"
-              values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 21 -7"
-            />
-          </filter>
-        </defs>
-      </svg>
       <Container className="user-sidebar">
         <Card className="user-card">
           <div className="user-profile-pic"></div>
@@ -160,13 +134,7 @@ export default function Feed() {
         </Card>
       </Container>
       <Container className="feed-wrapper">
-        {willMount && (
-          <div className="gooey-loader">
-            <div className="dot-1"></div>
-            <div className="dot-2"></div>
-            <div className="dot-3"></div>
-          </div>
-        )}
+        {willMount && <Loader />}
         {updates.map(update => (
           <Fragment key={update._id}>
             <Card className="feed-card">
@@ -174,19 +142,14 @@ export default function Feed() {
                 <CardTitle className="feed-card-title">
                   <div className="feed-card-profile-pic"></div>
                   <div className="feed-card-title-text">
-                    <strong>Arpan Laha</strong> edited{" "}
-                    <strong>Sustainable Recycling Project</strong>
+                    <strong>{update.description}</strong>
                   </div>
                 </CardTitle>
-                <CardSubtitle className="feed-card-subtitle">
-                  <strong>Updated</strong> 10 more interviews
-                </CardSubtitle>
-                <CardText className="feed-card-description">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-                  nec magna sed nibh varius porttitor. Proin pulvinar, odio at
-                  accumsan pharetra, tellus augue scelerisque leo, faucibus
-                  sodales libero nulla at tellus.
-                </CardText>
+                {update.subDescription !== null && (
+                  <CardText className="feed-card-description">
+                    {update.subDescription}
+                  </CardText>
+                )}
                 <div className="feed-card-footer">
                   <div className="feed-card-date">Mar 20</div>
                   <div className="feed-card-interactions">
@@ -208,10 +171,10 @@ export default function Feed() {
             </Card>
           </Fragment>
         ))}
-        {hasMore && !willMount && (
+        {updates.length !== 0 && hasMore && !willMount && (
           <div className="loading-text">Loading...</div>
         )}
-        {!hasMore && (
+        {((updates.length === 0 && !willMount) || !hasMore) && (
           <div className="loading-text">
             <Link href="/projects">
               <a className="featured-see-more">Find more projects!</a>

@@ -10,7 +10,7 @@ import {
   FormGroup,
   Label,
   Container,
-  Alert
+  Alert,
 } from "reactstrap";
 import { getModelsByID, checkAdminPrivilege } from "../utils/apiWrapper";
 import { Head, Stage } from "../components";
@@ -24,11 +24,11 @@ export default function EditProjectPage() {
   const [description, setDescription] = useState("");
   const id = "5e901732090f7cdff2e6757a";
   const ideationStages = [
-    ["beauti", "Description 1"]
+    ["beauti", "Description 1"],
     // ["Stage 2", "Description 2"],
     // ["Stage 3", "Description 3"]
   ];
-  const toggle = () => setDropdownOpen(prevState => !prevState);
+  const toggle = () => setDropdownOpen((prevState) => !prevState);
 
   useEffect(() => {
     const checkPriv = async () => {
@@ -71,9 +71,6 @@ export default function EditProjectPage() {
               Load Failed
             </div>
           </Alert>
-        )}
-        {isAdmin && (
-          <div>ONLY IF YOU ARE ADMIN SHOULD YOU BE ABLE TO READ THIS</div>
         )}
         <Row>
           <Col className="home-block-col">

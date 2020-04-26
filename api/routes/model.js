@@ -1,8 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const validate = require("express-jsonschema").validate;
+const { checkToken } = require("../auth/utils/checkToken");
 
 const ModelSchema = require("../public/schema/projectSchema.js").projectSchema;
+
+const { getUsername } = require("../utils/user_utils");
 
 router.get("/", function(req, res) {
   let sdg_par = req.query.sdg;
@@ -49,20 +52,41 @@ router.post(
   validate({
     body: ModelSchema
   }),
-  function(req, res) {
+  checkToken,
+  async function(req, res) {
     const db = req.db;
-    const collection = db.get("projects");
+    const projects = db.get("projects");
     const data = req.body;
+    let currProjectId;
 
     // Check if data includes proper fields
-    collection.insert(data, function(err) {
+    projects.insert(data, function(err) {
       if (err) {
         res.sendStatus(500);
       } else {
-        res.json({
-          success: `${data.name} added!`
-        });
+        currProjectId = data._id;
       }
+    });
+
+    const updates = db.get("updates");
+    const email = req.user.email;
+    const username = await getUsername(db, email);
+    const update = {
+      updateType: "project",
+      email: email,
+      projectId: currProjectId,
+      description: `${username} created ${data.name}`,
+      date: Date.now()
+    };
+
+    try {
+      updates.insert(update);
+    } catch (err) {
+      return err;
+    }
+
+    res.json({
+      success: `${data.name} added!`
     });
   }
 );
@@ -81,6 +105,8 @@ router.delete("/:model_ID", function(req, res) {
         : res.sendStatus(404)
     )
     .catch(() => res.sendStatus(500));
+
+  // TODO: Remove project from userFollwowing if it gets deleted
 });
 
 router.put(
@@ -108,31 +134,65 @@ router.put(
   }
 );
 
-router.put("/:model_ID/:phaseName/:stageName/description", function(req, res) {
-  const db = req.db;
-  const collection = db.get("projects");
-  const { model_ID, phaseName, stageName } = req.params;
+router.put(
+  "/:model_ID/:phaseName/:stageName/description",
+  checkToken,
+  async function(req, res) {
+    const db = req.db;
+    const collection = db.get("projects");
+    const { model_ID, phaseName, stageName } = req.params;
+    const description = req.body.description;
+    const subDescription = req.body.subDescription;
+    if (description === undefined) {
+      res.sendStatus(400);
+    }
+    collection
+      .findOneAndUpdate(
+        {
+          _id: model_ID,
+          [`phases.${phaseName}.stages.name`]: stageName
+        },
+        { $set: { [`phases.${phaseName}.stages.$.description`]: description } }
+      )
+      .then(model => {
+        if (model === null) {
+          res.sendStatus(404);
+        }
+      })
+      .catch(() => res.sendStatus(500));
 
-  const description = req.body.description;
-  if (description === undefined) {
-    res.sendStatus(400);
+    const updates = db.get("updates");
+    const email = req.user.email;
+    const username = await getUsername(db, email);
+    const update = {
+      updateType: "project",
+      email: email,
+      projectId: model_ID,
+      description: `${username} updated their ${stageName} stage`,
+      subDescription: `${subDescription}`,
+      date: Date.now()
+    };
+
+    try {
+      updates.update(
+        {
+          description: `${username} updated their ${stageName} stage`,
+          projectId: model_ID
+        },
+        {
+          $set: update
+        },
+        {
+          upsert: true
+        }
+      );
+    } catch (err) {
+      return err;
+    }
+
+    res.json({ success: `${stageName} description updated!` });
   }
-
-  collection
-    .findOneAndUpdate(
-      {
-        _id: model_ID,
-        [`phases.${phaseName}.stages.name`]: stageName
-      },
-      { $set: { [`phases.${phaseName}.stages.$.description`]: description } }
-    )
-    .then(model =>
-      model !== null
-        ? res.json({ success: `${stageName} description updated!` })
-        : res.sendStatus(404)
-    )
-    .catch(() => res.sendStatus(500));
-});
+);
 
 router.get("/:model_ID/:phaseName/:stageName/description", function(req, res) {
   const db = req.db;
@@ -155,6 +215,7 @@ router.get("/:model_ID/:phaseName/:stageName/description", function(req, res) {
     })
     .catch(() => res.sendStatus(500));
 });
+
 router.get("/:numUpdates/:lastID", function(req, res) {
   const ObjectId = require("mongodb").ObjectID;
   const last_ID = new ObjectId(req.params.lastID);
