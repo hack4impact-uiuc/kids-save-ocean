@@ -57,7 +57,7 @@ export default WrappedMessage(function EditProjectPage(props) {
   };
 
   const handleGrpSizeChange = grpSize => {
-    setGrpSize(grpSize);
+    setGrpSize(grpSize.label);
   };
 
   const deleteProject = id => {
