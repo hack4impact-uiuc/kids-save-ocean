@@ -213,7 +213,7 @@ router.get("/:model_ID/canEdit", checkToken, async function(req, res) {
     .then(model =>
       model !== null ? res.json({ success: true }) : res.sendStatus(404)
     )
-    .catch(() => res.sendStatus(404));
+    .catch(() => res.sendStatus(500));
 });
 
 router.post("/:model_ID", checkToken, async (req, res) => {
