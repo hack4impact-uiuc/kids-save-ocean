@@ -372,7 +372,6 @@ export const resendPIN = () => {
   }
 };
 
-
 export const userInfo = () => {
   const requestString = `${BASE_URL}/auth/getUser`;
   return axios
@@ -389,7 +388,6 @@ export const userInfo = () => {
         error
       });
     });
-
 };
 
 export const saveDescription = async (

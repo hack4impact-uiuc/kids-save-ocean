@@ -142,9 +142,7 @@ export default function RegisterPage(props) {
     const response = await result.json();
     setPinMessage(response.message);
   };
-  const options = [
-    { value: "student", label: "student" }
-  ];
+  const options = [{ value: "student", label: "student" }];
   const anonOptions = [
     { value: true, label: "Anonymous Account" },
     { value: false, label: "Visible Account" }
