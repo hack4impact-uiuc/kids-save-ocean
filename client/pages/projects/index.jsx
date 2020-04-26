@@ -305,11 +305,11 @@ export default function ProjectsPage() {
                                 <div className="username"></div>
                               </Col>
                               <Col>
-                                <div className="project-likes">Likes: </div>
+                              <div className="project-likes">Upvotes: {project.numUpvotes}</div>
                               </Col>
                               <Col>
                                 <div className="project-comments">
-                                  Comments:
+                                  Comments: {project.numComments}
                                 </div>
                               </Col>
                             </Row>

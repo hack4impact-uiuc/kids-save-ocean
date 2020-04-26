@@ -16,9 +16,9 @@ router.post(
     const { upvoteLocation } = req.body;
     const userEmail = req.decoded.sub;
     const username = await getUsername(db, userEmail);
-    const collection = db.get("upvotes");
+    const upvotes = db.get("upvotes");
 
-    collection.update(
+    const doc = await upvotes.update(
       { upvoteLocation },
       {
         $set: {
@@ -33,13 +33,27 @@ router.post(
       function(err) {
         if (err) {
           res.sendStatus(500);
-        } else {
-          res.json({
-            success: `upvote added!`
-          });
         }
       }
     );
+    
+    if (doc.nModified) {
+      const projects = db.get("projects");
+      projects
+      .findOneAndUpdate(
+        {
+          _id: upvoteLocation
+        },
+        {
+          $inc: {"numUpvotes": 1}
+        }
+      )
+      .catch(() => res.sendStatus(500));
+    }
+
+    res.json({
+      success: `upvote added!`
+    });
   }
 );
 

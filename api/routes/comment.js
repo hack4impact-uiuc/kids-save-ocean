@@ -18,9 +18,9 @@ router.post("/", validate({ body: CommentSchema }), checkToken, async function(
   const { commentLocation, comment } = req.body;
   const userEmail = req.decoded.sub;
   const username = await getUsername(db, userEmail);
-  const collection = db.get("comments");
+  const comments = db.get("comments");
 
-  collection.update(
+  const doc = await comments.update(
     { commentLocation },
     {
       $push: {
@@ -38,13 +38,27 @@ router.post("/", validate({ body: CommentSchema }), checkToken, async function(
     function(err) {
       if (err) {
         res.sendStatus(500);
-      } else {
-        res.json({
-          success: `comment added!`
-        });
       }
     }
   );
+
+  if (doc.nModified) {
+    const projects = db.get("projects");
+      projects
+      .findOneAndUpdate(
+        {
+          _id: commentLocation
+        },
+        {
+          $inc: {"numComments": 1}
+        }
+      )
+      .catch(() => res.sendStatus(500));
+  } 
+
+  res.json({
+    success: `comment added!`
+  });
 });
 
 router.post(
@@ -56,9 +70,9 @@ router.post(
     const { commentLocation, commentIndex, comment } = req.body;
     const userEmail = req.decoded.sub;
     const username = await getUsername(db, userEmail);
-    const collection = db.get("comments");
+    const comments = db.get("comments");
 
-    collection.update(
+    const doc = await comments.update(
       { commentLocation },
       {
         $push: {
@@ -75,15 +89,29 @@ router.post(
       function(err) {
         if (err) {
           res.sendStatus(500);
-        } else {
-          res.json({
-            success: `comment added!`
-          });
         }
       }
     );
-  }
-);
+  
+    if (doc.nModified) {
+      const projects = db.get("projects");
+        projects
+        .findOneAndUpdate(
+          {
+            _id: commentLocation
+          },
+          {
+            $inc: {"numComments": 1}
+          }
+        )
+        .catch(() => res.sendStatus(500));
+    } 
+  
+    res.json({
+      success: `comment added!`
+    });
+  });
+
 
 router.get("/:commentLocation", function(req, res) {
   const { commentLocation } = req.params;
