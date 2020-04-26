@@ -158,11 +158,9 @@ export default WrappedMessage(function NavBar(props) {
                 </Link>
               </NavItem>
             )}
-            {loggedIn && (
-              <NavItem>
-                <Col lg={{ size: 1 }} className="divider"></Col>
-              </NavItem>
-            )}
+            <NavItem>
+              <Col lg={{ size: 1 }} className="secondDivider"></Col>
+            </NavItem>
             {!loggedIn && (
               <NavItem>
                 <Col className="button-col">
