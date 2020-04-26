@@ -66,7 +66,7 @@ export default WrappedMessage(function EditProjectPage(props) {
 
   const saveTopChanges = (name, description, groupSize) => {
     updateProject(projectId, name, description, groupSize.label)
-      .then(() => props.setSuccess("Successfully updated!"))
+      .then(() => props.setSuccess("Successfully updated"))
       .catch(() => props.setError("Failed to update project"));
   };
 
