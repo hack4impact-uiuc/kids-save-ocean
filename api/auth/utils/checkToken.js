@@ -1,4 +1,6 @@
 const jwt = require("jsonwebtoken");
+const express = require("express");
+const router = express.Router();
 
 let checkToken = (req, res, next) => {
   let token = req.headers["x-access-token"] || req.headers["authorization"];
@@ -16,13 +18,26 @@ let checkToken = (req, res, next) => {
         email: decoded.sub,
         role: decoded.permission
       };
-      next();
     });
   } else {
     return res.sendStatus(400);
   }
+  if (next) {
+    next();
+  }
+  return true;
 };
 
+router.get("/checkToken", function(req, res) {
+  if (checkToken(req, res)) {
+    res.json({
+      success: true,
+      message: "Token valid!"
+    });
+  }
+});
+
 module.exports = {
-  checkToken: checkToken
+  checkToken: checkToken,
+  router
 };
