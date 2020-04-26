@@ -121,15 +121,28 @@ export default WrappedMessage(function NavBar(props) {
             )}
             {loggedIn && (
               <NavItem className="notif-col">
-                <Link href="#notifications">
-                  <a>
-                    <img
-                      className="nav-img"
-                      src="/navbar-images/notification-icon.svg"
-                      alt="Notifications"
-                    />
-                  </a>
-                </Link>
+                <img
+                  className="nav-img"
+                  src="/navbar-images/notification-icon.svg"
+                  alt="Notifications"
+                  id="notif-icon"
+                  type="button"
+                />
+                {renderPopover && (
+                  <Popover
+                    placement="bottom"
+                    isOpen={displayNotif}
+                    target="notif-icon"
+                    toggle={() => setDisplayNotif(!displayNotif)}
+                  >
+                    <PopoverHeader>Notifications</PopoverHeader>
+                    <PopoverBody>
+                      {updates.map(update => (
+                        <p key={update._id}>{update.description}</p>
+                      ))}
+                    </PopoverBody>
+                  </Popover>
+                )}
               </NavItem>
             )}
             {loggedIn && (
@@ -145,45 +158,11 @@ export default WrappedMessage(function NavBar(props) {
                 </Link>
               </NavItem>
             )}
-            <NavItem>
-              <Col lg={{ size: 1 }} className="divider"></Col>
-            </NavItem>
-            <NavItem className="notif-col">
-              <img
-                className="nav-img"
-                src="/navbar-images/notification-icon.svg"
-                alt="Notifications"
-                id="notif-icon"
-                type="button"
-              />
-              {renderPopover && (
-                <Popover
-                  placement="bottom"
-                  isOpen={displayNotif}
-                  target="notif-icon"
-                  toggle={() => setDisplayNotif(!displayNotif)}
-                >
-                  <PopoverHeader>Notifications</PopoverHeader>
-                  <PopoverBody>
-                    {updates.map(update => (
-                      <p key={update._id}>{update.description}</p>
-                    ))}
-                  </PopoverBody>
-                </Popover>
-              )}
-            </NavItem>
-            <NavItem className="user-col">
-              <Link href="#profile">
-                <a>
-                  <img
-                    className="nav-img"
-                    src="/navbar-images/user-icon.svg"
-                    alt="Profile"
-                  />
-                </a>
-              </Link>
-              <Col lg={{ size: 1 }} className="secondDivider"></Col>
-            </NavItem>
+            {loggedIn && (
+              <NavItem>
+                <Col lg={{ size: 1 }} className="divider"></Col>
+              </NavItem>
+            )}
             {!loggedIn && (
               <NavItem>
                 <Col className="button-col">

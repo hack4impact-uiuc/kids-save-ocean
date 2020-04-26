@@ -2,7 +2,6 @@ import React from "react";
 import { useRouter } from "next/router";
 import { NavBar } from "../components";
 import { PageTransition } from "next-page-transitions";
-import { NavBar } from "../components";
 
 import "../public/styles/style.scss";
 
