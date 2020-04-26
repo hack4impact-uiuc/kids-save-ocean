@@ -3,12 +3,9 @@ const router = express.Router();
 const validate = require("express-jsonschema").validate;
 const { checkToken } = require("../auth/utils/checkToken");
 
-const { checkToken } = require("../auth/utils/checkToken");
-const { getUserId } = require("../utils/user_utils");
+const { getUserId, getUsername } = require("../utils/user_utils");
 
 const ModelSchema = require("../public/schema/projectSchema.js").projectSchema;
-
-const { getUsername } = require("../utils/user_utils");
 
 router.get("/", function(req, res) {
   let sdg_par = req.query.sdg;
@@ -260,30 +257,56 @@ router.put(
     const db = req.db;
     const collection = db.get("projects");
     const { model_ID, phaseName, stageName } = req.params;
-
-    const userEmail = req.decoded.sub;
-    const userId = await getUserId(db, userEmail);
-
     const description = req.body.description;
+    const subDescription = req.body.subDescription;
     if (description === undefined) {
       res.sendStatus(400);
     }
-
     collection
       .findOneAndUpdate(
         {
           _id: model_ID,
-          ownerId: userId,
           [`phases.${phaseName}.stages.name`]: stageName
         },
         { $set: { [`phases.${phaseName}.stages.$.description`]: description } }
       )
-      .then(model =>
-        model !== null
-          ? res.json({ success: `${stageName} description updated!` })
-          : res.sendStatus(404)
-      )
+      .then(model => {
+        if (model === null) {
+          res.sendStatus(404);
+        }
+      })
       .catch(() => res.sendStatus(500));
+
+    const updates = db.get("updates");
+    const email = req.user.email;
+    const username = await getUsername(db, email);
+    const update = {
+      updateType: "project",
+      email: email,
+      projectId: model_ID,
+      description: `${username} updated their ${stageName} stage`,
+      subDescription: `${subDescription}`,
+      date: Date.now()
+    };
+
+    try {
+      updates.update(
+        {
+          description: `${username} updated their ${stageName} stage`,
+          projectId: model_ID
+        },
+        {
+          $set: update
+        },
+        {
+          upsert: true
+        }
+      );
+    } catch (err) {
+      return err;
+    }
+
+    res.json({ success: `${stageName} description updated!` });
   }
 );
 

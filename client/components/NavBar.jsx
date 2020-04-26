@@ -16,14 +16,14 @@ import {
 import Link from "next/link";
 import "../public/styles/navbar.scss";
 import { getUpdates } from "../utils/apiWrapper";
+import WrappedError from "./WrappedError";
 
-export default function NavBar() {
+export default WrappedError(function NavBar(props) {
   const [isTop, setTop] = useState(true);
   const [isCollapsed, setCollapsed] = useState(true);
   const [displayNotif, setDisplayNotif] = useState(false);
   const [renderPopover, setRenderPopover] = useState(false);
-  const [notifications, setNotifications] = useState([]);
-  const [errorMsg, setErrorMsg] = useState("");
+  const [updates, setUpdates] = useState([]);
 
   useEffect(() => {
     if (process.browser) {
@@ -43,13 +43,13 @@ export default function NavBar() {
 
   useEffect(() => {
     const populateNotifs = async () => {
-      const updates = await getUpdates(10, 0);
-      if (updates.status >= 400) {
-        setErrorMsg("An error occured while retriving notifications.");
-      } else if (updates.data.length == 0) {
-        setNotifications(["No new notifications."]);
+      const updateResp = await getUpdates(10, 0);
+      if (updateResp.status >= 400) {
+        props.setError("An error occured while retriving notifications.");
+      } else if (updateResp.data.length == 0) {
+        setUpdates(["No new notifications."]);
       } else {
-        setNotifications(updates.data);
+        setUpdates(updateResp.data);
       }
     };
     populateNotifs();
@@ -117,8 +117,8 @@ export default function NavBar() {
                 >
                   <PopoverHeader>Notifications</PopoverHeader>
                   <PopoverBody>
-                    {notifications.map(notification => (
-                      <p>{notification}</p>
+                    {updates.map(update => (
+                      <p key={update._id}>{update.description}</p>
                     ))}
                   </PopoverBody>
                 </Popover>
@@ -140,4 +140,4 @@ export default function NavBar() {
       </Container>
     </Navbar>
   );
-}
+});

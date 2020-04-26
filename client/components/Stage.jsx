@@ -1,5 +1,5 @@
 import React from "react";
-import { FormGroup, Label } from "reactstrap";
+import { Label } from "reactstrap";
 import { Draft } from "../components";
 
 import "../public/styles/phase-stage.scss";
@@ -9,8 +9,8 @@ export default function Stage(props) {
 
   return (
     <>
-      <FormGroup className="title">
-        <Label for="exampleText">
+      <div className="title">
+        <Label>
           <h6 className="header2-text">
             <strong>{stageName}</strong>
           </h6>
@@ -21,7 +21,7 @@ export default function Stage(props) {
           stageName={stageName}
           read_only={read_only}
         />
-      </FormGroup>
+      </div>
     </>
   );
 }

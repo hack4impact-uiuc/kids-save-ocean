@@ -2,31 +2,40 @@
   margin-right: 5%;
   margin-left: 5%;
   margin-top: 5%;
-  background-image: radial-gradient(
-      50% 141%,
-      rgba(11, 47, 129, 0.6) 1%,
-      rgba(43, 134, 161, 0.651) 100%
-    ),
-    url("/asset/images/splash.jpg");
   background-size: cover;
   background-position: center;
   height: auto;
   width: auto;
   opacity: 1;
   align-content: middle;
-}
-.div-1-ep {
-  padding-bottom: 5%;
-  padding-top: 5%;
+
+  .div-1-ep {
+    padding: 5%;
+
+    .proj-title-h,
+    .num-ppl-h,
+    .proj-descrip-h,
+    .dropdown,
+    .editor-top,
+    .save-top-btn {
+      margin-bottom: 1.5%;
+    }
+
+    .editor-top {
+      width: 100%;
+    }
+
+    .grp-sizes-list {
+      table-layout: fixed;
+      width: 200px;
+      max-width: 100%;
+      margin-bottom: 3%;
+    }
+  }
 }
 .header2-text-ep {
-  margin-left: 5%;
+  margin-left: 20%;
   padding-bottom: 2.5%;
-}
-.header3 {
-  margin-left: 5%;
-  margin-right: 5%;
-  color: white;
 }
 .label {
   margin-left: 11%;
@@ -36,23 +45,23 @@
 }
 .other-row {
   margin-right: 5%;
-  margin-left: 5%;
+  margin-left: 10%;
   margin-bottom: 2.5%;
-  margin-top: 2.5%;
+  margin-top: -1.5%;
+  display: flex;
+}
+.proj-title {
+  margin-left: 40%;
+  margin-right: 30%;
 }
 .header2-text-ep-other {
-  margin-left: 5%;
-  margin-right: 5%;
+  margin-top: 1%;
+  margin-left: 12%;
+  margin-right: 30%;
 }
 .button-add {
-  margin-left: 10%;
-  margin-right: 10%;
-}
-.inspo-des {
-  margin-right: 5%;
-  margin-left: 5%;
-  margin-bottom: 1%;
-  margin-top: 2.5%;
+  margin-left: 12%;
+  margin-right: 1%;
 }
 .divider-stage {
   margin-right: 25%;
@@ -64,17 +73,24 @@
   margin-right: 15%;
   margin-bottom: 1%;
 }
-.dropdown {
-  margin-left: 5%;
+.inspiration-btn,
+.ideation-btn {
+  margin-right: 1%;
 }
-
 .stages {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
-
+.edit-form {
+  border: thin gray solid;
+}
+.phase-edit-section {
+  width: 80vw;
+  margin-left: 50%;
+  transform: translateX(-50%);
+}
 .button-return-project {
   left: 50%;
   position: absolute;

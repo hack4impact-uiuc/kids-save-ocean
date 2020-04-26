@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import Select from "react-select";
+import classnames from "classnames";
 
 import {
   Col,
@@ -13,12 +15,16 @@ import {
   FormGroup,
   Label,
   Container,
-  Alert
+  Alert,
+  Nav,
+  NavItem,
+  NavLink,
 } from "reactstrap";
 import {
   getModelsByID,
   canEdit,
-  addModelStage
+  addModelStage,
+  deleteForm
 } from "../../../utils/apiWrapper";
 import {
   Head,
@@ -27,23 +33,60 @@ import {
   AddStage,
   WrappedError
 } from "../../../components";
+import groupSizeData from "../../../utils/groups";
+
 import "../../../public/styles/editProject.scss";
+
+const capitalize = str =>
+  str.length > 0 ? str.charAt(0).toUpperCase() + str.slice(1) : str;
 
 export default WrappedError(function EditProjectPage(props) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [project, setProject] = useState(null);
   const [isOwner, setIsOwner] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [activePhase, setActivePhase] = useState("inspiration");
+
+  const [projTitle, setProjTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [grpSize, setGrpSize] = useState(false);
 
   const router = useRouter();
   const { projectId } = router.query;
 
   const toggle = () => setDropdownOpen(prevState => !prevState);
 
+  const handleTitleChange = projTitle => {
+    setProjTitle(projTitle.target.value);
+  };
+
+  const handleDescriptionChange = description => {
+    setDescription(description.target.value);
+  };
+
+  const handleGrpSizeChange = grpSize => {
+    alert(grpSize);
+    setGrpSize(grpSize);
+  };
+
+  const deleteProject = id => {
+    deleteForm(id);
+  };
+
+  const saveTopChanges = () => {
+    return;
+  };
+
   const loadProject = useCallback(async () => {
     const project = await getModelsByID(projectId);
     setProject(project.data);
     setLoading(false);
+    setProjTitle(project.data.name);
+    setDescription(project.data.description);
+
+    const groupSizeVal = groupSizeData.find(x => x.label === project.data.groupSize);
+    // alert(groupSizeVal);
+    setGrpSize(groupSizeVal);
   }, [projectId]);
 
   const addStage = (projectId, phaseName, stageName, start, end) => {
@@ -71,6 +114,30 @@ export default WrappedError(function EditProjectPage(props) {
     }
   }, [projectId, loadProject]);
 
+  const renderPhaseEdit = (phase) => {
+    return (
+      <Col>
+        <div className="stages">
+          {project?.phases[phase].stages.map((value, idx) => (
+            <Stage
+              readonly={false}
+              stageName={value.name}
+              phaseName={phase}
+              id={projectId}
+              key={idx}
+            />
+          ))}
+          <AddStage
+            addStage={(stageName, startdate, enddate) =>
+              addStage(projectId, phase, stageName, startdate, enddate)
+            }
+          />
+        </div>
+        <hr className="header-row-ep" />
+      </Col>
+    );
+  };
+
   const renderProjectEdit = (project, dropdownOpen) => (
     <div>
       <Head title={project?.name} />
@@ -81,202 +148,72 @@ export default WrappedError(function EditProjectPage(props) {
           <Row>
             <Col className="home-block-col">
               <Row className="home-block-1-ep">
+                <h1 className="proj-title">
+                  <strong>Edit Project</strong>
+                </h1>
                 <div className="div-1-ep">
-                  <h1 className="header2-text-ep-other">
-                    <strong>{project?.name}</strong>
-                  </h1>
-                  <h3 className="header3">{project?.description}</h3>
-
-                  <Dropdown
-                    className="dropdown"
-                    isOpen={dropdownOpen}
-                    toggle={toggle}
-                  >
-                    <DropdownToggle caret>Choose SDG's</DropdownToggle>
-                    <DropdownMenu>
-                      <FormGroup check>
-                        <Row>
-                          <Label className="label" for="exampleCheck" check>
-                            No Poverty
-                          </Label>
-                          <Input
-                            className="input"
-                            type="checkbox"
-                            name="check"
-                            id="exampleCheck"
-                          />
-                        </Row>
-                        <Row>
-                          <Label className="label" for="exampleCheck" check>
-                            {" "}
-                            Zero Hunger
-                          </Label>
-                          <Input
-                            className="input"
-                            type="checkbox"
-                            name="check"
-                            id="exampleCheck"
-                          />
-                        </Row>
-                        <Row>
-                          <Label className="label" for="exampleCheck" check>
-                            {" "}
-                            Good Health & Well-Being
-                          </Label>
-                          <Input
-                            className="input"
-                            type="checkbox"
-                            name="check"
-                            id="exampleCheck"
-                          />
-                        </Row>
-                        <Row>
-                          <Label className="label" for="exampleCheck" check>
-                            Quality Education
-                          </Label>
-                          <Input
-                            className="input"
-                            type="checkbox"
-                            name="check"
-                            id="exampleCheck"
-                          />
-                        </Row>
-                        <Row>
-                          <Label className="label" for="exampleCheck" check>
-                            {" "}
-                            Gender Equality
-                          </Label>
-                          <Input
-                            className="input"
-                            type="checkbox"
-                            name="check"
-                            id="exampleCheck"
-                          />
-                        </Row>
-                      </FormGroup>
-                    </DropdownMenu>
-                  </Dropdown>
+                  <h4 className="proj-title-h">Project Title</h4>
+                  <input
+                    type="text"
+                    className="form-control"
+                    className="editor-top"
+                    size="50"
+                    value={projTitle}
+                    onChange={handleTitleChange}
+                  ></input>
+                  <h4 className="num-ppl-h">How many people?</h4>
+                  <Select
+                    isClearable
+                    className="grp-sizes-list"
+                    options={groupSizeData}
+                    placeholder="Change group size"
+                    value={grpSize}
+                    onChange={handleGrpSizeChange}
+                  />
+                  <h4 className="proj-descrip-h">Project Description</h4>
+                  <textarea
+                    className="form-control"
+                    className="editor-top"
+                    rows="4"
+                    cols="105"
+                    value={description}
+                    onChange={handleDescriptionChange}
+                  ></textarea>
+                  <Row className="justify-content-around">
+                    <Button color="primary" className="save-top-btn" onClick={saveTopChanges}>
+                      Save Changes
+                    </Button>
+                     <Link href="/projects" as="/projects" passHref>
+                      <a>
+                        <Button color="danger" className="delete-btn" onClick={deleteProject}>Delete Project</Button>
+                      </a>
+                    </Link>
+                  </Row>
                 </div>
               </Row>
             </Col>
           </Row>
-          <Col>
-            <Row className="other-row">
-              <h2 className="header2-text-ep-other">
-                {" "}
-                <strong> Inspiration </strong>{" "}
-              </h2>
-            </Row>
-            <Row className="inspo-des">
-              <h4 className="header2-text-ep-other">
-                Morbi sit amet rutrum leo. Maecenas molestie, odio eu
-                condimentum elementum, enim ante posuere ante, nec suscipit
-                tellus erat quis mi. Suspendisse vehicula finibus leo, ut
-                molestie lacus eleifend non. Phasellus non risus nibh. In hac
-                habitasse platea dictumst.
-              </h4>
-            </Row>
-            <hr className="divider-stage" />
-            <div className="stages">
-              {project?.phases.inspiration.stages.map((value, idx) => (
-                <Stage
-                  readonly={false}
-                  stageName={value.name}
-                  phaseName={"inspiration"}
-                  id={project?._id}
-                  key={idx}
-                />
+          <div className="phase-edit-section">
+            <Nav tabs justified>
+              {Object.keys(project?.phases).map(phase => (
+                <NavItem key={phase}>
+                  <NavLink
+                    className={classnames(
+                      { active: activePhase === phase },
+                      "tab"
+                    )}
+                    onClick={() => {
+                      setActivePhase(phase);
+                    }}
+                  >
+                    {capitalize(phase)}
+                  </NavLink>
+                </NavItem>
               ))}
-              <AddStage
-                addStage={(stageName, startdate, enddate) =>
-                  addStage(
-                    projectId,
-                    "inspiration",
-                    stageName,
-                    startdate,
-                    enddate
-                  )
-                }
-              />
-            </div>
-            <hr className="header-row-ep" />
-          </Col>
-          <Col>
-            <Row className="other-row">
-              <h2 className="header2-text-ep-other">
-                {" "}
-                <strong> Ideation </strong>{" "}
-              </h2>
-            </Row>
-            <Row className="other-row">
-              <h4 className="header2-text-ep-other">
-                Morbi sit amet rutrum leo. Maecenas molestie, odio eu
-                condimentum elementum, enim ante posuere ante, nec suscipit
-                tellus erat quis mi. Suspendisse vehicula finibus leo, ut
-                molestie lacus eleifend non. Phasellus non risus nibh. In hac
-                habitasse platea dictumst.
-              </h4>
-            </Row>
-            <hr className="divider-stage" />
-            <div className="stages">
-              {project?.phases.ideation.stages.map((value, idx) => (
-                <Stage
-                  readonly={false}
-                  stageName={value.name}
-                  phaseName={"ideation"}
-                  id={project?._id}
-                  key={idx}
-                />
-              ))}
-              <AddStage
-                addStage={(stageName, startdate, enddate) =>
-                  addStage(projectId, "ideation", stageName, startdate, enddate)
-                }
-              />
-            </div>
-            <hr className="header-row-ep" />
-          </Col>
-          <Col>
-            <Row className="other-row">
-              <h2 className="header2-text-ep-other">
-                {" "}
-                <strong> Implementation </strong>{" "}
-              </h2>
-            </Row>
-            <Row className="other-row">
-              <h4 className="header2-text-ep-other">
-                Morbi sit amet rutrum leo. Maecenas molestie, odio eu
-                condimentum elementum, enim ante posuere ante, nec suscipit
-                tellus erat quis mi. Suspendisse vehicula finibus leo, ut
-                molestie lacus eleifend non. Phasellus non risus nibh. In hac
-                habitasse platea dictums.
-              </h4>
-            </Row>
-            <hr className="divider-stage" />
-            <div className="stages">
-              {project?.phases.implementation.stages.map((value, idx) => (
-                <Stage
-                  readonly={false}
-                  stageName={value.name}
-                  phaseName={"implementation"}
-                  id={project?._id}
-                  key={idx}
-                />
-              ))}
-              <AddStage
-                addStage={(stageName, startdate, enddate) =>
-                  addStage(
-                    projectId,
-                    "implementation",
-                    stageName,
-                    startdate,
-                    enddate
-                  )
-                }
-              />
-            </div>
-            <hr className="header-row-ep" />
-          </Col>
+            </Nav>
+            <br/>
+            {renderPhaseEdit(activePhase)}
+          </div>
           <Link href="/projects/[projectId]" as={`/projects/${projectId}`} passHref>
             <a>
               <Button className="button-return-project">Return to Project Page</Button>
