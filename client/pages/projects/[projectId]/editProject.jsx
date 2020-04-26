@@ -117,7 +117,7 @@ export default WrappedMessage(function EditProjectPage(props) {
             stageName={value.name}
             phaseName={phase}
             id={projectId}
-            key={idx}
+            key={`${phase}-${value.name}`}
           />
         ))}
         <AddStage
