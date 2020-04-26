@@ -16,6 +16,8 @@ import "../public/styles/feed.scss";
 export default function Feed() {
   const maxUpdatesAtOnce = 20;
   const maxUpdatesTotal = 200;
+  const monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"];
 
   const [nextIdx, setNextIdx] = useState(0);
   const [willMount, setWillMount] = useState(true);
@@ -43,6 +45,8 @@ export default function Feed() {
       setNextIdx(nextUpdates.data.length);
 
       nextUpdates.data.map(update => {
+        const dateObj = new Date(update.date);
+        update.date = `${dateObj.toLocaleString('default', { month: 'long' })} ${dateObj.getDate()}`;
         setUpdates(prevState => [...prevState, update]);
       });
       setIsFetching(false);
@@ -151,7 +155,7 @@ export default function Feed() {
                   </CardText>
                 )}
                 <div className="feed-card-footer">
-                  <div className="feed-card-date">Mar 20</div>
+                <div className="feed-card-date">{update.date}</div>
                   <div className="feed-card-interactions">
                     123{" "}
                     <img
