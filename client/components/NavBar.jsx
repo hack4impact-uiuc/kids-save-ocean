@@ -16,14 +16,18 @@ import {
 import Link from "next/link";
 import "../public/styles/navbar.scss";
 import { getUpdates } from "../utils/apiWrapper";
-import WrappedError from "./WrappedError";
+import WrappedMessage from "./WrappedMessage";
 
-export default WrappedError(function NavBar(props) {
+export default WrappedMessage(function NavBar(props) {
   const [isTop, setTop] = useState(true);
   const [isCollapsed, setCollapsed] = useState(true);
   const [displayNotif, setDisplayNotif] = useState(false);
   const [renderPopover, setRenderPopover] = useState(false);
   const [updates, setUpdates] = useState([]);
+
+  const NOTIF_LIMIT = 10;
+  const ERROR_STATUS = 400;
+  const { error } = props;
 
   useEffect(() => {
     if (process.browser) {
@@ -43,17 +47,17 @@ export default WrappedError(function NavBar(props) {
 
   useEffect(() => {
     const populateNotifs = async () => {
-      const updateResp = await getUpdates(10, 0);
-      if (updateResp.status >= 400) {
+      const updateResp = await getUpdates(NOTIF_LIMIT, 0);
+      if (updateResp.status >= ERROR_STATUS) {
         props.setError("An error occured while retriving notifications.");
-      } else if (updateResp.data.length == 0) {
+      } else if (updateResp.data.length === 0) {
         setUpdates(["No new notifications."]);
       } else {
         setUpdates(updateResp.data);
       }
     };
     populateNotifs();
-  }, []);
+  }, [error]);
 
   function toggleNavbar() {
     setCollapsed(!isCollapsed);
