@@ -57,7 +57,6 @@ export default WrappedMessage(function EditProjectPage(props) {
   };
 
   const handleGrpSizeChange = grpSize => {
-    alert(grpSize);
     setGrpSize(grpSize);
   };
 
@@ -81,7 +80,6 @@ export default WrappedMessage(function EditProjectPage(props) {
     const groupSizeVal = groupSizeData.find(
       x => x.label === project.data.groupSize
     );
-    // alert(groupSizeVal);
     setGrpSize(groupSizeVal);
   }, [projectId]);
 
