@@ -21,7 +21,6 @@ export default function UpvotesSection(props) {
   }, [projectId]);
 
   const upvote = () => {
-    console.log("UPVOTED");
     postUpvote(projectId).then(() => {
       fetchUpvotes();
     });
