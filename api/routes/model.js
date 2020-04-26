@@ -62,6 +62,11 @@ router.post(
     let data = req.body;
     data["ownerId"] = userId;
     let currProjectId;
+    const userEmail = req.decoded.sub;
+
+    data.numUpvotes = 0;
+    data.numComments = 0;
+    data.username = await getUsername(db, userEmail);
 
     // Check if data includes proper fields
     collection.insert(data, function(err) {
@@ -127,7 +132,7 @@ router.put(
         {
           _id: id
         },
-        req.body
+        { $set: req.body }
       )
       .then(model =>
         model !== null

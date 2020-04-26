@@ -16,12 +16,17 @@ import "../public/styles/feed.scss";
 export default function Feed() {
   const maxUpdatesAtOnce = 20;
   const maxUpdatesTotal = 200;
+  const numWordsName = 2;
+  const stageWord = 3;
+  const randomUpdatesLimit = 10;
+  const charLimit = 240;
 
   const [nextIdx, setNextIdx] = useState(0);
   const [willMount, setWillMount] = useState(true);
   const [hasMore, setHasMore] = useState(true);
   const [updates, setUpdates] = useState([]);
   const [isFetching, setIsFetching] = InfiniteScroller();
+  const phases = ["Inspiration", "Ideation", "Implementation"];
 
   useEffect(() => {
     const loadUpdates = async () => {
@@ -39,12 +44,15 @@ export default function Feed() {
       ) {
         setHasMore(false);
       }
-
       setNextIdx(nextUpdates.data.length);
-
       nextUpdates.data.map(update => {
+        const dateObj = new Date(update.date);
+        update.date = `${dateObj.toLocaleString("default", {
+          month: "long"
+        })} ${dateObj.getDate()}, ${dateObj.getFullYear()}`;
         setUpdates(prevState => [...prevState, update]);
       });
+      setWillMount(false);
       setIsFetching(false);
     };
     loadUpdates();
@@ -57,11 +65,7 @@ export default function Feed() {
         <Card className="user-card">
           <div className="user-profile-pic"></div>
           <CardTitle className="user-profile-name">
-            <Link href="#full-profile">
-              <a className="user-profile-name">
-                <strong>Sahi M.</strong>
-              </a>
-            </Link>
+            <strong>Ashwin S.</strong>
           </CardTitle>
           <CardSubtitle className="follow-counters">
             <div className="follower-count">
@@ -73,11 +77,7 @@ export default function Feed() {
           </CardSubtitle>
           <div className="progress-div">
             <div className="progress-labels">
-              <Link href="#current-project">
-                <a className="progress-label-current-project">
-                  <strong>Current Project</strong>
-                </a>
-              </Link>
+              <strong>Current Project</strong>
               <div className="progress-label-percent">
                 <strong>81%</strong>
               </div>
@@ -92,11 +92,22 @@ export default function Feed() {
               src="/feed-images/project-icon.svg"
               alt="proj-icon"
             />
-            <Link href="#saved-projects">
-              <a className="user-projects-label">
-                <strong>Saved Projects</strong>
-              </a>
-            </Link>
+            <a className="user-projects-label">
+              <strong>Saved Projects</strong>
+            </a>
+            <div className="user-projects-count">
+              <strong>76</strong>
+            </div>
+          </div>
+          <div className="user-projects-row">
+            <img
+              className="project-ribbon-icon"
+              src="/feed-images/project-icon.svg"
+              alt="proj-icon"
+            />
+            <a className="user-projects-label">
+              <strong>Updates</strong>
+            </a>
             <div className="user-projects-count">
               <strong>31</strong>
             </div>
@@ -107,28 +118,11 @@ export default function Feed() {
               src="/feed-images/project-icon.svg"
               alt="proj-icon"
             />
-            <Link href="#saved-projects">
-              <a className="user-projects-label">
-                <strong>Updates</strong>
-              </a>
-            </Link>
+            <a className="user-projects-label">
+              <strong>My Projects</strong>
+            </a>
             <div className="user-projects-count">
-              <strong>31</strong>
-            </div>
-          </div>
-          <div className="user-projects-row">
-            <img
-              className="project-ribbon-icon"
-              src="/feed-images/project-icon.svg"
-              alt="proj-icon"
-            />
-            <Link href="#saved-projects">
-              <a className="user-projects-label">
-                <strong>My Projects</strong>
-              </a>
-            </Link>
-            <div className="user-projects-count">
-              <strong>31</strong>
+              <strong>13</strong>
             </div>
           </div>
         </Card>
@@ -141,17 +135,38 @@ export default function Feed() {
               <CardBody className="feed-card-body">
                 <CardTitle className="feed-card-title">
                   <div className="feed-card-profile-pic"></div>
-                  <div className="feed-card-title-text">
-                    <strong>{update.description}</strong>
-                  </div>
+                  {update.description && (
+                    <div className="feed-card-title-text">
+                      <strong>
+                        {update.description
+                          .split(" ")
+                          .slice(0, numWordsName)
+                          .join(" ")}
+                      </strong>{" "}
+                      updated their{" "}
+                      <strong>
+                        {update.description
+                          .split(" ")
+                          .slice(numWordsName, stageWord)}
+                      </strong>{" "}
+                      stage
+                    </div>
+                  )}
                 </CardTitle>
-                {update.subDescription !== null && (
+                <CardSubtitle className="feed-card-subtitle">
+                  <strong>Updated</strong>{" "}
+                  {Math.ceil(Math.random() * randomUpdatesLimit)} stages of{" "}
+                  {phases[Math.floor(Math.random() * phases.length)]}
+                </CardSubtitle>
+                {update.subDescription && (
                   <CardText className="feed-card-description">
-                    {update.subDescription}
+                    {update.subDescription.length > charLimit
+                      ? update.subDescription.slice(0, charLimit).concat("...")
+                      : update.subDescription}
                   </CardText>
                 )}
                 <div className="feed-card-footer">
-                  <div className="feed-card-date">Mar 20</div>
+                  <div className="feed-card-date">{update.date}</div>
                   <div className="feed-card-interactions">
                     123{" "}
                     <img
