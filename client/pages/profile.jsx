@@ -7,7 +7,7 @@ import Select from "react-select";
 import countryData from "../utils/countries";
 import "../public/styles/profileProjects.scss";
 import "../../api/public/schema/projectSchema";
-import { getUser, getModelsByID, getModels } from "../utils/apiWrapper";
+import { getUser, getModelsByID } from "../utils/apiWrapper";
 
 export default function Profile() {
   const [user, setUser] = useState("");
@@ -17,15 +17,8 @@ export default function Profile() {
   const [hasUser, setHasUser] = useState(false);
   const DESCRIPTION_LENGTH = 150;
   const [country, setCountry] = useState("");
-  const [projects, setProjects] = useState([]);
 
   useEffect(() => {
-    const populateAllProjects = async () => {
-      const response = await getModels(null, true);
-      setProjects(response.data);
-    };
-    setProjects(projects);
-    populateAllProjects();
     const getUserInfo = async () => {
       const response = await getUser();
       const resp = await response.json();

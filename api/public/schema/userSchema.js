@@ -22,7 +22,7 @@ const schema = {
       type: "boolean",
       required: true
     },
-    projectIds: {
+    createdProjects: {
       type: "array",
       items: {
         type: "string"

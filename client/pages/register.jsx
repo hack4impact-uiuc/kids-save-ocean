@@ -92,7 +92,7 @@ export default function RegisterPage(props) {
           country: country.label,
           birthday,
           anon: anon.value,
-          projectIds: [],
+          createdProjects: [],
           followingProjects: [],
           followingUsers: [],
           followers: []

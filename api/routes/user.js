@@ -25,7 +25,6 @@ router.get("/", checkToken, async (req, res) => {
 });
 
 router.get("/userInfo", checkToken, async (req, res) => {
-  
   const { db } = req;
   const collection = db.get("users");
   const { email } = req.user;
