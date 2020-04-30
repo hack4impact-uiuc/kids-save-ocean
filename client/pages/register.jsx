@@ -74,7 +74,6 @@ export default function RegisterPage(props) {
         securityQuestionAnswer,
         person.label
       );
-      // hello
       const authUserRes = await authUserResp.json();
       if (authUserRes.status === SUCCESS) {
         // #2: store token in local storage
