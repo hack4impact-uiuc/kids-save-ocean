@@ -1,44 +1,66 @@
 .auth-card-wrapper {
   display: flex;
   justify-content: center;
+  margin-top: 20%;
 }
 
 .auth-card {
-  width: 30%;
+  width: 75%;
   height: 60%;
   margin-top: 3em;
 }
 
 .auth-card-title {
   text-align: center;
-  padding-top: 1em;
+  padding-top: 0em;
+  margin-bottom: 2.5%; 
 }
 
 .left-btn {
   float: left;
   width: 45%;
+  margin-right: 10%;
   margin-top: 1em;
+  background-color: #FFCC66;
+  color: #003366;
+  border: none;
+}
+
+.left-btn:hover {
+  background-color: #003366;
+  color:  #FFCC66;
+  border: none;
 }
 
 .right-btn {
   float: right;
   width: 45%;
   margin-top: 1em;
+  background-color: #FFCC66;
+  color: #003366;
+  border: none;
+}
+
+.right-btn:hover {
+  background-color: #003366;
+  color:  #FFCC66;
+  border: none;
 }
 
 .mid-btn {
-  float: right;
+  float: middle;
   width: 100%;
   margin-top: 1em;
 }
 
 .forgot-password {
-  margin-top: 6em;
+  margin-top: 2em;
 }
 
 .google-btn-wrapper {
   display: flex;
   justify-content: center;
+  float: middle;
   margin-top: 1em;
 }
 

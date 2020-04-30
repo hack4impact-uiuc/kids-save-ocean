@@ -1,0 +1,74 @@
+.home-block-1-ep {
+    margin-right: 5%;
+    margin-left: 5%;
+    margin-top: 5%;
+    background-image: radial-gradient(
+        50% 141%,
+        rgba(11, 47, 129, 0.6) 1%,
+        rgba(43, 134, 161, 0.651) 100%
+      ),
+      url("/asset/images/splash.jpg");
+    background-size: cover;
+    background-position: center;
+    height: auto;
+    width: auto;
+    opacity: 1;
+    align-content: middle;
+  }
+.stock-photo{
+    margin-top: 1%;
+    background-color: blue;
+    height: 5%;
+}
+.parentRow{
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  color: #003366;
+}
+.columnLeft{
+  background: #FFCC66;
+  // background: #66CCCC;
+  height: 120%;
+  color: #003366 ;
+  font-weight: bolder;
+  font-size: 144px;
+  text-shadow: 4px 4px 2px white;
+}
+.motto{
+  font-size: 3rem;
+  margin-top: 5%;
+  margin-left: 5%;
+  margin-right: 5%;
+  height : 800px;
+}
+.vertAlign {
+  margin-top: 1.5%;
+  margin-bottom: 2%;
+}
+.colBoxes{
+  text-align: center;
+   margin-top: 20%;
+}
+.rowInput{
+  width: 60%;
+  margin-left: 20%;
+  margin-right: 20%;
+  margin-top: 3.5%;
+}
+.suButton {
+  margin-left: auto;
+  margin-right: auto;
+  background: #FFCC66;
+  color: #003366;
+  border: transparent;
+  margin-top: 3.5%;
+}
+.textField {
+  font-size: 1.0rem;
+}
+
+.outer {
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 5%;
+}
