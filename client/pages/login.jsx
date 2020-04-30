@@ -3,19 +3,9 @@ import { GoogleLogin } from "react-google-login";
 import Link from "next/link";
 import Router from "next/router";
 import { login, google } from "../utils/apiWrapper";
-import {
-  Alert,
-  Form,
-  Button,
-  FormGroup,
-  Label,
-  Input,
-  Card,
-  CardBody,
-  CardTitle
-} from "reactstrap";
+import { Alert, Form, Button, FormGroup, Input, Row, Col } from "reactstrap";
 import { Head } from "../components";
-import "../public/styles/auth.scss";
+import "../public/styles/login.scss";
 
 export default function Login(props) {
   // constants
@@ -58,81 +48,112 @@ export default function Login(props) {
   return (
     <div>
       <Head />
-      <div className="auth-card-wrapper">
-        <Card className="auth-card">
-          <CardTitle>
-            <h3 className="auth-card-title">Login</h3>
-          </CardTitle>
 
-          <CardBody>
-            {errorMessage && (
-              <Alert className="auth-alert" color="danger">
-                {errorMessage}
-              </Alert>
-            )}
-            <Form>
-              <FormGroup>
-                <Label for="exampleEmail">Email</Label>
-                <Input
-                  type="email"
-                  name="email"
-                  id="exampleEmail"
-                  maxLength="64"
-                  pattern={EMAIL_REGEX}
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  required
-                />
-              </FormGroup>
-              <FormGroup>
-                <Label for="examplePassword">Password</Label>
-                <Input
-                  type="password"
-                  name="password"
-                  id="examplePassword"
-                  minLength="8"
-                  maxLength="64"
-                  value={password}
-                  onChange={e => setPassword(e.target.value)}
-                  required
-                />
-              </FormGroup>
-              <Button
-                className="left-btn"
-                color="success"
-                size="m"
-                onClick={handleSubmit}
-              >
-                Log In
-              </Button>
-              <Button
-                className="right-btn"
-                color="success"
-                size="m"
-                onClick={() => Router.push("/register")}
-              >
-                Register
-              </Button>
-            </Form>
-            <div className="forgot-password">
-              <Link href="/forgotPassword">
-                <a>Forgot Password?</a>
-              </Link>
+      <div>
+        <Row className="parentRow">
+          <Col className="columnLeft" xs="6">
+            <div className="motto">
+              <strong>
+                Change your community, <br /> Change the world.
+                <br /> <br /> Join FateMaker today.
+              </strong>
             </div>
-          </CardBody>
-        </Card>
+          </Col>
+          <Col xs="6">
+            <div className="outer">
+              <h1 className="auth-card-title">
+                <strong> Login to FateMaker!</strong>
+              </h1>
+              {errorMessage && <Alert color="danger">{errorMessage}</Alert>}
+              {/* username*/}
+              {/* email */}
+              <Row align="middle" justify="center">
+                <Col xs="3" align="right" className=" vertAlign textField">
+                  email
+                </Col>
+                <Col xs="9">
+                  <Form>
+                    <FormGroup>
+                      <Input
+                        type="email"
+                        name="email"
+                        id="exampleEmail"
+                        maxLength="64"
+                        pattern={EMAIL_REGEX}
+                        value={email}
+                        onChange={e => setEmail(e.target.value)}
+                        required
+                      />
+                    </FormGroup>
+                  </Form>
+                </Col>
+              </Row>
+              {/* password */}
+              <Row>
+                <Col xs="3" align="right" className=" vertAlign textField">
+                  password
+                </Col>
+                <Col xs="9">
+                  <Form>
+                    <FormGroup>
+                      <Input
+                        type="password"
+                        name="password"
+                        minLength="8"
+                        maxLength="64"
+                        value={password}
+                        onChange={e => setPassword(e.target.value)}
+                        required
+                      />
+                    </FormGroup>
+                  </Form>
+                </Col>
+              </Row>
+
+              <Row>
+                <Button size="m" onClick={handleSubmit} className="left-btn">
+                  <div className=" vertAlign textField">Login</div>
+                </Button>
+
+                <Button
+                  size="m"
+                  onClick={() => Router.push("/register")}
+                  className="right-btn"
+                >
+                  <div className=" vertAlign textField">Register</div>
+                </Button>
+              </Row>
+
+              <Row>
+                <Col xs="2"></Col>
+                <Col xs="8">
+                  <div className="google-btn-wrapper">
+                    <GoogleLogin
+                      justify="center"
+                      align="middle"
+                      float="middle"
+                      className="btn sign-in-btn"
+                      clientId="992779657352-2te3be0na925rtkt8kt8vc1f8tiph5oh.apps.googleusercontent.com"
+                      responseType="id_token"
+                      buttonText={role}
+                      scope="https://www.googleapis.com/auth/userinfo.email"
+                      onSuccess={handleGoogle}
+                    />
+                  </div>
+                </Col>
+                <Col xs="2"></Col>
+              </Row>
+              <Row>
+                <div className="forgot-password">
+                  <Link href="/forgotPassword">
+                    <a>Forgot Password?</a>
+                  </Link>
+                </div>
+              </Row>
+            </div>
+          </Col>
+        </Row>
       </div>
-      <div className="google-btn-wrapper">
-        <GoogleLogin
-          className="btn sign-in-btn"
-          clientId="992779657352-2te3be0na925rtkt8kt8vc1f8tiph5oh.apps.googleusercontent.com"
-          responseType="id_token"
-          buttonText={role}
-          scope="https://www.googleapis.com/auth/userinfo.email"
-          onSuccess={handleGoogle}
-        />
-      </div>
-      <br />
     </div>
   );
 }
