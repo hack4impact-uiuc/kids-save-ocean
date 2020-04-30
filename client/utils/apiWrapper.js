@@ -410,18 +410,21 @@ export const resendPIN = () => {
 export const userInfo = async () => {
   const validUser = await checkValidUser();
   if (validUser) {
-    try {
-      return fetch(`${BASE_URL}/auth/getUser`, {
-        method: "GET",
+    const requestString = `${BASE_URL}/auth/getUser`;
+    return axios
+      .get(requestString, {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/JSON",
           token: localStorage.getItem("token"),
           google: localStorage.getItem("google") ? true : false
         }
+      })
+      .catch(error => {
+        ({
+          type: "GET_USER_FAIL",
+          error
+        });
       });
-    } catch (err) {
-      return err;
-    }
   }
 };
 
@@ -660,24 +663,25 @@ export const getCommentCount = model_id => {
 
 export const postUpvote = async model_id => {
   const validUser = await checkValidUser();
-  if (validUser) {
-    const requestString = `${BASE_URL}/upvote`;
-    return axios
-      .post(
-        requestString,
-        { upvoteLocation: model_id },
-        {
-          headers: {
-            "Content-Type": "application/JSON",
-            "x-access-token": localStorage.getItem("token")
-          }
-        }
-      )
-      .catch(error => ({
-        type: "SAVE_UPVOTE_FAIL",
-        error
-      }));
+  if (!validUser) {
+    return;
   }
+  const requestString = `${BASE_URL}/upvote`;
+  return axios
+    .post(
+      requestString,
+      { upvoteLocation: model_id },
+      {
+        headers: {
+          "Content-Type": "application/JSON",
+          "x-access-token": localStorage.getItem("token")
+        }
+      }
+    )
+    .catch(error => ({
+      type: "SAVE_UPVOTE_FAIL",
+      error
+    }));
 };
 
 export const getUpvotes = model_id => {
