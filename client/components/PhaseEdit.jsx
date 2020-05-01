@@ -54,23 +54,25 @@ export default function PhaseEdit(props) {
           />
         </Col>
       </Row>
-      <div className="stages">
-        {phaseObj?.stages.map(value => (
-          <Stage
-            readonly={false}
-            stageName={value.name}
-            phaseName={phaseName}
-            id={projectId}
-            key={`${phaseName}-${value.name}`}
+      <Row>
+        <div className="col-12 stages">
+          {phaseObj?.stages.map(value => (
+            <Stage
+              readonly={false}
+              stageName={value.name}
+              phaseName={phaseName}
+              id={projectId}
+              key={`${phaseName}-${value.name}`}
+            />
+          ))}
+          <AddStage
+            addStage={(stageName, startdate, enddate) =>
+              addStage(projectId, phaseName, stageName, startdate, enddate)
+            }
           />
-        ))}
-        <AddStage
-          addStage={(stageName, startdate, enddate) =>
-            addStage(projectId, phaseName, stageName, startdate, enddate)
-          }
-        />
-      </div>
-      <hr className="header-row-ep" />
+        </div>
+        <hr className="header-row-ep" />
+      </Row>
     </div>
   );
 }

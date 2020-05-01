@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import debounce from "lodash/debounce";
 
-import { Button, Card, CardBody, CardTitle } from "reactstrap";
+import { Button, Label, Card, CardBody, CardTitle } from "reactstrap";
 
 import "../public/styles/phaseEdit.scss";
 
@@ -73,19 +73,26 @@ export default function PhaseDetailEdit(props) {
           <CardTitle>{capitalize(detailName)}</CardTitle>
           <div className="status">{status()}</div>
         </div>
+        <hr />
         {details?.map((detail, index) => (
           <div className="edit-detail">
             <div className="d-flex justify-content-between">
-              <input
-                type="text"
-                className="form-control"
-                value={detail.name}
-                onChange={e => handleChange({ name: e.target.value }, index)}
-              ></input>
-              <Button color="danger" onClick={() => handleDelete(index)}>
-                Delete
-              </Button>
+              <Label>Name</Label>
+              <span
+                className="fa fa-times delete-button"
+                type="button"
+                aria-hidden="true"
+                onClick={() => handleDelete(index)}
+              ></span>
             </div>
+            <input
+              type="text"
+              className="form-control"
+              value={detail.name}
+              onChange={e => handleChange({ name: e.target.value }, index)}
+            ></input>
+            <br />
+            <Label>Description</Label>
             <textarea
               className="form-control"
               rows="3"
@@ -94,7 +101,7 @@ export default function PhaseDetailEdit(props) {
                 handleChange({ description: e.target.value }, index)
               }
             ></textarea>
-            <br />
+            <hr />
           </div>
         ))}
         <Button
