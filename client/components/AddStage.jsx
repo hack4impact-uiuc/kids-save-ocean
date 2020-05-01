@@ -23,7 +23,7 @@ export default WrappedMessage(function AddStage(props) {
   };
 
   return (
-    <Row className="header-row-ep">
+    <Row className="add-stage">
       <Col sm="4">
         <FormGroup>
           <Label>Stage Name</Label>
