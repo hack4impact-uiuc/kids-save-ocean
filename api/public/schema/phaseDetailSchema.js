@@ -73,5 +73,5 @@ const insightsSchema = {
 module.exports = {
   stakeholdersSchema: stakeholdersSchema,
   challengesSchema: challengesSchema,
-  insightsSchema: insightsSchema,
+  insightsSchema: insightsSchema
 };

@@ -14,29 +14,30 @@ const capitalize = str =>
   str.length > 0 ? str.charAt(0).toUpperCase() + str.slice(1) : str;
 
 export default function PhaseDetailEdit(props) {
+  const { detailName, updatePhaseDetail } = props;
+
   const [details, setDetails] = useState([]);
   const [saved, setSaved] = useState(true);
 
   const saveInterval = 1000;
   const debounceSave = (detail) => {
-    props.updatePhaseDetail(detail);
+    updatePhaseDetail(detail);
     setSaved(true);
   };
   const saveCallback = useCallback(debounce(debounceSave, saveInterval), []);
 
   useEffect(() => {
-    props.getPhaseDetail()
+    const { getPhaseDetail, detailName } = props;
+    getPhaseDetail()
       .then(response => {
-        const details = response.data[props.detailName];
+        const details = response.data[detailName];
         if (details !== undefined) {
           setDetails(details);
         }
       });
-  }, []);
+  }, [props]);
 
-  const deepCopy = (original) => {
-    return original.map(o => Object.assign({}, o));
-  }
+  const deepCopy = (original) => original.map(o => Object.assign({}, o));
 
   const handleChange = (update, index) => {
     let updated = deepCopy(details);
@@ -73,7 +74,7 @@ export default function PhaseDetailEdit(props) {
     <Card className="phaseEdit">
       <CardBody>
         <div className="d-flex justify-content-between">
-          <CardTitle>{capitalize(props.detailName)}</CardTitle>
+          <CardTitle>{capitalize(detailName)}</CardTitle>
           <div className="status">
             {status()}
           </div>
@@ -110,7 +111,7 @@ export default function PhaseDetailEdit(props) {
             handleAdd(details)
           }
         >
-          Add {capitalize(props.detailName)}
+          Add {capitalize(detailName)}
         </Button>
       </CardBody>
     </Card>

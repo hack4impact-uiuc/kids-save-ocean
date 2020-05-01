@@ -19,18 +19,11 @@ import {
   canEdit,
   addModelStage,
   deleteForm,
-  updateProject,
-  getStageStakeholder,
-  updateStageStakeholder,
-  getStageChallenges,
-  updateStageChallenges,
-  getStageInsights,
-  updateStageInsights,
+  updateProject
 } from "../../../utils/apiWrapper";
 import {
   Head,
   Loader,
-  AddStage,
   PhaseEdit,
   WrappedMessage
 } from "../../../components";

@@ -10,8 +10,8 @@ const ModelSchema = require("../public/schema/projectSchema.js").projectSchema;
 const {
   stakeholdersSchema,
   challengesSchema,
-  insightsSchema,
-} = require("../public/schema/phaseDetailSchema.js")
+  insightsSchema
+} = require("../public/schema/phaseDetailSchema.js");
 
 router.get("/", function(req, res) {
   let sdg_par = req.query.sdg;
@@ -188,17 +188,15 @@ router.post("/:model_ID", checkToken, async (req, res) => {
     .catch(() => res.sendStatus(500));
 });
 
-router.get("/:model_ID/:phaseName/stakeholders", async (req, res) => {
+router.get("/:model_ID/:phaseName/stakeholders", (req, res) => {
   const db = req.db;
   const collection = db.get("projects");
   const { model_ID, phaseName } = req.params;
 
   collection
-    .findOne(
-      {
-        _id: model_ID,
-      }
-    )
+    .findOne({
+      _id: model_ID
+    })
     .then(model => {
       if (model !== null) {
         const phase = model.phases[phaseName];
@@ -211,44 +209,47 @@ router.get("/:model_ID/:phaseName/stakeholders", async (req, res) => {
     .catch(() => res.sendStatus(500));
 });
 
-router.post("/:model_ID/:phaseName/stakeholders", validate({ body: stakeholdersSchema }), checkToken, async (req, res) => {
+router.post(
+  "/:model_ID/:phaseName/stakeholders",
+  validate({ body: stakeholdersSchema }),
+  checkToken,
+  async (req, res) => {
+    const db = req.db;
+    const collection = db.get("projects");
+    const { model_ID, phaseName } = req.params;
+    const { stakeholders } = req.body;
+
+    const userEmail = req.decoded.sub;
+    const userId = await getUserId(db, userEmail);
+
+    collection
+      .findOneAndUpdate(
+        {
+          _id: model_ID,
+          ownerId: userId
+        },
+        { $set: { [`phases.${phaseName}.stakeholders`]: stakeholders } }
+      )
+      .then(model =>
+        model !== null
+          ? res.json({
+              success: `Stakeholders updated!`
+            })
+          : res.sendStatus(404)
+      )
+      .catch(() => res.sendStatus(500));
+  }
+);
+
+router.get("/:model_ID/:phaseName/challenges", (req, res) => {
   const db = req.db;
   const collection = db.get("projects");
   const { model_ID, phaseName } = req.params;
-  const { stakeholders } = req.body;
-
-  const userEmail = req.decoded.sub;
-  const userId = await getUserId(db, userEmail);
 
   collection
-    .findOneAndUpdate(
-      {
-        _id: model_ID,
-        ownerId: userId
-      },
-      { $set: { [`phases.${phaseName}.stakeholders`]: stakeholders } }
-    )
-    .then(model =>
-      model !== null
-        ? res.json({
-            success: `Stakeholders updated!`
-          })
-        : res.sendStatus(404)
-    )
-    .catch(() => res.sendStatus(500));
-});
-
-router.get("/:model_ID/:phaseName/challenges", async (req, res) => {
-  const db = req.db;
-  const collection = db.get("projects");
-  const { model_ID, phaseName } = req.params;
-
-  collection
-    .findOne(
-      {
-        _id: model_ID,
-      }
-    )
+    .findOne({
+      _id: model_ID
+    })
     .then(model => {
       if (model !== null) {
         const phase = model.phases[phaseName];
@@ -261,44 +262,47 @@ router.get("/:model_ID/:phaseName/challenges", async (req, res) => {
     .catch(() => res.sendStatus(500));
 });
 
-router.post("/:model_ID/:phaseName/challenges", validate({ body: challengesSchema }), checkToken, async (req, res) => {
+router.post(
+  "/:model_ID/:phaseName/challenges",
+  validate({ body: challengesSchema }),
+  checkToken,
+  async (req, res) => {
+    const db = req.db;
+    const collection = db.get("projects");
+    const { model_ID, phaseName } = req.params;
+    const { challenges } = req.body;
+
+    const userEmail = req.decoded.sub;
+    const userId = await getUserId(db, userEmail);
+
+    collection
+      .findOneAndUpdate(
+        {
+          _id: model_ID,
+          ownerId: userId
+        },
+        { $set: { [`phases.${phaseName}.challenges`]: challenges } }
+      )
+      .then(model =>
+        model !== null
+          ? res.json({
+              success: `Stakeholders updated!`
+            })
+          : res.sendStatus(404)
+      )
+      .catch(() => res.sendStatus(500));
+  }
+);
+
+router.get("/:model_ID/:phaseName/insights", (req, res) => {
   const db = req.db;
   const collection = db.get("projects");
   const { model_ID, phaseName } = req.params;
-  const { challenges } = req.body;
-
-  const userEmail = req.decoded.sub;
-  const userId = await getUserId(db, userEmail);
 
   collection
-    .findOneAndUpdate(
-      {
-        _id: model_ID,
-        ownerId: userId
-      },
-      { $set: { [`phases.${phaseName}.challenges`] : challenges } }
-    )
-    .then(model =>
-      model !== null
-        ? res.json({
-            success: `Stakeholders updated!`
-          })
-        : res.sendStatus(404)
-    )
-    .catch(() => res.sendStatus(500));
-});
-
-router.get("/:model_ID/:phaseName/insights", async (req, res) => {
-  const db = req.db;
-  const collection = db.get("projects");
-  const { model_ID, phaseName } = req.params;
-
-  collection
-    .findOne(
-      {
-        _id: model_ID,
-      }
-    )
+    .findOne({
+      _id: model_ID
+    })
     .then(model => {
       if (model !== null) {
         const phase = model.phases[phaseName];
@@ -311,67 +315,73 @@ router.get("/:model_ID/:phaseName/insights", async (req, res) => {
     .catch(() => res.sendStatus(500));
 });
 
-router.post("/:model_ID/:phaseName/insights", validate({ body: insightsSchema }), checkToken, async (req, res) => {
-  const db = req.db;
-  const collection = db.get("projects");
-  const { model_ID, phaseName } = req.params;
-  const { insights } = req.body;
+router.post(
+  "/:model_ID/:phaseName/insights",
+  validate({ body: insightsSchema }),
+  checkToken,
+  async (req, res) => {
+    const db = req.db;
+    const collection = db.get("projects");
+    const { model_ID, phaseName } = req.params;
+    const { insights } = req.body;
 
-  const userEmail = req.decoded.sub;
-  const userId = await getUserId(db, userEmail);
+    const userEmail = req.decoded.sub;
+    const userId = await getUserId(db, userEmail);
 
-  collection
-    .findOneAndUpdate(
-      {
-        _id: model_ID,
-        ownerId: userId
-      },
-      { $set: { [`phases.${phaseName}.insights`] : insights } }
-    )
-    .then(model =>
-      model !== null
-        ? res.json({
-            success: `Stakeholders updated!`
-          })
-        : res.sendStatus(404)
-    )
-    .catch(() => res.sendStatus(500));
-});
-
-router.post("/:model_ID/:phaseName/stages/:stageName", checkToken, async function(
-  req,
-  res
-) {
-  const db = req.db;
-  const collection = db.get("projects");
-  const { model_ID, phaseName, stageName } = req.params;
-
-  const { startdate, enddate } = req.body;
-  if (startdate === undefined || enddate === undefined) {
-    res.sendStatus(400);
-    return;
+    collection
+      .findOneAndUpdate(
+        {
+          _id: model_ID,
+          ownerId: userId
+        },
+        { $set: { [`phases.${phaseName}.insights`]: insights } }
+      )
+      .then(model =>
+        model !== null
+          ? res.json({
+              success: `Stakeholders updated!`
+            })
+          : res.sendStatus(404)
+      )
+      .catch(() => res.sendStatus(500));
   }
+);
 
-  const userEmail = req.decoded.sub;
-  const userId = await getUserId(db, userEmail);
+router.post(
+  "/:model_ID/:phaseName/stages/:stageName",
+  checkToken,
+  async function(req, res) {
+    const db = req.db;
+    const collection = db.get("projects");
+    const { model_ID, phaseName, stageName } = req.params;
 
-  const newStage = { name: stageName, description: "", startdate, enddate };
+    const { startdate, enddate } = req.body;
+    if (startdate === undefined || enddate === undefined) {
+      res.sendStatus(400);
+      return;
+    }
 
-  collection
-    .findOneAndUpdate(
-      {
-        _id: model_ID,
-        ownerId: userId
-      },
-      { $push: { [`phases.${phaseName}.stages`]: newStage } }
-    )
-    .then(model =>
-      model !== null
-        ? res.json({ success: `${stageName} added!` })
-        : res.sendStatus(404)
-    )
-    .catch(() => res.sendStatus(500));
-});
+    const userEmail = req.decoded.sub;
+    const userId = await getUserId(db, userEmail);
+
+    const newStage = { name: stageName, description: "", startdate, enddate };
+
+    collection
+      .findOneAndUpdate(
+        {
+          _id: model_ID,
+          ownerId: userId
+        },
+        { $push: { [`phases.${phaseName}.stages`]: newStage } }
+      )
+      .then(model =>
+        model !== null
+          ? res.json({ success: `${stageName} added!` })
+          : res.sendStatus(404)
+      )
+      .catch(() => res.sendStatus(500));
+  }
+);
 
 router.put(
   "/:model_ID/:phaseName/:stageName/description",
