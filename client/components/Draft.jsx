@@ -122,12 +122,9 @@ export default function Draft(props) {
       />
 
       {!read_only && (
-        <Row>
-          <Col sm="9"></Col>
-          <Col sm="3" className="draft-status">
-            {status()}
-          </Col>
-        </Row>
+        <div className="d-flex justify-content-end draft-status">
+          {status()}
+        </div>
       )}
 
       {!loading && (

@@ -110,10 +110,67 @@ export const addModelStage = (
   startdate,
   enddate
 ) => {
-  const requestString = `${BASE_URL}/models/${model_id}/${phaseName}/${stageName}`;
+  const requestString = `${BASE_URL}/models/${model_id}/${phaseName}/stages/${stageName}`;
   return axios.post(
     requestString,
     { startdate, enddate },
+    {
+      headers: {
+        "Content-Type": "application/JSON",
+        "x-access-token": localStorage.getItem("token")
+      }
+    }
+  );
+};
+
+export const getPhaseStakeholder = (model_id, phaseName) => {
+  const requestString = `${BASE_URL}/models/${model_id}/${phaseName}/stakeholders`;
+  return axios.get(requestString);
+};
+
+export const updatePhaseStakeholder = (model_id, phaseName, stakeholders) => {
+  const requestString = `${BASE_URL}/models/${model_id}/${phaseName}/stakeholders`;
+  return axios.post(
+    requestString,
+    { stakeholders },
+    {
+      headers: {
+        "Content-Type": "application/JSON",
+        "x-access-token": localStorage.getItem("token")
+      }
+    }
+  );
+};
+
+export const getPhaseChallenges = (model_id, phaseName) => {
+  const requestString = `${BASE_URL}/models/${model_id}/${phaseName}/challenges`;
+  return axios.get(requestString);
+};
+
+export const updatePhaseChallenges = (model_id, phaseName, challenges) => {
+  const requestString = `${BASE_URL}/models/${model_id}/${phaseName}/challenges`;
+  return axios.post(
+    requestString,
+    { challenges },
+    {
+      headers: {
+        "Content-Type": "application/JSON",
+        "x-access-token": localStorage.getItem("token")
+      }
+    }
+  );
+};
+
+export const getPhaseInsights = (model_id, phaseName) => {
+  const requestString = `${BASE_URL}/models/${model_id}/${phaseName}/insights`;
+  return axios.get(requestString);
+};
+
+export const updatePhaseInsights = (model_id, phaseName, insights) => {
+  const requestString = `${BASE_URL}/models/${model_id}/${phaseName}/insights`;
+  return axios.post(
+    requestString,
+    { insights },
     {
       headers: {
         "Content-Type": "application/JSON",

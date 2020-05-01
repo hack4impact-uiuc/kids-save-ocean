@@ -5,6 +5,7 @@ import Head from "./Head";
 import Loader from "./Loader";
 import NavBar from "./NavBar";
 import AddStage from "./AddStage";
+import PhaseEdit from "./PhaseEdit";
 import ProjectForm from "./ProjectForm";
 import Stage from "./Stage";
 import TipCard from "./TipCard";
@@ -21,6 +22,7 @@ export {
   NavBar,
   ProjectForm,
   AddStage,
+  PhaseEdit,
   Stage,
   TipCard,
   InfiniteScroller,

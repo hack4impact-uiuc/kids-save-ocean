@@ -19,13 +19,19 @@ import {
   canEdit,
   addModelStage,
   deleteForm,
-  updateProject
+  updateProject,
+  getStageStakeholder,
+  updateStageStakeholder,
+  getStageChallenges,
+  updateStageChallenges,
+  getStageInsights,
+  updateStageInsights,
 } from "../../../utils/apiWrapper";
 import {
   Head,
-  Stage,
   Loader,
   AddStage,
+  PhaseEdit,
   WrappedMessage
 } from "../../../components";
 import groupSizeData from "../../../utils/groups";
@@ -107,28 +113,6 @@ export default WrappedMessage(function EditProjectPage(props) {
       loadOwner(projectId);
     }
   }, [projectId, loadProject]);
-
-  const renderPhaseEdit = phase => (
-    <Col>
-      <div className="stages">
-        {project?.phases[phase].stages.map(value => (
-          <Stage
-            readonly={false}
-            stageName={value.name}
-            phaseName={phase}
-            id={projectId}
-            key={`${phase}-${value.name}`}
-          />
-        ))}
-        <AddStage
-          addStage={(stageName, startdate, enddate) =>
-            addStage(projectId, phase, stageName, startdate, enddate)
-          }
-        />
-      </div>
-      <hr className="header-row-ep" />
-    </Col>
-  );
 
   const renderProjectEdit = project => (
     <div>
@@ -214,7 +198,14 @@ export default WrappedMessage(function EditProjectPage(props) {
               ))}
             </Nav>
             <br />
-            {renderPhaseEdit(activePhase)}
+            <Col>
+              <PhaseEdit 
+                phaseObj={project?.phases[activePhase]}
+                projectId={projectId}
+                phaseName={activePhase}
+                addStage={addStage}
+              />
+            </Col>
           </div>
           <Link
             href="/projects/[projectId]"
