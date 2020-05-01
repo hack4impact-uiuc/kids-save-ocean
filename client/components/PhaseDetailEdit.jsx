@@ -19,7 +19,9 @@ export default function PhaseDetailEdit(props) {
     updatePhaseDetail(detail);
     setSaved(true);
   };
-  const saveCallback = useCallback(debounce(debounceSave, saveInterval), []);
+  const saveCallback = useCallback(debounce(debounceSave, saveInterval), [
+    updatePhaseDetail
+  ]);
 
   useEffect(() => {
     const { getPhaseDetail, detailName } = props;

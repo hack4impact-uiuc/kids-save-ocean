@@ -286,7 +286,7 @@ router.post(
       .then(model =>
         model !== null
           ? res.json({
-              success: `Stakeholders updated!`
+              success: `Challenges updated!`
             })
           : res.sendStatus(404)
       )
@@ -339,7 +339,7 @@ router.post(
       .then(model =>
         model !== null
           ? res.json({
-              success: `Stakeholders updated!`
+              success: `Insights updated!`
             })
           : res.sendStatus(404)
       )

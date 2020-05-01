@@ -26,7 +26,7 @@ const challengesSchema = {
   id: "/ChallengesSchema",
   type: "object",
   properties: {
-    stakeholders: {
+    challenges: {
       type: "array",
       required: true,
       items: {
@@ -50,7 +50,7 @@ const insightsSchema = {
   id: "/InsightsSchema",
   type: "object",
   properties: {
-    stakeholders: {
+    insights: {
       type: "array",
       required: true,
       items: {
