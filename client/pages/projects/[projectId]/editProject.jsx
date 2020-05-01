@@ -21,12 +21,7 @@ import {
   deleteForm,
   updateProject
 } from "../../../utils/apiWrapper";
-import {
-  Head,
-  Loader,
-  PhaseEdit,
-  WrappedMessage
-} from "../../../components";
+import { Head, Loader, PhaseEdit, WrappedMessage } from "../../../components";
 import groupSizeData from "../../../utils/groups";
 
 import "../../../public/styles/editProject.scss";
@@ -192,7 +187,7 @@ export default WrappedMessage(function EditProjectPage(props) {
             </Nav>
             <br />
             <Col>
-              <PhaseEdit 
+              <PhaseEdit
                 phaseObj={project?.phases[activePhase]}
                 projectId={projectId}
                 phaseName={activePhase}

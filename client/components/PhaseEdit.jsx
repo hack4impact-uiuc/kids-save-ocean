@@ -1,13 +1,10 @@
-import React from 'react';
+import React from "react";
 
-import {
-  Row,
-  Col
-} from 'reactstrap'
+import { Row, Col } from "reactstrap";
 
-import Stage from './Stage';
-import AddStage from './AddStage';
-import PhaseDetailEdit from './PhaseDetailEdit';
+import Stage from "./Stage";
+import AddStage from "./AddStage";
+import PhaseDetailEdit from "./PhaseDetailEdit";
 
 import {
   getPhaseStakeholder,
@@ -16,10 +13,10 @@ import {
   updatePhaseChallenges,
   getPhaseInsights,
   updatePhaseInsights
-} from '../utils/apiWrapper';
+} from "../utils/apiWrapper";
 
 export default function PhaseEdit(props) {
-  const { projectId, phaseName, phaseObj, addStage } = props
+  const { projectId, phaseName, phaseObj, addStage } = props;
   return (
     <div>
       <Row>
@@ -28,8 +25,10 @@ export default function PhaseEdit(props) {
             projectId={projectId}
             phaseName={phaseName}
             detailName={"stakeholders"}
-            getPhaseDetail={ () => getPhaseStakeholder(projectId, phaseName) }
-            updatePhaseDetail={ (stakeholders) => updatePhaseStakeholder(projectId, phaseName, stakeholders) }
+            getPhaseDetail={() => getPhaseStakeholder(projectId, phaseName)}
+            updatePhaseDetail={stakeholders =>
+              updatePhaseStakeholder(projectId, phaseName, stakeholders)
+            }
           />
         </Col>
         <Col sm="4">
@@ -37,8 +36,10 @@ export default function PhaseEdit(props) {
             projectId={projectId}
             phaseName={phaseName}
             detailName={"challenges"}
-            getPhaseDetail={ () => getPhaseChallenges(projectId, phaseName) }
-            updatePhaseDetail={ (challenges) => updatePhaseChallenges(projectId, phaseName, challenges) }
+            getPhaseDetail={() => getPhaseChallenges(projectId, phaseName)}
+            updatePhaseDetail={challenges =>
+              updatePhaseChallenges(projectId, phaseName, challenges)
+            }
           />
         </Col>
         <Col sm="4">
@@ -46,8 +47,10 @@ export default function PhaseEdit(props) {
             projectId={projectId}
             phaseName={phaseName}
             detailName={"insights"}
-            getPhaseDetail={ () => getPhaseInsights(projectId, phaseName) }
-            updatePhaseDetail={ (insights) => updatePhaseInsights(projectId, phaseName, insights) }
+            getPhaseDetail={() => getPhaseInsights(projectId, phaseName)}
+            updatePhaseDetail={insights =>
+              updatePhaseInsights(projectId, phaseName, insights)
+            }
           />
         </Col>
       </Row>

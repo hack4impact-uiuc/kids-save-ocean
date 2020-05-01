@@ -1,12 +1,7 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from "react";
 import debounce from "lodash/debounce";
 
-import {
-  Button,
-  Card,
-  CardBody,
-  CardTitle
-} from 'reactstrap';
+import { Button, Card, CardBody, CardTitle } from "reactstrap";
 
 import "../public/styles/phaseEdit.scss";
 
@@ -20,7 +15,7 @@ export default function PhaseDetailEdit(props) {
   const [saved, setSaved] = useState(true);
 
   const saveInterval = 1000;
-  const debounceSave = (detail) => {
+  const debounceSave = detail => {
     updatePhaseDetail(detail);
     setSaved(true);
   };
@@ -28,20 +23,19 @@ export default function PhaseDetailEdit(props) {
 
   useEffect(() => {
     const { getPhaseDetail, detailName } = props;
-    getPhaseDetail()
-      .then(response => {
-        const details = response.data[detailName];
-        if (details !== undefined) {
-          setDetails(details);
-        }
-      });
+    getPhaseDetail().then(response => {
+      const details = response.data[detailName];
+      if (details !== undefined) {
+        setDetails(details);
+      }
+    });
   }, [props]);
 
-  const deepCopy = (original) => original.map(o => Object.assign({}, o));
+  const deepCopy = original => original.map(o => Object.assign({}, o));
 
   const handleChange = (update, index) => {
     let updated = deepCopy(details);
-    updated[index] = {...updated[index], ...update};
+    updated[index] = { ...updated[index], ...update };
     setDetails(updated);
     setSaved(false);
     saveCallback(updated);
@@ -55,7 +49,7 @@ export default function PhaseDetailEdit(props) {
     saveCallback(updated);
   };
 
-  const handleDelete = (index) => {
+  const handleDelete = index => {
     let updated = deepCopy(details);
     updated.splice(index, 1);
     setDetails(updated);
@@ -75,9 +69,7 @@ export default function PhaseDetailEdit(props) {
       <CardBody>
         <div className="d-flex justify-content-between">
           <CardTitle>{capitalize(detailName)}</CardTitle>
-          <div className="status">
-            {status()}
-          </div>
+          <div className="status">{status()}</div>
         </div>
         {details?.map((detail, index) => (
           <div className="edit-detail">
@@ -86,12 +78,9 @@ export default function PhaseDetailEdit(props) {
                 type="text"
                 className="form-control"
                 value={detail.name}
-                onChange={ e => handleChange({ name: e.target.value }, index) }
+                onChange={e => handleChange({ name: e.target.value }, index)}
               ></input>
-              <Button
-                color="danger"
-                onClick={ () => handleDelete(index) }
-              >
+              <Button color="danger" onClick={() => handleDelete(index)}>
                 Delete
               </Button>
             </div>
@@ -99,17 +88,17 @@ export default function PhaseDetailEdit(props) {
               className="form-control"
               rows="3"
               value={detail.description}
-              onChange={ e => handleChange({ description: e.target.value }, index) }
+              onChange={e =>
+                handleChange({ description: e.target.value }, index)
+              }
             ></textarea>
-            <br/>
+            <br />
           </div>
         ))}
         <Button
           color="primary"
           className="add-detail"
-          onClick={() =>
-            handleAdd(details)
-          }
+          onClick={() => handleAdd(details)}
         >
           Add {capitalize(detailName)}
         </Button>
