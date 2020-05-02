@@ -8,7 +8,8 @@ const schema = {
     },
     description: {
       type: "string",
-      required: true
+      maximum: 350,
+      required: false
     },
     country: {
       type: "string",
@@ -20,7 +21,7 @@ const schema = {
     },
     difficulty: {
       type: "string",
-      required: true
+      required: false
     },
     sdg: {
       type: "array",

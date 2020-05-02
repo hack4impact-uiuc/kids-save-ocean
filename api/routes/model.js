@@ -58,40 +58,50 @@ router.post(
     const projects = db.get("projects");
     const data = req.body;
     let currProjectId;
+    const userEmail = req.decoded.sub;
 
-    // Check if data includes proper fields
-    projects.insert(data, function(err) {
-      if (err) {
-        res.sendStatus(500);
-      } else {
-        currProjectId = data._id;
+    data.numUpvotes = 0;
+    data.numComments = 0;
+    data.username = await getUsername(db, userEmail);
+    if (data.name.length < 3 || data.name.length > 50) {
+      res.sendStatus(500);
+    } else if (data.description && data.description.length > 350) {
+      res.sendStatus(500);
+    } else {
+      // Check if data includes proper fields
+      projects.insert(data, function(err) {
+        if (err) {
+          res.sendStatus(500);
+        } else {
+          currProjectId = data._id;
+        }
+      });
+
+      const updates = db.get("updates");
+      const email = req.user.email;
+      const username = await getUsername(db, email);
+      const update = {
+        updateType: "project",
+        email: email,
+        projectId: currProjectId,
+        description: `${username} created ${data.name}`,
+        date: Date.now()
+      };
+
+      try {
+        updates.insert(update);
+      } catch (err) {
+        return err;
       }
-    });
 
-    const updates = db.get("updates");
-    const email = req.user.email;
-    const username = await getUsername(db, email);
-    const update = {
-      updateType: "project",
-      email: email,
-      projectId: currProjectId,
-      description: `${username} created ${data.name}`,
-      date: Date.now()
-    };
-
-    try {
-      updates.insert(update);
-    } catch (err) {
-      return err;
+      res.json({
+        success: `${data.name} added!`
+      });
     }
-
-    res.json({
-      success: `${data.name} added!`
-    });
   }
 );
 
-router.delete("/:model_ID", function(req, res) {
+router.delete("/:model_ID", checkToken, function(req, res) {
   const db = req.db;
   let id = req.params.model_ID;
   const collection = db.get("projects");
@@ -114,6 +124,7 @@ router.put(
   validate({
     body: ModelSchema
   }),
+  checkToken,
   function(req, res) {
     const db = req.db;
     const id = req.params.model_ID;
@@ -123,7 +134,7 @@ router.put(
         {
           _id: id
         },
-        req.body
+        { $set: req.body }
       )
       .then(model =>
         model !== null

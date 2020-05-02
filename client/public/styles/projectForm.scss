@@ -1,99 +1,87 @@
 .project-form-modal {
-  max-width: 495px;
-  max-height: 529px;
-}
-.project-desc-input {
-  height: 108px;
-  margin-top: 5px;
-  border-radius: 11px !important;
-  box-sizing: border-box;
-  border: 1px solid #bdbdbd;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  color: #8f8f8f;
-  line-height: 20px;
-}
-.project-difficulty-input,
-.project-groupsize-input {
-  height: 40px;
-  width: 197.75px;
-  margin-top: 5px;
-  border-radius: 11px !important;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  color: #8f8f8f;
-  line-height: 20px;
-}
-.right-col {
-  margin-left: 0px;
-}
-.left-col {
-  margin-right: 40px;
+  max-width: 38.5rem;
+  .modal-content {
+    padding-left: 1.875rem;
+    padding-top: 1rem;
+    padding-right: 2.5rem;
+    padding-bottom: 2.375rem;
+    border-radius: 22px;
+  }
 }
 .header-modal-text {
   color: black;
-  font-family: Arvo;
-  font-style: normal;
+  font-family: Arvo, serif;
   font-weight: bold;
-  font-size: 24px;
-  line-height: 30px;
+  font-size: 1.5rem;
   text-align: center;
-  height: 45px;
-  padding-top: 7.5px;
-  padding-bottom: 7.5px;
-  margin-bottom: 5px;
+  height: 2.8125rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.3125rem;
 }
-.modal-content {
-  padding-left: 16px;
-  padding-top: 8px;
-  padding-right: 27px;
-  padding-bottom: 38px;
-  border-radius: 22px;
+.form-required-label:after {
+  padding-left: 0.3125rem;
+  color: #cb2431;
+  content: "*";
 }
+.form-required-label,
 .form-label {
   font-family: Lato;
   font-style: normal;
   font-weight: normal;
-  font-size: 18px;
-  padding-left: 2px;
-  line-height: 22px;
-  padding-bottom: 5px;
-  box-sizing: border-box;
-  height: 34px;
+  font-size: 1.125rem;
+  padding-left: 0.125rem;
+  height: 2.125rem;
   color: #000000;
   margin: 0;
 }
+.project-desc-input {
+  min-height: 7.75rem !important;
+}
+.project-desc-input,
 .project-title-input {
-  height: 30px;
-  margin-top: 5px;
-  border-radius: 11px !important;
+  min-height: 1.875rem;
+  height: auto;
   border: 1px solid #bdbdbd;
+}
+.project-desc-input,
+.project-title-input,
+.project-select {
+  margin-top: 0.3125rem;
+  border-radius: 11px !important;
   font-style: normal;
   font-weight: normal;
-  font-size: 14px;
+  font-size: 0.875rem;
   color: #8f8f8f;
-  line-height: 20px;
+  margin-bottom: 0.625rem;
+}
+.right-col {
+  margin-left: 0;
+}
+.left-col {
+  margin-right: 0.3125rem;
+}
+.desc-form {
+  margin-top: 0.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .button-modal {
   background-color: rgba(#003366, 1);
   border-radius: 15px;
-  width: 132px;
-  height: 37px;
-  margin-top: 17px;
+  width: 8.25rem;
+  height: 2.315rem;
+  margin-top: 1rem;
   margin-left: auto;
   margin-right: auto;
   text-align: center;
-  font-family: Arvo;
-  font-size: 24px;
+  font-family: Arvo, serif;
+  font-size: 1.5rem;
   font-weight: lighter;
-  line-height: 15px;
+  line-height: 1rem;
   color: white;
 }
 .button-modal:hover {
   background-color: rgba(#003366, 0.85);
-  color: white;
   transition: 0.2s;
 }
