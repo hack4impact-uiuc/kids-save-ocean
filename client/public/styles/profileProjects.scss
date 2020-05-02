@@ -1,0 +1,49 @@
+.search-bar {
+    display: flex;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+    padding: 30px;
+    width: 50%;
+  }
+  
+  .input {
+    display: flex;
+    text-align: center;
+    flex-shrink: 3;
+  }
+  
+  .dropdowns {
+    display: flex;
+    flex-shrink: 3;
+    justify-content: space-between;
+  }
+  
+  .un-goals-list,
+  .country-list,
+  .grp-sizes-list,
+  .difficulty-list {
+    table-layout: fixed;
+    width: 200px;
+    max-width: 100%;
+  }
+  
+  .project-cards {
+    display: flex;
+  }
+  
+  .project-card {
+    display: flex;
+    height: 200px;
+    width: 410px;
+    cursor: pointer;
+    margin-top: 2em;
+    font-size: 13px;
+    padding: 2em;
+    color: #000;
+  
+    .project-card-name {
+      font-size: 24px;
+    }
+  }
+  

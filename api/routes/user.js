@@ -74,7 +74,7 @@ router.get("/userInfo", checkToken, async (req, res) => {
 router.post("/", validate({ body: UserSchema }), async (req, res) => {
   const { db } = req;
   const collection = db.get("users");
-  const { email, username, password, country, birthday } = req.body;
+  const { email, username, country, birthday } = req.body;
   let { anon } = req.body;
   if (!anon) {
     anon = false;
@@ -82,7 +82,6 @@ router.post("/", validate({ body: UserSchema }), async (req, res) => {
   const newUser = {
     email,
     username,
-    password,
     country,
     birthday,
     anon,
