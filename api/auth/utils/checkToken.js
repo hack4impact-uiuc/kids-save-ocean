@@ -34,7 +34,7 @@ let checkToken = (req, res, next) => {
 };
 
 router.get("/checkToken", function(req, res) {
-  checkToken(req, res)
+  checkToken(req, res);
 });
 
 module.exports = {
