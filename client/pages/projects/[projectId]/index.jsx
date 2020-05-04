@@ -170,8 +170,8 @@ export default function ProjectPage() {
       if (isOwner) {
         buttons.push(
           <Link
-            href="/projects/[projectId]/editProject"
-            as={`/projects/${projectId}/editProject`}
+            href="/projects/[projectId]/edit"
+            as={`/projects/${projectId}/edit`}
             passHref
           >
             <Button className="project-header-buttons">Edit</Button>
