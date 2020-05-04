@@ -192,6 +192,25 @@ export default function ProjectPage() {
     return buttons;
   };
 
+  const renderStageModel = (description) => {
+    try {
+      const contentObj = JSON.parse(description);
+      if (typeof contentObj === 'object') {
+        return (
+          <Dante
+            read_only
+            content={contentObj}
+          />
+        );
+      }
+    } catch (SyntaxError) {
+    } finally {
+      return (
+        <p>{description}</p>
+      );
+    }
+  };
+
   return (
     <>
       <Head title={project?.name} />
@@ -204,10 +223,7 @@ export default function ProjectPage() {
             <Modal isOpen={modal} toggle={toggleModal}>
               <ModalHeader>{activeStage.name}</ModalHeader>
               <ModalBody>
-                <Dante
-                  read_only
-                  content={JSON.parse(activeStage.description)}
-                />
+                {renderStageModel(JSON.parse(activeStage.description))}
               </ModalBody>
               <ModalFooter>
                 <Link
