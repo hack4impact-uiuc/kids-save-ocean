@@ -11,30 +11,30 @@ let checkToken = (req, res, next) => {
     }
     jwt.verify(token, process.env.AUTH_SECRET, (err, decoded) => {
       if (err) {
-        return res.sendStatus(400);
+        return res.sendStatus(403);
       }
       req.decoded = decoded;
       req.user = {
         email: decoded.sub,
         role: decoded.permission
       };
+      if (next) {
+        next();
+      } else {
+        res.json({
+          success: true,
+          message: "Token valid!"
+        });
+      }
     });
   } else {
-    return res.sendStatus(400);
+    return res.sendStatus(403);
   }
-  if (next) {
-    next();
-  }
-  return true;
+  return false;
 };
 
 router.get("/checkToken", function(req, res) {
-  if (checkToken(req, res)) {
-    res.json({
-      success: true,
-      message: "Token valid!"
-    });
-  }
+  checkToken(req, res);
 });
 
 module.exports = {

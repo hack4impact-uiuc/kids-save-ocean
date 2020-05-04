@@ -446,7 +446,6 @@ export const saveDescription = async (
 ) => {
   const validUser = await checkValidUser();
   if (validUser) {
-    console.log("SHOULD NOT SEE THIS");
     const requestString = `${BASE_URL}/models/${model_id}/${phaseName}/${stageName}/description`;
     console.log(requestString);
     return axios
@@ -701,12 +700,7 @@ export const checkToken = () => {
         "x-access-token": localStorage.getItem("token")
       }
     })
-    .catch(error => {
-      ({
-        type: "GET_TOKEN_CHECK_FAIL",
-        error
-      });
-    });
+    .catch(error => error.response);
 };
 
 export const duplicateModel = model_id => {

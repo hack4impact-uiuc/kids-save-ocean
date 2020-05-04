@@ -26,6 +26,7 @@ export default WrappedMessage(function NavBar(props) {
   const [displayNotif, setDisplayNotif] = useState(false);
   const [renderPopover, setRenderPopover] = useState(false);
   const [updates, setUpdates] = useState([]);
+  const [displayNotifDot, setDisplayNotifDot] = useState(false);
 
   const NOTIF_LIMIT = 10;
   const ERROR_STATUS = 400;
@@ -125,13 +126,21 @@ export default WrappedMessage(function NavBar(props) {
             )}
             {loggedIn && (
               <NavItem className="notif-col">
-                <img
-                  className="nav-img"
-                  src="/navbar-images/notification-icon.svg"
-                  alt="Notifications"
-                  id="notif-icon"
-                  type="button"
-                />
+                {displayNotifDot ? (
+                  <img
+                    className="nav-img"
+                    src="/navbar-images/notification-icon-red.svg"
+                    alt="Notifications"
+                    id="notif-icon"
+                  />
+                ) : (
+                  <img
+                    className="nav-img"
+                    src="/navbar-images/notification-icon.svg"
+                    alt="Notifications"
+                    id="notif-icon"
+                  />
+                )}
                 {renderPopover && (
                   <Popover
                     placement="bottom"
