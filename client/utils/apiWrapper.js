@@ -646,9 +646,6 @@ export const checkToken = () => {
       }
     })
     .catch(error => {
-      ({
-        type: "GET_TOKEN_CHECK_FAIL",
-        error
-      });
+      return error.response
     });
 };
