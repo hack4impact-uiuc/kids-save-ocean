@@ -395,10 +395,15 @@ router.put(
     if (description === undefined) {
       res.sendStatus(400);
     }
+    
+    const userEmail = req.decoded.sub;
+    const userId = await getUserId(db, userEmail);
+
     collection
       .findOneAndUpdate(
         {
           _id: model_ID,
+          ownerId: userId,
           [`phases.${phaseName}.stages.name`]: stageName
         },
         { $set: { [`phases.${phaseName}.stages.$.description`]: description } }
