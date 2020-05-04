@@ -21,11 +21,17 @@ export default function NavBar() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [modal, setModal] = useState(false);
   const waitTime = 200;
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     Router.replace("/");
   };
-
+  function handleCreate() {
+    setModal(true);
+    setTimeout(() => {
+      setModal(false);
+    }, waitTime);
+  }
   useEffect(() => {
     if (process.browser) {
       document.addEventListener("scroll", () => {
@@ -40,7 +46,7 @@ export default function NavBar() {
 
   useEffect(() => {
     setLoggedIn(localStorage.getItem("token"));
-  }, [setLoggedIn]);
+  }, []);
 
   function toggleNavbar() {
     setCollapsed(!isCollapsed);
@@ -80,12 +86,7 @@ export default function NavBar() {
               <Col className="button-col">
                 <Button
                   className="button-create"
-                  onClick={function handleClick() {
-                    setModal(true);
-                    setTimeout(() => {
-                      setModal(false);
-                    }, waitTime);
-                  }}
+                  onClick={handleCreate}
                   color="#ffcc66"
                 >
                   Create

@@ -5,9 +5,9 @@
     padding-left: 1.375rem;
     padding-top: 1rem;
     padding-right: 1.875rem;
-    padding-bottom: 1.5rem;
+    padding-bottom: 2.25rem;
     border-radius: 33px;
-    max-height: 46rem;
+    max-height: 45.5rem;
     overflow-x: hidden;
   }
 }
@@ -32,7 +32,7 @@
 }
 .valid-alert,
 .invalid-alert {
-  height: 6.125rem;
+  height: 5rem;
   justify-content: center;
   text-align: center;
 }
@@ -40,6 +40,7 @@
 .error-message {
   display: inline-block;
   vertical-align: middle;
+  font-weight: bolder;
 }
 .validating-div {
   padding-top: 0.5rem;
@@ -75,13 +76,13 @@
 .project-desc-input,
 .project-title-input,
 .project-select {
-  margin-top: 0.3125rem;
+  margin-top: 0.125rem;
   border-radius: 11px !important;
   font-style: normal;
   font-weight: normal;
   font-size: 0.875rem;
   color: #8f8f8f;
-  margin-bottom: 0.625rem;
+  margin-bottom: 0.5rem;
   font-family: Lato;
   font-weight: 300;
 }
@@ -131,7 +132,6 @@
   margin-bottom: 0;
 }
 .char-count {
-  margin-bottom: 0.5rem;
   color: #949494;
   font-size: 0.75rem;
   font-weight: normal;
@@ -141,6 +141,7 @@
 
 .button-modal {
   background-color: rgba(#003366, 1);
+  margin-top: 1.5rem;
   border-radius: 15px;
   width: 8.25rem;
   height: 2.315rem;
