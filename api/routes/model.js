@@ -395,7 +395,7 @@ router.put(
     if (description === undefined) {
       res.sendStatus(400);
     }
-    
+
     const userEmail = req.decoded.sub;
     const userId = await getUserId(db, userEmail);
 

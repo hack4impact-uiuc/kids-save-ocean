@@ -107,14 +107,32 @@ export default function Draft(props) {
         const json = JSON.parse(description);
         if ("blocks" in json) {
           setEditorContent(json);
-          setPrevContent(description);
         }
+        setPrevContent(description);
         setLoading(false);
       })
       .catch(() => {
         setLoading(false);
       });
   }, [id, phaseName, stageName]);
+
+  const renderDraft = () => {
+    if (loading) {
+      return undefined;
+    }
+
+    if (read_only && editorContent === null) {
+      return <p>{prevContent}</p>;
+    }
+
+    return (
+      <Dante
+        read_only={read_only}
+        content={editorContent}
+        onChange={editor => handleChange(editor)}
+      />
+    );
+  };
 
   return (
     <div>
@@ -129,13 +147,7 @@ export default function Draft(props) {
         </div>
       )}
 
-      {!loading && (
-        <Dante
-          read_only={read_only}
-          content={editorContent}
-          onChange={editor => handleChange(editor)}
-        />
-      )}
+      {renderDraft()}
 
       <hr />
     </div>
