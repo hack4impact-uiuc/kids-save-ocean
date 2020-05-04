@@ -62,16 +62,14 @@ router.post(
   async function(req, res) {
     const db = req.db;
     const userEmail = req.decoded.sub;
-    const userId = await getUserId(db, userEmail);
 
     const collection = db.get("projects");
     let data = req.body;
-    data["ownerId"] = userId;
     let currProjectId;
-    const userEmail = req.decoded.sub;
 
     data.numUpvotes = 0;
     data.numComments = 0;
+    data.ownerId = await getUserId(db, userEmail);
     data.username = await getUsername(db, userEmail);
 
     // Check if data includes proper fields

@@ -742,7 +742,7 @@ export const duplicateModel = model_id => {
   const requestString = `${BASE_URL}/duplicate/${model_id}`;
   return axios
     .post(requestString, {
-            headers: {
+      headers: {
         "Content-Type": "application/JSON",
         "x-access-token": localStorage.getItem("token")
       }
