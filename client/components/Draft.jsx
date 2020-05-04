@@ -41,6 +41,9 @@ export default function Draft(props) {
   const { id, phaseName, stageName, read_only } = props;
 
   const handleChange = editor => {
+    if (read_only) {
+      return;
+    }
     setUnsaved(true);
     const content = editor.emitSerializedOutput();
 
