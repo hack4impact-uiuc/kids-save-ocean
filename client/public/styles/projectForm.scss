@@ -5,7 +5,7 @@
     padding-left: 1.375rem;
     padding-top: 1rem;
     padding-right: 1.875rem;
-    padding-bottom: 1.625rem;
+    padding-bottom: 1.5rem;
     border-radius: 33px;
     max-height: 46rem;
     overflow-x: hidden;
@@ -87,7 +87,7 @@
 }
 .project-desc-input,
 .project-title-input {
-  min-height: 2.5rem;
+  min-height: 2.25rem;
   height: auto;
   border: 1px solid #bdbdbd;
 }
@@ -131,7 +131,7 @@
   margin-bottom: 0;
 }
 .char-count {
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   color: #949494;
   font-size: 0.75rem;
   font-weight: normal;
@@ -144,7 +144,6 @@
   border-radius: 15px;
   width: 8.25rem;
   height: 2.315rem;
-  margin-top: 0.5rem;
   margin-left: auto;
   margin-right: auto;
   text-align: center;

@@ -61,7 +61,7 @@ export default function ProjectForm(props) {
   const sdgStyles = {
     control: styles => ({
       ...styles,
-      minHeight: 45,
+      minHeight: 40,
       backgroundColor: "white"
     }),
     option: (styles, { data, isDisabled, isFocused, isSelected }) => {
