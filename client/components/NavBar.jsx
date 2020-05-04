@@ -7,13 +7,14 @@ import {
   Nav,
   Button,
   Col,
-  Container
+  Container,
 } from "reactstrap";
 import { ProjectForm } from "../components";
 
 import Link from "next/link";
 import "../public/styles/navbar.scss";
 import Router from "next/router";
+import { checkValidUser } from "../utils/validator";
 
 export default function NavBar() {
   const [isTop, setTop] = useState(true);
@@ -26,11 +27,14 @@ export default function NavBar() {
     localStorage.removeItem("token");
     Router.replace("/");
   };
-  function handleCreate() {
-    setModal(true);
-    setTimeout(() => {
-      setModal(false);
-    }, waitTime);
+  async function handleCreate() {
+    const isLoggedIn = await checkValidUser();
+    if (isLoggedIn) {
+      setModal(true);
+      setTimeout(() => {
+        setModal(false);
+      }, waitTime);
+    }
   }
   useEffect(() => {
     if (process.browser) {
@@ -46,7 +50,7 @@ export default function NavBar() {
 
   useEffect(() => {
     setLoggedIn(localStorage.getItem("token"));
-  }, []);
+  });
 
   function toggleNavbar() {
     setCollapsed(!isCollapsed);

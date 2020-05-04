@@ -12,7 +12,7 @@ import {
   Label,
   Modal,
   Row,
-  Tooltip
+  Tooltip,
 } from "reactstrap";
 import Select from "react-select";
 import UNGoalData from "../utils/goals";
@@ -59,10 +59,10 @@ export default function ProjectForm(props) {
   const iff = (condition, then, otherwise) => (condition ? then : otherwise);
 
   const sdgStyles = {
-    control: styles => ({
+    control: (styles) => ({
       ...styles,
       minHeight: 40,
-      backgroundColor: "white"
+      backgroundColor: "white",
     }),
     option: (styles, { data, isDisabled, isFocused, isSelected }) => {
       const color = chroma(data.color);
@@ -77,32 +77,32 @@ export default function ProjectForm(props) {
           ...styles[":active"],
           backgroundColor:
             !isDisabled &&
-            (isSelected ? data.color : color.alpha(selectedOpacity).css())
-        }
+            (isSelected ? data.color : color.alpha(selectedOpacity).css()),
+        },
       };
     },
     multiValue: (styles, { data }) => {
       const color = chroma(data.color);
       return {
         ...styles,
-        backgroundColor: color.alpha(hoverOpacity).css()
+        backgroundColor: color.alpha(hoverOpacity).css(),
       };
     },
     multiValueLabel: (styles, { data }) => ({
       ...styles,
-      color: data.color
+      color: data.color,
     }),
     multiValueRemove: (styles, { data }) => ({
       ...styles,
       color: data.color,
       ":hover": {
         backgroundColor: data.color,
-        color: "white"
-      }
-    })
+        color: "white",
+      },
+    }),
   };
 
-  const handleStart = async e => {
+  const handleStart = async (e) => {
     setIsWaiting(true);
     setErrorMessage("Validating project...");
     e.preventDefault();
@@ -135,7 +135,7 @@ export default function ProjectForm(props) {
         final_description = "";
       }
       const final_sdgs = [];
-      final_sdgs.map(sdg => {
+      final_sdgs.map((sdg) => {
         let temp = parseInt(sdg.value);
         final_sdgs.push(temp);
       });
@@ -146,11 +146,27 @@ export default function ProjectForm(props) {
         groupSize: groupSize.value,
         difficulty: final_difficulty,
         sdg: final_sdgs,
+
         phases: {
-          inspiration: { stages: [] },
-          ideation: { stages: [] },
-          implementation: { stages: [] }
-        }
+          inspiration: {
+            stakeholders: [],
+            challenges: [],
+            insights: [],
+            stages: [],
+          },
+          ideation: {
+            stakeholders: [],
+            challenges: [],
+            insights: [],
+            stages: [],
+          },
+          implementation: {
+            stakeholders: [],
+            challenges: [],
+            insights: [],
+            stages: [],
+          },
+        },
       };
       let resp = await addModel(project);
 
@@ -182,14 +198,14 @@ export default function ProjectForm(props) {
     setIsOpen(!modalIsOpen);
   }
 
-  const isTitleValid = title => {
+  const isTitleValid = (title) => {
     if (title.length < minTitleLength || title.length > maxTitleLength) {
       return false;
     }
     return true;
   };
 
-  const isTitleInvalid = title => {
+  const isTitleInvalid = (title) => {
     if (title.length === 0) {
       if (typedTitle) {
         return true;
@@ -203,7 +219,7 @@ export default function ProjectForm(props) {
     return false;
   };
 
-  const isDescriptionValid = desc => {
+  const isDescriptionValid = (desc) => {
     if (desc.length === 0) {
       if (!typedDesc) {
         return false;
@@ -214,7 +230,7 @@ export default function ProjectForm(props) {
     return true;
   };
 
-  const isDescriptionInvalid = desc => {
+  const isDescriptionInvalid = (desc) => {
     if (!typedDesc && desc.length > 0) {
       setTypedDesc(true);
     }
@@ -260,7 +276,7 @@ export default function ProjectForm(props) {
               invalid={isTitleInvalid(projectTitle)}
               id="project-title-input"
               placeholder="Must be between 3 and 50 characters long"
-              onChange={e => setProjectTitle(e.target.value)}
+              onChange={(e) => setProjectTitle(e.target.value)}
               required
             />
           </FormGroup>
@@ -357,7 +373,7 @@ export default function ProjectForm(props) {
               value={description}
               id="project-desc-input"
               placeholder="Optional..."
-              onChange={e => setDescription(e.target.value)}
+              onChange={(e) => setDescription(e.target.value)}
               required
             />
           </FormGroup>
