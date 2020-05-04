@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Head, ProjectForm } from "../components";
 import Link from "next/link";
 import ReactPlayer from "react-player";
@@ -13,6 +13,8 @@ import {
 } from "reactstrap";
 
 import "../public/styles/home.scss";
+import { checkValidUser } from "../utils/validator";
+import Router from "next/router";
 
 const numSDGs = 17;
 
@@ -39,6 +41,20 @@ const populateImages = () => {
 const images = populateImages();
 
 export default function Home() {
+  const [validUser, setIsValidUser] = useState(false);
+
+  useEffect(() => {
+    const checkCurrUser = async () => {
+      setIsValidUser(await checkValidUser(false));
+    };
+
+    if (validUser) {
+      Router.replace("/feed");
+    }
+
+    checkCurrUser();
+  }, [validUser]);
+
   return (
     <div className="feed-div">
       <Head />

@@ -1,44 +1,35 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import Router from "next/router";
 import {
   register,
   verifyPIN,
   resendPIN,
-  google,
-  getSecurityQuestions,
   createUser
 } from "../utils/apiWrapper";
-import {
-  Alert,
-  Form,
-  Button,
-  FormGroup,
-  Label,
-  Input,
-  Card,
-  CardBody,
-  CardTitle,
-  Dropdown,
-  DropdownItem,
-  DropdownToggle,
-  DropdownMenu
-} from "reactstrap";
-import { GoogleLogin } from "react-google-login";
+import { Alert, Form, Button, FormGroup, Input, Row, Col } from "reactstrap";
 import { Head } from "../components";
 
 import "../public/styles/auth.scss";
+import "../public/styles/signupPage.scss";
+import Select from "react-select";
+import countryData from "../utils/countries";
 
-export default function RegisterPage(props) {
+export default function RegisterPage() {
   // constants
   // michael's baby
   const EMAIL_REGEX =
     "([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)@([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+).([a-zA-Z]{2,3}).?([a-zA-Z]{0,3})";
   const SUCCESS = 200;
   const INVALID = -1;
-  const { role } = props;
 
   // state related to auth user
+
+  const [anon, setAnon] = useState(false);
+  const [person, setPerson] = useState("");
+  const [username, setUsername] = useState("");
+  const [country, setCountry] = useState("");
+  const [birthday, setBirthday] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
@@ -47,68 +38,26 @@ export default function RegisterPage(props) {
   const [pin, setPin] = useState("");
   const [securityQuestionAnswer, setSecurityQuestionAnswer] = useState("");
   const [successfulSubmit, setSuccessfulSubmit] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [questions, setQuestions] = useState([]);
   const [questionIdx, setQuestionIdx] = useState(INVALID);
-
-  // state related to kso user
-  const [username] = useState("test");
-  const [country] = useState("test");
-  const [birthday] = useState("test");
-  const [userRole] = useState("admin");
-  const [anon] = useState(false);
-
-  useEffect(() => {
-    const loadSecurityQuestions = async () => {
-      const resp = await getSecurityQuestions();
-      if (!resp) {
-        setErrorMessage("Unable to load data");
-        return;
-      }
-      const respJson = await resp.json();
-      if (respJson.questions) {
-        setQuestions(respJson.questions);
-      } else {
-        setErrorMessage(respJson.error.message);
-      }
-    };
-    loadSecurityQuestions();
-  }, [setErrorMessage, setQuestions]);
-
-  const handleGoogle = async e => {
-    const result = await google(e.tokenId);
-    const resp = await result.json();
-    if (resp.status !== SUCCESS) {
-      setErrorMessage(resp.message);
-    } else {
-      localStorage.setItem("token", e.tokenId);
-      localStorage.setItem("google", true);
-      Router.push("/");
-    }
-  };
-
-  const pickDropDown = idx => {
-    setQuestionIdx(idx);
-  };
-
-  const toggle = () => {
-    setDropdownOpen(prevState => !prevState);
-  };
 
   const handleSubmit = async e => {
     e.preventDefault();
     if (
       password === password2 &&
       questionIdx !== INVALID &&
-      securityQuestionAnswer !== ""
+      securityQuestionAnswer !== "" &&
+      person.label !== "" &&
+      birthday !== "" &&
+      country.label !== "" &&
+      anon !== INVALID
     ) {
       // #1: create user in auth db
       const authUserResp = await register(
         email,
         password,
-        questionIdx,
+        questionIdx.value,
         securityQuestionAnswer,
-        userRole
+        person.label
       );
       const authUserRes = await authUserResp.json();
       if (authUserRes.status === SUCCESS) {
@@ -124,9 +73,9 @@ export default function RegisterPage(props) {
         const newUser = {
           email,
           username,
-          country,
+          country: country.label,
           birthday,
-          anon,
+          anon: anon.value,
           createdProjects: [],
           followingProjects: [],
           followingUsers: [],
@@ -144,10 +93,20 @@ export default function RegisterPage(props) {
       }
     } else if (password !== password2) {
       setErrorMessage("Passwords do not match");
+    } else if (!username) {
+      setErrorMessage("Choose a username");
     } else if (questionIdx === INVALID) {
       setErrorMessage("Select a question");
     } else if (!securityQuestionAnswer) {
       setErrorMessage("Answer not selected");
+    } else if (!person) {
+      setErrorMessage("Select your role");
+    } else if (!country) {
+      setErrorMessage("Select country of origin");
+    } else if (!birthday) {
+      setErrorMessage("Enter birthday");
+    } else if (anon === INVALID) {
+      setErrorMessage("Select account type");
     }
   };
 
@@ -167,181 +126,329 @@ export default function RegisterPage(props) {
     const response = await result.json();
     setPinMessage(response.message);
   };
+  const options = [{ value: "student", label: "student" }];
+  const anonOptions = [
+    { value: true, label: "Anonymous Account" },
+    { value: false, label: "Visible Account" }
+  ];
+  const security_questions = [
+    { value: 0, label: "What is the name of your first pet?" },
+    { value: 1, label: "Which city were you born in?" },
+    { value: 2, label: "Which city did you first meet your spouse?" },
+    { value: 3, label: "What was the model of your first car?" },
+    { value: 4, label: "What is the name of your childhood best friend?" }
+  ];
 
   return (
     <div>
       <Head />
-      {!successfulSubmit ? (
-        <div>
-          <div className="auth-card-wrapper">
-            <Card className="auth-card">
-              <CardTitle>
-                <h3 className="auth-card-title">Register</h3>
-              </CardTitle>
-              <CardBody>
+
+      <div>
+        <Row className="parentRow">
+          <Col className="columnLeft" xs="6">
+            <div className="motto">
+              <strong>
+                Change your community, <br /> Change the world.
+                <br /> <br /> Join FateMaker today.
+              </strong>
+            </div>
+          </Col>
+          <Col xs="6">
+            {/* !successfulSubmit */}
+            {!successfulSubmit ? (
+              <div className="outer">
+                <h1 className="auth-card-title">
+                  <strong>Welcome to FateMaker!</strong>
+                </h1>
                 {errorMessage && (
                   <Alert className="auth-alert" color="danger">
                     {errorMessage}
                   </Alert>
                 )}
-                <Form>
-                  <FormGroup>
-                    <Label for="exampleEmail">Email</Label>
-                    <Input
-                      type="email"
-                      name="email"
-                      id="exampleEmail"
-                      maxLength="64"
-                      pattern={EMAIL_REGEX}
-                      value={email}
-                      onChange={e => setEmail(e.target.value)}
-                      required
-                    />
-                  </FormGroup>
-                  <FormGroup>
-                    <Label for="examplePassword">Password</Label>
-                    <Input
-                      type="password"
-                      name="password"
-                      minLength="8"
-                      maxLength="64"
-                      value={password}
-                      onChange={e => setPassword(e.target.value)}
-                      required
-                    />
-                  </FormGroup>
-                  <FormGroup>
-                    <Label for="examplePassword">Confirm Password</Label>
-                    <Input
-                      type="password"
-                      name="password2"
-                      minLength="8"
-                      maxLength="64"
-                      value={password2}
-                      onChange={e => setPassword2(e.target.value)}
-                      required
-                    />
-                  </FormGroup>
-                  <FormGroup>
-                    <Dropdown
-                      className="security-select"
-                      isOpen={dropdownOpen}
-                      toggle={toggle}
-                    >
-                      <DropdownToggle caret>
-                        {questionIdx === INVALID
-                          ? "Security Question"
-                          : questions[questionIdx]}
-                      </DropdownToggle>
-                      <DropdownMenu>
-                        {questions.map((question, idx) => (
-                          <DropdownItem
-                            key={idx}
-                            onClick={pickDropDown.bind(null, idx)}
-                          >
-                            {question}
-                          </DropdownItem>
-                        ))}
-                      </DropdownMenu>
-                    </Dropdown>
-                    <Label for="exampleEmail">Answer</Label>
-                    <Input
-                      type="email"
-                      name="email"
-                      id="exampleEmail"
-                      maxLength="64"
-                      pattern={EMAIL_REGEX}
-                      value={securityQuestionAnswer}
-                      onChange={e => setSecurityQuestionAnswer(e.target.value)}
-                      required
-                    />
-                  </FormGroup>
-                  <Button
-                    color="success"
-                    size="m"
-                    onClick={handleSubmit}
-                    className="left-btn"
-                  >
-                    Register
+                {/* username*/}
+                <Row>
+                  <Col xs="3" align="right" className=" vertAlign textField">
+                    username
+                  </Col>
+                  <Col xs="9">
+                    <Form>
+                      <FormGroup>
+                        <Input
+                          type="username"
+                          name="username"
+                          minLength="8"
+                          maxLength="64"
+                          value={username}
+                          onChange={e => setUsername(e.target.value)}
+                          required
+                        />
+                      </FormGroup>
+                    </Form>
+                  </Col>
+                </Row>
+                {/* email */}
+                <Row align="middle" justify="center">
+                  <Col xs="3" align="right" className=" vertAlign textField">
+                    email
+                  </Col>
+                  <Col xs="9">
+                    <Form>
+                      <FormGroup>
+                        <Input
+                          type="email"
+                          name="email"
+                          id="exampleEmail"
+                          maxLength="64"
+                          pattern={EMAIL_REGEX}
+                          value={email}
+                          onChange={e => setEmail(e.target.value)}
+                          required
+                        />
+                      </FormGroup>
+                    </Form>
+                  </Col>
+                </Row>
+                {/* password */}
+                <Row>
+                  <Col xs="3" align="right" className=" vertAlign textField">
+                    password
+                  </Col>
+                  <Col xs="9">
+                    <Form>
+                      <FormGroup>
+                        <Input
+                          type="password"
+                          name="password"
+                          minLength="8"
+                          maxLength="64"
+                          value={password}
+                          onChange={e => setPassword(e.target.value)}
+                          required
+                        />
+                      </FormGroup>
+                    </Form>
+                  </Col>
+                </Row>
+
+                {/* confirm password */}
+                <Row>
+                  <Col xs="3" align="right" className=" vertAlign textField">
+                    confirm password
+                  </Col>
+                  <Col xs="9">
+                    <Form>
+                      <FormGroup>
+                        <Input
+                          type="password"
+                          name="password2"
+                          minLength="8"
+                          maxLength="64"
+                          value={password2}
+                          onChange={e => setPassword2(e.target.value)}
+                          required
+                        />
+                      </FormGroup>
+                    </Form>
+                  </Col>
+                </Row>
+                {/* select country */}
+                <Row>
+                  <Col xs="3" align="right" className=" vertAlign textField">
+                    country
+                  </Col>
+                  <Col xs="9">
+                    <Form>
+                      <FormGroup>
+                        <Select
+                          options={countryData}
+                          placeholder=""
+                          isClearable
+                          onChange={setCountry}
+                          value={country}
+                        />
+                      </FormGroup>
+                    </Form>
+                  </Col>
+                </Row>
+                {/* birthday */}
+                <Row>
+                  <Col xs="3" align="right" className=" vertAlign textField">
+                    birthday
+                  </Col>
+                  <Col xs="9">
+                    <Form>
+                      <FormGroup>
+                        <Input
+                          placeholder="dd/mm/yyyy"
+                          minLength="10"
+                          maxLength="10"
+                          onChange={e => setBirthday(e.target.value)}
+                        />
+                      </FormGroup>
+                    </Form>
+                    <Form></Form>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col xs="3" align="right" className=" vertAlign textField">
+                    who are you?
+                  </Col>
+                  <Col xs="9">
+                    <Form>
+                      <FormGroup>
+                        <Select
+                          options={options}
+                          placeholder=""
+                          isClearable
+                          onChange={setPerson}
+                          value={person}
+                        />
+                      </FormGroup>
+                    </Form>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col xs="3" align="right" className=" vertAlign textField">
+                    security question
+                  </Col>
+                  <Col xs="9">
+                    <Form>
+                      <FormGroup>
+                        <Select
+                          options={security_questions}
+                          placeholder=""
+                          isClearable
+                          onChange={setQuestionIdx}
+                          value={questionIdx}
+                        />
+                      </FormGroup>
+                    </Form>
+                  </Col>
+                </Row>
+                {/* answer */}
+                <Row>
+                  <Col xs="3" align="right" className=" vertAlign textField">
+                    security answer
+                  </Col>
+                  <Col xs="9">
+                    <Form>
+                      <FormGroup>
+                        <Input
+                          type="email"
+                          name="email"
+                          id="exampleEmail"
+                          maxLength="64"
+                          pattern={EMAIL_REGEX}
+                          value={securityQuestionAnswer}
+                          onChange={e =>
+                            setSecurityQuestionAnswer(e.target.value)
+                          }
+                          required
+                        />
+                      </FormGroup>
+                    </Form>
+                  </Col>
+                </Row>
+                {/* Anonymous */}
+                <Row>
+                  <Col xs="3" align="right" className=" vertAlign textField">
+                    account type
+                  </Col>
+                  <Col xs="9">
+                    <Form>
+                      <FormGroup>
+                        <Select
+                          options={anonOptions}
+                          placeholder=""
+                          isClearable
+                          onChange={setAnon}
+                          value={anon}
+                        />
+                      </FormGroup>
+                    </Form>
+                  </Col>
+                </Row>
+
+                <Row>
+                  <Button size="m" onClick={handleSubmit} className="left-btn">
+                    <div className=" vertAlign textField">Register</div>
                   </Button>
+
                   <Button
-                    color="success"
                     size="m"
                     onClick={() => Router.push("/login")}
                     className="right-btn"
                   >
-                    Login
+                    <div className=" vertAlign textField">Login</div>
                   </Button>
-                </Form>
-              </CardBody>
-            </Card>
-          </div>
-          <div className="google-btn-wrapper">
-            <GoogleLogin
-              className="btn sign-in-btn"
-              clientId="992779657352-2te3be0na925rtkt8kt8vc1f8tiph5oh.apps.googleusercontent.com"
-              responseType="id_token"
-              buttonText={role}
-              scope="https://www.googleapis.com/auth/userinfo.email"
-              onSuccess={handleGoogle}
-            />
-          </div>
-        </div>
-      ) : (
-        <div className="auth-card-wrapper">
-          <Card className="auth-card">
-            <CardBody>
-              {pinMessage === "Invalid request" ||
-              pinMessage === "PIN does not match" ? (
-                <Alert className="auth-alert" color="danger">
-                  {pinMessage}
-                </Alert>
-              ) : (
-                pinMessage && (
-                  <Alert className="auth-alert" color="success">
-                    {pinMessage}
-                  </Alert>
-                )
-              )}
-              <Form>
-                <FormGroup>
-                  <Label>PIN</Label>
-                  <Input
-                    name="pin"
-                    type="number"
-                    maxLength="10"
-                    minLength="4"
-                    value={pin}
-                    onChange={e => setPin(e.target.value)}
-                    required
-                  />
-                </FormGroup>
-                <Button
-                  color="success"
-                  size="m"
-                  onClick={handlePINResend}
-                  className="left-btn"
-                >
-                  Resend PIN
-                </Button>
-                <Button
-                  color="success"
-                  size="m"
-                  onClick={handlePINVerify}
-                  className="right-btn"
-                >
-                  Verify Email
-                </Button>
-                <div className="forgot-password">
-                  <Link href="/">
-                    <a>Skip verification</a>
-                  </Link>
+                </Row>
+              </div>
+            ) : (
+              <div className="auth-card-wrapper">
+                <div className="auth-card">
+                  <h1 className="auth-card-title">
+                    <strong>Welcome to FateMaker!</strong>
+                  </h1>
+                  {pinMessage === "Invalid request" ||
+                  pinMessage === "PIN does not match" ? (
+                    <Alert className="auth-alert" color="danger">
+                      {pinMessage}
+                    </Alert>
+                  ) : (
+                    pinMessage && (
+                      <Alert className="auth-alert" color="success">
+                        {pinMessage}
+                      </Alert>
+                    )
+                  )}
+
+                  <Row>
+                    <Col xs="2" align="right">
+                      <div className=" vertAlign textField">enter pin</div>
+                    </Col>
+                    <Col xs="10">
+                      <Form>
+                        <FormGroup>
+                          <Input
+                            name="pin"
+                            type="number"
+                            maxLength="10"
+                            minLength="4"
+                            value={pin}
+                            onChange={e => setPin(e.target.value)}
+                            required
+                          />
+                        </FormGroup>
+                      </Form>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Button
+                      size="m"
+                      onClick={handlePINResend}
+                      className="left-btn"
+                    >
+                      <div className=" vertAlign textField">Resend PIN</div>
+                    </Button>
+                    <Button
+                      size="m"
+                      onClick={handlePINVerify}
+                      className="right-btn"
+                    >
+                      <div className=" vertAlign textField">Verify Email</div>
+                    </Button>
+                  </Row>
+                  <div className="forgot-password">
+                    <Link href="/">
+                      <a className=" vertAlign textField">Skip verification</a>
+                    </Link>
+                  </div>
                 </div>
-              </Form>
-            </CardBody>
-          </Card>
-        </div>
-      )}
+              </div>
+            )}
+          </Col>
+        </Row>
+      </div>
     </div>
   );
 }

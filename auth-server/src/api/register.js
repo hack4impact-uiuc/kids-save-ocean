@@ -33,21 +33,18 @@ router.post(
         errors: errors.array({ onlyFirstError: true })
       });
     }
-
     // Ensures the user doesn't already have an account
     if (await User.findOne({ email: String(req.body.email).toLowerCase() })) {
       return sendResponse(res, 400, "User already exists. Please try again.");
     }
-
     // Encrypts the password and creates the user's data
     const encodedPassword = await bcrypt.hash(req.body.password, 10);
     let userData = {
       email: String(req.body.email).toLowerCase(),
       password: encodedPassword,
       role: req.body.role,
-      verified: false
+      verified: false,
     };
-
     // If the security question is enabled, checks that the security question index is valid and that there is an answer
     const securityQuestionEnabled = await isSecurityQuestionEnabled();
     if (securityQuestionEnabled) {
@@ -59,7 +56,7 @@ router.post(
           "Can not read the security questions from the config file"
         );
       }
-      const question =
+      const question = 
         securityQuestionsResponse.securityQuestions[req.body.questionIdx];
       if (!question || !req.body.securityQuestionAnswer) {
         return sendResponse(
