@@ -300,8 +300,11 @@ export default function ProjectsPage() {
                               {`${project.description.slice(
                                 0,
                                 DESCRIPTION_LENGTH
-                              )}${project.description.length >
-                                DESCRIPTION_LENGTH && "..."}`}
+                              )}${
+                                project.description.length > DESCRIPTION_LENGTH
+                                  ? "..."
+                                  : ""
+                              }`}
                             </div>
                             <br />
                             <Row>
