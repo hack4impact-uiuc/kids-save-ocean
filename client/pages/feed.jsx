@@ -219,6 +219,134 @@ export default function Feed() {
             </div>
           </CardBody>
         </Card>
+        <Card className="featured-card">
+          <CardImg
+            width="100%"
+            src="/homepage-images/stock-ocean.jpg"
+            alt="Card image cap"
+          ></CardImg>
+          <CardBody className="featured-body">
+            <CardTitle className="featured-caption-title">
+              <strong>Sustainable Recycling Project</strong>
+            </CardTitle>
+            <CardText className="featured-description">
+              A project which helps people take over the world and save it at
+              the same time.
+            </CardText>
+            <div className="featured-footer">
+              <div className="featured-interactions">
+                123{" "}
+                <img
+                  className="featured-comment-icon"
+                  src="/feed-images/comment-icon.svg"
+                  alt="comment"
+                />
+                123
+                <img
+                  className="featured-like-icon"
+                  src="/feed-images/like-icon.svg"
+                  alt="like"
+                />
+              </div>
+            </div>
+          </CardBody>
+        </Card>
+        <Card className="featured-card">
+          <CardImg
+            width="100%"
+            src="/homepage-images/stock-ocean.jpg"
+            alt="Card image cap"
+          ></CardImg>
+          <CardBody className="featured-body">
+            <CardTitle className="featured-caption-title">
+              <strong>Sustainable Recycling Project</strong>
+            </CardTitle>
+            <CardText className="featured-description">
+              A project which helps people take over the world and save it at
+              the same time.
+            </CardText>
+            <div className="featured-footer">
+              <div className="featured-interactions">
+                123{" "}
+                <img
+                  className="featured-comment-icon"
+                  src="/feed-images/comment-icon.svg"
+                  alt="comment"
+                />
+                123
+                <img
+                  className="featured-like-icon"
+                  src="/feed-images/like-icon.svg"
+                  alt="like"
+                />
+              </div>
+            </div>
+          </CardBody>
+        </Card>
+        <Card className="featured-card">
+          <CardImg
+            width="100%"
+            src="/homepage-images/stock-ocean.jpg"
+            alt="Card image cap"
+          ></CardImg>
+          <CardBody className="featured-body">
+            <CardTitle className="featured-caption-title">
+              <strong>Sustainable Recycling Project</strong>
+            </CardTitle>
+            <CardText className="featured-description">
+              A project which helps people take over the world and save it at
+              the same time.
+            </CardText>
+            <div className="featured-footer">
+              <div className="featured-interactions">
+                123{" "}
+                <img
+                  className="featured-comment-icon"
+                  src="/feed-images/comment-icon.svg"
+                  alt="comment"
+                />
+                123
+                <img
+                  className="featured-like-icon"
+                  src="/feed-images/like-icon.svg"
+                  alt="like"
+                />
+              </div>
+            </div>
+          </CardBody>
+        </Card>
+        <Card className="featured-card">
+          <CardImg
+            width="100%"
+            src="/homepage-images/stock-ocean.jpg"
+            alt="Card image cap"
+          ></CardImg>
+          <CardBody className="featured-body">
+            <CardTitle className="featured-caption-title">
+              <strong>Sustainable Recycling Project</strong>
+            </CardTitle>
+            <CardText className="featured-description">
+              A project which helps people take over the world and save it at
+              the same time.
+            </CardText>
+            <div className="featured-footer">
+              <div className="featured-interactions">
+                123{" "}
+                <img
+                  className="featured-comment-icon"
+                  src="/feed-images/comment-icon.svg"
+                  alt="comment"
+                />
+                123
+                <img
+                  className="featured-like-icon"
+                  src="/feed-images/like-icon.svg"
+                  alt="like"
+                />
+              </div>
+            </div>
+          </CardBody>
+        </Card>
         <Link href="#more-features">
           <a className="featured-see-more">
             <strong>See More</strong>

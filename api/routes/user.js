@@ -8,6 +8,23 @@ const SUCCESS = 200;
 const NOT_FOUND = 404;
 const DUPLICATE = 409;
 
+router.get("/", checkToken, (req, res) => {
+  const { role } = req.user;
+  if (role === "admin") {
+    res.status(SUCCESS).send({
+      code: SUCCESS,
+      success: true,
+      message: "admin"
+    });
+  } else {
+    res.status(NOT_FOUND).send({
+      code: NOT_FOUND,
+      success: false,
+      message: "not admin"
+    });
+  }
+});
+
 router.get("/", checkToken, async (req, res) => {
   const { db } = req;
   const collection = db.get("users");

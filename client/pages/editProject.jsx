@@ -3,16 +3,26 @@ import { Button, Col, Row, Container, Alert } from "reactstrap";
 import { Editor, EditorState, ContentState } from "draft-js";
 import Select from "react-select";
 import {
-  getModelsByID,
-  saveDescription,
-  deleteForm
-} from "../utils/apiWrapper";
-import { Head, Draft } from "../components";
-import groupSizeData from "../utils/groups";
+  Button,
+  Col,
+  Input,
+  Row,
+  Dropdown,
+  DropdownToggle,
+  DropdownMenu,
+  FormGroup,
+  Label,
+  Container,
+  Alert
+} from "reactstrap";
+import { getModelsByID, checkAdminPrivilege } from "../utils/apiWrapper";
+import { Head, Stage } from "../components";
 import "../public/styles/editProject.scss";
 import { is } from "immutable";
 
 export default function EditProjectPage() {
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [visAlert, setAlert] = useState(false);
 
   const [projTitle, setProjTitle] = useState("");
@@ -24,49 +34,27 @@ export default function EditProjectPage() {
   const [implementation, setImplementation] = useState([]);
 
   const id = "5e901732090f7cdff2e6757a";
+  const ideationStages = [
+    ["beauti", "Description 1"]
+    // ["Stage 2", "Description 2"],
+    // ["Stage 3", "Description 3"]
+  ];
+  const toggle = () => setDropdownOpen(prevState => !prevState);
 
-  const handleTitleChange = projTitle => {
-    setProjTitle(projTitle.target.value);
-  };
-
-  const handleDescriptionChange = description => {
-    setDescription(description.target.value);
-  };
-
-  const handleGrpSizeChange = grpSize => {
-    setGrpSize(grpSize);
-  };
-
-  const handleInspirationChange = inspiration => {
-    setInspiration(inspiration);
-  };
-
-  const handleIdeationChange = ideation => {
-    setIdeation(ideation);
-  };
-
-  const handleImplementationChange = implementation => {
-    setImplementation(implementation);
-  };
-
-  const deleteProject = id => {
-    deleteForm(id);
-  };
-
-  const saveTopChanges = (projTitle, description, grpSize) => {
-    model_id, phaseName, stageName, description, subDescription;
-    saveDescription(
-      id,
-      "inspiration",
-      inspiration.stages[0].name,
-      inspiration.stages[0].description
-    );
-  };
-
-  // finish
-  const savePhase = id => {
-    //saveDescription(id, );
-  };
+  useEffect(() => {
+    const checkPriv = async () => {
+      const raw_priv = await checkAdminPrivilege(id);
+      const isAdmin = await raw_priv.json();
+      const success_status = 200;
+      if (isAdmin.status === success_status) {
+        setIsAdmin(true);
+        console.log("HIII");
+      } else {
+        console.log(isAdmin);
+      }
+    };
+    checkPriv();
+  }, []);
 
   useEffect(() => {
     const loadProject = async () => {

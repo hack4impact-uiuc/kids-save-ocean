@@ -9,6 +9,7 @@ import Stage from "./Stage";
 import TipCard from "./TipCard";
 import UpvotesSection from "./UpvotesSection";
 import InfiniteScroller from "./InfiniteScroller";
+import TemplateDraft from "./TemplateDraft";
 
 export {
   CommentsSection,
@@ -20,6 +21,7 @@ export {
   ProjectForm,
   Stage,
   TipCard,
-  UpvotesSection,
-  InfiniteScroller
+  InfiniteScroller,
+  TemplateDraft,
+  UpvotesSection
 };

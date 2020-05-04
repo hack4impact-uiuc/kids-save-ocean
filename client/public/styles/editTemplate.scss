@@ -1,0 +1,122 @@
+body {
+  background-color: #eee;
+  font-family: Arvo, serif;
+  font-weight: bold;
+  color: #003366;
+}
+.edit-template-div {
+  background-color: white;
+  text-align: center;
+  width: 836px;
+  height: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  //   margin-bottom: 20%;
+}
+.bottom-buttons {
+  width: 100%;
+  margin-top: 10px;
+  bottom: 0;
+  float: right;
+  margin-left: 39%;
+  .btn-1,
+  .btn-2 {
+    margin-right: 3%;
+  }
+}
+.template-sidebar {
+  background-color: white;
+  position: fixed;
+  //   margin-top: 1.75rem;
+  padding: 0;
+  width: 193px;
+  height: 100%;
+  z-index: 1;
+  overflow-x: hidden;
+}
+.main-template-container {
+  border-width: 100px;
+  border-color: black;
+  margin-left: 193px;
+  background-color: white;
+  width: auto;
+  min-height: 72.5vh !important;
+  height: 100%;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+.main-template-title {
+  margin-top: 10px;
+  color: #000000;
+  font-family: Lato;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+  margin-left: 35px;
+  text-align: left;
+  width: auto;
+  border: 1px solid #cccccc;
+}
+.format-checkboxes {
+  margin-bottom: 25px;
+  margin-right: 18%;
+  font-weight: normal;
+}
+.draft-container {
+  margin-top: 10px;
+  min-height: 200px !important;
+  border-radius: 4px;
+  margin-left: 56px;
+  height: 100%;
+  width: 540px;
+  border: 1px solid black;
+  margin-right: 49px;
+}
+.main-template-subtitle {
+  margin-top: 20px;
+  font-family: Lato;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  margin-left: 56px;
+  color: #373a3c;
+}
+.add-stage {
+  border: 1px solid #cccccc;
+  //  background-color: #ffcc66;
+}
+.add-stage,
+.stage-button {
+  height: 53px;
+  text-align: center;
+  font-family: Lato;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  padding-bottom: 12.5px;
+  padding-top: 15px;
+  width: 100%;
+  padding-left: 37px;
+  padding-right: 37px;
+  color: #000000;
+}
+.header-template {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  font-size: 48px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.stages-txt {
+  margin-top: 25px;
+  margin-bottom: 5px;
+  margin-right: 65%;
+  font-family: Lato;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  color: #373a3c;
+}
+.stage-chk {
+  margin-right: 3%;
+}
