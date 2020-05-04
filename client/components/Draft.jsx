@@ -104,11 +104,11 @@ export default function Draft(props) {
     getDescription(id, phaseName, stageName)
       .then(data => {
         const description = data.data.description;
+        setPrevContent(description);
         const json = JSON.parse(description);
         if ("blocks" in json) {
           setEditorContent(json);
         }
-        setPrevContent(description);
         setLoading(false);
       })
       .catch(() => {
