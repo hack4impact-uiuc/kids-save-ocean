@@ -1,12 +1,19 @@
 .project-form-modal {
-  max-width: 38.5rem;
+  max-width: 34.5rem;
+  border-radius: 33px;
   .modal-content {
-    padding-left: 1.875rem;
+    background-color: white;
+    padding-left: 1.375rem;
     padding-top: 1rem;
-    padding-right: 2.5rem;
-    padding-bottom: 2.375rem;
-    border-radius: 22px;
+    padding-right: 1.875rem;
+    padding-bottom: 1.625rem;
+    border-radius: 33px;
+    max-height: 46rem;
+    overflow-x: hidden;
   }
+}
+.sdg-row {
+  margin: 0 !important;
 }
 .header-modal-text {
   color: black;
@@ -19,11 +26,16 @@
   padding-bottom: 0.5rem;
   margin-bottom: 0.3125rem;
 }
+.sdg-required-label {
+  float: left;
+}
+.sdg-required-label:after,
 .form-required-label:after {
   padding-left: 0.3125rem;
   color: #cb2431;
   content: "*";
 }
+.sdg-required-label,
 .form-required-label,
 .form-label {
   font-family: Lato;
@@ -38,9 +50,39 @@
 .project-desc-input {
   min-height: 7.75rem !important;
 }
+
+.validating-div {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  text-align: center;
+  font-family: Arvo, serif;
+  font-style: normal;
+  font-weight: lighter;
+  font-size: 0.875rem;
+}
+.error-message {
+  display: inline-block;
+  vertical-align: middle;
+}
+.invalid-alert:before {
+  content: " ";
+  display: inline-block;
+  vertical-align: middle; /* vertical alignment of the inline element */
+  height: 100%;
+}
+.invalid-alert {
+  height: 74px;
+  justify-content: center;
+  text-align: center;
+}
+.form-control:focus {
+  border-color: #2684ff;
+  border-width: 1px;
+  box-shadow: 0 0 0 0.1rem rgba(0, 123, 255, 0.25);
+}
 .project-desc-input,
 .project-title-input {
-  min-height: 1.875rem;
+  min-height: 2.5rem;
   height: auto;
   border: 1px solid #bdbdbd;
 }
@@ -54,6 +96,8 @@
   font-size: 0.875rem;
   color: #8f8f8f;
   margin-bottom: 0.625rem;
+  font-family: Lato;
+  font-weight: 300;
 }
 .right-col {
   margin-left: 0;
@@ -63,7 +107,15 @@
 }
 .desc-form {
   margin-top: 0.5rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0;
+}
+.char-count {
+  margin-bottom: 1rem;
+  color: #949494;
+  font-size: 12px;
+  font-weight: normal;
+  font-family: Lato;
+  margin-left: 0.25rem;
 }
 
 .button-modal {
@@ -71,7 +123,7 @@
   border-radius: 15px;
   width: 8.25rem;
   height: 2.315rem;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
   margin-left: auto;
   margin-right: auto;
   text-align: center;
@@ -83,5 +135,26 @@
 }
 .button-modal:hover {
   background-color: rgba(#003366, 0.85);
+  color: white;
   transition: 0.2s;
+}
+.info-icon {
+  float: left;
+  fill: #0366d6;
+
+  height: 16px;
+  width: 14px;
+}
+.tooltip-sdg {
+  margin-left: 5px;
+  max-width: none !important;
+}
+.tooltip-sdg-arrow {
+  margin-left: 5px;
+}
+.sdg-link {
+  margin-top: 6px;
+  margin-left: 5px;
+  width: 14px;
+  height: 16px;
 }
