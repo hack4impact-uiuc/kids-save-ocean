@@ -212,9 +212,7 @@ export default function ProjectPage() {
               <ModalFooter>
                 <Link
                   href="/projects/[projectId]/[stageInfo]"
-                  as={`/projects/${projectId}/${activePhase}-${activeStage.name
-                    .toLowerCase()
-                    .replace(" ", "-")}`}
+                  as={`/projects/${projectId}/${activePhase}-${activeStage.name}`}
                   passHref
                 >
                   <a>
