@@ -16,12 +16,10 @@ import {
 import { Head } from "../components";
 import "../public/styles/auth.scss";
 
-export default function Login(props) {
+export default function Login() {
   // constants
   const EMAIL_REGEX =
     "([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)@([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+).([a-zA-Z]{2,3}).?([a-zA-Z]{0,3})";
-  const SUCCESS = 200;
-  const { role } = props;
 
   // state
   const [email, setEmail] = useState("");

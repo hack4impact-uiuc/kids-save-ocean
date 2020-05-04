@@ -15,14 +15,13 @@ import "../public/styles/signupPage.scss";
 import Select from "react-select";
 import countryData from "../utils/countries";
 
-export default function RegisterPage(props) {
+export default function RegisterPage() {
   // constants
   // michael's baby
   const EMAIL_REGEX =
     "([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)@([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+).([a-zA-Z]{2,3}).?([a-zA-Z]{0,3})";
   const SUCCESS = 200;
   const INVALID = -1;
-  const { role } = props;
 
   // state related to auth user
 
