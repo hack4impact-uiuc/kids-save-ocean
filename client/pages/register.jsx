@@ -5,11 +5,9 @@ import {
   register,
   verifyPIN,
   resendPIN,
-  google,
   createUser
 } from "../utils/apiWrapper";
 import { Alert, Form, Button, FormGroup, Input, Row, Col } from "reactstrap";
-import { GoogleLogin } from "react-google-login";
 import { Head } from "../components";
 
 import "../public/styles/auth.scss";
@@ -42,18 +40,6 @@ export default function RegisterPage(props) {
   const [securityQuestionAnswer, setSecurityQuestionAnswer] = useState("");
   const [successfulSubmit, setSuccessfulSubmit] = useState(false);
   const [questionIdx, setQuestionIdx] = useState(INVALID);
-
-  const handleGoogle = async e => {
-    const result = await google(e.tokenId);
-    const resp = await result.json();
-    if (resp.status !== SUCCESS) {
-      setErrorMessage(resp.message);
-    } else {
-      localStorage.setItem("token", e.tokenId);
-      localStorage.setItem("google", true);
-      Router.push("/");
-    }
-  };
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -396,26 +382,6 @@ export default function RegisterPage(props) {
                   >
                     <div className=" vertAlign textField">Login</div>
                   </Button>
-                </Row>
-                <Row>
-                  <Col xs="2"></Col>
-
-                  <Col xs="8">
-                    <div className="google-btn-wrapper">
-                      <GoogleLogin
-                        justify="center"
-                        align="middle"
-                        float="middle"
-                        className="btn sign-in-btn"
-                        clientId="992779657352-2te3be0na925rtkt8kt8vc1f8tiph5oh.apps.googleusercontent.com"
-                        responseType="id_token"
-                        buttonText={role}
-                        scope="https://www.googleapis.com/auth/userinfo.email"
-                        onSuccess={handleGoogle}
-                      />
-                    </div>
-                  </Col>
-                  <Col xs="2"></Col>
                 </Row>
               </div>
             ) : (

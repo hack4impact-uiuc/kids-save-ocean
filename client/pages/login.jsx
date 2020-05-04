@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { GoogleLogin } from "react-google-login";
 import Link from "next/link";
 import Router from "next/router";
-import { login, google } from "../utils/apiWrapper";
+import { login } from "../utils/apiWrapper";
 import {
   Alert,
   Form,
@@ -28,18 +27,6 @@ export default function Login(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-
-  const handleGoogle = async e => {
-    const result = await google(e.tokenId);
-    const resp = await result.json();
-    if (resp.status !== SUCCESS) {
-      setErrorMessage(resp.message);
-    } else {
-      localStorage.setItem("token", e.tokenId);
-      localStorage.setItem("google", true);
-      Router.push("/feed");
-    }
-  };
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -121,16 +108,6 @@ export default function Login(props) {
             </div>
           </CardBody>
         </Card>
-      </div>
-      <div className="google-btn-wrapper">
-        <GoogleLogin
-          className="btn sign-in-btn"
-          clientId="992779657352-2te3be0na925rtkt8kt8vc1f8tiph5oh.apps.googleusercontent.com"
-          responseType="id_token"
-          buttonText={role}
-          scope="https://www.googleapis.com/auth/userinfo.email"
-          onSuccess={handleGoogle}
-        />
       </div>
       <br />
     </div>
