@@ -10,18 +10,18 @@ export default [
   {
     label: "Industry, Innovation and Infrastructure",
     value: "9",
-    color: "#fc6a27",
+    color: "#fc6a27"
   },
   { label: "Reduced Inequalities", value: "10", color: "#de1166" },
   {
     label: "Sustainable Cities and Communities",
     value: "11",
-    color: "#fc9e25",
+    color: "#fc9e25"
   },
   {
     label: "Responsible Consumption and Production",
     value: "12",
-    color: "#c08b2e",
+    color: "#c08b2e"
   },
   { label: "Climate Action", value: "13", color: "#407d45" },
   { label: "Life Below Water", value: "14", color: "#0996d9" },
@@ -29,7 +29,7 @@ export default [
   {
     label: "Peace, Justice and Strong Institutions",
     value: "16",
-    color: "#00699e",
+    color: "#00699e"
   },
-  { label: "Partnerships for the Goals", value: "17", color: "#1b476b" },
+  { label: "Partnerships for the Goals", value: "17", color: "#1b476b" }
 ];

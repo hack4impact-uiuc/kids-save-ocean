@@ -8,7 +8,6 @@ const ModelSchema = require("../public/schema/projectSchema.js").projectSchema;
 const { getUsername } = require("../utils/user_utils");
 
 const SUCCESS = 200;
-const NOT_FOUND = 404;
 
 router.get("/", function(req, res) {
   let sdg_par = req.query.sdg;
@@ -19,10 +18,10 @@ router.get("/", function(req, res) {
   if (sdg_par && !isNaN(sdg_num)) {
     collection.find(
       {
-        sdg: sdg_num,
+        sdg: sdg_num
       },
       {
-        $exists: true,
+        $exists: true
       },
       function(e, docs) {
         res.send(docs);
@@ -45,7 +44,7 @@ router.get("/:model_ID", function(req, res) {
   const collection = db.get("projects");
   collection
     .findOne({ _id: id })
-    .then((model) => (model !== null ? res.send(model) : res.sendStatus(404)))
+    .then(model => (model !== null ? res.send(model) : res.sendStatus(404)))
     .catch(() => res.sendStatus(500));
 });
 
@@ -53,7 +52,7 @@ router.get("/:model_ID", function(req, res) {
 router.post(
   "/",
   validate({
-    body: ModelSchema,
+    body: ModelSchema
   }),
   checkToken,
   async function(req, res) {
@@ -88,7 +87,7 @@ router.post(
         email: email,
         projectId: currProjectId,
         description: `${username} created ${data.name}`,
-        date: Date.now(),
+        date: Date.now()
       };
 
       try {
@@ -100,7 +99,7 @@ router.post(
         code: SUCCESS,
         success: true,
         message: `${data.name} added!`,
-        data: project,
+        data: project
       });
     }
   }
@@ -112,10 +111,10 @@ router.delete("/:model_ID", checkToken, function(req, res) {
   const collection = db.get("projects");
   collection
     .findOneAndDelete({ _id: id })
-    .then((model) =>
+    .then(model =>
       model !== null
         ? res.json({
-            success: `${id} deleted!`,
+            success: `${id} deleted!`
           })
         : res.sendStatus(404)
     )
@@ -127,7 +126,7 @@ router.delete("/:model_ID", checkToken, function(req, res) {
 router.put(
   "/:model_ID",
   validate({
-    body: ModelSchema,
+    body: ModelSchema
   }),
   checkToken,
   function(req, res) {
@@ -137,11 +136,11 @@ router.put(
     collection
       .findOneAndUpdate(
         {
-          _id: id,
+          _id: id
         },
         { $set: req.body }
       )
-      .then((model) =>
+      .then(model =>
         model !== null
           ? res.json({ success: `${id} updated!` })
           : res.sendStatus(404)
@@ -166,11 +165,11 @@ router.put(
       .findOneAndUpdate(
         {
           _id: model_ID,
-          [`phases.${phaseName}.stages.name`]: stageName,
+          [`phases.${phaseName}.stages.name`]: stageName
         },
         { $set: { [`phases.${phaseName}.stages.$.description`]: description } }
       )
-      .then((model) => {
+      .then(model => {
         if (model === null) {
           res.sendStatus(404);
         }
@@ -186,20 +185,20 @@ router.put(
       projectId: model_ID,
       description: `${username} updated their ${stageName} stage`,
       subDescription: `${subDescription}`,
-      date: Date.now(),
+      date: Date.now()
     };
 
     try {
       updates.update(
         {
           description: `${username} updated their ${stageName} stage`,
-          projectId: model_ID,
+          projectId: model_ID
         },
         {
-          $set: update,
+          $set: update
         },
         {
-          upsert: true,
+          upsert: true
         }
       );
     } catch (err) {
@@ -216,15 +215,15 @@ router.get("/:model_ID/:phaseName/:stageName/description", function(req, res) {
   const { model_ID, phaseName, stageName } = req.params;
   collection
     .findOne({ _id: model_ID })
-    .then((model) => {
+    .then(model => {
       if (model === null) {
         res.sendStatus(404);
       } else {
         const stages = model.phases[phaseName].stages;
-        const stage = stages.filter((s) => s.name === stageName)[0];
+        const stage = stages.filter(s => s.name === stageName)[0];
         stage !== undefined
           ? res.json({
-              description: stage.description,
+              description: stage.description
             })
           : res.sendStatus(404);
       }
@@ -239,11 +238,11 @@ router.get("/:numUpdates/:lastID", function(req, res) {
   const collection = db.get("projects");
   collection.find(
     {
-      _id: { $gt: last_ID },
+      _id: { $gt: last_ID }
     },
     {
       $exists: true,
-      limit: parseInt(req.params.numUpdates),
+      limit: parseInt(req.params.numUpdates)
     },
     function(e, docs) {
       if (docs) {

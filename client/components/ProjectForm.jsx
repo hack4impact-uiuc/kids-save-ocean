@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import chroma from "chroma-js";
 import Router from "next/router";
-import { Loader } from "../components";
 import { addModel } from "../utils/apiWrapper";
 import {
   Alert,
@@ -13,7 +12,7 @@ import {
   Label,
   Modal,
   Row,
-  Tooltip,
+  Tooltip
 } from "reactstrap";
 import Select from "react-select";
 import UNGoalData from "../utils/goals";
@@ -39,65 +38,15 @@ export default function ProjectForm(props) {
   const [tooltipOpen, setTooltipOpen] = useState(false);
   const [isWaiting, setIsWaiting] = useState(false);
   const [hasPressedSubmit, setPressedSubmit] = useState(false);
+
+  const waitAfterStart = 1000;
+  const waitAfterAPICall = 1500;
   const minTitleLength = 3;
   const maxTitleLength = 50;
   const maxDescLength = 350;
+  const hoverOpacity = 0.1;
+  const selectedOpacity = 0.2;
   const isCentered = true;
-
-  const sdgStyles = {
-    control: (styles) => ({
-      ...styles,
-      minHeight: 45,
-      backgroundColor: "white",
-    }),
-    option: (styles, { data, isDisabled, isFocused, isSelected }) => {
-      const color = chroma(data.color);
-      return {
-        ...styles,
-        backgroundColor: isDisabled
-          ? null
-          : isSelected
-          ? data.color
-          : isFocused
-          ? color.alpha(0.1).css()
-          : null,
-        // color: isDisabled
-        //   ? '#ccc'
-        //   : isSelected
-        //   ? chroma.contrast(color, 'white') > 2
-        //     ? 'white'
-        //     : 'black'
-        //   : data.color,
-        cursor: isDisabled ? "not-allowed" : "default",
-
-        ":active": {
-          ...styles[":active"],
-          backgroundColor:
-            !isDisabled && (isSelected ? data.color : color.alpha(0.2).css()),
-        },
-      };
-    },
-    multiValue: (styles, { data }) => {
-      const color = chroma(data.color);
-      return {
-        ...styles,
-        backgroundColor: color.alpha(0.1).css(),
-      };
-    },
-    multiValueLabel: (styles, { data }) => ({
-      ...styles,
-      color: data.color,
-    }),
-    multiValueRemove: (styles, { data }) => ({
-      ...styles,
-      color: data.color,
-      ":hover": {
-        backgroundColor: data.color,
-        color: "white",
-      },
-    }),
-  };
-  const toggleTooltip = () => setTooltipOpen(!tooltipOpen);
 
   useEffect(() => {
     if (props.isModalActivated === true) {
@@ -105,7 +54,55 @@ export default function ProjectForm(props) {
     }
   }, [props]);
 
-  const handleStart = async (e) => {
+  const toggleTooltip = () => setTooltipOpen(!tooltipOpen);
+
+  const iff = (condition, then, otherwise) => (condition ? then : otherwise);
+
+  const sdgStyles = {
+    control: styles => ({
+      ...styles,
+      minHeight: 45,
+      backgroundColor: "white"
+    }),
+    option: (styles, { data, isDisabled, isFocused, isSelected }) => {
+      const color = chroma(data.color);
+      return {
+        ...styles,
+        backgroundColor: isSelected
+          ? data.color
+          : iff(isFocused, color.alpha(hoverOpacity).css(), null),
+        cursor: isDisabled ? "not-allowed" : "default",
+
+        ":active": {
+          ...styles[":active"],
+          backgroundColor:
+            !isDisabled &&
+            (isSelected ? data.color : color.alpha(selectedOpacity).css())
+        }
+      };
+    },
+    multiValue: (styles, { data }) => {
+      const color = chroma(data.color);
+      return {
+        ...styles,
+        backgroundColor: color.alpha(hoverOpacity).css()
+      };
+    },
+    multiValueLabel: (styles, { data }) => ({
+      ...styles,
+      color: data.color
+    }),
+    multiValueRemove: (styles, { data }) => ({
+      ...styles,
+      color: data.color,
+      ":hover": {
+        backgroundColor: data.color,
+        color: "white"
+      }
+    })
+  };
+
+  const handleStart = async e => {
     setIsWaiting(true);
     setErrorMessage("Validating project...");
     e.preventDefault();
@@ -125,7 +122,7 @@ export default function ProjectForm(props) {
         setError(false);
         setError(true);
         setPressedSubmit(true);
-      }, 1000);
+      }, waitAfterStart);
     } else {
       let final_difficulty = difficulty;
       let final_description = description;
@@ -138,7 +135,7 @@ export default function ProjectForm(props) {
         final_description = "";
       }
       const final_sdgs = [];
-      final_sdgs.map((sdg) => {
+      final_sdgs.map(sdg => {
         let temp = parseInt(sdg.value);
         final_sdgs.push(temp);
       });
@@ -152,8 +149,8 @@ export default function ProjectForm(props) {
         phases: {
           inspiration: { stages: [] },
           ideation: { stages: [] },
-          implementation: { stages: [] },
-        },
+          implementation: { stages: [] }
+        }
       };
       let resp = await addModel(project);
 
@@ -163,11 +160,11 @@ export default function ProjectForm(props) {
           setError(false);
           setSuccess(true);
           setPressedSubmit(true);
-        }, 1000);
+        }, waitAfterStart);
         setTimeout(() => {
           toggleModal();
           Router.push(`/projects/${resp.data.data._id}`);
-        }, 1500);
+        }, waitAfterAPICall);
       } else {
         setTimeout(() => {
           setIsWaiting(false);
@@ -176,7 +173,7 @@ export default function ProjectForm(props) {
           setErrorMessage(
             "Project was not submitted due to bad data. Please try again later. If the issue persists, please contact us!"
           );
-        }, 1500);
+        }, waitAfterAPICall);
       }
     }
   };
@@ -185,14 +182,14 @@ export default function ProjectForm(props) {
     setIsOpen(!modalIsOpen);
   }
 
-  const isTitleValid = (title) => {
+  const isTitleValid = title => {
     if (title.length < minTitleLength || title.length > maxTitleLength) {
       return false;
     }
     return true;
   };
 
-  const isTitleInvalid = (title) => {
+  const isTitleInvalid = title => {
     if (title.length === 0) {
       if (typedTitle) {
         return true;
@@ -206,7 +203,7 @@ export default function ProjectForm(props) {
     return false;
   };
 
-  const isDescriptionValid = (desc) => {
+  const isDescriptionValid = desc => {
     if (desc.length === 0) {
       if (!typedDesc) {
         return false;
@@ -217,7 +214,7 @@ export default function ProjectForm(props) {
     return true;
   };
 
-  const isDescriptionInvalid = (desc) => {
+  const isDescriptionInvalid = desc => {
     if (!typedDesc && desc.length > 0) {
       setTypedDesc(true);
     }
@@ -235,18 +232,17 @@ export default function ProjectForm(props) {
         className="project-form-modal"
         centered={isCentered}
         returnFocusAfterClose={false}
-        // scrollable={true}
       >
         <Form>
           <div className="header-modal-text">Create a Project</div>
-          {error && hasPressedSubmit && (
+          {error && (
             <Alert color="danger" className="invalid-alert">
               <div className="error-message">{errorMessage}</div>
             </Alert>
           )}
           {success && !isWaiting && (
-            <Alert color="success" className="invalid-alert">
-              <div className="error-message">Successfully created project!</div>
+            <Alert color="success" className="valid-alert">
+              <div className="valid-message">Successfully created project!</div>
             </Alert>
           )}
           {isWaiting && !hasPressedSubmit && (
@@ -264,7 +260,7 @@ export default function ProjectForm(props) {
               invalid={isTitleInvalid(projectTitle)}
               id="project-title-input"
               placeholder="Must be between 3 and 50 characters long"
-              onChange={(e) => setProjectTitle(e.target.value)}
+              onChange={e => setProjectTitle(e.target.value)}
               required
             />
           </FormGroup>
@@ -313,7 +309,6 @@ export default function ProjectForm(props) {
                   isClearable
                   className="project-select"
                   options={groupSizeData}
-                  // placeholder="Select group size"
                   onChange={setGroupSize}
                   value={groupSize}
                 />
@@ -328,7 +323,6 @@ export default function ProjectForm(props) {
                   isClearable
                   className="project-select"
                   options={countryData}
-                  // placeholder="Select country"
                   onChange={setCountry}
                   value={country}
                 />
@@ -362,18 +356,14 @@ export default function ProjectForm(props) {
               value={description}
               id="project-desc-input"
               placeholder="Optional..."
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={e => setDescription(e.target.value)}
               required
             />
           </FormGroup>
-          {description && (
-            <div className="char-count">
-              Characters left: {maxDescLength - description.length}
-            </div>
-          )}
-          {!description && (
-            <div className="char-count">Characters left: {maxDescLength}</div>
-          )}
+          <div className="char-count">
+            Characters left:{" "}
+            {maxDescLength - (description.length ? description.length : 0)}
+          </div>
         </Form>
 
         <Row>

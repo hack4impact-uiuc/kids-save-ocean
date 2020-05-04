@@ -4,47 +4,47 @@ const schema = {
   properties: {
     name: {
       type: "string",
-      required: true,
+      required: true
     },
     description: {
       type: "string",
       maximum: 350,
-      required: false,
+      required: false
     },
     country: {
       type: "string",
-      required: true,
+      required: true
     },
     groupSize: {
       type: "string",
-      required: true,
+      required: true
     },
     difficulty: {
       type: "string",
-      required: false,
+      required: false
     },
     sdg: {
       type: "array",
       items: {
         type: "integer",
-        enum: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
+        enum: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
       },
-      required: true,
+      required: true
     },
     phone: {
       type: "string",
-      required: false,
+      required: false
     },
     email: {
       type: "string",
-      required: false,
+      required: false
     },
     followers: {
       type: "array",
       items: {
-        type: "string",
+        type: "string"
       },
-      required: false,
+      required: false
     },
     phases: {
       type: "object",
@@ -62,14 +62,14 @@ const schema = {
                 properties: {
                   name: {
                     type: "string",
-                    required: true,
+                    required: true
                   },
                   description: {
                     type: "string",
-                    required: true,
-                  },
-                },
-              },
+                    required: true
+                  }
+                }
+              }
             },
             challenges: {
               type: "array",
@@ -79,14 +79,14 @@ const schema = {
                 properties: {
                   name: {
                     type: "string",
-                    required: true,
+                    required: true
                   },
                   description: {
                     type: "string",
-                    required: true,
-                  },
-                },
-              },
+                    required: true
+                  }
+                }
+              }
             },
             insights: {
               type: "array",
@@ -96,14 +96,14 @@ const schema = {
                 properties: {
                   name: {
                     type: "string",
-                    required: true,
+                    required: true
                   },
                   description: {
                     type: "string",
-                    required: true,
-                  },
-                },
-              },
+                    required: true
+                  }
+                }
+              }
             },
             stages: {
               type: "array",
@@ -113,24 +113,24 @@ const schema = {
                 properties: {
                   name: {
                     type: "string",
-                    required: true,
+                    required: true
                   },
                   description: {
                     type: "string",
-                    required: true,
+                    required: true
                   },
                   startdate: {
                     type: "string",
-                    required: true,
+                    required: true
                   },
                   enddate: {
                     type: "string",
-                    required: true,
-                  },
-                },
-              },
-            },
-          },
+                    required: true
+                  }
+                }
+              }
+            }
+          }
         },
         ideation: {
           type: "object",
@@ -144,14 +144,14 @@ const schema = {
                 properties: {
                   name: {
                     type: "string",
-                    required: true,
+                    required: true
                   },
                   description: {
                     type: "string",
-                    required: true,
-                  },
-                },
-              },
+                    required: true
+                  }
+                }
+              }
             },
             challenges: {
               type: "array",
@@ -161,14 +161,14 @@ const schema = {
                 properties: {
                   name: {
                     type: "string",
-                    required: true,
+                    required: true
                   },
                   description: {
                     type: "string",
-                    required: true,
-                  },
-                },
-              },
+                    required: true
+                  }
+                }
+              }
             },
             insights: {
               type: "array",
@@ -178,14 +178,14 @@ const schema = {
                 properties: {
                   name: {
                     type: "string",
-                    required: true,
+                    required: true
                   },
                   description: {
                     type: "string",
-                    required: true,
-                  },
-                },
-              },
+                    required: true
+                  }
+                }
+              }
             },
             stages: {
               type: "array",
@@ -195,24 +195,24 @@ const schema = {
                 properties: {
                   name: {
                     type: "string",
-                    required: true,
+                    required: true
                   },
                   description: {
                     type: "string",
-                    required: true,
+                    required: true
                   },
                   startdate: {
                     type: "string",
-                    required: true,
+                    required: true
                   },
                   enddate: {
                     type: "string",
-                    required: true,
-                  },
-                },
-              },
-            },
-          },
+                    required: true
+                  }
+                }
+              }
+            }
+          }
         },
         implementation: {
           type: "object",
@@ -226,14 +226,14 @@ const schema = {
                 properties: {
                   name: {
                     type: "string",
-                    required: true,
+                    required: true
                   },
                   description: {
                     type: "string",
-                    required: true,
-                  },
-                },
-              },
+                    required: true
+                  }
+                }
+              }
             },
             challenges: {
               type: "array",
@@ -243,14 +243,14 @@ const schema = {
                 properties: {
                   name: {
                     type: "string",
-                    required: true,
+                    required: true
                   },
                   description: {
                     type: "string",
-                    required: true,
-                  },
-                },
-              },
+                    required: true
+                  }
+                }
+              }
             },
             insights: {
               type: "array",
@@ -260,14 +260,14 @@ const schema = {
                 properties: {
                   name: {
                     type: "string",
-                    required: true,
+                    required: true
                   },
                   description: {
                     type: "string",
-                    required: true,
-                  },
-                },
-              },
+                    required: true
+                  }
+                }
+              }
             },
             stages: {
               type: "array",
@@ -277,30 +277,30 @@ const schema = {
                 properties: {
                   name: {
                     type: "string",
-                    required: true,
+                    required: true
                   },
                   description: {
                     type: "string",
-                    required: true,
+                    required: true
                   },
                   startdate: {
                     type: "string",
-                    required: true,
+                    required: true
                   },
                   enddate: {
                     type: "string",
-                    required: true,
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
-    },
-  },
+                    required: true
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 };
 
 module.exports = {
-  projectSchema: schema,
+  projectSchema: schema
 };

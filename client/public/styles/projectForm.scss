@@ -1,6 +1,5 @@
 .project-form-modal {
   max-width: 34.5rem;
-  border-radius: 33px;
   .modal-content {
     background-color: white;
     padding-left: 1.375rem;
@@ -12,9 +11,6 @@
     overflow-x: hidden;
   }
 }
-.sdg-row {
-  margin: 0 !important;
-}
 .header-modal-text {
   color: black;
   font-family: Arvo, serif;
@@ -25,6 +21,34 @@
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
   margin-bottom: 0.3125rem;
+}
+
+.valid-alert:before,
+.invalid-alert:before {
+  content: " ";
+  display: inline-block;
+  vertical-align: middle;
+  height: 100%;
+}
+.valid-alert,
+.invalid-alert {
+  height: 6.125rem;
+  justify-content: center;
+  text-align: center;
+}
+.valid-message,
+.error-message {
+  display: inline-block;
+  vertical-align: middle;
+}
+.validating-div {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  text-align: center;
+  font-family: Arvo, serif;
+  font-style: normal;
+  font-weight: lighter;
+  font-size: 0.875rem;
 }
 .sdg-required-label {
   float: left;
@@ -47,45 +71,7 @@
   color: #000000;
   margin: 0;
 }
-.project-desc-input {
-  min-height: 7.75rem !important;
-}
 
-.validating-div {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  text-align: center;
-  font-family: Arvo, serif;
-  font-style: normal;
-  font-weight: lighter;
-  font-size: 0.875rem;
-}
-.error-message {
-  display: inline-block;
-  vertical-align: middle;
-}
-.invalid-alert:before {
-  content: " ";
-  display: inline-block;
-  vertical-align: middle; /* vertical alignment of the inline element */
-  height: 100%;
-}
-.invalid-alert {
-  height: 74px;
-  justify-content: center;
-  text-align: center;
-}
-.form-control:focus {
-  border-color: #2684ff;
-  border-width: 1px;
-  box-shadow: 0 0 0 0.1rem rgba(0, 123, 255, 0.25);
-}
-.project-desc-input,
-.project-title-input {
-  min-height: 2.5rem;
-  height: auto;
-  border: 1px solid #bdbdbd;
-}
 .project-desc-input,
 .project-title-input,
 .project-select {
@@ -99,11 +85,46 @@
   font-family: Lato;
   font-weight: 300;
 }
-.right-col {
-  margin-left: 0;
+.project-desc-input,
+.project-title-input {
+  min-height: 2.5rem;
+  height: auto;
+  border: 1px solid #bdbdbd;
+}
+.project-desc-input {
+  min-height: 7.75rem !important;
+}
+.form-control:focus {
+  border-color: #2684ff;
+  border-width: 1px;
+  box-shadow: 0 0 0 0.1rem rgba(0, 123, 255, 0.25);
+}
+.sdg-row {
+  margin: 0 !important;
+}
+.sdg-link {
+  margin-top: 0.375rem;
+  margin-left: 0.3125rem;
+  width: 0.875rem;
+  height: 1rem;
+}
+.info-icon {
+  float: left;
+  fill: #0366d6;
+
+  height: 1rem;
+  width: 0.875rem;
+}
+.tooltip-sdg-arrow,
+.tooltip-sdg {
+  margin-left: 0.3125rem;
+  max-width: none !important;
 }
 .left-col {
   margin-right: 0.3125rem;
+}
+.right-col {
+  margin-left: 0;
 }
 .desc-form {
   margin-top: 0.5rem;
@@ -112,7 +133,7 @@
 .char-count {
   margin-bottom: 1rem;
   color: #949494;
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: normal;
   font-family: Lato;
   margin-left: 0.25rem;
@@ -137,24 +158,4 @@
   background-color: rgba(#003366, 0.85);
   color: white;
   transition: 0.2s;
-}
-.info-icon {
-  float: left;
-  fill: #0366d6;
-
-  height: 16px;
-  width: 14px;
-}
-.tooltip-sdg {
-  margin-left: 5px;
-  max-width: none !important;
-}
-.tooltip-sdg-arrow {
-  margin-left: 5px;
-}
-.sdg-link {
-  margin-top: 6px;
-  margin-left: 5px;
-  width: 14px;
-  height: 16px;
 }
