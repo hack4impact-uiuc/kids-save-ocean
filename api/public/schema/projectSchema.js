@@ -8,7 +8,6 @@ const schema = {
     },
     description: {
       type: "string",
-      maximum: 350,
       required: false
     },
     country: {
