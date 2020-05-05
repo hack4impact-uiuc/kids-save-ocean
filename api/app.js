@@ -6,7 +6,6 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 
-const indexRouter = require("./routes/index");
 const modelRouter = require("./routes/model");
 const templateRouter = require("./routes/template");
 const userRouter = require("./routes/user");
@@ -58,7 +57,6 @@ app.use(function(req, res, next) {
 });
 
 app.use("/api/auth/", authRouter);
-app.use("/api/", indexRouter);
 app.use("/api/models", modelRouter);
 app.use("/api/user", userRouter);
 app.use("/api/upload", filestoreRouter);
