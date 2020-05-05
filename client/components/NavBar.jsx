@@ -7,7 +7,7 @@ import {
   Nav,
   Button,
   Col,
-  Container,
+  Container
 } from "reactstrap";
 import { ProjectForm } from "../components";
 
@@ -49,8 +49,12 @@ export default function NavBar() {
   }, [isTop]);
 
   useEffect(() => {
-    setLoggedIn(localStorage.getItem("token"));
+    toggleLoggedIn();
   });
+
+  function toggleLoggedIn() {
+    setLoggedIn(localStorage.getItem("token"));
+  }
 
   function toggleNavbar() {
     setCollapsed(!isCollapsed);
