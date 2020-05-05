@@ -16,9 +16,10 @@ body {
 .bottom-buttons {
   width: 100%;
   margin-top: 10px;
+  margin-bottom: 20px;
+  margin-left: 47%;
   bottom: 0;
   float: right;
-  margin-left: 39%;
   .btn-1,
   .btn-2 {
     margin-right: 3%;
@@ -83,7 +84,7 @@ body {
 }
 .add-stage {
   border: 1px solid #cccccc;
-  //  background-color: #ffcc66;
+  background-color: #ffcc66;
 }
 .add-stage,
 .stage-button {
@@ -99,6 +100,9 @@ body {
   padding-left: 37px;
   padding-right: 37px;
   color: #000000;
+}
+.stage-button {
+  border: 0.5px solid lightgrey;
 }
 .header-template {
   padding-top: 15px;

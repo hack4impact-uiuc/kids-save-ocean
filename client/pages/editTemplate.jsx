@@ -5,7 +5,8 @@ import {
   saveTemplateName,
   saveTemplatePhases,
   deleteTemplate,
-  getTemplateByID
+  getTemplateByID,
+  getTemplates
 } from "../utils/apiWrapper";
 import { Head, TemplateDraft } from "../components";
 import {
@@ -26,6 +27,7 @@ export default function EditTemplate() {
   const [isAdmin, setIsAdmin] = useState(true);
   const [name, setName] = useState("");
   const [error, setError] = useState(false);
+  const [templates, setTemplates] = useState([]);
   const [isInspiration, setInspiration] = useState(false);
   const [isIdeation, setIdeation] = useState(false);
   const [isImplementation, setImplementation] = useState(false);
@@ -33,8 +35,16 @@ export default function EditTemplate() {
   const phases = ["Inspiration", "Ideation", "Implementation"];
   const id = "5ea4e82211b8340345e8a9db";
   const successStatus = 200;
+
+  // var templatesArr = [];
+
   useEffect(() => {
     const getInitialInfo = async () => {
+      setTemplates(await getTemplates());
+      // templatesArr = await getTemplates();
+      // console.log(templatesArr); // to delete (remember to use useEffect to update when changes are made)
+      // console.log(templatesArr.data[0].name); // to delete
+
       const result = await getTemplateByID(id);
       if (result) {
         if (result.data.name) {
@@ -57,6 +67,7 @@ export default function EditTemplate() {
     };
     getInitialInfo();
   }, []);
+
   // useEffect(() => {
   //   const checkPriv = async () => {
   //     const raw_priv = await checkAdminPrivilege(id);
@@ -70,6 +81,7 @@ export default function EditTemplate() {
   //   };
   //   checkPriv();
   // }, []);
+
   const handleNewStage = async e => {
     e.preventDefault();
     // for future: check admin before creating
@@ -85,6 +97,7 @@ export default function EditTemplate() {
     // }
     Router.push("/editTemplate");
   };
+
   const handleDelete = async e => {
     e.preventDefault();
     // for future: check admin before deleting
@@ -94,23 +107,31 @@ export default function EditTemplate() {
     // }
     Router.push("/editTemplate");
   };
+
   const handleSaveAll = async e => {
     e.preventDefault();
+
     if (!name || (!isInspiration && !isIdeation && !isImplementation)) {
       setError(true);
       return;
     }
+
     setError(false);
+
     let selectedPhases = [];
+
     if (isInspiration) {
       selectedPhases.push(phases[0]);
     }
+
     if (isIdeation) {
       selectedPhases.push(phases[1]);
     }
+
     if (isImplementation) {
       selectedPhases.push(phases[2]);
     }
+
     let result = {
       name
     };
@@ -123,6 +144,7 @@ export default function EditTemplate() {
     console.log(phasesResult);
     // check if name and phase results are successful, if so, refresh page, otherwise give alert
   };
+
   return (
     <div>
       {isAdmin && (
@@ -140,84 +162,12 @@ export default function EditTemplate() {
               </Button>
             </Row>
             <Row>
-              <Button className="stage-button" color="white">
-                Stage 1
-              </Button>
-            </Row>
-            <Row>
-              <Button className="stage-button" color="white">
-                Stage 1
-              </Button>
-            </Row>
-            <Row>
-              <Button className="stage-button" color="white">
-                Stage 1
-              </Button>
-            </Row>
-            <Row>
-              <Button className="stage-button" color="white">
-                Stage 1
-              </Button>
-            </Row>
-            <Row>
-              <Button className="stage-button" color="white">
-                Stage 1
-              </Button>
-            </Row>
-            <Row>
-              <Button className="stage-button" color="white">
-                Stage 1
-              </Button>
-            </Row>
-            <Row>
-              <Button className="stage-button" color="white">
-                Stage 1
-              </Button>
-            </Row>
-            <Row>
-              <Button className="stage-button" color="white">
-                Stage 1
-              </Button>
-            </Row>
-            <Row>
-              <Button className="stage-button" color="white">
-                Stage 1
-              </Button>
-            </Row>
-            <Row>
-              <Button className="stage-button" color="white">
-                Stage 1
-              </Button>
-            </Row>
-            <Row>
-              <Button className="stage-button" color="white">
-                Stage 1
-              </Button>
-            </Row>
-            <Row>
-              <Button className="stage-button" color="white">
-                Stage 1
-              </Button>
-            </Row>
-            <Row>
-              <Button className="stage-button" color="white">
-                Stage 1
-              </Button>
-            </Row>
-            <Row>
-              <Button className="stage-button" color="white">
-                Stage 1
-              </Button>
-            </Row>
-            <Row>
-              <Button className="stage-button" color="white">
-                Stage 1
-              </Button>
-            </Row>
-            <Row>
-              <Button className="stage-button" color="white">
-                Stage 1
-              </Button>
+              {templates.data &&
+                templates.data.map(template => (
+                  <Button className="stage-button" color="white">
+                    {template.name}
+                  </Button>
+                ))}
             </Row>
           </Container>
           <Container className="main-template-container">
@@ -273,30 +223,28 @@ export default function EditTemplate() {
                     Implementation
                   </Label>
                 </FormGroup>
-                <br />
-                <br />
-                <Row>
-                  <div className="bottom-buttons">
-                    <Button
-                      onClick={handleDelete}
-                      className="btn-1"
-                      color="danger"
-                    >
-                      Delete
-                    </Button>
-                    <Button className="btn-2" color="light">
-                      Close
-                    </Button>
-                    <Button
-                      onClick={handleSaveAll}
-                      className="btn-3"
-                      color="primary"
-                    >
-                      Save Change
-                    </Button>
-                  </div>
-                </Row>
               </div>
+              <Row>
+                <div className="bottom-buttons">
+                  <Button
+                    onClick={handleDelete}
+                    className="btn-1"
+                    color="danger"
+                  >
+                    Delete
+                  </Button>
+                  <Button className="btn-2" color="light">
+                    Close
+                  </Button>
+                  <Button
+                    onClick={handleSaveAll}
+                    className="btn-3"
+                    color="primary"
+                  >
+                    Save Change
+                  </Button>
+                </div>
+              </Row>
             </Form>
           </Container>
         </div>

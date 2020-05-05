@@ -630,6 +630,7 @@ export const addTemplate = data => {
       });
     });
 };
+
 export const deleteTemplate = Template_ID => {
   /**
    * Deletes a template
@@ -647,6 +648,7 @@ export const deleteTemplate = Template_ID => {
       });
     });
 };
+
 export const getTemplates = () => {
   /**
    * Returns all templates
@@ -666,6 +668,7 @@ export const getTemplates = () => {
       });
     });
 };
+
 export const getTemplateByID = Template_ID => {
   /**
    * Returns template given ID
@@ -707,6 +710,7 @@ export const saveTemplate = (data, Template_ID) => {
       });
     });
 };
+
 export const saveTemplateDraft = (Template_ID, draft) => {
   /**
    * Edits a template's draft
