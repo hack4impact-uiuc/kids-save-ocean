@@ -125,6 +125,37 @@ router.put("/userInfo", checkToken, async (req, res) => {
   }
 });
 
+router.put("/userInfo/notifs", checkToken, async (req, res) => {
+  const { db } = req;
+  const collection = db.get("users");
+  const { email } = req.user;
+  const { lastCheckedNotifs } = req.body;
+
+  try {
+    const user = await collection.update(
+      { email },
+      { $set: { lastCheckedNotifs } },
+      { new: true }
+    );
+    if (user) {
+      res.status(200).send({
+        success: true,
+        message: "Updated last checked user notification date."
+      });
+    } else {
+      res.status(404).send({
+        success: false,
+        message: "User not found."
+      });
+    }
+  } catch (err) {
+    res.status(500).send({
+      success: false,
+      message: "Internal server error."
+    });
+  }
+});
+
 router.delete("/userInfo", checkToken, async (req, res) => {
   const { db } = req;
   const collection = db.get("users");
