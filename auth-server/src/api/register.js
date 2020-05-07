@@ -25,7 +25,6 @@ router.post(
       .isLength({ min: 1 })
   ],
   handleAsyncErrors(async function(req, res) {
-    console.log(req.body);
     // Checks that the request has the required fields (email, password, and role)
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
