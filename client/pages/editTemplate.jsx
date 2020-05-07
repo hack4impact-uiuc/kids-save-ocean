@@ -26,6 +26,7 @@ import "../public/styles/editTemplate.scss";
 export default function EditTemplate() {
   const [isAdmin, setIsAdmin] = useState(true);
   const [name, setName] = useState("");
+  const [templateID, setTemplateID] = useState("");
   const [error, setError] = useState(false);
   const [templates, setTemplates] = useState([]);
   const [isInspiration, setInspiration] = useState(false);
@@ -33,7 +34,7 @@ export default function EditTemplate() {
   const [isImplementation, setImplementation] = useState(false);
 
   const phases = ["Inspiration", "Ideation", "Implementation"];
-  const id = "5ea4e82211b8340345e8a9db";
+  var id = "5ea4e82211b8340345e8a9db";
   const successStatus = 200;
 
   // var templatesArr = [];
@@ -145,6 +146,10 @@ export default function EditTemplate() {
     // check if name and phase results are successful, if so, refresh page, otherwise give alert
   };
 
+  const handleID = async e => {
+    console.log("heyo imma test");
+  };
+
   return (
     <div>
       {isAdmin && (
@@ -164,7 +169,11 @@ export default function EditTemplate() {
             <Row>
               {templates.data &&
                 templates.data.map(template => (
-                  <Button className="stage-button" color="white">
+                  <Button
+                    className="stage-button"
+                    color="white"
+                    onClick={handleID}
+                  >
                     {template.name}
                   </Button>
                 ))}
