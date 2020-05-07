@@ -111,7 +111,7 @@ export default WrappedMessage(function EditProjectPage(props) {
         <>
           <Row>
             <Col className="home-block-col">
-              <Row className="home-block-1-ep">
+              <Row className="project-metadata-block">
                 <h1 className="proj-title">
                   <strong>Edit Project</strong>
                 </h1>
