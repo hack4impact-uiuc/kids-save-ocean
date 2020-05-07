@@ -8,7 +8,7 @@ const schema = {
     },
     description: {
       type: "string",
-      required: true
+      required: false
     },
     country: {
       type: "string",
@@ -20,7 +20,7 @@ const schema = {
     },
     difficulty: {
       type: "string",
-      required: true
+      required: false
     },
     sdg: {
       type: "array",
@@ -59,7 +59,7 @@ const schema = {
     },
     phases: {
       type: "object",
-      required: true,
+      required: false,
       properties: {
         inspiration: {
           type: "object",
@@ -67,7 +67,7 @@ const schema = {
           properties: {
             stakeholders: {
               type: "array",
-              required: true,
+              required: false,
               items: {
                 type: "object",
                 properties: {
@@ -84,7 +84,7 @@ const schema = {
             },
             challenges: {
               type: "array",
-              required: true,
+              required: false,
               items: {
                 type: "object",
                 properties: {
@@ -101,7 +101,7 @@ const schema = {
             },
             insights: {
               type: "array",
-              required: true,
+              required: false,
               items: {
                 type: "object",
                 properties: {
@@ -149,7 +149,7 @@ const schema = {
           properties: {
             stakeholders: {
               type: "array",
-              required: true,
+              required: false,
               items: {
                 type: "object",
                 properties: {
@@ -166,7 +166,7 @@ const schema = {
             },
             challenges: {
               type: "array",
-              required: true,
+              required: false,
               items: {
                 type: "object",
                 properties: {
@@ -183,7 +183,7 @@ const schema = {
             },
             insights: {
               type: "array",
-              required: true,
+              required: false,
               items: {
                 type: "object",
                 properties: {
@@ -231,7 +231,7 @@ const schema = {
           properties: {
             stakeholders: {
               type: "array",
-              required: true,
+              required: false,
               items: {
                 type: "object",
                 properties: {
@@ -248,7 +248,7 @@ const schema = {
             },
             challenges: {
               type: "array",
-              required: true,
+              required: false,
               items: {
                 type: "object",
                 properties: {
@@ -265,7 +265,7 @@ const schema = {
             },
             insights: {
               type: "array",
-              required: true,
+              required: false,
               items: {
                 type: "object",
                 properties: {
