@@ -34,15 +34,14 @@ export default function EditTemplate() {
   const [isImplementation, setImplementation] = useState(false);
 
   const phases = ["Inspiration", "Ideation", "Implementation"];
-  var id = "5ea4e82211b8340345e8a9db";
   const successStatus = 200;
 
   useEffect(() => {
     const getInitialInfo = async () => {
       setTemplates(await getTemplates());
-      setTemplateID(id);
+      setTemplateID("5ea4e82211b8340345e8a9db");
 
-      const result = await getTemplateByID(id);
+      const result = await getTemplateByID("5ea4e82211b8340345e8a9db");
 
       if (result.data !== undefined && result) {
         if (result.data.name) {
@@ -68,32 +67,9 @@ export default function EditTemplate() {
 
   const handleID = async clickedTemplateID => {
     setTemplateID(clickedTemplateID);
-    console.log(clickedTemplateID); // this works: to delete
+    console.log("Clicked template ID: " + clickedTemplateID); // this works: to delete
+    console.log("Template ID: " + templateID);
   };
-
-  useEffect(() => {
-    id = templateID;
-    const result = getTemplateByID(templateID);
-
-    if (result.data != undefined && result) {
-      if (result.data.name) {
-        setName(result.data.name);
-      }
-      if (result.data.phases !== []) {
-        result.data.phases.map(phase => {
-          if (phase === phases[0]) {
-            setInspiration(true);
-          }
-          if (phase === phases[1]) {
-            setIdeation(true);
-          }
-          if (phase === phases[2]) {
-            setImplementation(true);
-          }
-        });
-      }
-    }
-  }, [templateID]);
 
   // useEffect(() => {
   //   const checkPriv = async () => {
@@ -220,7 +196,7 @@ export default function EditTemplate() {
               ></Input>
               <Row className="main-template-subtitle">Template</Row>
               <Container className="draft-container">
-                <TemplateDraft id={id} />
+                <TemplateDraft id={templateID} />
               </Container>
               <div className="stages-txt">Which stages?</div>
               <div className="format-checkboxes">
