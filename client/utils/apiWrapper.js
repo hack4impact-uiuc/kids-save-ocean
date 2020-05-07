@@ -85,7 +85,8 @@ export const addModel = async data => {
     return axios
       .post(requestString, data, {
         headers: {
-          "Content-Type": "application/JSON"
+          "Content-Type": "application/JSON",
+          "x-access-token": localStorage.getItem("token")
         }
       })
       .catch(error => {
@@ -107,7 +108,8 @@ export const editModel = async (data, Model_ID) => {
     return axios
       .put(requestString, data, {
         headers: {
-          "Content-Type": "application/JSON"
+          "Content-Type": "application/JSON",
+          "x-access-token": localStorage.getItem("token")
         }
       })
       .catch(error => {
@@ -128,7 +130,10 @@ export const deleteForm = async Model_ID => {
     const requestString = `${BASE_URL}/models/${Model_ID}`;
     return axios
       .delete(requestString, {
-        headers: {}
+        headers: {
+          "Content-Type": "application/JSON",
+          "x-access-token": localStorage.getItem("token")
+        }
       })
       .catch(error => {
         ({
