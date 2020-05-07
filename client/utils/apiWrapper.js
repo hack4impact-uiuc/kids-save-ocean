@@ -435,31 +435,37 @@ export const getDescription = (model_id, phaseName, stageName) => {
   }));
 };
 
-export const getUser = () => {
-  try {
-    return fetch(`${BASE_URL}/users/userInfo`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "x-access-token": localStorage.getItem("token")
-      }
-    });
-  } catch (err) {
-    return err;
+export const getUser = async () => {
+  const validUser = await checkValidUser();
+  if (validUser) {
+    try {
+      return fetch(`${BASE_URL}/users/userInfo`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "x-access-token": localStorage.getItem("token")
+        }
+      });
+    } catch (err) {
+      return err;
+    }
   }
 };
 
-export const createUser = newUser => {
-  try {
-    return fetch(`${BASE_URL}/users`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(newUser)
-    });
-  } catch (err) {
-    return err;
+export const createUser = async newUser => {
+  const validUser = await checkValidUser();
+  if (validUser) {
+    try {
+      return fetch(`${BASE_URL}/users`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(newUser)
+      });
+    } catch (err) {
+      return err;
+    }
   }
 };
 

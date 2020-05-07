@@ -7,12 +7,9 @@ import {
   Form,
   Button,
   FormGroup,
-  Label,
-  Input,
-  Card,
-  CardBody,
-  CardTitle
+  Input
 } from "reactstrap";
+import { Row, Col } from "reactstrap";
 import { Head } from "../components";
 import "../public/styles/login.scss";
 

@@ -15,6 +15,7 @@ export default function Profile() {
   const [followedProjects, setFollowedProjects] = useState([]);
   const [projectParsed, setProjectParsed] = useState(false);
   const [hasUser, setHasUser] = useState(false);
+  const [section, setCurrSection] = useState("Details");
   const DESCRIPTION_LENGTH = 150;
   const [country, setCountry] = useState("");
 
@@ -22,7 +23,8 @@ export default function Profile() {
     const getUserInfo = async () => {
       const response = await getUser();
       const resp = await response.json();
-      setUser(resp);
+      console.log(resp);
+      setUser(resp.data);
       setHasUser(true);
     };
     getUserInfo();
@@ -31,7 +33,7 @@ export default function Profile() {
   useEffect(() => {
     async function getProjects() {
       if (hasUser && !projectParsed && user) {
-        let myprojects = user.data.createdProjects;
+        let myprojects = user.createdProjects;
         if (typeof myprojects[0] === "string") {
           for (let i = 0; i < myprojects.length; i++) {
             myprojects[i] = await getModelsByID(myprojects[i]);
@@ -39,7 +41,7 @@ export default function Profile() {
         }
         setCreatedProjects(myprojects.map(resp => resp.data));
 
-        let followprojects = user.data.followingProjects;
+        let followprojects = user.followingProjects;
         if (typeof followprojects[0] === "string") {
           for (let i = 0; i < followprojects.length; i++) {
             followprojects[i] = await getModelsByID(followprojects[i]);
@@ -52,6 +54,18 @@ export default function Profile() {
     getProjects();
   }, [hasUser, user, projectParsed]);
 
+  const toggleSectionDetails = () => {
+    setCurrSection("Details");
+  }
+
+  const toggleSectionUserProj = () => {
+    setCurrSection("Your Projects");
+  }
+
+  const toggleSectionSavedProj = () => {
+    setCurrSection("Saved Projects");
+  }
+
   return (
     <>
       <Head title="Your Profile" />
@@ -60,7 +74,7 @@ export default function Profile() {
           <Col xs="2">
             <div style={{ marginTop: "135%" }}>
               <div style={{ marginTop: "15%" }}>
-                <a style={{ color: "#003366" }} href="#details">
+                <a style={{ color: "#003366" }} onClick={toggleSectionDetails}>
                   <h4>
                     {" "}
                     <strong> Details </strong>{" "}
@@ -68,7 +82,7 @@ export default function Profile() {
                 </a>
               </div>
               <div style={{ marginTop: "15%" }}>
-                <a style={{ color: "#003366" }} href="#your_projects">
+                <a style={{ color: "#003366" }} onClick={toggleSectionUserProj}>
                   <h4>
                     {" "}
                     <strong> Your Projects </strong>{" "}
@@ -76,7 +90,7 @@ export default function Profile() {
                 </a>{" "}
               </div>
               <div style={{ marginTop: "15%" }}>
-                <a style={{ color: "#003366" }} href="#saved_projects">
+                <a style={{ color: "#003366" }} onClick={toggleSectionSavedProj}>
                   <h4>
                     {" "}
                     <strong>Saved Projects</strong>{" "}
@@ -99,193 +113,198 @@ export default function Profile() {
                   marginLeft: "5.3333333%"
                 }}
               >
-                <strong>Welcome to your profile Peder!</strong>
+                <strong>Welcome to your profile {user.username}!</strong>
               </div>
             </h1>
-            <h2 style={{ marginTop: "5%", marginLeft: "5.3333333%" }}>
-              Username
-            </h2>
-            <div
-              className="ContainerRTE"
-              style={{ marginTop: "1%", marginLeft: "5.3333333%" }}
-            >
-              {/* <InputGroup> */}
-              <Input placeholder="" />
-              {/* </InputGroup> */}
-            </div>
-            <h2 style={{ marginTop: "2%", marginLeft: "5.3333333%" }}>
-              Password
-            </h2>
-            <div
-              className="ContainerRTE"
-              style={{ marginTop: "1%", marginLeft: "5.3333333%" }}
-            >
-              {/* <InputGroup> */}
-              <Input placeholder="" />
-              {/* </InputGroup> */}
-            </div>
-            <h2 style={{ marginTop: "2%", marginLeft: "5.3333333%" }}>
-              Birthday
-            </h2>
-            <div
-              className="ContainerRTE"
-              style={{ marginTop: "1%", marginLeft: "5.3333333%" }}
-            >
-              {/* <InputGroup> */}
-              <Input placeholder="" />
-              {/* </InputGroup> */}
-            </div>
-            <h2 style={{ marginTop: "2%", marginLeft: "5.3333333%" }}>
-              Country
-            </h2>
-            <div
-              className="ContainerRTE"
-              style={{ marginTop: "1%", marginLeft: "5.3333333%" }}
-            >
-              {/* <InputGroup> */}
-              <Select
-                options={countryData}
-                placeholder=""
-                isClearable
-                onChange={setCountry}
-                value={country}
-              />
-              {/* </InputGroup> */}
-            </div>
-            <Row style={{ marginTop: "2%", marginLeft: "5.3333333%" }}>
-              <Button size="m" className="left-btn">
-                <div className=" vertAlign textField">Save Changes</div>
-              </Button>
-            </Row>
-            <h2
-              id="your_projects"
-              justify="center"
-              align="middle"
-              style={{
-                marginTop: "6%",
-                marginBottom: "3%",
-                marginLeft: "auto",
-                marginRight: "auto"
-              }}
-            >
-              <strong> Your Projects &darr;</strong>
-            </h2>
-            {/* PROJECTS */}
-            <Row>
-              {createdProjects &&
-                createdProjects.map(project => (
-                  <Col key={project._id} className="project-col">
-                    <CardGroup>
-                      <Link
-                        href="/projects/[projectId]"
-                        as={`/projects/${project._id}`}
-                        passHref
-                      >
-                        <a>
-                          <Card className="project-card">
-                            <CardText width="100%" height="100%">
-                              <div className="project-card-name">
-                                <strong>{project.name}</strong>
-                              </div>
-                              <br />
-                              <div className="project-card-description">
-                                {`${project.description.slice(
-                                  0,
-                                  DESCRIPTION_LENGTH
-                                )}${project.description.length >
-                                  DESCRIPTION_LENGTH && "..."}`}
-                              </div>
-                              <br />
-                              <Row>
-                                <Col>
-                                  <div className="prof-pic"></div>
-                                </Col>
-                                <Col>
-                                  <div className="username"></div>
-                                </Col>
-                                <Col>
-                                  <div className="project-likes">Likes: </div>
-                                </Col>
-                                <Col>
-                                  <div className="project-comments">
-                                    Comments:
-                                  </div>
-                                </Col>
-                              </Row>
-                            </CardText>
-                          </Card>
-                        </a>
-                      </Link>
-                    </CardGroup>
-                  </Col>
-                ))}
-            </Row>
-            <h2
-              id="saved_projects"
-              justify="center"
-              align="middle"
-              style={{
-                marginTop: "6%",
-                marginBottom: "3%",
-                marginLeft: "auto",
-                marginRight: "auto"
-              }}
-            >
-              <strong> Saved Projects &darr;</strong>
-            </h2>
-            <Row>
-              {followedProjects &&
-                followedProjects.map(project => (
-                  <Col key={project._id} className="project-col">
-                    <CardGroup>
-                      <Link
-                        href="/projects/[projectId]"
-                        as={`/projects/${project._id}`}
-                        passHref
-                      >
-                        <a>
-                          <Card className="project-card">
-                            <CardText width="100%" height="100%">
-                              <div className="project-card-name">
-                                <strong>{project.name}</strong>
-                              </div>
-                              <br />
-                              <div className="project-card-description">
-                                {`${project.description.slice(
-                                  0,
-                                  DESCRIPTION_LENGTH
-                                )}${project.description.length >
-                                  DESCRIPTION_LENGTH && "..."}`}
-                              </div>
-                              <br />
-                              <Row>
-                                <Col>
-                                  <div className="prof-pic"></div>
-                                </Col>
-                                <Col>
-                                  <div className="username"></div>
-                                </Col>
-                                <Col>
-                                  <div className="project-likes">Likes: </div>
-                                </Col>
-                                <Col>
-                                  <div className="project-comments">
-                                    Comments:
-                                  </div>
-                                </Col>
-                              </Row>
-                            </CardText>
-                          </Card>
-                        </a>
-                      </Link>
-                    </CardGroup>
-                  </Col>
-                ))}
-            </Row>
+            {section === "Details" && <div>
+              <h2 style={{ marginTop: "5%", marginLeft: "5.3333333%" }}>
+                Username
+              </h2>
+              <div
+                className="ContainerRTE"
+                style={{ marginTop: "1%", marginLeft: "5.3333333%" }}
+              >
+                <Input placeholder={user.username} />
+              </div>
+              <h2 style={{ marginTop: "2%", marginLeft: "5.3333333%" }}>
+                Birthday
+              </h2>
+              <div
+                className="ContainerRTE"
+                style={{ marginTop: "1%", marginLeft: "5.3333333%" }}
+              >
+                <Input placeholder={user.birthday} />
+              </div>
+              <h2 style={{ marginTop: "2%", marginLeft: "5.3333333%" }}>
+                Country
+              </h2>
+              <div
+                className="ContainerRTE"
+                style={{ marginTop: "1%", marginLeft: "5.3333333%" }}
+              >
+                <Select
+                  options={countryData}
+                  placeholder={user.country}
+                  isClearable
+                  onChange={setCountry}
+                  value={country}
+                />
+              </div>
+              <h2 style={{ marginTop: "2%", marginLeft: "5.3333333%" }}>
+                New Password
+              </h2>
+              <div
+                className="ContainerRTE"
+                style={{ marginTop: "1%", marginLeft: "5.3333333%" }}
+              >
+                <Input placeholder="" />
+              </div>
+              <h2 style={{ marginTop: "2%", marginLeft: "5.3333333%" }}>
+                Confirm Password
+              </h2>
+              <div
+                className="ContainerRTE"
+                style={{ marginTop: "1%", marginLeft: "5.3333333%" }}
+              >
+                <Input placeholder="" />
+              </div>
+              <Row style={{ marginTop: "2%", marginLeft: "5.3333333%" }}>
+                <Button size="m" className="left-btn">
+                  <div className=" vertAlign textField">Save Changes</div>
+                </Button>
+              </Row>
+            </div>}
+            {section === "Your Projects" && <div>
+              <h2
+                id="your_projects"
+                justify="center"
+                align="middle"
+                style={{
+                  marginTop: "6%",
+                  marginBottom: "3%",
+                  marginLeft: "auto",
+                  marginRight: "auto"
+                }}
+              >
+                <strong> Your Projects &darr;</strong>
+              </h2>
+              <Row>
+                {createdProjects &&
+                  createdProjects.map(project => (
+                    <Col key={project._id} className="project-col">
+                      <CardGroup>
+                        <Link
+                          href="/projects/[projectId]"
+                          as={`/projects/${project._id}`}
+                          passHref
+                        >
+                          <a>
+                            <Card className="project-card">
+                              <CardText width="100%" height="100%">
+                                <div className="project-card-name">
+                                  <strong>{project.name}</strong>
+                                </div>
+                                <br />
+                                <div className="project-card-description">
+                                  {`${project.description.slice(
+                                    0,
+                                    DESCRIPTION_LENGTH
+                                  )}${project.description.length >
+                                    DESCRIPTION_LENGTH && "..."}`}
+                                </div>
+                                <br />
+                                <Row>
+                                  <Col>
+                                    <div className="prof-pic"></div>
+                                  </Col>
+                                  <Col>
+                                    <div className="username"></div>
+                                  </Col>
+                                  <Col>
+                                    <div className="project-likes">Likes: </div>
+                                  </Col>
+                                  <Col>
+                                    <div className="project-comments">
+                                      Comments:
+                                    </div>
+                                  </Col>
+                                </Row>
+                              </CardText>
+                            </Card>
+                          </a>
+                        </Link>
+                      </CardGroup>
+                    </Col>
+                  ))}
+              </Row>
+            </div>}
+            {section === "Saved Projects" && <div>
+              <h2
+                id="saved_projects"
+                justify="center"
+                align="middle"
+                style={{
+                  marginTop: "6%",
+                  marginBottom: "3%",
+                  marginLeft: "auto",
+                  marginRight: "auto"
+                }}
+              >
+                <strong> Saved Projects &darr;</strong>
+              </h2>
+              <Row>
+                {followedProjects &&
+                  followedProjects.map(project => (
+                    <Col key={project._id} className="project-col">
+                      <CardGroup>
+                        <Link
+                          href="/projects/[projectId]"
+                          as={`/projects/${project._id}`}
+                          passHref
+                        >
+                          <a>
+                            <Card className="project-card">
+                              <CardText width="100%" height="100%">
+                                <div className="project-card-name">
+                                  <strong>{project.name}</strong>
+                                </div>
+                                <br />
+                                <div className="project-card-description">
+                                  {`${project.description.slice(
+                                    0,
+                                    DESCRIPTION_LENGTH
+                                  )}${project.description.length >
+                                    DESCRIPTION_LENGTH && "..."}`}
+                                </div>
+                                <br />
+                                <Row>
+                                  <Col>
+                                    <div className="prof-pic"></div>
+                                  </Col>
+                                  <Col>
+                                    <div className="username"></div>
+                                  </Col>
+                                  <Col>
+                                    <div className="project-likes">Likes: </div>
+                                  </Col>
+                                  <Col>
+                                    <div className="project-comments">
+                                      Comments:
+                                    </div>
+                                  </Col>
+                                </Row>
+                              </CardText>
+                            </Card>
+                          </a>
+                        </Link>
+                      </CardGroup>
+                    </Col>
+                  ))}
+              </Row>
+            </div>}
           </Col>
         </Row>
       </div>
-      <div></div>
     </>
   );
 }
