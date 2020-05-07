@@ -1,3 +1,15 @@
+body {
+  background-color: #eee;
+  font-family: Arvo, serif;
+  font-weight: bold;
+  color: #003366;
+}
+.about-text {
+  font-family: Muli;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 14px;
+}
 .home-block-1 {
   background-image: radial-gradient(
       50% 141%,
@@ -12,19 +24,132 @@
   opacity: 0.99;
   align-content: middle;
 }
-.welcome-h1 {
-  color: white;
-  font-weight: bolder;
-  font-size: 144px;
-  text-shadow: 4px 4px 2px #003366;
-  // text-shadow: 5px 5px #003366;
+.main-figures {
+  margin-left: 158px;
+  margin-right: 186px;
+  bottom: 0;
+
+  margin-top: 0px;
+}
+.third-div {
+  background-color: rgba(#99ffff, 0.4);
+  height: 497px;
+}
+.figures-img {
+  width: 1060px;
+  height: auto;
+}
+.second-div {
+  height: 619px;
+  background: white;
+}
+.art-row {
+  padding-top: 40px;
+  padding-bottom: 67px;
+}
+.figma-text {
+}
+.figma-art-col-left {
+  float: left;
+  margin-left: 165px;
+}
+.figma-art-col-right {
+  float: right;
+  margin-right: 165px;
+  padding-left: 30px;
+  padding-top: 184px;
+}
+.figma-img {
+  height: 512px;
+  width: 635px;
+}
+.about-text {
+  font-family: Muli;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 14px;
+  color: #003366;
+}
+.hcd-title {
+  padding-top: 15px;
+  // height: 112px;
+  font-family: Arvo;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 44px;
+  line-height: 56px;
+  color: #003366;
+}
+.hcd-desc {
+  font-family: Lato;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 22px;
+  padding-top: 13px;
+  color: #33cccc;
 }
 .header-box {
-  background-color: rgba(#ffcc66, 1);
+  background-color: white;
+  background-image: url("/homepage-images/main-background-img.png");
   text-align: center;
-  height: 35rem;
-  padding: 10rem;
-  box-shadow: 1px 1px 1.5px #003366;
+  height: 687px;
+}
+.hp-featured-cards {
+  display: inline-block;
+  flex-direction: row;
+}
+.hp-sdg-desc {
+  padding-top: 24px;
+  height: 120px;
+  width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+.hp-featured-title {
+  font-family: Arvo;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 48px;
+  text-align: center;
+  padding-top: 32px;
+}
+.header-title {
+  color: white;
+  font-weight: bold;
+  font-size: 64px;
+  line-height: 74px;
+  width: 989px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 35px;
+  letter-spacing: 0.2px;
+}
+.explore-button {
+  height: 42px;
+  width: 341px;
+  margin-left: auto;
+  margin-right: auto;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 30px;
+  color: #003366;
+  background: #ffcc66;
+  margin-top: 16px;
+}
+.header-subtitle {
+  color: white;
+  font-family: Lato;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 30px;
+  line-height: 40px;
+  letter-spacing: 0.2px;
+  width: 865.55px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 8px;
 }
 .profile-header {
   background-image: radial-gradient(
