@@ -54,7 +54,6 @@ router.get("/:model_ID", function(req, res) {
     .catch(() => res.sendStatus(500));
 });
 
-// TODO; Check Validate
 router.post(
   "/",
   checkToken,
@@ -79,7 +78,7 @@ router.post(
       res.sendStatus(500);
     } else {
       // Check if data includes proper fields
-      const project = await projects.insert(data, function(err) {
+      const project = await collection.insert(data, function(err) {
         if (err) {
           res.sendStatus(500);
         } else {
