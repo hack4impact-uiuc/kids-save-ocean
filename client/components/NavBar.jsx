@@ -16,7 +16,7 @@ import { ProjectForm } from "../components";
 
 import Link from "next/link";
 import "../public/styles/navbar.scss";
-import { getUpdates } from "../utils/apiWrapper";
+import { getUpdates, updateLastCheckedNotifDate } from "../utils/apiWrapper";
 import WrappedMessage from "./WrappedMessage";
 import Router from "next/router";
 import { checkValidUser } from "../utils/validator";
@@ -72,6 +72,7 @@ export default WrappedMessage(function NavBar(props) {
       const validUser = await checkValidUser(false);
       if (validUser) {
         const updateResp = await getUpdates(NOTIF_LIMIT, 0);
+        console.log(updateResp);
         if (updateResp.status >= ERROR_STATUS) {
           props.setError("An error occured while retriving notifications.");
         } else if (updateResp.data.length === 0) {
@@ -168,6 +169,7 @@ export default WrappedMessage(function NavBar(props) {
                     toggle={() => {
                       setDisplayNotif(!displayNotif);
                       setDisplayNotifDot(false);
+                      updateLastCheckedNotifDate();
                     }}
                   >
                     <PopoverHeader>Notifications</PopoverHeader>

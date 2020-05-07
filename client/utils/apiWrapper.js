@@ -722,3 +722,26 @@ export const duplicateModel = model_id => {
       error
     }));
 };
+
+export const updateLastCheckedNotifDate = async () => {
+  const validUser = await checkValidUser();
+  if (!validUser) {
+    return;
+  }
+  const requestString = `${BASE_URL}/users/userInfo/notifs`;
+  return axios
+    .put(
+      requestString,
+      { lastCheckedNotifs: Date.now() },
+      {
+        headers: {
+          "Content-Type": "application/JSON",
+          "x-access-token": localStorage.getItem("token")
+        }
+      }
+    )
+    .catch(error => ({
+      type: "NOTIF_UPDATE_FAIL",
+      error
+    }));
+};
