@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
   Navbar,
-  NavbarBrand,
   NavbarToggler,
   Collapse,
   NavItem,
@@ -10,20 +9,33 @@ import {
   Col,
   Container
 } from "reactstrap";
+import { ProjectForm } from "../components";
+
 import Link from "next/link";
 import "../public/styles/navbar.scss";
 import Router from "next/router";
+import { checkValidUser } from "../utils/validator";
 
 export default function NavBar() {
   const [isTop, setTop] = useState(true);
   const [isCollapsed, setCollapsed] = useState(true);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [modal, setModal] = useState(false);
+  const waitTime = 200;
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     Router.replace("/");
   };
-
+  async function handleCreate() {
+    const isLoggedIn = await checkValidUser();
+    if (isLoggedIn) {
+      setModal(true);
+      setTimeout(() => {
+        setModal(false);
+      }, waitTime);
+    }
+  }
   useEffect(() => {
     if (process.browser) {
       document.addEventListener("scroll", () => {
@@ -37,8 +49,12 @@ export default function NavBar() {
   }, [isTop]);
 
   useEffect(() => {
-    setLoggedIn(localStorage.getItem("token"));
+    toggleLoggedIn();
   });
+
+  function toggleLoggedIn() {
+    setLoggedIn(localStorage.getItem("token"));
+  }
 
   function toggleNavbar() {
     setCollapsed(!isCollapsed);
@@ -48,19 +64,18 @@ export default function NavBar() {
     <Navbar
       className={`navbar-expand-lg navbar-light shadow fixed-top ${"navbar-body"}`}
     >
+      <ProjectForm isModalActivated={modal}></ProjectForm>
       <Container className="container-nav">
-        <NavbarBrand>
-          <Link href="/">
-            <a>
-              <img
-                className="logo-settings"
-                id="logo"
-                src="/homepage-images/fatemaker-logo.png"
-                alt="FateMaker logo"
-              />
-            </a>
-          </Link>
-        </NavbarBrand>
+        <Link href="/">
+          <a>
+            <img
+              className="logo-settings"
+              id="logo"
+              src="/homepage-images/fatemaker-logo.png"
+              alt="FateMaker logo"
+            />
+          </a>
+        </Link>
         <NavbarToggler onClick={toggleNavbar} />
         <Collapse navbar isOpen={!isCollapsed}>
           <Nav navbar className="ml-auto">
@@ -77,7 +92,11 @@ export default function NavBar() {
             </NavItem>
             <NavItem>
               <Col className="button-col">
-                <Button className="button-create" color="#ffcc66">
+                <Button
+                  className="button-create"
+                  onClick={handleCreate}
+                  color="#ffcc66"
+                >
                   Create
                 </Button>
               </Col>

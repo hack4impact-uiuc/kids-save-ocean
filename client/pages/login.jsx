@@ -1,35 +1,30 @@
 import React, { useState } from "react";
-import { GoogleLogin } from "react-google-login";
 import Link from "next/link";
 import Router from "next/router";
-import { login, google } from "../utils/apiWrapper";
-import { Alert, Form, Button, FormGroup, Input, Row, Col } from "reactstrap";
+import { login } from "../utils/apiWrapper";
+import {
+  Alert,
+  Form,
+  Button,
+  FormGroup,
+  Label,
+  Input,
+  Card,
+  CardBody,
+  CardTitle
+} from "reactstrap";
 import { Head } from "../components";
 import "../public/styles/login.scss";
 
-export default function Login(props) {
+export default function Login() {
   // constants
   const EMAIL_REGEX =
     "([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)@([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+).([a-zA-Z]{2,3}).?([a-zA-Z]{0,3})";
-  const SUCCESS = 200;
-  const { role } = props;
 
   // state
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-
-  const handleGoogle = async e => {
-    const result = await google(e.tokenId);
-    const resp = await result.json();
-    if (resp.status !== SUCCESS) {
-      setErrorMessage(resp.message);
-    } else {
-      localStorage.setItem("token", e.tokenId);
-      localStorage.setItem("google", true);
-      Router.push("/feed");
-    }
-  };
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -122,26 +117,6 @@ export default function Login(props) {
                 >
                   <div className=" vertAlign textField">Register</div>
                 </Button>
-              </Row>
-
-              <Row>
-                <Col xs="2"></Col>
-                <Col xs="8">
-                  <div className="google-btn-wrapper">
-                    <GoogleLogin
-                      justify="center"
-                      align="middle"
-                      float="middle"
-                      className="btn sign-in-btn"
-                      clientId="992779657352-2te3be0na925rtkt8kt8vc1f8tiph5oh.apps.googleusercontent.com"
-                      responseType="id_token"
-                      buttonText={role}
-                      scope="https://www.googleapis.com/auth/userinfo.email"
-                      onSuccess={handleGoogle}
-                    />
-                  </div>
-                </Col>
-                <Col xs="2"></Col>
               </Row>
               <Row>
                 <div className="forgot-password">
