@@ -37,14 +37,10 @@ export default function EditTemplate() {
   var id = "5ea4e82211b8340345e8a9db";
   const successStatus = 200;
 
-  // var templatesArr = [];
-
   useEffect(() => {
     const getInitialInfo = async () => {
       setTemplates(await getTemplates());
-      // templatesArr = await getTemplates();
-      // console.log(templatesArr); // to delete (remember to use useEffect to update when changes are made)
-      // console.log(templatesArr.data[0].name); // to delete
+      setTemplateID(id);
 
       const result = await getTemplateByID(id);
       if (result) {
@@ -68,6 +64,10 @@ export default function EditTemplate() {
     };
     getInitialInfo();
   }, []);
+
+  const handleID = async clickedTemplateID => {
+    setTemplateID(clickedTemplateID);
+  };
 
   // useEffect(() => {
   //   const checkPriv = async () => {
@@ -146,10 +146,6 @@ export default function EditTemplate() {
     // check if name and phase results are successful, if so, refresh page, otherwise give alert
   };
 
-  const handleID = async e => {
-    console.log("heyo imma test");
-  };
-
   return (
     <div>
       {isAdmin && (
@@ -172,7 +168,7 @@ export default function EditTemplate() {
                   <Button
                     className="stage-button"
                     color="white"
-                    onClick={handleID}
+                    onClick={e => handleID(template._id)}
                   >
                     {template.name}
                   </Button>
