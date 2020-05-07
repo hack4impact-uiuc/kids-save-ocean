@@ -54,15 +54,18 @@ export default function Profile() {
     getProjects();
   }, [hasUser, user, projectParsed]);
 
-  const toggleSectionDetails = () => {
+  const toggleSectionDetails = e => {
+    e.preventDefault();
     setCurrSection("Details");
   }
 
-  const toggleSectionUserProj = () => {
+  const toggleSectionUserProj = e => {
+    e.preventDefault();
     setCurrSection("Your Projects");
   }
 
-  const toggleSectionSavedProj = () => {
+  const toggleSectionSavedProj = e => {
+    e.preventDefault();
     setCurrSection("Saved Projects");
   }
 
@@ -74,7 +77,7 @@ export default function Profile() {
           <Col xs="2">
             <div style={{ marginTop: "135%" }}>
               <div style={{ marginTop: "15%" }}>
-                <a style={{ color: "#003366" }} onClick={toggleSectionDetails}>
+                <a style={{ color: "#003366" }} href="#" onClick={toggleSectionDetails}>
                   <h4>
                     {" "}
                     <strong> Details </strong>{" "}
@@ -82,7 +85,7 @@ export default function Profile() {
                 </a>
               </div>
               <div style={{ marginTop: "15%" }}>
-                <a style={{ color: "#003366" }} onClick={toggleSectionUserProj}>
+                <a style={{ color: "#003366" }} href="#" onClick={toggleSectionUserProj}>
                   <h4>
                     {" "}
                     <strong> Your Projects </strong>{" "}
@@ -90,7 +93,7 @@ export default function Profile() {
                 </a>{" "}
               </div>
               <div style={{ marginTop: "15%" }}>
-                <a style={{ color: "#003366" }} onClick={toggleSectionSavedProj}>
+                <a style={{ color: "#003366" }} href="#" onClick={toggleSectionSavedProj}>
                   <h4>
                     {" "}
                     <strong>Saved Projects</strong>{" "}
