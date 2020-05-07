@@ -43,11 +43,12 @@ export default function EditTemplate() {
       setTemplateID(id);
 
       const result = await getTemplateByID(id);
-      if (result) {
+
+      if (result.data !== undefined && result) {
         if (result.data.name) {
           setName(result.data.name);
         }
-        if (result.data.phases !== []) {
+        if (result.data.phases !== undefined && result.data.phases !== []) {
           result.data.phases.map(phase => {
             if (phase === phases[0]) {
               setInspiration(true);
@@ -67,7 +68,32 @@ export default function EditTemplate() {
 
   const handleID = async clickedTemplateID => {
     setTemplateID(clickedTemplateID);
+    console.log(clickedTemplateID); // this works: to delete
   };
+
+  useEffect(() => {
+    id = templateID;
+    const result = getTemplateByID(templateID);
+
+    if (result.data != undefined && result) {
+      if (result.data.name) {
+        setName(result.data.name);
+      }
+      if (result.data.phases !== []) {
+        result.data.phases.map(phase => {
+          if (phase === phases[0]) {
+            setInspiration(true);
+          }
+          if (phase === phases[1]) {
+            setIdeation(true);
+          }
+          if (phase === phases[2]) {
+            setImplementation(true);
+          }
+        });
+      }
+    }
+  }, [templateID]);
 
   // useEffect(() => {
   //   const checkPriv = async () => {
