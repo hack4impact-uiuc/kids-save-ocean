@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
 import Link from "next/link";
 import Dante from "Dante2";
 
@@ -181,7 +181,7 @@ export default function ProjectPage() {
         buttons.push(
           <Button
             className="project-header-buttons"
-            onClick={() => duplicateModel(project._id)}
+            onClick={() => duplicateModel(project._id).then( resp => Router.push(`/projects/${resp.data.id}`) )}
           >
             Build off this project
           </Button>
