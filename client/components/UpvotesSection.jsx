@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback } from "react";
 
-import { Row, Button } from "reactstrap";
+import { Row } from "reactstrap";
 
 import { postUpvote, getUpvotes } from "../utils/apiWrapper";
+import "../public/styles/upvotes.scss";
 
 export default function UpvotesSection(props) {
   const { projectId } = props;
@@ -27,8 +28,22 @@ export default function UpvotesSection(props) {
 
   return (
     <Row className="justify-content-start">
-      <p>{`Upvotes: ${upvotes}`}</p>
-      <Button onClick={upvote}>Upvote</Button>
+      {localStorage.getItem("token") ? (
+        <span>
+          <i
+            className="fa fa-thumbs-o-up fa-2x"
+            aria-hidden="true"
+            type="button"
+            onClick={upvote}
+          ></i>
+          {upvotes}
+        </span>
+      ) : (
+        <span className="disabled">
+          <i className="fa fa-thumbs-o-up fa-2x" aria-hidden="true"></i>
+          {upvotes}
+        </span>
+      )}
     </Row>
   );
 }
