@@ -64,7 +64,8 @@ router.post("/", validate({ body: UserSchema }), async (req, res) => {
     createdProjects: [],
     followingProjects: [],
     followingUsers: [],
-    followers: []
+    followers: [],
+    lastCheckedNotifs: Date.now()
   };
   try {
     const resp = await collection.insert(newUser);
