@@ -26,7 +26,8 @@ export default WrappedMessage(function NavBar(props) {
   const [displayNotif, setDisplayNotif] = useState(false);
   const [renderPopover, setRenderPopover] = useState(false);
   const [updates, setUpdates] = useState([]);
-  const [displayNotifDot, setDisplayNotifDot] = useState(false);
+  const [displayNotifDot, setDisplayNotifDot] = useState(true);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const NOTIF_LIMIT = 10;
   const ERROR_STATUS = 400;
@@ -37,7 +38,6 @@ export default WrappedMessage(function NavBar(props) {
       setRenderPopover(true);
     }
   }, [renderPopover]);
-  const [loggedIn, setLoggedIn] = useState(false);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -146,7 +146,10 @@ export default WrappedMessage(function NavBar(props) {
                     placement="bottom"
                     isOpen={displayNotif}
                     target="notif-icon"
-                    toggle={() => setDisplayNotif(!displayNotif)}
+                    toggle={() => {
+                      setDisplayNotif(!displayNotif);
+                      setDisplayNotifDot(false);
+                    }}
                   >
                     <PopoverHeader>Notifications</PopoverHeader>
                     <PopoverBody>
