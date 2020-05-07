@@ -7,6 +7,8 @@ const { getUserId, getUsername } = require("../utils/user_utils");
 
 const ModelSchema = require("../public/schema/projectSchema.js").projectSchema;
 
+const SUCCESS = 200;
+
 router.get("/", function(req, res) {
   let sdg_par = req.query.sdg;
   let sdg_num = parseInt(sdg_par);
@@ -66,40 +68,46 @@ router.post(
     data.numUpvotes = 0;
     data.numComments = 0;
     data.username = await getUsername(db, userEmail);
+    if (data.name.length < 3 || data.name.length > 50) {
+      res.sendStatus(500);
+    } else if (data.description && data.description.length > 350) {
+      res.sendStatus(500);
+    } else {
+      // Check if data includes proper fields
+      collection.insert(data, function(err) {
+        if (err) {
+          res.sendStatus(500);
+        } else {
+          currProjectId = data._id;
+        }
+      });
+      const updates = db.get("updates");
+      const email = req.user.email;
+      const username = await getUsername(db, email);
+      const update = {
+        updateType: "project",
+        email: email,
+        projectId: currProjectId,
+        description: `${username} created ${data.name}`,
+        date: Date.now()
+      };
 
-    // Check if data includes proper fields
-    collection.insert(data, function(err) {
-      if (err) {
-        res.sendStatus(500);
-      } else {
-        currProjectId = data._id;
+      try {
+        updates.insert(update);
+      } catch (err) {
+        return err;
       }
-    });
-
-    const updates = db.get("updates");
-    const email = req.user.email;
-    const username = await getUsername(db, email);
-    const update = {
-      updateType: "project",
-      email: email,
-      projectId: currProjectId,
-      description: `${username} created ${data.name}`,
-      date: Date.now()
-    };
-
-    try {
-      updates.insert(update);
-    } catch (err) {
-      return err;
+      res.status(SUCCESS).send({
+        code: SUCCESS,
+        success: true,
+        message: `${data.name} added!`,
+        data: project
+      });
     }
-
-    res.json({
-      success: `${data.name} added!`
-    });
   }
 );
 
-router.delete("/:model_ID", function(req, res) {
+router.delete("/:model_ID", checkToken, function(req, res) {
   const db = req.db;
   let id = req.params.model_ID;
   const collection = db.get("projects");
@@ -122,6 +130,7 @@ router.put(
   validate({
     body: ModelSchema
   }),
+  checkToken,
   function(req, res) {
     const db = req.db;
     const id = req.params.model_ID;

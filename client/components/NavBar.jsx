@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
   Navbar,
-  NavbarBrand,
   NavbarToggler,
   Collapse,
   NavItem,
@@ -13,6 +12,8 @@ import {
   PopoverHeader,
   PopoverBody
 } from "reactstrap";
+import { ProjectForm } from "../components";
+
 import Link from "next/link";
 import "../public/styles/navbar.scss";
 import { getUpdates } from "../utils/apiWrapper";
@@ -28,6 +29,8 @@ export default WrappedMessage(function NavBar(props) {
   const [updates, setUpdates] = useState([]);
   const [displayNotifDot, setDisplayNotifDot] = useState(true);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [modal, setModal] = useState(false);
+  const waitTime = 200;
 
   const NOTIF_LIMIT = 10;
   const ERROR_STATUS = 400;
@@ -43,7 +46,15 @@ export default WrappedMessage(function NavBar(props) {
     localStorage.removeItem("token");
     Router.replace("/");
   };
-
+  async function handleCreate() {
+    const isLoggedIn = await checkValidUser();
+    if (isLoggedIn) {
+      setModal(true);
+      setTimeout(() => {
+        setModal(false);
+      }, waitTime);
+    }
+  }
   useEffect(() => {
     if (process.browser) {
       document.addEventListener("scroll", () => {
@@ -75,7 +86,12 @@ export default WrappedMessage(function NavBar(props) {
 
   useEffect(() => {
     setLoggedIn(localStorage.getItem("token"));
+    toggleLoggedIn();
   });
+
+  function toggleLoggedIn() {
+    setLoggedIn(localStorage.getItem("token"));
+  }
 
   function toggleNavbar() {
     setCollapsed(!isCollapsed);
@@ -85,19 +101,18 @@ export default WrappedMessage(function NavBar(props) {
     <Navbar
       className={`navbar-expand-lg navbar-light shadow fixed-top ${"navbar-body"}`}
     >
+      <ProjectForm isModalActivated={modal}></ProjectForm>
       <Container className="container-nav">
-        <NavbarBrand>
-          <Link href="/">
-            <a>
-              <img
-                className="logo-settings"
-                id="logo"
-                src="/homepage-images/fatemaker-logo.png"
-                alt="FateMaker logo"
-              />
-            </a>
-          </Link>
-        </NavbarBrand>
+        <Link href="/">
+          <a>
+            <img
+              className="logo-settings"
+              id="logo"
+              src="/homepage-images/fatemaker-logo.png"
+              alt="FateMaker logo"
+            />
+          </a>
+        </Link>
         <NavbarToggler onClick={toggleNavbar} />
         <Collapse navbar isOpen={!isCollapsed}>
           <Nav navbar className="ml-auto">
@@ -114,7 +129,11 @@ export default WrappedMessage(function NavBar(props) {
             </NavItem>
             <NavItem>
               <Col className="button-col">
-                <Button className="button-create" color="#ffcc66">
+                <Button
+                  className="button-create"
+                  onClick={handleCreate}
+                  color="#ffcc66"
+                >
                   Create
                 </Button>
               </Col>
