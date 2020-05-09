@@ -56,18 +56,18 @@ export const getFollowingProjects = async () => {
   if (validUser) {
     const requestString = `${BASE_URL}/models/userFollowingModels`;
     return axios
-    .get(requestString, {
-      headers: {
-        "Content-Type": "application/JSON",
-        "x-access-token": localStorage.getItem("token")
-      }
-    })
-    .catch(error => {
-      ({
-        type: "GET_MODEL_ID_FAIL",
-        error
+      .get(requestString, {
+        headers: {
+          "Content-Type": "application/JSON",
+          "x-access-token": localStorage.getItem("token")
+        }
+      })
+      .catch(error => {
+        ({
+          type: "GET_MODEL_ID_FAIL",
+          error
+        });
       });
-    });
   }
 };
 
@@ -76,18 +76,18 @@ export const getCreatedProjects = async () => {
   if (validUser) {
     const requestString = `${BASE_URL}/models/userCreatedModels`;
     return axios
-    .get(requestString, {
-      headers: {
-        "Content-Type": "application/JSON",
-        "x-access-token": localStorage.getItem("token")
-      }
-    })
-    .catch(error => {
-      ({
-        type: "GET_MODEL_ID_FAIL",
-        error
+      .get(requestString, {
+        headers: {
+          "Content-Type": "application/JSON",
+          "x-access-token": localStorage.getItem("token")
+        }
+      })
+      .catch(error => {
+        ({
+          type: "GET_MODEL_ID_FAIL",
+          error
+        });
       });
-    });
   }
 };
 
@@ -515,18 +515,18 @@ export const updateUser = async data => {
   if (validUser) {
     const requestString = `${BASE_URL}/users/userInfo`;
     return axios
-    .put(requestString, data, {
-      headers: {
-        "Content-Type": "application/JSON",
-        "x-access-token": localStorage.getItem("token")
-      }
-    })
-    .catch(error => {
-      ({
-        type: "UPDATE_USER_FAIL",
-        error
+      .put(requestString, data, {
+        headers: {
+          "Content-Type": "application/JSON",
+          "x-access-token": localStorage.getItem("token")
+        }
+      })
+      .catch(error => {
+        ({
+          type: "UPDATE_USER_FAIL",
+          error
+        });
       });
-    });
   }
 };
 

@@ -2,14 +2,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import Router from "next/router";
 import { login } from "../utils/apiWrapper";
-import {
-  Alert,
-  Form,
-  Button,
-  FormGroup,
-  Input
-} from "reactstrap";
-import { Row, Col } from "reactstrap";
+import { Alert, Form, Button, FormGroup, Input, Row, Col } from "reactstrap";
 import { Head } from "../components";
 import "../public/styles/login.scss";
 

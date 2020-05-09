@@ -5,7 +5,11 @@ const { checkToken } = require("../auth/utils/checkToken");
 
 const ModelSchema = require("../public/schema/projectSchema.js").projectSchema;
 
-const { getUsername, getFollowingProjects, getCreatedProjects } = require("../utils/user_utils");
+const {
+  getUsername,
+  getFollowingProjects,
+  getCreatedProjects
+} = require("../utils/user_utils");
 
 const SUCCESS = 200;
 

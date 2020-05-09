@@ -17,5 +17,7 @@ async function getCreatedProjects(db, userEmail) {
 }
 
 module.exports = {
-  getUsername, getFollowingProjects, getCreatedProjects
+  getUsername,
+  getFollowingProjects,
+  getCreatedProjects
 };
