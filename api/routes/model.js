@@ -5,7 +5,7 @@ const { checkToken } = require("../auth/utils/checkToken");
 
 const ModelSchema = require("../public/schema/projectSchema.js").projectSchema;
 
-const { getUsername } = require("../utils/user_utils");
+const { getUsername, getFollowingProjects, getCreatedProjects } = require("../utils/user_utils");
 
 const SUCCESS = 200;
 
@@ -36,6 +36,44 @@ router.get("/", function(req, res) {
       res.send(docs);
     });
   }
+});
+
+router.get("/userCreatedModels", checkToken, async function(req, res) {
+  const db = req.db;
+  const collection = db.get("projects");
+  const userEmail = req.decoded.sub;
+  const createdProjects = await getCreatedProjects(db, userEmail);
+
+  collection.find(
+    {
+      _id: { $in: createdProjects }
+    },
+    {
+      $exists: true
+    },
+    function(e, docs) {
+      res.send(docs);
+    }
+  );
+});
+
+router.get("/userFollowingModels", checkToken, async function(req, res) {
+  const db = req.db;
+  const collection = db.get("projects");
+  const userEmail = req.decoded.sub;
+  const followingProjects = await getFollowingProjects(db, userEmail);
+
+  collection.find(
+    {
+      _id: { $in: followingProjects }
+    },
+    {
+      $exists: true
+    },
+    function(e, docs) {
+      res.send(docs);
+    }
+  );
 });
 
 router.get("/:model_ID", function(req, res) {

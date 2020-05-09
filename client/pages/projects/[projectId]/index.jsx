@@ -25,7 +25,7 @@ import {
 import classnames from "classnames";
 import {
   getModelsByID,
-  getFollowingProjects,
+  getFollowingProjectsIds,
   followProject,
   unfollowProject
 } from "../../../utils/apiWrapper";
@@ -90,7 +90,7 @@ export default function ProjectPage() {
         }
       }
       if (localStorage.getItem("token")) {
-        const resp = await getFollowingProjects();
+        const resp = await getFollowingProjectsIds();
         const res = await resp.json();
         if (projectId && res.data.includes(projectId)) {
           setFollowing(true);

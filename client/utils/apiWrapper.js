@@ -50,6 +50,47 @@ export const getModelsByID = Model_ID => {
       });
     });
 };
+
+export const getFollowingProjects = async () => {
+  const validUser = await checkValidUser();
+  if (validUser) {
+    const requestString = `${BASE_URL}/models/userFollowingModels`;
+    return axios
+    .get(requestString, {
+      headers: {
+        "Content-Type": "application/JSON",
+        "x-access-token": localStorage.getItem("token")
+      }
+    })
+    .catch(error => {
+      ({
+        type: "GET_MODEL_ID_FAIL",
+        error
+      });
+    });
+  }
+};
+
+export const getCreatedProjects = async () => {
+  const validUser = await checkValidUser();
+  if (validUser) {
+    const requestString = `${BASE_URL}/models/userCreatedModels`;
+    return axios
+    .get(requestString, {
+      headers: {
+        "Content-Type": "application/JSON",
+        "x-access-token": localStorage.getItem("token")
+      }
+    })
+    .catch(error => {
+      ({
+        type: "GET_MODEL_ID_FAIL",
+        error
+      });
+    });
+  }
+};
+
 export const getUpdates = async (numUpdates, currentIndex) => {
   /**
    * Returns min(available updates, numUpdates) projects with ID greater than last_id query
@@ -408,7 +449,7 @@ export const saveDescription = async (
   const validUser = await checkValidUser();
   if (validUser) {
     const requestString = `${BASE_URL}/models/${model_id}/${phaseName}/${stageName}/description`;
-    console.log(requestString);
+
     return axios
       .put(
         requestString,
@@ -469,24 +510,23 @@ export const createUser = async newUser => {
   }
 };
 
-export const updateUser = async updatedUser => {
+export const updateUser = async data => {
   const validUser = await checkValidUser();
   if (validUser) {
-    try {
-      return (
-        fetch(`${BASE_URL}/users/userInfo`),
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            "x-access-token": localStorage.getItem("token")
-          },
-          body: JSON.stringify(updatedUser)
-        }
-      );
-    } catch (err) {
-      return err;
-    }
+    const requestString = `${BASE_URL}/users/userInfo`;
+    return axios
+    .put(requestString, data, {
+      headers: {
+        "Content-Type": "application/JSON",
+        "x-access-token": localStorage.getItem("token")
+      }
+    })
+    .catch(error => {
+      ({
+        type: "UPDATE_USER_FAIL",
+        error
+      });
+    });
   }
 };
 
@@ -507,7 +547,7 @@ export const deleteUser = async () => {
   }
 };
 
-export const getFollowingProjects = async () => {
+export const getFollowingProjectsIds = async () => {
   const validUser = await checkValidUser();
   if (validUser) {
     try {
