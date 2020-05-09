@@ -18,3 +18,10 @@
   text-align: justify;
   padding-top: 20px;
 }
+
+.button-return-project {
+  left: 50%;
+  position: absolute;
+  transform: translateX(-50%);
+  margin-bottom: 1rem;
+}
