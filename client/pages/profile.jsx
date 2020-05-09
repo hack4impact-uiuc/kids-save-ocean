@@ -65,14 +65,20 @@ export default function Profile() {
     setCurrSection("Saved Projects");
   }
 
-  const saveChanges = () => {
+  const saveChanges = async () => {
     const changes = {
       username: username,
       birthday: birthday,
       country: country.label
     }
 
-    updateUser(changes);
+    const resp = await updateUser(changes);
+
+    if (resp.status === 200) {
+      const newUserResp = await getUser();
+      const newUser = await newUserResp.json();
+      setUser(newUser.data);
+    }
   }
 
   return (
