@@ -21,6 +21,7 @@ export default function Profile() {
   const [country, setCountry] = useState("");
   const [username, setUsername] = useState("");
   const [birthday, setBirthday] = useState("");
+  const [newChanges, setNewChanges] = useState(false);
 
   useEffect(() => {
     const getUserInfo = async () => {
@@ -28,6 +29,9 @@ export default function Profile() {
         const response = await getUser();
         const resp = await response.json();
         setUser(resp.data);
+        setUsername(resp.data.username);
+        setBirthday(resp.data.birthday);
+        setCountry(resp.data.country);
         setHasUser(true);
       }
     };
@@ -49,6 +53,14 @@ export default function Profile() {
     }
     getProjects();
   }, [hasUser, user, projectParsed]);
+
+  useEffect(() => {
+    if (username != user.username || birthday != user.birthday || country != user.country) {
+      setNewChanges(true);
+    } else {
+      setNewChanges(false);
+    }
+  }, [username, birthday, country])
 
   const toggleSectionDetails = e => {
     e.preventDefault();
@@ -74,7 +86,8 @@ export default function Profile() {
 
     const resp = await updateUser(changes);
 
-    if (resp.status === 200) {
+    if (resp.status === 201) {
+      setAlert(false);
       const newUserResp = await getUser();
       const newUser = await newUserResp.json();
       setUser(newUser.data);
@@ -139,7 +152,7 @@ export default function Profile() {
                 className="ContainerRTE"
                 style={{ marginTop: "1%", marginLeft: "5.3333333%" }}
               >
-                <Input placeholder={user.username} value={username} onInput={e => setUsername(e.target.value)}/>
+                <Input placeholder={username} value={username} onInput={e => setUsername(e.target.value)}/>
               </div>
               <h2 style={{ marginTop: "2%", marginLeft: "5.3333333%" }}>
                 Birthday
@@ -148,7 +161,7 @@ export default function Profile() {
                 className="ContainerRTE"
                 style={{ marginTop: "1%", marginLeft: "5.3333333%" }}
               >
-                <Input placeholder={user.birthday} value={birthday} onInput={e => setBirthday(e.target.value)}/>
+                <Input placeholder={birthday} value={birthday} onInput={e => setBirthday(e.target.value)}/>
               </div>
               <h2 style={{ marginTop: "2%", marginLeft: "5.3333333%" }}>
                 Country
@@ -159,35 +172,31 @@ export default function Profile() {
               >
                 <Select
                   options={countryData}
-                  placeholder={user.country}
+                  placeholder={country}
                   isClearable
                   onChange={setCountry}
                   value={country}
                 />
               </div>
               <Row style={{ marginTop: "2%", marginLeft: "5.3333333%" }}>
-                <Button size="m" className="left-btn" onClick={saveChanges}>
+                <Button size="m" className="left-btn" onClick={saveChanges} disabled={!newChanges}>
                   <div className=" vertAlign textField">Save Changes</div>
                 </Button>
               </Row>
             </div>}
             {section === "Your Projects" && <div>
-              <h2
-                id="your_projects"
-                justify="center"
-                align="middle"
-                style={{
-                  marginTop: "6%",
-                  marginBottom: "3%",
-                  marginLeft: "auto",
-                  marginRight: "auto"
-                }}
+              {createdProjects.length === 0 && <h3
+                className="profile-projects"
               >
-                <strong> Your Projects </strong>
-              </h2>
+                Create a project to see it here &darr;
+              </h3>}
+              {createdProjects.length > 0 && <h2
+                className="profile-projects"
+              >
+                Your Projects
+              </h2>}
               <Row>
-                {createdProjects &&
-                  createdProjects.map(project => (
+                {createdProjects.map(project => (
                     <Col key={project._id} className="project-col">
                       <CardGroup>
                         <Link
@@ -236,19 +245,16 @@ export default function Profile() {
               </Row>
             </div>}
             {section === "Saved Projects" && <div>
-              <h2
-                id="saved_projects"
-                justify="center"
-                align="middle"
-                style={{
-                  marginTop: "6%",
-                  marginBottom: "3%",
-                  marginLeft: "auto",
-                  marginRight: "auto"
-                }}
-              >
-                <strong> Saved Projects </strong>
-              </h2>
+              {followedProjects.length === 0 && <h3
+                  className="profile-projects"
+                >
+                  Follow a project to see it here &darr;
+                </h3>}
+                {followedProjects.length > 0 && <h2
+                  className="profile-projects"
+                >
+                  Saved Projects
+                </h2>}
               <Row>
                 {followedProjects &&
                   followedProjects.map(project => (
