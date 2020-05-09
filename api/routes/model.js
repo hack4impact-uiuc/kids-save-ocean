@@ -3,15 +3,14 @@ const router = express.Router();
 const validate = require("express-jsonschema").validate;
 const { checkToken } = require("../auth/utils/checkToken");
 
-const { getUserId, getUsername } = require("../utils/user_utils");
-
-const ModelSchema = require("../public/schema/projectSchema.js").projectSchema;
-
 const {
+  getUserId,
   getUsername,
   getFollowingProjects,
   getCreatedProjects
 } = require("../utils/user_utils");
+
+const ModelSchema = require("../public/schema/projectSchema.js").projectSchema;
 
 const {
   stakeholdersSchema,
