@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { GoogleLogin } from "react-google-login";
 import Link from "next/link";
 import Router from "next/router";
@@ -13,12 +13,21 @@ export default function Login(props) {
     "([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)@([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+).([a-zA-Z]{2,3}).?([a-zA-Z]{0,3})";
   const SUCCESS = 200;
   const { role } = props;
+  const defaultHeight = 1000;
 
   // state
+  const [height, setHeight] = useState(defaultHeight);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
+  useEffect(() => {
+    const bodyHeight = () => {
+      return window.innerHeight;
+    };
+    setHeight(bodyHeight);
+  }, []);
+  console.log(height);
   const handleGoogle = async e => {
     const result = await google(e.tokenId);
     const resp = await result.json();
@@ -52,7 +61,7 @@ export default function Login(props) {
       <div>
         <Row className="parentRow">
           <Col className="columnLeft" xs="6">
-            <div className="motto">
+            <div className="motto" style={{ height: `${height}px` }}>
               <strong>
                 Change your community, <br /> Change the world.
                 <br /> <br /> Join FateMaker today.
@@ -60,7 +69,7 @@ export default function Login(props) {
             </div>
           </Col>
           <Col xs="6">
-            <div className="outer">
+            <div className="login-outer">
               <h1 className="auth-card-title">
                 <strong> Login to FateMaker!</strong>
               </h1>
@@ -111,14 +120,18 @@ export default function Login(props) {
               </Row>
 
               <Row>
-                <Button size="m" onClick={handleSubmit} className="left-btn">
+                <Button
+                  size="m"
+                  onClick={handleSubmit}
+                  className="login-left-btn"
+                >
                   <div className=" vertAlign textField">Login</div>
                 </Button>
 
                 <Button
                   size="m"
                   onClick={() => Router.push("/register")}
-                  className="right-btn"
+                  className="login-right-btn"
                 >
                   <div className=" vertAlign textField">Register</div>
                 </Button>

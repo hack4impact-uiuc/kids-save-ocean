@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Router from "next/router";
 import {
@@ -6,13 +6,14 @@ import {
   verifyPIN,
   resendPIN,
   google,
-  createUser
+  createUser,
+  getSecurityQuestions
 } from "../utils/apiWrapper";
 import { Alert, Form, Button, FormGroup, Input, Row, Col } from "reactstrap";
 import { GoogleLogin } from "react-google-login";
 import { Head } from "../components";
 
-import "../public/styles/auth.scss";
+// import "../public/styles/auth.scss";
 import "../public/styles/signupPage.scss";
 import Select from "react-select";
 import countryData from "../utils/countries";
@@ -25,11 +26,13 @@ export default function RegisterPage(props) {
   const SUCCESS = 200;
   const INVALID = -1;
   const { role } = props;
+  const defaultHeight = 1000;
 
   // state related to auth user
-
+  const [height, setHeight] = useState(defaultHeight);
   const [anon, setAnon] = useState(false);
   const [person, setPerson] = useState("");
+  const [secQuestions, setSecQuestions] = useState([]);
   const [username, setUsername] = useState("");
   const [country, setCountry] = useState("");
   const [birthday, setBirthday] = useState("");
@@ -54,7 +57,28 @@ export default function RegisterPage(props) {
       Router.push("/");
     }
   };
-
+  useEffect(() => {
+    const bodyHeight = () => {
+      return window.innerHeight;
+    };
+    setHeight(bodyHeight);
+  }, []);
+  useEffect(() => {
+    let questions = [];
+    async function populateQuestions() {
+      const arrQuestions = await getSecurityQuestions();
+      const json = await arrQuestions.json();
+      for (let i = 0; i < json.questions.length; i++) {
+        let body = {
+          label: json.questions[i],
+          value: i
+        };
+        questions.push(body);
+      }
+      setSecQuestions(questions);
+    }
+    populateQuestions();
+  },[]);
   const handleSubmit = async e => {
     e.preventDefault();
     if (
@@ -146,13 +170,6 @@ export default function RegisterPage(props) {
     { value: true, label: "Anonymous Account" },
     { value: false, label: "Visible Account" }
   ];
-  const security_questions = [
-    { value: 0, label: "What is the name of your first pet?" },
-    { value: 1, label: "Which city were you born in?" },
-    { value: 2, label: "Which city did you first meet your spouse?" },
-    { value: 3, label: "What was the model of your first car?" },
-    { value: 4, label: "What is the name of your childhood best friend?" }
-  ];
 
   return (
     <div>
@@ -161,7 +178,7 @@ export default function RegisterPage(props) {
       <div>
         <Row className="parentRow">
           <Col className="columnLeft" xs="6">
-            <div className="motto">
+            <div className="motto" style={{ height: `${height}px` }}>
               <strong>
                 Change your community, <br /> Change the world.
                 <br /> <br /> Join FateMaker today.
@@ -330,7 +347,7 @@ export default function RegisterPage(props) {
                     <Form>
                       <FormGroup>
                         <Select
-                          options={security_questions}
+                          options={secQuestions}
                           placeholder=""
                           isClearable
                           onChange={setQuestionIdx}

@@ -27,7 +27,7 @@
     
   }
   
-  .left-btn {
+  .login-left-btn {
     float: left;
     width: 45%;
     margin-right: 10%;
@@ -43,7 +43,7 @@
     border: none;
   }
   
-  .right-btn {
+  .login-right-btn {
     float: right;
     width: 45%;
     margin-top: 1em;
@@ -106,12 +106,11 @@
     height: 5%;
 }
 .parentRow{
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: "Arvo";
   color: #003366;
 }
 .columnLeft{
   background: #FFCC66;
-  // background: #66CCCC;
   height: 120%;
   color: #003366 ;
   font-weight: bolder;
@@ -123,7 +122,6 @@
   margin-top: 5%;
   margin-left: 5%;
   margin-right: 5%;
-  height : 800px;
 }
 .vertAlign {
   margin-top: 1.5%;
@@ -151,7 +149,7 @@
   font-size: 1.0rem;
 }
 
-.outer {
+.login-outer {
     width: 80%;
     margin-left: 10%;
     margin-right: 10%;

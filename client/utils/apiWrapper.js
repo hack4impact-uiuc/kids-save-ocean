@@ -612,24 +612,23 @@ export const getComments = model_id => {
 export const postUpvote = async model_id => {
   const validUser = await checkValidUser();
   if (!validUser) {
-    return;
-  }
-  const requestString = `${BASE_URL}/upvote`;
-  return axios
-    .post(
-      requestString,
-      { upvoteLocation: model_id },
-      {
-        headers: {
-          "Content-Type": "application/JSON",
-          "x-access-token": localStorage.getItem("token")
+    const requestString = `${BASE_URL}/upvote`;
+    return axios
+      .post(
+        requestString,
+        { upvoteLocation: model_id },
+        {
+          headers: {
+            "Content-Type": "application/JSON",
+            "x-access-token": localStorage.getItem("token")
+          }
         }
-      }
-    )
-    .catch(error => ({
-      type: "SAVE_UPVOTE_FAIL",
-      error
-    }));
+      )
+      .catch(error => ({
+        type: "SAVE_UPVOTE_FAIL",
+        error
+      }));
+  }
 };
 
 export const getUpvotes = model_id => {

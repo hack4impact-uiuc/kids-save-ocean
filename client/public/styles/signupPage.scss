@@ -21,12 +21,11 @@
     height: 5%;
 }
 .parentRow{
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: "Arvo";
   color: #003366;
 }
 .columnLeft{
   background: #FFCC66;
-  // background: #66CCCC;
   height: 120%;
   color: #003366 ;
   font-weight: bolder;
@@ -38,7 +37,6 @@
   margin-top: 5%;
   margin-left: 5%;
   margin-right: 5%;
-  height : 800px;
 }
 .vertAlign {
   margin-top: 1.5%;
@@ -71,4 +69,78 @@
     margin-left: 10%;
     margin-right: 10%;
     margin-top: 5%;
+}
+.auth-card-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 20%;
+}
+
+.auth-card {
+  width: 75%;
+  height: 60%;
+  margin-top: 3em;
+}
+
+.auth-card-title {
+  text-align: center;
+  padding-top: 0em;
+  margin-bottom: 2.5%; 
+}
+
+.left-btn {
+  float: left;
+  width: 45%;
+  margin-right: 10%;
+  margin-top: 1em;
+  background-color: #FFCC66;
+  color: #003366;
+  border: none;
+}
+
+.left-btn:hover {
+  background-color: #003366;
+  color:  #FFCC66;
+  border: none;
+}
+
+.right-btn {
+  float: right;
+  width: 45%;
+  margin-top: 1em;
+  background-color: #FFCC66;
+  color: #003366;
+  border: none;
+}
+
+.right-btn:hover {
+  background-color: #003366;
+  color:  #FFCC66;
+  border: none;
+}
+
+.mid-btn {
+  float: middle;
+  width: 100%;
+  margin-top: 1em;
+}
+
+.forgot-password {
+  margin-top: 2em;
+}
+
+.google-btn-wrapper {
+  display: flex;
+  justify-content: center;
+  float: middle;
+  margin-top: 1em;
+}
+
+.security-select {
+  margin: 0em 1em 1em 0em;
+}
+
+.back-to-login {
+  text-align: center;
+  margin-bottom: 1em;
 }
