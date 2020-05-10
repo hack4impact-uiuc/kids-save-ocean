@@ -64,7 +64,7 @@ export default function RegisterPage() {
       setSecQuestions(questions);
     }
     populateQuestions();
-  },[]);
+  }, []);
   const handleSubmit = async e => {
     e.preventDefault();
     if (
