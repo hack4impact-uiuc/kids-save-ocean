@@ -9,7 +9,6 @@ import levelData from "../../utils/levels";
 import { getModels } from "../../utils/apiWrapper";
 import {
   Card,
-  CardImg,
   CardGroup,
   CardText,
   Col,

@@ -201,8 +201,8 @@ export default WrappedMessage(function EditProjectPage(props) {
             passHref
           >
             <a>
-              <Button className="button-return-project">
-                Return to Project Page
+              <Button className="button-return-project" color="danger">
+                Return
               </Button>
             </a>
           </Link>

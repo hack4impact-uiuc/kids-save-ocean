@@ -61,6 +61,7 @@ export default WrappedMessage(function AddStage(props) {
         <Button
           className="button-add-stage"
           onClick={() => submit(stageName, startdate, enddate)}
+          color="primary"
         >
           Add Stage
         </Button>
