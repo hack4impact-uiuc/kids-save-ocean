@@ -285,6 +285,12 @@ export default function ProjectsPage() {
                     >
                       <a>
                         <Card className="project-card">
+                          <CardImg
+                            className="project-card-img"
+                            top
+                            width="100%"
+                            alt="Project image"
+                          ></CardImg>
                           <CardText width="100%" height="100%">
                             <div className="project-card-name">
                               {project.name}
