@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Button } from "reactstrap";
 
 import Dante from "Dante2";
+import "../public/styles/commentEditor.scss";
 
 export default function CommentEditor(props) {
   const [content, setContent] = useState(null);
@@ -17,7 +18,9 @@ export default function CommentEditor(props) {
         onChange={editor => setContent(editor.emitSerializedOutput())}
         widgets={[]}
       />
-      <Button onClick={submitComment}>Submit</Button>
+      <Button className="comment-btn" onClick={submitComment}>
+        Post Comment
+      </Button>
     </div>
   );
 }
