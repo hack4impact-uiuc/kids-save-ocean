@@ -20,10 +20,7 @@ export default function Login() {
   const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
-    const bodyHeight = () => {
-      return window.innerHeight;
-    };
-    setHeight(bodyHeight);
+    setHeight(window.innerHeight);
   }, []);
 
   const handleSubmit = async e => {

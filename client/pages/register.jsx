@@ -44,10 +44,7 @@ export default function RegisterPage() {
   const [questionIdx, setQuestionIdx] = useState(INVALID);
 
   useEffect(() => {
-    const bodyHeight = () => {
-      return window.innerHeight;
-    };
-    setHeight(bodyHeight);
+    setHeight(window.innerHeight);
   }, []);
   useEffect(() => {
     let questions = [];

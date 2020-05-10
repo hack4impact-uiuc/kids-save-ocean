@@ -747,7 +747,7 @@ export const getCommentCount = model_id => {
 
 export const postUpvote = async model_id => {
   const validUser = await checkValidUser();
-  if (!validUser) {
+  if (validUser) {
     const requestString = `${BASE_URL}/upvote`;
     return axios
       .post(
