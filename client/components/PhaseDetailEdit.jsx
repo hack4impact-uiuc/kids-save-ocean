@@ -75,7 +75,7 @@ export default function PhaseDetailEdit(props) {
         </div>
         <hr />
         {details?.map((detail, index) => (
-          <div className="edit-detail">
+          <div className="edit-detail" key={index}>
             <div className="d-flex justify-content-between">
               <Label>Name</Label>
               <span
