@@ -121,7 +121,7 @@ export default function NavBar() {
             )}
             {loggedIn && (
               <NavItem className="user-col">
-                <Link href="#profile">
+                <Link href="/profile">
                   <a>
                     <img
                       className="nav-img"
