@@ -51,7 +51,7 @@ router.post("/:model_ID", checkToken, async function(req, res) {
           } else {
             await addProjectId(db, doc._id, userId);
             await addReferences(db, oldId, doc._id);
-            res.json({ success: "Model was duplicated!" });
+            res.json({ success: "Model was duplicated!", id: doc._id });
           }
         });
       }

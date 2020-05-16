@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
 import Link from "next/link";
 import Dante from "Dante2";
 
@@ -28,8 +28,8 @@ import {
 import classnames from "classnames";
 import {
   getModelsByID,
+  getFollowingProjectsIds,
   duplicateModel,
-  getFollowingProjects,
   followProject,
   unfollowProject,
   canEdit
@@ -108,7 +108,7 @@ export default function ProjectPage() {
         }
       }
       if (localStorage.getItem("token")) {
-        const resp = await getFollowingProjects();
+        const resp = await getFollowingProjectsIds();
         const res = await resp.json();
         if (projectId && res.data.includes(projectId)) {
           setFollowing(true);
@@ -170,8 +170,8 @@ export default function ProjectPage() {
       if (isOwner) {
         buttons.push(
           <Link
-            href="/projects/[projectId]/editProject"
-            as={`/projects/${projectId}/editProject`}
+            href="/projects/[projectId]/edit"
+            as={`/projects/${projectId}/edit`}
             passHref
           >
             <Button className="project-header-buttons">Edit</Button>
@@ -181,7 +181,11 @@ export default function ProjectPage() {
         buttons.push(
           <Button
             className="project-header-buttons"
-            onClick={() => duplicateModel(project._id)}
+            onClick={() =>
+              duplicateModel(project._id).then(resp =>
+                Router.push(`/projects/${resp.data.id}`)
+              )
+            }
           >
             Build off this project
           </Button>
@@ -190,6 +194,19 @@ export default function ProjectPage() {
     }
 
     return buttons;
+  };
+
+  const renderStageModal = description => {
+    const basicElement = <p>{description}</p>;
+    try {
+      const contentObj = JSON.parse(description);
+      if (typeof contentObj === "object") {
+        return <Dante read_only content={contentObj} />;
+      }
+      return basicElement;
+    } catch (SyntaxError) {
+      return basicElement;
+    }
   };
 
   return (
@@ -203,18 +220,11 @@ export default function ProjectPage() {
           {activeStage && (
             <Modal isOpen={modal} toggle={toggleModal}>
               <ModalHeader>{activeStage.name}</ModalHeader>
-              <ModalBody>
-                <Dante
-                  read_only
-                  content={JSON.parse(activeStage.description)}
-                />
-              </ModalBody>
+              <ModalBody>{renderStageModal(activeStage.description)}</ModalBody>
               <ModalFooter>
                 <Link
                   href="/projects/[projectId]/[stageInfo]"
-                  as={`/projects/${projectId}/${activePhase}-${activeStage.name
-                    .toLowerCase()
-                    .replace(" ", "-")}`}
+                  as={`/projects/${projectId}/${activePhase}-${activeStage.name}`}
                   passHref
                 >
                   <a>

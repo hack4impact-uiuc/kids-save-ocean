@@ -185,7 +185,7 @@ export default WrappedMessage(function NavBar(props) {
             )}
             {loggedIn && (
               <NavItem className="user-col">
-                <Link href="#profile">
+                <Link href="/profile">
                   <a>
                     <img
                       className="nav-img"
