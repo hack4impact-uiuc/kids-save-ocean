@@ -788,13 +788,18 @@ export const checkToken = () => {
 
 export const duplicateModel = model_id => {
   const requestString = `${BASE_URL}/duplicate/${model_id}`;
+  console.log(requestString);
   return axios
-    .post(requestString, {
-      headers: {
-        "Content-Type": "application/JSON",
-        "x-access-token": localStorage.getItem("token")
+    .post(
+      requestString,
+      {},
+      {
+        headers: {
+          "Content-Type": "application/JSON",
+          "x-access-token": localStorage.getItem("token")
+        }
       }
-    })
+    )
     .catch(error => ({
       type: "DUPLICATE_MODEL_FAIL",
       error

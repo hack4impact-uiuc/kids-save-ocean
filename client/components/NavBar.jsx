@@ -87,7 +87,7 @@ export default WrappedMessage(function NavBar(props) {
   useEffect(() => {
     setLoggedIn(localStorage.getItem("token"));
     toggleLoggedIn();
-  }, []);
+  });
 
   function toggleLoggedIn() {
     setLoggedIn(localStorage.getItem("token"));
