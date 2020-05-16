@@ -101,7 +101,7 @@ router.post(
         code: SUCCESS,
         success: true,
         message: `${data.name} added!`,
-        data: project
+        data
       });
     }
   }

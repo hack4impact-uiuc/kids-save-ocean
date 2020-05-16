@@ -344,7 +344,7 @@ router.get("/updates/:numUpdates/:currentIndex", checkToken, async function(
   );
   let shouldNotif = false;
 
-  for (update of feedUpdates) {
+  for (let update of feedUpdates) {
     if (update.date > user.lastCheckedNotifs) {
       shouldNotif = true;
     }
