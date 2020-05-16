@@ -343,9 +343,21 @@ router.get("/updates/:numUpdates/:currentIndex", checkToken, async function(
     }
   );
 
-  res
-    .status(SUCCESS)
-    .send(feedUpdates.slice(currentIndex, currentIndex + numUpdates));
+  let shouldNotif = false;
+
+  for (update of feedUpdates) {
+    if (update.date > Date.now()) {
+      shouldNotif = true;
+    }
+  }
+
+  res.status(SUCCESS).send({
+    success: true,
+    data: {
+      shouldNotif,
+      updates: feedUpdates.slice(currentIndex, currentIndex + numUpdates)
+    }
+  });
 });
 
 module.exports = router;
