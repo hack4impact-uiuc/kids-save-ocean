@@ -113,10 +113,6 @@ router.post(
     data["ownerId"] = userId;
     let currProjectId;
 
-    const collection = db.get("projects");
-    let data = req.body;
-    let currProjectId;
-
     data.numUpvotes = 0;
     data.numComments = 0;
     data.ownerId = await getUserId(db, userEmail);
