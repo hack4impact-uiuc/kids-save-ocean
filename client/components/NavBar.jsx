@@ -73,18 +73,10 @@ export default WrappedMessage(function NavBar(props) {
         const updateResp = await getUpdates(NOTIF_LIMIT, 0);
         if (updateResp.status >= ERROR_STATUS) {
           props.setError("An error occured while retriving notifications.");
-        } else if (
-          updateResp.data.data.updates.length === 0 ||
-          !updateResp.data.data.shouldNotif
-        ) {
-          setUpdates([
-            {
-              _id: 0,
-              description: "No new notifications"
-            }
-          ]);
         } else {
-          setDisplayNotifDot(true);
+          if (updateResp.data.data.shouldNotif) {
+            setDisplayNotifDot(true);
+          }
           setUpdates(updateResp.data.data.updates);
         }
       }
