@@ -27,14 +27,13 @@ export default WrappedMessage(function NavBar(props) {
   const [displayNotif, setDisplayNotif] = useState(false);
   const [renderPopover, setRenderPopover] = useState(false);
   const [updates, setUpdates] = useState([]);
-  const [displayNotifDot, setDisplayNotifDot] = useState(true);
+  const [displayNotifDot, setDisplayNotifDot] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [modal, setModal] = useState(false);
   const waitTime = 200;
 
   const NOTIF_LIMIT = 10;
   const ERROR_STATUS = 400;
-  const { error } = props;
 
   useEffect(() => {
     if (process.browser) {
@@ -72,18 +71,26 @@ export default WrappedMessage(function NavBar(props) {
       const validUser = await checkValidUser(false);
       if (validUser) {
         const updateResp = await getUpdates(NOTIF_LIMIT, 0);
-        console.log(updateResp);
         if (updateResp.status >= ERROR_STATUS) {
           props.setError("An error occured while retriving notifications.");
-        } else if (updateResp.data.length === 0) {
-          setUpdates(["No new notifications."]);
+        } else if (
+          updateResp.data.data.updates.length === 0 ||
+          !updateResp.data.data.shouldNotif
+        ) {
+          setUpdates([
+            {
+              _id: 0,
+              description: "No new notifications"
+            }
+          ]);
         } else {
-          setUpdates(updateResp.data);
+          setDisplayNotifDot(true);
+          setUpdates(updateResp.data.data.updates);
         }
       }
     };
     populateNotifs();
-  }, [error]);
+  }, [props, setDisplayNotifDot, setUpdates]);
 
   useEffect(() => {
     setLoggedIn(localStorage.getItem("token"));
@@ -169,13 +176,15 @@ export default WrappedMessage(function NavBar(props) {
                     toggle={() => {
                       setDisplayNotif(!displayNotif);
                       setDisplayNotifDot(false);
-                      updateLastCheckedNotifDate();
+                      if (updates[0]._id !== 0) {
+                        updateLastCheckedNotifDate();
+                      }
                     }}
                   >
                     <PopoverHeader>Notifications</PopoverHeader>
                     <PopoverBody>
                       {updates.map(update => (
-                        <p key={update._id}>{update.description}</p>
+                        <p key={update._id}>{`${update.description}.`}</p>
                       ))}
                     </PopoverBody>
                   </Popover>

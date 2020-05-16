@@ -34,18 +34,21 @@ export default function Feed() {
         return;
       }
       const nextUpdates = await getUpdates(maxUpdatesAtOnce, nextIdx);
-      if (nextUpdates === undefined || nextUpdates.data.length === 0) {
+      if (
+        nextUpdates === undefined ||
+        nextUpdates.data.data.updates.length === 0
+      ) {
         setWillMount(false);
         return;
       }
       if (
-        nextUpdates.data.length < maxUpdatesAtOnce ||
+        nextUpdates.data.data.updates.length < maxUpdatesAtOnce ||
         updates.length + maxUpdatesAtOnce >= maxUpdatesTotal
       ) {
         setHasMore(false);
       }
-      setNextIdx(nextUpdates.data.length);
-      nextUpdates.data.map(update => {
+      setNextIdx(nextUpdates.data.data.updates.length);
+      nextUpdates.data.data.updates.map(update => {
         const dateObj = new Date(update.date);
         update.date = `${dateObj.toLocaleString("default", {
           month: "long"

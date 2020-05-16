@@ -452,7 +452,6 @@ export const saveDescription = async (
   const validUser = await checkValidUser();
   if (validUser) {
     const requestString = `${BASE_URL}/models/${model_id}/${phaseName}/${stageName}/description`;
-    console.log(requestString);
     return axios
       .put(
         requestString,
