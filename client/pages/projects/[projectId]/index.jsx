@@ -28,8 +28,8 @@ import {
 import classnames from "classnames";
 import {
   getModelsByID,
+  getFollowingProjectsIds,
   duplicateModel,
-  getFollowingProjects,
   followProject,
   unfollowProject,
   canEdit
@@ -108,7 +108,7 @@ export default function ProjectPage() {
         }
       }
       if (localStorage.getItem("token")) {
-        const resp = await getFollowingProjects();
+        const resp = await getFollowingProjectsIds();
         const res = await resp.json();
         if (projectId && res.data.includes(projectId)) {
           setFollowing(true);

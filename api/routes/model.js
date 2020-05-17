@@ -3,7 +3,12 @@ const router = express.Router();
 const validate = require("express-jsonschema").validate;
 const { checkToken } = require("../auth/utils/checkToken");
 
-const { getUserId, getUsername } = require("../utils/user_utils");
+const {
+  getUserId,
+  getUsername,
+  getFollowingProjects,
+  getCreatedProjects
+} = require("../utils/user_utils");
 
 const ModelSchema = require("../public/schema/projectSchema.js").projectSchema;
 
@@ -42,6 +47,44 @@ router.get("/", function(req, res) {
       res.send(docs);
     });
   }
+});
+
+router.get("/userCreatedModels", checkToken, async function(req, res) {
+  const db = req.db;
+  const collection = db.get("projects");
+  const userEmail = req.decoded.sub;
+  const createdProjects = await getCreatedProjects(db, userEmail);
+
+  collection.find(
+    {
+      _id: { $in: createdProjects }
+    },
+    {
+      $exists: true
+    },
+    function(e, docs) {
+      res.send(docs);
+    }
+  );
+});
+
+router.get("/userFollowingModels", checkToken, async function(req, res) {
+  const db = req.db;
+  const collection = db.get("projects");
+  const userEmail = req.decoded.sub;
+  const followingProjects = await getFollowingProjects(db, userEmail);
+
+  collection.find(
+    {
+      _id: { $in: followingProjects }
+    },
+    {
+      $exists: true
+    },
+    function(e, docs) {
+      res.send(docs);
+    }
+  );
 });
 
 router.get("/:model_ID", function(req, res) {
