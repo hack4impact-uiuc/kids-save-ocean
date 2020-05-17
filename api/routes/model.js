@@ -7,7 +7,7 @@ const {
   getUserId,
   getUsername,
   getFollowingProjects,
-  getCreatedProjects
+  getCreatedProjects,
 } = require("../utils/user_utils");
 
 const ModelSchema = require("../public/schema/projectSchema.js").projectSchema;
@@ -15,7 +15,7 @@ const ModelSchema = require("../public/schema/projectSchema.js").projectSchema;
 const {
   stakeholdersSchema,
   challengesSchema,
-  insightsSchema
+  insightsSchema,
 } = require("../public/schema/phaseDetailSchema.js");
 
 const SUCCESS = 200;
@@ -29,10 +29,10 @@ router.get("/", function(req, res) {
   if (sdg_par && !isNaN(sdg_num)) {
     collection.find(
       {
-        sdg: sdg_num
+        sdg: sdg_num,
       },
       {
-        $exists: true
+        $exists: true,
       },
       function(e, docs) {
         res.send(docs);
@@ -57,10 +57,10 @@ router.get("/userCreatedModels", checkToken, async function(req, res) {
 
   collection.find(
     {
-      _id: { $in: createdProjects }
+      _id: { $in: createdProjects },
     },
     {
-      $exists: true
+      $exists: true,
     },
     function(e, docs) {
       res.send(docs);
@@ -76,10 +76,10 @@ router.get("/userFollowingModels", checkToken, async function(req, res) {
 
   collection.find(
     {
-      _id: { $in: followingProjects }
+      _id: { $in: followingProjects },
     },
     {
-      $exists: true
+      $exists: true,
     },
     function(e, docs) {
       res.send(docs);
@@ -93,7 +93,7 @@ router.get("/:model_ID", function(req, res) {
   const collection = db.get("projects");
   collection
     .findOne({ _id: id })
-    .then(model => (model !== null ? res.send(model) : res.sendStatus(404)))
+    .then((model) => (model !== null ? res.send(model) : res.sendStatus(404)))
     .catch(() => res.sendStatus(500));
 });
 
@@ -101,7 +101,7 @@ router.post(
   "/",
   checkToken,
   validate({
-    body: ModelSchema
+    body: ModelSchema,
   }),
   async function(req, res) {
     const db = req.db;
@@ -137,7 +137,7 @@ router.post(
         email: email,
         projectId: currProjectId,
         description: `${username} created ${data.name}`,
-        date: Date.now()
+        date: Date.now(),
       };
 
       try {
@@ -149,7 +149,7 @@ router.post(
         code: SUCCESS,
         success: true,
         message: `${data.name} added!`,
-        data: project
+        data: project,
       });
     }
   }
@@ -161,10 +161,10 @@ router.delete("/:model_ID", checkToken, function(req, res) {
   const collection = db.get("projects");
   collection
     .findOneAndDelete({ _id: id })
-    .then(model =>
+    .then((model) =>
       model !== null
         ? res.json({
-            success: `${id} deleted!`
+            success: `${id} deleted!`,
           })
         : res.sendStatus(404)
     )
@@ -176,7 +176,7 @@ router.delete("/:model_ID", checkToken, function(req, res) {
 router.put(
   "/:model_ID",
   validate({
-    body: ModelSchema
+    body: ModelSchema,
   }),
   function(req, res) {
     const db = req.db;
@@ -185,11 +185,11 @@ router.put(
     collection
       .findOneAndUpdate(
         {
-          _id: id
+          _id: id,
         },
         req.body
       )
-      .then(model =>
+      .then((model) =>
         model !== null
           ? res.json({ success: `${id} updated!` })
           : res.sendStatus(404)
@@ -209,9 +209,9 @@ router.get("/:model_ID/canEdit", checkToken, async function(req, res) {
   collection
     .findOne({
       _id: model_ID,
-      ownerId: userId
+      ownerId: userId,
     })
-    .then(model =>
+    .then((model) =>
       model !== null ? res.json({ success: true }) : res.sendStatus(404)
     )
     .catch(() => res.sendStatus(404));
@@ -230,11 +230,11 @@ router.post("/:model_ID", checkToken, async (req, res) => {
     .findOneAndUpdate(
       {
         _id: model_ID,
-        ownerId: userId
+        ownerId: userId,
       },
       { $set: { name, description, groupSize } }
     )
-    .then(model =>
+    .then((model) =>
       model !== null
         ? res.json({ success: `${name} updated!` })
         : res.sendStatus(404)
@@ -249,9 +249,9 @@ router.get("/:model_ID/:phaseName/stakeholders", (req, res) => {
 
   collection
     .findOne({
-      _id: model_ID
+      _id: model_ID,
     })
-    .then(model => {
+    .then((model) => {
       if (model !== null) {
         const phase = model.phases[phaseName];
         const stakeholders = phase.stakeholders;
@@ -280,14 +280,14 @@ router.post(
       .findOneAndUpdate(
         {
           _id: model_ID,
-          ownerId: userId
+          ownerId: userId,
         },
         { $set: { [`phases.${phaseName}.stakeholders`]: stakeholders } }
       )
-      .then(model =>
+      .then((model) =>
         model !== null
           ? res.json({
-              success: `Stakeholders updated!`
+              success: `Stakeholders updated!`,
             })
           : res.sendStatus(404)
       )
@@ -302,9 +302,9 @@ router.get("/:model_ID/:phaseName/challenges", (req, res) => {
 
   collection
     .findOne({
-      _id: model_ID
+      _id: model_ID,
     })
-    .then(model => {
+    .then((model) => {
       if (model !== null) {
         const phase = model.phases[phaseName];
         const challenges = phase.challenges;
@@ -333,14 +333,14 @@ router.post(
       .findOneAndUpdate(
         {
           _id: model_ID,
-          ownerId: userId
+          ownerId: userId,
         },
         { $set: { [`phases.${phaseName}.challenges`]: challenges } }
       )
-      .then(model =>
+      .then((model) =>
         model !== null
           ? res.json({
-              success: `Challenges updated!`
+              success: `Challenges updated!`,
             })
           : res.sendStatus(404)
       )
@@ -355,9 +355,9 @@ router.get("/:model_ID/:phaseName/insights", (req, res) => {
 
   collection
     .findOne({
-      _id: model_ID
+      _id: model_ID,
     })
-    .then(model => {
+    .then((model) => {
       if (model !== null) {
         const phase = model.phases[phaseName];
         const insights = phase.insights;
@@ -386,14 +386,14 @@ router.post(
       .findOneAndUpdate(
         {
           _id: model_ID,
-          ownerId: userId
+          ownerId: userId,
         },
         { $set: { [`phases.${phaseName}.insights`]: insights } }
       )
-      .then(model =>
+      .then((model) =>
         model !== null
           ? res.json({
-              success: `Insights updated!`
+              success: `Insights updated!`,
             })
           : res.sendStatus(404)
       )
@@ -424,11 +424,11 @@ router.post(
       .findOneAndUpdate(
         {
           _id: model_ID,
-          ownerId: userId
+          ownerId: userId,
         },
         { $push: { [`phases.${phaseName}.stages`]: newStage } }
       )
-      .then(model =>
+      .then((model) =>
         model !== null
           ? res.json({ success: `${stageName} added!` })
           : res.sendStatus(404)
@@ -458,11 +458,11 @@ router.put(
         {
           _id: model_ID,
           ownerId: userId,
-          [`phases.${phaseName}.stages.name`]: stageName
+          [`phases.${phaseName}.stages.name`]: stageName,
         },
         { $set: { [`phases.${phaseName}.stages.$.description`]: description } }
       )
-      .then(model => {
+      .then((model) => {
         if (model === null) {
           res.sendStatus(404);
         }
@@ -478,20 +478,20 @@ router.put(
       projectId: model_ID,
       description: `${username} updated their ${stageName} stage`,
       subDescription: `${subDescription}`,
-      date: Date.now()
+      date: Date.now(),
     };
 
     try {
       updates.update(
         {
           description: `${username} updated their ${stageName} stage`,
-          projectId: model_ID
+          projectId: model_ID,
         },
         {
-          $set: update
+          $set: update,
         },
         {
-          upsert: true
+          upsert: true,
         }
       );
     } catch (err) {
@@ -508,15 +508,15 @@ router.get("/:model_ID/:phaseName/:stageName/description", function(req, res) {
   const { model_ID, phaseName, stageName } = req.params;
   collection
     .findOne({ _id: model_ID })
-    .then(model => {
+    .then((model) => {
       if (model === null) {
         res.sendStatus(404);
       } else {
         const stages = model.phases[phaseName].stages;
-        const stage = stages.filter(s => s.name === stageName)[0];
+        const stage = stages.filter((s) => s.name === stageName)[0];
         stage !== undefined
           ? res.json({
-              description: stage.description
+              description: stage.description,
             })
           : res.sendStatus(404);
       }
@@ -531,11 +531,11 @@ router.get("/:numUpdates/:lastID", function(req, res) {
   const collection = db.get("projects");
   collection.find(
     {
-      _id: { $gt: last_ID }
+      _id: { $gt: last_ID },
     },
     {
       $exists: true,
-      limit: parseInt(req.params.numUpdates)
+      limit: parseInt(req.params.numUpdates),
     },
     function(e, docs) {
       if (docs) {
