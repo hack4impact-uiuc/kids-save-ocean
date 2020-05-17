@@ -12,6 +12,7 @@ const userRouter = require("./routes/user");
 const commentRouter = require("./routes/comment");
 const filestoreRouter = require("./routes/filestore");
 const authRouter = require("./auth/api/index");
+const duplicateRouter = require("./routes/duplicate");
 const upvoteRouter = require("./routes/upvote");
 
 require("dotenv").config();
@@ -61,6 +62,7 @@ app.use("/api/models", modelRouter);
 app.use("/api/user", userRouter);
 app.use("/api/upload", filestoreRouter);
 app.use("/api/users", userRouter);
+app.use("/api/duplicate", duplicateRouter);
 app.use("/api/comment", commentRouter);
 app.use("/api/templates", templateRouter);
 app.use("/api/upvote", upvoteRouter);

@@ -33,9 +33,14 @@ hr {
   text-align: center;
 }
 
-.follow-btn {
+.project-header-buttons {
   margin-left: 2em;
   margin-bottom: 1em;
+}
+
+.upvote-btn {
+  margin-top: 1em;
+  position: fixed;
 }
 
 // styling for loader

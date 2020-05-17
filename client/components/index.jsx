@@ -4,12 +4,14 @@ import Gantt from "./Gantt";
 import Head from "./Head";
 import Loader from "./Loader";
 import NavBar from "./NavBar";
+import AddStage from "./AddStage";
+import PhaseEdit from "./PhaseEdit";
 import ProjectForm from "./ProjectForm";
 import Stage from "./Stage";
 import TipCard from "./TipCard";
 import UpvotesSection from "./UpvotesSection";
 import InfiniteScroller from "./InfiniteScroller";
-import TemplateDraft from "./TemplateDraft";
+import WrappedMessage from "./WrappedMessage";
 
 export {
   CommentsSection,
@@ -19,9 +21,11 @@ export {
   Loader,
   NavBar,
   ProjectForm,
+  AddStage,
+  PhaseEdit,
   Stage,
   TipCard,
   InfiniteScroller,
-  TemplateDraft,
-  UpvotesSection
+  UpvotesSection,
+  WrappedMessage
 };

@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Row, Col } from "reactstrap";
 
 import Dante from "Dante2";
 
@@ -39,9 +38,12 @@ export default function Draft(props) {
   };
   const saveCallback = useCallback(debounce(debounceSave, saveInterval), []);
 
-  const { id, phaseName, stageName } = props;
+  const { id, phaseName, stageName, read_only } = props;
 
   const handleChange = editor => {
+    if (read_only) {
+      return;
+    }
     setUnsaved(true);
     const content = editor.emitSerializedOutput();
 
@@ -102,10 +104,10 @@ export default function Draft(props) {
     getDescription(id, phaseName, stageName)
       .then(data => {
         const description = data.data.description;
+        setPrevContent(description);
         const json = JSON.parse(description);
         if ("blocks" in json) {
           setEditorContent(json);
-          setPrevContent(description);
         }
         setLoading(false);
       })
@@ -114,6 +116,24 @@ export default function Draft(props) {
       });
   }, [id, phaseName, stageName]);
 
+  const renderDraft = () => {
+    if (loading) {
+      return undefined;
+    }
+
+    if (read_only && editorContent === null) {
+      return <p>{prevContent}</p>;
+    }
+
+    return (
+      <Dante
+        read_only={read_only}
+        content={editorContent}
+        onChange={editor => handleChange(editor)}
+      />
+    );
+  };
+
   return (
     <div>
       <link
@@ -121,19 +141,15 @@ export default function Draft(props) {
         href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css"
       />
 
-      <Row>
-        <Col sm="9"></Col>
-        <Col sm="3" className="draft-status">
+      {!read_only && (
+        <div className="d-flex justify-content-end draft-status">
           {status()}
-        </Col>
-      </Row>
-
-      {!loading && (
-        <Dante
-          content={editorContent}
-          onChange={editor => handleChange(editor)}
-        />
+        </div>
       )}
+
+      {renderDraft()}
+
+      <hr />
     </div>
   );
 }

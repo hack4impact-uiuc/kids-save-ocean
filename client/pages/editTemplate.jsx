@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
   checkAdminPrivilege,
   addTemplate,
@@ -44,19 +44,27 @@ export default function EditTemplate() {
       const result = await getTemplateByID("5ea4e82211b8340345e8a9db");
 
       if (result.data !== undefined && result) {
-        if (result.data.name) {
+        if (result.data.name !== undefined) {
           setName(result.data.name);
+        } else {
+          setName("");
         }
         if (result.data.phases !== undefined && result.data.phases !== []) {
           result.data.phases.map(phase => {
             if (phase === phases[0]) {
               setInspiration(true);
+            } else {
+              setInspiration(false);
             }
             if (phase === phases[1]) {
               setIdeation(true);
+            } else {
+              setIdeation(false);
             }
             if (phase === phases[2]) {
               setImplementation(true);
+            } else {
+              setImplementation(false);
             }
           });
         }
@@ -67,8 +75,6 @@ export default function EditTemplate() {
 
   const handleID = async clickedTemplateID => {
     setTemplateID(clickedTemplateID);
-    console.log("Clicked template ID: " + clickedTemplateID); // this works: to delete
-    console.log("Template ID: " + templateID);
   };
 
   // useEffect(() => {

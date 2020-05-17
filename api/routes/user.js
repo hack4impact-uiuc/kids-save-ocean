@@ -88,6 +88,31 @@ router.get("/userInfo", checkToken, async (req, res) => {
   }
 });
 
+router.get("/userInfo", checkToken, async (req, res) => {
+  const { db } = req;
+  const collection = db.get("users");
+  const { email } = req.user;
+  try {
+    const users = await collection.find({ email });
+    const ret =
+      users.length === 1
+        ? {
+            code: SUCCESS,
+            success: true,
+            message: "User retrieved successfully.",
+            data: users[0]
+          }
+        : {
+            code: NOT_FOUND,
+            success: false,
+            message: "User not found."
+          };
+    res.status(ret.code).send(ret);
+  } catch (err) {
+    return err;
+  }
+});
+
 router.post("/", validate({ body: UserSchema }), async (req, res) => {
   const { db } = req;
   const collection = db.get("users");

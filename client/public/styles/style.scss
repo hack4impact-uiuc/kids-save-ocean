@@ -3,10 +3,31 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap");
 
+$yellow: #ffcc66;
+
 body {
   font-family: "Source Sans Pro", sans-serif;
   font-family: "Open Sans", sans-serif;
 }
+
+body::-webkit-scrollbar {
+  width: 0.8rem;
+}
+
+body::-webkit-scrollbar-track {
+  background: hsla(0, 0, 0, 0);
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: $yellow;
+  border-radius: 0.4rem;
+  box-shadow: 1px 1px 2px 0 hsla(0, 0, 0, 0.2);
+}
+
+body::-webkit-scrollbar-thumb:hover {
+  box-shadow: 1px 1px 4px 0 hsla(0, 0, 0, 0.4);
+}
+
 .page-transition-enter {
   opacity: 0;
 }
