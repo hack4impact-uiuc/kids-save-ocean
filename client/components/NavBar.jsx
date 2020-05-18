@@ -70,14 +70,15 @@ export default WrappedMessage(function NavBar(props) {
     const populateNotifs = async () => {
       const validUser = await checkValidUser(false);
       if (validUser) {
-        const updateResp = await getUpdates(NOTIF_LIMIT, 0);
-        if (updateResp.status >= ERROR_STATUS) {
-          props.setError("An error occured while retriving notifications.");
+        const updateRes = await getUpdates(NOTIF_LIMIT, 0);
+        const updateObj = updateRes.data.data;
+        if (updateRes.status >= ERROR_STATUS) {
+          props.setError("An error occured while retrieving notifications.");
         } else {
-          if (updateResp.data.data.shouldNotif) {
+          if (updateObj.shouldNotif) {
             setDisplayNotifDot(true);
           }
-          setUpdates(updateResp.data.data.updates);
+          setUpdates(updateObj.updates);
         }
       }
     };
@@ -85,7 +86,6 @@ export default WrappedMessage(function NavBar(props) {
   }, [props, setDisplayNotifDot, setUpdates]);
 
   useEffect(() => {
-    setLoggedIn(localStorage.getItem("token"));
     toggleLoggedIn();
   });
 
@@ -145,21 +145,16 @@ export default WrappedMessage(function NavBar(props) {
             )}
             {loggedIn && (
               <NavItem className="notif-col">
-                {displayNotifDot ? (
-                  <img
-                    className="nav-img"
-                    src="/navbar-images/notification-icon-red.svg"
-                    alt="Notifications"
-                    id="notif-icon"
-                  />
-                ) : (
-                  <img
-                    className="nav-img"
-                    src="/navbar-images/notification-icon.svg"
-                    alt="Notifications"
-                    id="notif-icon"
-                  />
-                )}
+                <img
+                  className="nav-img"
+                  src={
+                    displayNotifDot
+                      ? "/navbar-images/notification-icon-red.svg"
+                      : "/navbar-images/notification-icon.svg"
+                  }
+                  alt="Notifications"
+                  id="notif-icon"
+                />
                 {renderPopover && (
                   <Popover
                     placement="bottom"
@@ -168,9 +163,7 @@ export default WrappedMessage(function NavBar(props) {
                     toggle={() => {
                       setDisplayNotif(!displayNotif);
                       setDisplayNotifDot(false);
-                      if (updates[0]._id !== 0) {
-                        updateLastCheckedNotifDate();
-                      }
+                      updateLastCheckedNotifDate();
                     }}
                   >
                     <PopoverHeader>Notifications</PopoverHeader>

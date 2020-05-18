@@ -788,7 +788,6 @@ export const checkToken = () => {
 
 export const duplicateModel = model_id => {
   const requestString = `${BASE_URL}/duplicate/${model_id}`;
-  console.log(requestString);
   return axios
     .post(
       requestString,

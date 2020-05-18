@@ -33,22 +33,20 @@ export default function Feed() {
       if (!hasMore || (!isFetching && !willMount)) {
         return;
       }
-      const nextUpdates = await getUpdates(maxUpdatesAtOnce, nextIdx);
-      if (
-        nextUpdates === undefined ||
-        nextUpdates.data.data.updates.length === 0
-      ) {
+      const nextUpdatesRes = await getUpdates(maxUpdatesAtOnce, nextIdx);
+      const nextUpdates = nextUpdatesRes.data.data.updates;
+      if (nextUpdatesRes === undefined || nextUpdates.length === 0) {
         setWillMount(false);
         return;
       }
       if (
-        nextUpdates.data.data.updates.length < maxUpdatesAtOnce ||
+        nextUpdates.length < maxUpdatesAtOnce ||
         updates.length + maxUpdatesAtOnce >= maxUpdatesTotal
       ) {
         setHasMore(false);
       }
-      setNextIdx(nextUpdates.data.data.updates.length);
-      nextUpdates.data.data.updates.map(update => {
+      setNextIdx(nextUpdates.length);
+      nextUpdates.map(update => {
         const dateObj = new Date(update.date);
         update.date = `${dateObj.toLocaleString("default", {
           month: "long"
@@ -59,7 +57,7 @@ export default function Feed() {
       setIsFetching(false);
     };
     loadUpdates();
-  }, [isFetching, hasMore, willMount, nextIdx, setIsFetching, updates.length]);
+  }, [isFetching, hasMore, willMount]);
 
   return (
     <div className="feed-page-div">

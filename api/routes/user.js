@@ -392,13 +392,10 @@ router.get("/updates/:numUpdates/:currentIndex", checkToken, async function(
       }
     }
   );
-  let shouldNotif = false;
 
-  for (let update of feedUpdates) {
-    if (update.date > user.lastCheckedNotifs) {
-      shouldNotif = true;
-    }
-  }
+  const shouldNotif = feedUpdates.some(
+    update => update.date > user.lastCheckedNotifs
+  );
 
   res.status(SUCCESS).send({
     success: true,
