@@ -37,11 +37,21 @@ export default function EditTemplate() {
   const successStatus = 200;
 
   useEffect(() => {
-    const getInitialInfo = async () => {
-      setTemplates(await getTemplates());
-      setTemplateID("5ea4e82211b8340345e8a9db");
+    const getInitialDisplay = async () => {
+      setName("");
+      setInspiration(false);
+      setIdeation(false);
+      setImplementation(false);
+    };
+    getInitialDisplay();
+  }, []);
 
-      const result = await getTemplateByID("5ea4e82211b8340345e8a9db");
+  useEffect(() => {
+    const getTemplateInfo = async () => {
+      setTemplates(await getTemplates());
+      setTemplateID(templateID);
+
+      const result = await getTemplateByID(templateID);
 
       if (result.data !== undefined && result) {
         if (result.data.name !== undefined) {
@@ -70,8 +80,8 @@ export default function EditTemplate() {
         }
       }
     };
-    getInitialInfo();
-  }, []);
+    getTemplateInfo();
+  }, [templateID]);
 
   const handleID = async clickedTemplateID => {
     setTemplateID(clickedTemplateID);
