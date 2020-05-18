@@ -18,7 +18,7 @@ import {
   CardImg
 } from "reactstrap";
 import ReactCardFlip from "react-card-flip";
-
+import chroma from "chroma-js";
 import UNGoals from "../utils/goals";
 import "../public/styles/home.scss";
 import { checkValidUser } from "../utils/validator";
@@ -32,6 +32,7 @@ export default function Home() {
   const [animating, setAnimating] = useState(false);
   const numSlides = 5;
   const numCardsPerSlide = 3;
+  const cardOpacity = 0.9;
   const isRevolving = true;
   const slideIndices = [...Array(numSlides).keys()];
   // const sdgDescriptions = ["Economic growth must be inclusive to provide sustainable jobs and promote equality."]
@@ -298,11 +299,18 @@ export default function Home() {
                 </CardGroup>
                 <CardGroup>
                   <Card
-                    className="sdg-card"
+                    className="sdg-card-back"
                     tag="a"
                     onClick={e => handleClick(e, sdg.value)}
+                    style={{
+                      backgroundColor: chroma(sdg.color)
+                        .alpha(cardOpacity)
+                        .css()
+                    }}
                   >
-                    SDG {sdg.value} Description
+                    <CardText className="sdg-card-desc">
+                      SDG {sdg.value} Description
+                    </CardText>
                   </Card>
                 </CardGroup>
               </ReactCardFlip>

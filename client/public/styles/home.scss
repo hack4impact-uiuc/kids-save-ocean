@@ -32,8 +32,8 @@ body {
   padding-top: 0.5rem;
 }
 .explore-button {
-  height: 2.625rem;
-  width: 21.3125rem;
+  height: 3rem;
+  width: 24.375rem;
   margin-left: auto;
   margin-right: auto;
   font-weight: bold;
@@ -144,16 +144,25 @@ body {
 .sdg-col {
   padding: 0;
 }
+.sdg-card-back,
 .sdg-card {
+  color: white;
   margin: 0.5rem;
   cursor: pointer;
   max-width: 10rem;
   min-height: 10rem;
   font-size: 0.8125rem;
 }
+.sdg-card-back:hover,
 .sdg-card:hover {
   border-width: 2px;
   border-color: #003366;
+}
+.sdg-card-back {
+  padding: 3.875rem 0.5rem 0.25rem 0.5rem;
+}
+.sdg-card-desc {
+  color: white;
 }
 .hp-featured-card-deck {
   width: 97.5%;
