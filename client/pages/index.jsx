@@ -35,7 +35,6 @@ export default function Home() {
   const cardOpacity = 0.9;
   const isRevolving = true;
   const slideIndices = [...Array(numSlides).keys()];
-  // const sdgDescriptions = ["Economic growth must be inclusive to provide sustainable jobs and promote equality."]
 
   useEffect(() => {
     let sdgs = [...UNGoals];
@@ -199,7 +198,12 @@ export default function Home() {
   return (
     <>
       <Head />
-      <div className="home-main-box">
+      <Container className="home-main-box">
+        <img
+          className="figures-img"
+          src="/homepage-images/home.svg"
+          alt="home-figures"
+        ></img>
         <div className="home-title">Save the world, one step at a time</div>
         <div className="home-subtitle">
           We help you find and launch sustainability projects in your community.
@@ -213,14 +217,7 @@ export default function Home() {
             </a>
           </Link>
         </div>
-        <div className="main-figures">
-          <img
-            className="figures-img"
-            src="/homepage-images/main-figures.png"
-            alt="home-figures"
-          ></img>
-        </div>
-      </div>
+      </Container>
       <Container className="home-intro-box">
         <Row className="art-row">
           <div className="spacer-left" />
@@ -308,6 +305,14 @@ export default function Home() {
                         .css()
                     }}
                   >
+                    <CardImg
+                      top
+                      width="100%"
+                      height="100%"
+                      src={sdg.imageLink}
+                      alt="Card image cap"
+                      className="sdg-card-back-img"
+                    />
                     <CardText className="sdg-card-desc">
                       SDG {sdg.value} Description
                     </CardText>
