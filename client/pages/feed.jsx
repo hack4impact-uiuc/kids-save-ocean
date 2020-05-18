@@ -89,20 +89,21 @@ export default function Feed() {
       if (!hasMore || (!isFetching && !willMount)) {
         return;
       }
-      const nextUpdates = await getUpdates(maxUpdatesAtOnce, nextIdx);
+      const nextUpdatesRes = await getUpdates(maxUpdatesAtOnce, nextIdx);
+      const nextUpdates = nextUpdatesRes.data.data.updates;
       setTimeout(() => {
-        if (nextUpdates === undefined || nextUpdates.data.length === 0) {
+        if (nextUpdatesRes === undefined || nextUpdates.length === 0) {
           setWillMount(false);
           return;
         }
         if (
-          nextUpdates.data.length < maxUpdatesAtOnce ||
+          nextUpdates.length < maxUpdatesAtOnce ||
           updates.length + maxUpdatesAtOnce >= maxUpdatesTotal
         ) {
           setHasMore(false);
         }
-        setNextIdx(nextUpdates.data.length);
-        nextUpdates.data.map(update => {
+        setNextIdx(nextUpdates.length);
+        nextUpdates.map(update => {
           const dateObj = new Date(parseInt(update.date));
           update.date = dateObj.toLocaleDateString("en-US", {
             month: "long",

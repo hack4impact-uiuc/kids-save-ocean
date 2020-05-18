@@ -527,7 +527,6 @@ export const saveDescription = async (
   const validUser = await checkValidUser();
   if (validUser) {
     const requestString = `${BASE_URL}/models/${model_id}/${phaseName}/${stageName}/description`;
-
     return axios
       .put(
         requestString,
@@ -802,6 +801,29 @@ export const duplicateModel = model_id => {
     )
     .catch(error => ({
       type: "DUPLICATE_MODEL_FAIL",
+      error
+    }));
+};
+
+export const updateLastCheckedNotifDate = async () => {
+  const validUser = await checkValidUser();
+  if (!validUser) {
+    return;
+  }
+  const requestString = `${BASE_URL}/users/userInfo/notifs`;
+  return axios
+    .put(
+      requestString,
+      { lastCheckedNotifs: Date.now() },
+      {
+        headers: {
+          "Content-Type": "application/JSON",
+          "x-access-token": localStorage.getItem("token")
+        }
+      }
+    )
+    .catch(error => ({
+      type: "NOTIF_UPDATE_FAIL",
       error
     }));
 };

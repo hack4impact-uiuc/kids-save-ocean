@@ -7,21 +7,39 @@ import {
   Nav,
   Button,
   Col,
-  Container
+  Container,
+  Popover,
+  PopoverHeader,
+  PopoverBody
 } from "reactstrap";
 import { ProjectForm } from "../components";
 
 import Link from "next/link";
 import "../public/styles/navbar.scss";
+import { getUpdates, updateLastCheckedNotifDate } from "../utils/apiWrapper";
+import WrappedMessage from "./WrappedMessage";
 import Router from "next/router";
 import { checkValidUser } from "../utils/validator";
 
-export default function NavBar() {
+export default WrappedMessage(function NavBar(props) {
   const [isTop, setTop] = useState(true);
   const [isCollapsed, setCollapsed] = useState(true);
+  const [displayNotif, setDisplayNotif] = useState(false);
+  const [renderPopover, setRenderPopover] = useState(false);
+  const [updates, setUpdates] = useState([]);
+  const [displayNotifDot, setDisplayNotifDot] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [modal, setModal] = useState(false);
   const waitTime = 200;
+
+  const NOTIF_LIMIT = 10;
+  const ERROR_STATUS = 400;
+
+  useEffect(() => {
+    if (process.browser) {
+      setRenderPopover(true);
+    }
+  }, [renderPopover]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -47,6 +65,25 @@ export default function NavBar() {
       });
     }
   }, [isTop]);
+
+  useEffect(() => {
+    const populateNotifs = async () => {
+      const validUser = await checkValidUser(false);
+      if (validUser) {
+        const updateRes = await getUpdates(NOTIF_LIMIT, 0);
+        const updateObj = updateRes.data.data;
+        if (updateRes.status >= ERROR_STATUS) {
+          props.setError("An error occured while retrieving notifications.");
+        } else {
+          if (updateObj.shouldNotif) {
+            setDisplayNotifDot(true);
+          }
+          setUpdates(updateObj.updates);
+        }
+      }
+    };
+    populateNotifs();
+  }, [props, setDisplayNotifDot, setUpdates]);
 
   useEffect(() => {
     toggleLoggedIn();
@@ -108,15 +145,35 @@ export default function NavBar() {
             )}
             {loggedIn && (
               <NavItem className="notif-col">
-                <Link href="#notifications">
-                  <a>
-                    <img
-                      className="nav-img"
-                      src="/navbar-images/notification-icon.svg"
-                      alt="Notifications"
-                    />
-                  </a>
-                </Link>
+                <img
+                  className="nav-img"
+                  src={
+                    displayNotifDot
+                      ? "/navbar-images/notification-icon-red.svg"
+                      : "/navbar-images/notification-icon.svg"
+                  }
+                  alt="Notifications"
+                  id="notif-icon"
+                />
+                {renderPopover && (
+                  <Popover
+                    placement="bottom"
+                    isOpen={displayNotif}
+                    target="notif-icon"
+                    toggle={() => {
+                      setDisplayNotif(!displayNotif);
+                      setDisplayNotifDot(false);
+                      updateLastCheckedNotifDate();
+                    }}
+                  >
+                    <PopoverHeader>Notifications</PopoverHeader>
+                    <PopoverBody>
+                      {updates.map(update => (
+                        <p key={update._id}>{`${update.description}.`}</p>
+                      ))}
+                    </PopoverBody>
+                  </Popover>
+                )}
               </NavItem>
             )}
             {loggedIn && (
@@ -166,4 +223,4 @@ export default function NavBar() {
       </Container>
     </Navbar>
   );
-}
+});
