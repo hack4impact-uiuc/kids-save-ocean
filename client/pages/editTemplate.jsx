@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import {
   checkAdminPrivilege,
   addTemplate,
@@ -11,7 +11,6 @@ import {
 import { Head, TemplateDraft } from "../components";
 import {
   Button,
-  Col,
   Row,
   Container,
   Alert,
@@ -38,10 +37,45 @@ export default function EditTemplate() {
 
   useEffect(() => {
     const getInitialDisplay = async () => {
-      setName("");
-      setInspiration(false);
-      setIdeation(false);
-      setImplementation(false);
+      const currentTemplates = await getTemplates();
+
+      if (currentTemplates.data.length == 0) {
+        setName("");
+        setInspiration(false);
+        setIdeation(false);
+        setImplementation(false);
+      }
+
+      const firstTemplate = currentTemplates.data[0];
+
+      if (firstTemplate.name !== undefined) {
+        setName(firstTemplate.name);
+      } else {
+        setName("");
+      }
+      if (firstTemplate.phases !== undefined && firstTemplate.phases !== []) {
+        firstTemplate.phases.map(phase => {
+          if (phase === phases[0]) {
+            setInspiration(true);
+          } else {
+            setInspiration(false);
+          }
+          if (phase === phases[1]) {
+            setIdeation(true);
+          } else {
+            setIdeation(false);
+          }
+          if (phase === phases[2]) {
+            setImplementation(true);
+          } else {
+            setImplementation(false);
+          }
+        });
+      } else {
+        setInspiration(false);
+        setIdeation(false);
+        setImplementation(false);
+      }
     };
     getInitialDisplay();
   }, []);
@@ -77,6 +111,10 @@ export default function EditTemplate() {
               setImplementation(false);
             }
           });
+        } else {
+          setInspiration(false);
+          setIdeation(false);
+          setImplementation(false);
         }
       }
     };
@@ -89,7 +127,7 @@ export default function EditTemplate() {
 
   // useEffect(() => {
   //   const checkPriv = async () => {
-  //     const raw_priv = await checkAdminPrivilege(id);
+  //     const raw_priv = await checkAdminPrivilege(templateID);
   //     const isAdmin = await raw_priv.json();
   //     if (isAdmin.status === successStatus) {
   //       setIsAdmin(true);
@@ -121,10 +159,17 @@ export default function EditTemplate() {
     e.preventDefault();
     // for future: check admin before deleting
     // if (isAdmin) {
-    const deleteResult = await deleteTemplate(id);
+    const deleteResult = await deleteTemplate(templateID);
     // check if successful, if so, refresh page
     // }
     Router.push("/editTemplate");
+  };
+
+  const handleClose = async () => {
+    setName("");
+    setInspiration(false);
+    setIdeation(false);
+    setImplementation(false);
   };
 
   const handleSaveAll = async e => {
@@ -154,11 +199,11 @@ export default function EditTemplate() {
     let result = {
       name
     };
-    const nameResult = await saveTemplateName(result, id);
+    const nameResult = await saveTemplateName(result, templateID);
     let phaseResult = {
       phases: selectedPhases
     };
-    const phasesResult = await saveTemplatePhases(phaseResult, id);
+    const phasesResult = await saveTemplatePhases(phaseResult, templateID);
     Router.push("/editTemplate#saved");
     console.log(phasesResult);
     // check if name and phase results are successful, if so, refresh page, otherwise give alert
@@ -256,7 +301,7 @@ export default function EditTemplate() {
                   >
                     Delete
                   </Button>
-                  <Button className="btn-2" color="light">
+                  <Button onClick={handleClose} className="btn-2" color="light">
                     Close
                   </Button>
                   <Button
