@@ -182,7 +182,6 @@ export default function ProjectPage() {
           <Button
             className="project-header-buttons"
             onClick={() => {
-              console.log(project);
               duplicateModel(project._id).then(resp =>
                 Router.push(`/projects/${resp.data.id}`)
               );
