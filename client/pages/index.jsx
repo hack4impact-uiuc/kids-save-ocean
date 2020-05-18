@@ -186,11 +186,12 @@ export default function Home() {
 
   useEffect(() => {
     const checkCurrUser = async () => {
-      setIsValidUser(await checkValidUser(false));
+      let user = await checkValidUser(false);
+      setIsValidUser(user);
+      if (user) {
+        Router.replace("/feed");
+      }
     };
-    if (validUser) {
-      Router.replace("/feed");
-    }
     checkCurrUser();
   }, [validUser]);
 
@@ -221,6 +222,7 @@ export default function Home() {
       </div>
       <Container className="home-intro-box">
         <Row className="art-row">
+          <div className="spacer-left" />
           <Col className="figma-art-col-left">
             <img
               className="figma-img"
