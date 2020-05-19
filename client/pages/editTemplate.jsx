@@ -32,6 +32,7 @@ export default function EditTemplate() {
   const [isIdeation, setIdeation] = useState(false);
   const [isImplementation, setImplementation] = useState(false);
 
+  var isTemplateBtnClicked = false;
   const phases = ["Inspiration", "Ideation", "Implementation"];
   const successStatus = 200;
 
@@ -44,57 +45,18 @@ export default function EditTemplate() {
         setInspiration(false);
         setIdeation(false);
         setImplementation(false);
-      }
-
-      const firstTemplate = currentTemplates.data[0];
-
-      if (firstTemplate.name !== undefined) {
-        setName(firstTemplate.name);
       } else {
-        setName("");
-      }
-      if (firstTemplate.phases !== undefined && firstTemplate.phases !== []) {
-        firstTemplate.phases.map(phase => {
-          if (phase === phases[0]) {
-            setInspiration(true);
-          } else {
-            setInspiration(false);
-          }
-          if (phase === phases[1]) {
-            setIdeation(true);
-          } else {
-            setIdeation(false);
-          }
-          if (phase === phases[2]) {
-            setImplementation(true);
-          } else {
-            setImplementation(false);
-          }
-        });
-      } else {
-        setInspiration(false);
-        setIdeation(false);
-        setImplementation(false);
-      }
-    };
-    getInitialDisplay();
-  }, []);
+        const firstTemplate = currentTemplates.data[0];
+        setTemplates(await getTemplates());
+        setTemplateID(firstTemplate._id);
 
-  useEffect(() => {
-    const getTemplateInfo = async () => {
-      setTemplates(await getTemplates());
-      setTemplateID(templateID);
-
-      const result = await getTemplateByID(templateID);
-
-      if (result.data !== undefined && result) {
-        if (result.data.name !== undefined) {
-          setName(result.data.name);
+        if (firstTemplate.name !== undefined) {
+          setName(firstTemplate.name);
         } else {
           setName("");
         }
-        if (result.data.phases !== undefined && result.data.phases !== []) {
-          result.data.phases.map(phase => {
+        if (firstTemplate.phases !== undefined && firstTemplate.phases !== []) {
+          firstTemplate.phases.map(phase => {
             if (phase === phases[0]) {
               setInspiration(true);
             } else {
@@ -118,11 +80,56 @@ export default function EditTemplate() {
         }
       }
     };
+
+    getInitialDisplay();
+  }, []);
+
+  useEffect(() => {
+    const getTemplateInfo = async () => {
+      if (isTemplateBtnClicked == true) {
+        setTemplates(await getTemplates());
+        setTemplateID(templateID);
+
+        const result = await getTemplateByID(templateID);
+
+        if (result.data !== undefined && result) {
+          if (result.data.name !== undefined) {
+            setName(result.data.name);
+          } else {
+            setName("");
+          }
+          if (result.data.phases !== undefined && result.data.phases !== []) {
+            result.data.phases.map(phase => {
+              if (phase === phases[0]) {
+                setInspiration(true);
+              } else {
+                setInspiration(false);
+              }
+              if (phase === phases[1]) {
+                setIdeation(true);
+              } else {
+                setIdeation(false);
+              }
+              if (phase === phases[2]) {
+                setImplementation(true);
+              } else {
+                setImplementation(false);
+              }
+            });
+          } else {
+            setInspiration(false);
+            setIdeation(false);
+            setImplementation(false);
+          }
+        }
+      }
+    };
     getTemplateInfo();
   }, [templateID]);
 
   const handleID = async clickedTemplateID => {
     setTemplateID(clickedTemplateID);
+    isTemplateBtnClicked = true;
   };
 
   // useEffect(() => {
