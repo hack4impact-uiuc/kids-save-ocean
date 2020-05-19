@@ -37,8 +37,9 @@ export default function EditTemplate() {
   const successStatus = 200;
 
   useEffect(() => {
-    const getInitialDisplay = async () => {
+    const getDisplay = async () => {
       const currentTemplates = await getTemplates();
+      setTemplates(await getTemplates());
 
       if (currentTemplates.data.length == 0) {
         setName("");
@@ -46,55 +47,17 @@ export default function EditTemplate() {
         setIdeation(false);
         setImplementation(false);
       } else {
-        const firstTemplate = currentTemplates.data[0];
-        setTemplates(await getTemplates());
-        setTemplateID(firstTemplate._id);
-
-        if (firstTemplate.name !== undefined) {
-          setName(firstTemplate.name);
+        if (isTemplateBtnClicked === false) {
+          setTemplateID(await currentTemplates.data[0]._id);
         } else {
-          setName("");
+          setTemplateID(templateID);
         }
-        if (firstTemplate.phases !== undefined && firstTemplate.phases !== []) {
-          firstTemplate.phases.map(phase => {
-            if (phase === phases[0]) {
-              setInspiration(true);
-            } else {
-              setInspiration(false);
-            }
-            if (phase === phases[1]) {
-              setIdeation(true);
-            } else {
-              setIdeation(false);
-            }
-            if (phase === phases[2]) {
-              setImplementation(true);
-            } else {
-              setImplementation(false);
-            }
-          });
-        } else {
-          setInspiration(false);
-          setIdeation(false);
-          setImplementation(false);
-        }
-      }
-    };
-
-    getInitialDisplay();
-  }, []);
-
-  useEffect(() => {
-    const getTemplateInfo = async () => {
-      if (isTemplateBtnClicked == true) {
-        setTemplates(await getTemplates());
-        setTemplateID(templateID);
 
         const result = await getTemplateByID(templateID);
 
         if (result.data !== undefined && result) {
           if (result.data.name !== undefined) {
-            setName(result.data.name);
+            setName(await result.data.name);
           } else {
             setName("");
           }
@@ -124,11 +87,12 @@ export default function EditTemplate() {
         }
       }
     };
-    getTemplateInfo();
+
+    getDisplay();
   }, [templateID]);
 
   const handleID = async clickedTemplateID => {
-    setTemplateID(clickedTemplateID);
+    setTemplateID(await clickedTemplateID);
     isTemplateBtnClicked = true;
   };
 
