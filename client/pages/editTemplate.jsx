@@ -39,7 +39,7 @@ export default function EditTemplate() {
   useEffect(() => {
     const getInitialDisplay = async () => {
       const currentTemplates = await getTemplates();
-      setTemplates(await getTemplates());
+      setTemplates(currentTemplates);
 
       if (currentTemplates.data.length == 0) {
         setName("");
@@ -47,13 +47,13 @@ export default function EditTemplate() {
         setIdeation(false);
         setImplementation(false);
       } else {
-        setTemplateID(await currentTemplates.data[0]._id);
+        setTemplateID(currentTemplates.data[0]._id);
 
-        const result = await getTemplateByID(templateID);
+        const result = await getTemplateByID(currentTemplates.data[0]._id);
 
         if (result.data !== undefined && result) {
           if (result.data.name !== undefined) {
-            setName(await result.data.name);
+            setName(result.data.name);
           } else {
             setName("");
           }
@@ -99,7 +99,6 @@ export default function EditTemplate() {
         setImplementation(false);
       } else {
         // setTemplateID(templateID);
-
         const result = await getTemplateByID(templateID);
 
         if (result.data !== undefined && result) {
@@ -138,8 +137,8 @@ export default function EditTemplate() {
     getUpdatedDisplay();
   }, [templateID]);
 
-  const handleID = async clickedTemplateID => {
-    setTemplateID(await clickedTemplateID);
+  const handleID = clickedTemplateID => {
+    setTemplateID(clickedTemplateID);
     // isTemplateBtnClicked = true;
   };
 
@@ -170,7 +169,8 @@ export default function EditTemplate() {
     console.log(addResult);
     // check if successful, if so, move to the new template page
     // }
-    Router.push("/editTemplate");
+    const currentTemplates = await getTemplates();
+    setTemplates(currentTemplates);
   };
 
   const handleDelete = async e => {
@@ -180,7 +180,8 @@ export default function EditTemplate() {
     const deleteResult = await deleteTemplate(templateID);
     // check if successful, if so, refresh page
     // }
-    Router.push("/editTemplate");
+    const currentTemplates = await getTemplates();
+    setTemplates(currentTemplates);
   };
 
   const handleClose = async () => {
