@@ -32,12 +32,12 @@ export default function EditTemplate() {
   const [isIdeation, setIdeation] = useState(false);
   const [isImplementation, setImplementation] = useState(false);
 
-  var isTemplateBtnClicked = false;
+  // var isTemplateBtnClicked = false;
   const phases = ["Inspiration", "Ideation", "Implementation"];
   const successStatus = 200;
 
   useEffect(() => {
-    const getDisplay = async () => {
+    const getInitialDisplay = async () => {
       const currentTemplates = await getTemplates();
       setTemplates(await getTemplates());
 
@@ -47,11 +47,7 @@ export default function EditTemplate() {
         setIdeation(false);
         setImplementation(false);
       } else {
-        if (isTemplateBtnClicked === false) {
-          setTemplateID(await currentTemplates.data[0]._id);
-        } else {
-          setTemplateID(templateID);
-        }
+        setTemplateID(await currentTemplates.data[0]._id);
 
         const result = await getTemplateByID(templateID);
 
@@ -88,12 +84,63 @@ export default function EditTemplate() {
       }
     };
 
-    getDisplay();
+    getInitialDisplay();
+  }, []);
+
+  useEffect(() => {
+    const getUpdatedDisplay = async () => {
+      const currentTemplates = await getTemplates();
+      setTemplates(await getTemplates());
+
+      if (currentTemplates.data.length == 0) {
+        setName("");
+        setInspiration(false);
+        setIdeation(false);
+        setImplementation(false);
+      } else {
+        // setTemplateID(templateID);
+
+        const result = await getTemplateByID(templateID);
+
+        if (result.data !== undefined && result) {
+          if (result.data.name !== undefined) {
+            setName(await result.data.name);
+          } else {
+            setName("");
+          }
+          if (result.data.phases !== undefined && result.data.phases !== []) {
+            result.data.phases.map(phase => {
+              if (phase === phases[0]) {
+                setInspiration(true);
+              } else {
+                setInspiration(false);
+              }
+              if (phase === phases[1]) {
+                setIdeation(true);
+              } else {
+                setIdeation(false);
+              }
+              if (phase === phases[2]) {
+                setImplementation(true);
+              } else {
+                setImplementation(false);
+              }
+            });
+          } else {
+            setInspiration(false);
+            setIdeation(false);
+            setImplementation(false);
+          }
+        }
+      }
+    };
+
+    getUpdatedDisplay();
   }, [templateID]);
 
   const handleID = async clickedTemplateID => {
     setTemplateID(await clickedTemplateID);
-    isTemplateBtnClicked = true;
+    // isTemplateBtnClicked = true;
   };
 
   // useEffect(() => {
