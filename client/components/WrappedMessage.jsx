@@ -8,13 +8,13 @@ import "../public/styles/wrappedmessage.scss";
 
 const WrappedMessage = WrappedComponent =>
   function ErrorComponent(props) {
-    const [error, setError] = useState(undefined);
-    const [success, setSuccess] = useState(undefined);
+    const [error, setError] = useState(null);
+    const [success, setSuccess] = useState(null);
 
     const disappearTime = 3000;
     const debounceDisappear = () => {
-      setError(undefined);
-      setSuccess(undefined);
+      setError(null);
+      setSuccess(null);
     };
     const disappearCallback = useCallback(
       debounce(debounceDisappear, disappearTime),
@@ -22,13 +22,13 @@ const WrappedMessage = WrappedComponent =>
     );
 
     const setErrorMessage = message => {
-      setSuccess(undefined);
+      setSuccess(null);
       setError(message);
       disappearCallback();
     };
 
     const setSuccessMessage = message => {
-      setError(undefined);
+      setError(null);
       setSuccess(message);
       disappearCallback();
     };
@@ -40,15 +40,15 @@ const WrappedMessage = WrappedComponent =>
           setError={msg => setErrorMessage(msg)}
           setSuccess={msg => setSuccessMessage(msg)}
         />
-        <br />
-        {error !== undefined && (
+        {(success || error) && <br />}
+        {error && (
           <Alert className="message" color="danger">
             <div justify="center" align="middle">
               {error}
             </div>
           </Alert>
         )}
-        {success !== undefined && (
+        {success && (
           <Alert className="message" color="success">
             <div justify="center" align="middle">
               {success}
