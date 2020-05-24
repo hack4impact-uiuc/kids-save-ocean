@@ -6,7 +6,7 @@ import {
   saveTemplatePhases,
   deleteTemplate,
   getTemplateByID,
-  getTemplates
+  getTemplates,
 } from "../utils/apiWrapper";
 import { Head, TemplateDraft } from "../components";
 import {
@@ -17,7 +17,7 @@ import {
   Form,
   FormGroup,
   Input,
-  Label
+  Label,
 } from "reactstrap";
 import Router from "next/router";
 import "../public/styles/editTemplate.scss";
@@ -27,6 +27,7 @@ export default function EditTemplate() {
   const [name, setName] = useState("");
   const [templateID, setTemplateID] = useState("");
   const [error, setError] = useState(false);
+  const [templateDraft, setTemplateDraft] = useState("");
   const [templates, setTemplates] = useState([]);
   const [isInspiration, setInspiration] = useState(false);
   const [isIdeation, setIdeation] = useState(false);
@@ -39,26 +40,35 @@ export default function EditTemplate() {
   useEffect(() => {
     const getInitialDisplay = async () => {
       const currentTemplates = await getTemplates();
-      setTemplates(await getTemplates());
+      setTemplates(currentTemplates);
 
       if (currentTemplates.data.length == 0) {
         setName("");
+        setTemplateDraft("");
         setInspiration(false);
         setIdeation(false);
         setImplementation(false);
       } else {
-        setTemplateID(await currentTemplates.data[0]._id);
+        setTemplateID(currentTemplates.data[0]._id);
 
-        const result = await getTemplateByID(templateID);
+        const result = await getTemplateByID(currentTemplates.data[0]._id);
+
+        console.log(currentTemplates.data[0]); //
+        console.log(currentTemplates.data[0].draft); //
+        console.log(currentTemplates.data[0].draft[2]); //
 
         if (result.data !== undefined && result) {
           if (result.data.name !== undefined) {
-            setName(await result.data.name);
+            setName(result.data.name);
           } else {
             setName("");
           }
-          if (result.data.phases !== undefined && result.data.phases !== []) {
-            result.data.phases.map(phase => {
+          if (
+            result.data.phases !== undefined &&
+            result.data.phases !== null &&
+            result.data.phases !== []
+          ) {
+            result.data.phases.map((phase) => {
               if (phase === phases[0]) {
                 setInspiration(true);
               } else {
@@ -99,7 +109,6 @@ export default function EditTemplate() {
         setImplementation(false);
       } else {
         // setTemplateID(templateID);
-
         const result = await getTemplateByID(templateID);
 
         if (result.data !== undefined && result) {
@@ -108,8 +117,12 @@ export default function EditTemplate() {
           } else {
             setName("");
           }
-          if (result.data.phases !== undefined && result.data.phases !== []) {
-            result.data.phases.map(phase => {
+          if (
+            result.data.phases !== undefined &&
+            result.data.phases !== null &&
+            result.data.phases !== []
+          ) {
+            result.data.phases.map((phase) => {
               if (phase === phases[0]) {
                 setInspiration(true);
               } else {
@@ -138,10 +151,12 @@ export default function EditTemplate() {
     getUpdatedDisplay();
   }, [templateID]);
 
-  const handleID = async clickedTemplateID => {
-    setTemplateID(await clickedTemplateID);
+  const handleID = (clickedTemplateID) => {
+    setTemplateID(clickedTemplateID);
     // isTemplateBtnClicked = true;
   };
+
+  const handleTemplateDraftChange = () => {};
 
   // useEffect(() => {
   //   const checkPriv = async () => {
@@ -157,30 +172,32 @@ export default function EditTemplate() {
   //   checkPriv();
   // }, []);
 
-  const handleNewStage = async e => {
+  const handleNewStage = async (e) => {
     e.preventDefault();
     // for future: check admin before creating
     // if (isAdmin) {
     const emptyTemplate = {
       name: "",
       draft: "",
-      phases: []
+      phases: [],
     };
     const addResult = await addTemplate(emptyTemplate);
     console.log(addResult);
     // check if successful, if so, move to the new template page
     // }
-    Router.push("/editTemplate");
+    const currentTemplates = await getTemplates();
+    setTemplates(currentTemplates);
   };
 
-  const handleDelete = async e => {
+  const handleDelete = async (e) => {
     e.preventDefault();
     // for future: check admin before deleting
     // if (isAdmin) {
     const deleteResult = await deleteTemplate(templateID);
     // check if successful, if so, refresh page
     // }
-    Router.push("/editTemplate");
+    const currentTemplates = await getTemplates();
+    setTemplates(currentTemplates);
   };
 
   const handleClose = async () => {
@@ -190,7 +207,7 @@ export default function EditTemplate() {
     setImplementation(false);
   };
 
-  const handleSaveAll = async e => {
+  const handleSaveAll = async (e) => {
     e.preventDefault();
 
     if (!name || (!isInspiration && !isIdeation && !isImplementation)) {
@@ -214,16 +231,26 @@ export default function EditTemplate() {
       selectedPhases.push(phases[2]);
     }
 
+    console.log(name);
+    console.log(selectedPhases);
+
     let result = {
-      name
+      name,
     };
     const nameResult = await saveTemplateName(result, templateID);
     let phaseResult = {
-      phases: selectedPhases
+      phases: selectedPhases,
     };
+
+    console.log(result);
+    console.log(phaseResult);
+
     const phasesResult = await saveTemplatePhases(phaseResult, templateID);
-    Router.push("/editTemplate#saved");
+
+    console.log(nameResult);
     console.log(phasesResult);
+
+    Router.push("/editTemplate#saved");
     // check if name and phase results are successful, if so, refresh page, otherwise give alert
   };
 
@@ -245,11 +272,11 @@ export default function EditTemplate() {
             </Row>
             <Row>
               {templates.data &&
-                templates.data.map(template => (
+                templates.data.map((template) => (
                   <Button
                     className="stage-button"
                     color="white"
-                    onClick={e => handleID(template._id)}
+                    onClick={(e) => handleID(template._id)}
                   >
                     {template.name}
                   </Button>
@@ -270,12 +297,15 @@ export default function EditTemplate() {
                 value={name}
                 id="template-title"
                 placeholder="Stage Title"
-                onChange={e => setName(e.target.value)}
+                onChange={(e) => setName(e.target.value)}
                 required
               ></Input>
               <Row className="main-template-subtitle">Template</Row>
               <Container className="draft-container">
-                <TemplateDraft id={templateID} />
+                <TemplateDraft
+                  id={templateID}
+                  onChange={handleTemplateDraftChange}
+                />
               </Container>
               <div className="stages-txt">Which stages?</div>
               <div className="format-checkboxes">
@@ -284,7 +314,7 @@ export default function EditTemplate() {
                     <Input
                       type="checkbox"
                       checked={isInspiration}
-                      onChange={e => setInspiration(!isInspiration)}
+                      onChange={(e) => setInspiration(!isInspiration)}
                     />{" "}
                     Inspiration
                   </Label>
@@ -294,7 +324,7 @@ export default function EditTemplate() {
                     <Input
                       type="checkbox"
                       checked={isIdeation}
-                      onChange={e => setIdeation(!isIdeation)}
+                      onChange={(e) => setIdeation(!isIdeation)}
                     />{" "}
                     Ideation
                   </Label>
@@ -304,7 +334,7 @@ export default function EditTemplate() {
                     <Input
                       type="checkbox"
                       checked={isImplementation}
-                      onChange={e => setImplementation(!isImplementation)}
+                      onChange={(e) => setImplementation(!isImplementation)}
                     />
                     Implementation
                   </Label>

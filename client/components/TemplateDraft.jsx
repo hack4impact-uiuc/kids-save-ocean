@@ -14,7 +14,7 @@ const firebaseConfig = {
   apiKey: process.env.FIREBASE_APIKEY,
   authDomain: process.env.AUTH_DOMAIN,
   databaseURL: process.env.DATABASE_URL,
-  storageBucket: process.env.STORAGE_BUCKET
+  storageBucket: process.env.STORAGE_BUCKET,
 };
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
@@ -29,23 +29,21 @@ export default function TemplateDraft(props) {
   const [editorContent, setEditorContent] = useState(null);
 
   const saveInterval = 1000;
-  const debounceSave = json => {
-    const { id } = props; // get/save draft props (id, name, phases)
-    console.log("saving...");
+  const debounceSave = (id, json) => {
     saveTemplateDraft(id, json); // save draft function
-    console.log("saved");
     setUnsaved(false);
   };
   const saveCallback = useCallback(debounce(debounceSave, saveInterval), []);
 
   const { id } = props;
-  const handleChange = editor => {
+
+  const handleChange = (editor) => {
     setUnsaved(true);
     const content = editor.emitSerializedOutput();
     uploadImagesAndFixUrls(content).then(() => {
       const json = JSON.stringify(content);
       if (json !== prevContent) {
-        saveCallback(json); // save draft function
+        saveCallback(id, json); // save draft function
         setPrevContent(json);
       } else {
         setUnsaved(false);
@@ -53,7 +51,7 @@ export default function TemplateDraft(props) {
     });
   };
 
-  const uploadImagesAndFixUrls = async content => {
+  const uploadImagesAndFixUrls = async (content) => {
     for (const block of content.blocks) {
       if (block.type !== "image") {
         continue;
@@ -64,7 +62,7 @@ export default function TemplateDraft(props) {
         continue;
       }
 
-      const blob = await fetch(url).then(r => r.blob());
+      const blob = await fetch(url).then((r) => r.blob());
       const imageRef = storageRef.child(`${props.id}/${block.key}`); // imageref idk?
 
       await imageRef.put(blob).then(async function(snapshot) {
@@ -87,7 +85,7 @@ export default function TemplateDraft(props) {
   useEffect(() => {
     console.log("getting template");
     getTemplateByID(id) // get draft function
-      .then(template => {
+      .then((template) => {
         console.log(template);
         const draft = template.data.draft;
         const json = JSON.parse(draft);
@@ -119,7 +117,7 @@ export default function TemplateDraft(props) {
       {!loading && (
         <Dante
           content={editorContent}
-          onChange={editor => handleChange(editor)}
+          onChange={(editor) => handleChange(editor)}
         />
       )}
     </div>

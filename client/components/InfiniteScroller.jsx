@@ -4,7 +4,7 @@ import debounce from "lodash/debounce";
 export default function InfiniteScroller() {
   const [isFetching, setIsFetching] = useState(false);
   const debounceTime = 100;
-  const bottomOffset = 6;
+  const bottomOffset = 2;
   useEffect(() => {
     const handleScroll = () => {
       const windowHeight =

@@ -131,7 +131,8 @@ router.post("/", validate({ body: UserSchema }), async (req, res) => {
     createdProjects: [],
     followingProjects: [],
     followingUsers: [],
-    followers: []
+    followers: [],
+    lastCheckedNotifs: Date.now()
   };
   try {
     const resp = await collection.insert(newUser);
@@ -188,6 +189,37 @@ router.put("/userInfo", checkToken, async (req, res) => {
     res.status(ret.code).send(ret);
   } catch (err) {
     return err;
+  }
+});
+
+router.put("/userInfo/notifs", checkToken, async (req, res) => {
+  const { db } = req;
+  const collection = db.get("users");
+  const { email } = req.user;
+  const { lastCheckedNotifs } = req.body;
+
+  try {
+    const user = await collection.update(
+      { email },
+      { $set: { lastCheckedNotifs } },
+      { new: true }
+    );
+    if (user) {
+      res.status(200).send({
+        success: true,
+        message: "Updated last checked user notification date."
+      });
+    } else {
+      res.status(404).send({
+        success: false,
+        message: "User not found."
+      });
+    }
+  } catch (err) {
+    res.status(500).send({
+      success: false,
+      message: "Internal server error."
+    });
   }
 });
 
@@ -339,6 +371,7 @@ router.delete("/", async (req, res) => {
   });
 });
 
+// add field
 router.get("/updates/:numUpdates/:currentIndex", checkToken, async function(
   req,
   res
@@ -377,9 +410,17 @@ router.get("/updates/:numUpdates/:currentIndex", checkToken, async function(
     }
   );
 
-  res
-    .status(SUCCESS)
-    .send(feedUpdates.slice(currentIndex, currentIndex + numUpdates));
+  const shouldNotif = feedUpdates.some(
+    update => update.date > user.lastCheckedNotifs
+  );
+
+  res.status(SUCCESS).send({
+    success: true,
+    data: {
+      shouldNotif,
+      updates: feedUpdates.slice(currentIndex, currentIndex + numUpdates)
+    }
+  });
 });
 
 module.exports = router;

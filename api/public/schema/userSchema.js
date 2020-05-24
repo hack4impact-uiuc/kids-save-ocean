@@ -49,6 +49,10 @@ const schema = {
         type: "string"
       },
       required: true
+    },
+    lastCheckedNotifs: {
+      type: "date",
+      required: true
     }
   }
 };
