@@ -61,9 +61,7 @@ export default function TemplateDraft(props) {
       }
 
       const blob = await fetch(url).then(r => r.blob());
-      const imageRef = storageRef.child(
-        `${props.id}/${block.key}`
-      );
+      const imageRef = storageRef.child(`${props.id}/${block.key}`);
 
       await imageRef.put(blob).then(async function(snapshot) {
         await snapshot.ref.getDownloadURL().then(function(url) {
@@ -85,7 +83,7 @@ export default function TemplateDraft(props) {
   useEffect(() => {
     getTemplateByID(props.id)
       .then(data => {
-        console.log(data)
+        console.log(data);
         const description = data.data.draft;
         setPrevContent(description);
         const json = JSON.parse(description);

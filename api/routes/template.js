@@ -68,6 +68,9 @@ router.get("/:template_ID", function(req, res) {
     )
     .catch(() => res.sendStatus(500));
 });
+
+// TODO: Change all of these into one put function
+
 // edit entire template by ID (hitting save and exit)
 router.put("/:template_ID", function(req, res) {
   const db = req.db;
@@ -105,7 +108,7 @@ router.put("/:template_ID/draft", function(req, res) {
       {
         _id: template_ID
       },
-      { $set: { draft } } // draft : draft ??
+      { $set: { draft } }
     )
     .then(template =>
       template !== null
@@ -131,7 +134,7 @@ router.put("/:template_ID/name", function(req, res) {
       {
         _id: template_ID
       },
-      { $set: { name } } // name : name ??
+      { $set: { name } }
     )
     .then(template =>
       template !== null
@@ -157,7 +160,7 @@ router.put("/:template_ID/phases", function(req, res) {
       {
         _id: template_ID
       },
-      { $set: { phases } } // phases : phases ??
+      { $set: { phases } }
     )
     .then(template =>
       template !== null

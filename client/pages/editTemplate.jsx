@@ -65,12 +65,11 @@ export default function EditTemplate() {
           } else {
             setName("");
           }
-          if (result.data.phases !== undefined && result.data.phases !== []) {
-            result.data.phases.map(phase => {
-              setInspiration(phase === phases[0])
-              setIdeation(phase === phases[1])
-              setImplementation(phase === phases[2])
-            });
+          console.log(result.data.phases);
+          if (result.data.phases !== undefined) {
+            setInspiration(result.data.phases.includes(phases[0]));
+            setIdeation(result.data.phases.includes(phases[1]));
+            setImplementation(result.data.phases.includes(phases[2]));
           } else {
             setInspiration(false);
             setIdeation(false);
@@ -118,8 +117,7 @@ export default function EditTemplate() {
     setTemplates(currentTemplates);
   };
 
-  const handleDelete = async e => {
-    e.preventDefault();
+  const handleDelete = async () => {
     // for future: check admin before deleting
     // if (isAdmin) {
     const deleteResult = await deleteTemplate(templateID);
@@ -136,9 +134,7 @@ export default function EditTemplate() {
     setImplementation(false);
   };
 
-  const handleSaveAll = async e => {
-    e.preventDefault();
-
+  const handleSaveAll = async () => {
     if (!name || (!isInspiration && !isIdeation && !isImplementation)) {
       setError(true);
       return;
@@ -159,17 +155,10 @@ export default function EditTemplate() {
     if (isImplementation) {
       selectedPhases.push(phases[2]);
     }
-
-    let result = {
-      name
-    };
-    const nameResult = await saveTemplateName(result, templateID);
-    let phaseResult = {
-      phases: selectedPhases
-    };
-    const phasesResult = await saveTemplatePhases(phaseResult, templateID);
-    Router.push("/editTemplate#saved");
-    console.log(phasesResult);
+    // TODO: Add template as a state, pass it as a prop to draft so we dont run getTemplateById there.
+    // only save these vals if name != template.name (i.e. there was a change in the name)
+    saveTemplateName(name, templateID);
+    saveTemplatePhases(selectedPhases, templateID);
     // check if name and phase results are successful, if so, refresh page, otherwise give alert
   };
 
