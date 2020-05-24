@@ -9,6 +9,7 @@ import debounce from "lodash/debounce";
 
 import firebase from "firebase/app";
 import "firebase/storage";
+import { render } from "react-dom";
 
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_APIKEY,
@@ -38,17 +39,19 @@ export default function TemplateDraft(props) {
   const { id } = props;
 
   const handleChange = editor => {
-    setUnsaved(true);
-    const content = editor.emitSerializedOutput();
-    uploadImagesAndFixUrls(content).then(() => {
-      const json = JSON.stringify(content);
-      if (json !== prevContent) {
-        saveCallback(id, json); // save draft function
-        setPrevContent(json);
-      } else {
-        setUnsaved(false);
-      }
-    });
+    if (!loading) {
+      setUnsaved(true);
+      const content = editor.emitSerializedOutput();
+      uploadImagesAndFixUrls(content).then(() => {
+        const json = JSON.stringify(content);
+        if (json !== prevContent) {
+          saveCallback(id, json); // save draft function
+          setPrevContent(json);
+        } else {
+          setUnsaved(false);
+        }
+      });
+    }
   };
 
   const uploadImagesAndFixUrls = async content => {
@@ -100,6 +103,19 @@ export default function TemplateDraft(props) {
       });
   }, [id]); // dependencies for get draft function
 
+  const renderDraft = () => {
+    if (!loading) {
+      console.log(editorContent);
+      console.log(id)
+      return (
+        <Dante
+          content={editorContent}
+          onChange={editor => handleChange(editor)}
+        />
+      );
+    }
+  }
+
   return (
     <div>
       <link
@@ -114,12 +130,7 @@ export default function TemplateDraft(props) {
         </Col>
       </Row>
 
-      {!loading && (
-        <Dante
-          content={editorContent}
-          onChange={editor => handleChange(editor)}
-        />
-      )}
+      {renderDraft()}
     </div>
   );
 }

@@ -25,6 +25,7 @@ import "../public/styles/editTemplate.scss";
 export default function EditTemplate() {
   const [isAdmin, setIsAdmin] = useState(true);
   const [name, setName] = useState("");
+  const [mounted, setMounted] = useState(false);
   const [templateID, setTemplateID] = useState("");
   const [error, setError] = useState(false);
   const [templates, setTemplates] = useState([]);
@@ -37,7 +38,7 @@ export default function EditTemplate() {
   const successStatus = 200;
 
   useEffect(() => {
-    const getInitialDisplay = async () => {
+    const setDisplay = async () => {
       const currentTemplates = await getTemplates();
       setTemplates(currentTemplates);
 
@@ -47,9 +48,16 @@ export default function EditTemplate() {
         setIdeation(false);
         setImplementation(false);
       } else {
-        setTemplateID(currentTemplates.data[0]._id);
+        let result;
 
-        const result = await getTemplateByID(currentTemplates.data[0]._id);
+        if (!mounted) {
+          setTemplateID(currentTemplates.data[0]._id);
+          setMounted(true);
+
+          result = await getTemplateByID(currentTemplates.data[0]._id);
+        } else {
+          result = await getTemplateByID(templateID);
+        }
 
         if (result.data !== undefined && result) {
           if (result.data.name !== undefined) {
@@ -59,21 +67,9 @@ export default function EditTemplate() {
           }
           if (result.data.phases !== undefined && result.data.phases !== []) {
             result.data.phases.map(phase => {
-              if (phase === phases[0]) {
-                setInspiration(true);
-              } else {
-                setInspiration(false);
-              }
-              if (phase === phases[1]) {
-                setIdeation(true);
-              } else {
-                setIdeation(false);
-              }
-              if (phase === phases[2]) {
-                setImplementation(true);
-              } else {
-                setImplementation(false);
-              }
+              setInspiration(phase === phases[0])
+              setIdeation(phase === phases[1])
+              setImplementation(phase === phases[2])
             });
           } else {
             setInspiration(false);
@@ -84,62 +80,11 @@ export default function EditTemplate() {
       }
     };
 
-    getInitialDisplay();
-  }, []);
-
-  useEffect(() => {
-    const getUpdatedDisplay = async () => {
-      const currentTemplates = await getTemplates();
-      setTemplates(await getTemplates());
-
-      if (currentTemplates.data.length == 0) {
-        setName("");
-        setInspiration(false);
-        setIdeation(false);
-        setImplementation(false);
-      } else {
-        // setTemplateID(templateID);
-        const result = await getTemplateByID(templateID);
-
-        if (result.data !== undefined && result) {
-          if (result.data.name !== undefined) {
-            setName(await result.data.name);
-          } else {
-            setName("");
-          }
-          if (result.data.phases !== undefined && result.data.phases !== []) {
-            result.data.phases.map(phase => {
-              if (phase === phases[0]) {
-                setInspiration(true);
-              } else {
-                setInspiration(false);
-              }
-              if (phase === phases[1]) {
-                setIdeation(true);
-              } else {
-                setIdeation(false);
-              }
-              if (phase === phases[2]) {
-                setImplementation(true);
-              } else {
-                setImplementation(false);
-              }
-            });
-          } else {
-            setInspiration(false);
-            setIdeation(false);
-            setImplementation(false);
-          }
-        }
-      }
-    };
-
-    getUpdatedDisplay();
+    setDisplay();
   }, [templateID]);
 
   const handleID = clickedTemplateID => {
     setTemplateID(clickedTemplateID);
-    // isTemplateBtnClicked = true;
   };
 
   // useEffect(() => {
