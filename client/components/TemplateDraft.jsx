@@ -9,8 +9,6 @@ import debounce from "lodash/debounce";
 
 import firebase from "firebase/app";
 import "firebase/storage";
-import { render } from "react-dom";
-
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_APIKEY,
   authDomain: process.env.AUTH_DOMAIN,
@@ -31,7 +29,7 @@ export default function TemplateDraft(props) {
 
   const saveInterval = 1000;
   const debounceSave = (id, json) => {
-    saveTemplateDraft(id, json); // save draft function
+    saveTemplateDraft(id, json);
     setUnsaved(false);
   };
   const saveCallback = useCallback(debounce(debounceSave, saveInterval), []);
@@ -39,19 +37,18 @@ export default function TemplateDraft(props) {
   const { id } = props;
 
   const handleChange = editor => {
-    if (!loading) {
-      setUnsaved(true);
-      const content = editor.emitSerializedOutput();
-      uploadImagesAndFixUrls(content).then(() => {
-        const json = JSON.stringify(content);
-        if (json !== prevContent) {
-          saveCallback(id, json); // save draft function
-          setPrevContent(json);
-        } else {
-          setUnsaved(false);
-        }
-      });
-    }
+    setUnsaved(true);
+    const content = editor.emitSerializedOutput();
+
+    uploadImagesAndFixUrls(content).then(() => {
+      const json = JSON.stringify(content);
+      if (json !== prevContent) {
+        saveCallback(id, json);
+        setPrevContent(json);
+      } else {
+        setUnsaved(false);
+      }
+    });
   };
 
   const uploadImagesAndFixUrls = async content => {
@@ -66,7 +63,9 @@ export default function TemplateDraft(props) {
       }
 
       const blob = await fetch(url).then(r => r.blob());
-      const imageRef = storageRef.child(`${props.id}/${block.key}`); // imageref idk?
+      const imageRef = storageRef.child(
+        `${props.id}/${block.key}`
+      );
 
       await imageRef.put(blob).then(async function(snapshot) {
         await snapshot.ref.getDownloadURL().then(function(url) {
@@ -86,35 +85,38 @@ export default function TemplateDraft(props) {
   };
 
   useEffect(() => {
-    console.log("getting template");
-    getTemplateByID(id) // get draft function
-      .then(template => {
-        console.log(template);
-        const draft = template.data.draft;
-        const json = JSON.parse(draft);
+    getTemplateByID(id)
+      .then(data => {
+        console.log(data)
+        const description = data.data.draft;
+        setPrevContent(description);
+        const json = JSON.parse(description);
         if ("blocks" in json) {
           setEditorContent(json);
-          setPrevContent(draft);
         }
         setLoading(false);
       })
       .catch(() => {
         setLoading(false);
       });
-  }, [id]); // dependencies for get draft function
+  }, [id]);
 
   const renderDraft = () => {
-    if (!loading) {
-      console.log(editorContent);
-      console.log(id)
-      return (
-        <Dante
-          content={editorContent}
-          onChange={editor => handleChange(editor)}
-        />
-      );
+    if (loading) {
+      return undefined;
     }
-  }
+
+    if (editorContent === null) {
+      return <p>{prevContent}</p>;
+    }
+
+    return (
+      <Dante
+        content={editorContent}
+        onChange={editor => handleChange(editor)}
+      />
+    );
+  };
 
   return (
     <div>
