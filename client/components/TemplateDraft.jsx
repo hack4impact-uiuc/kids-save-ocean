@@ -34,8 +34,6 @@ export default function TemplateDraft(props) {
   };
   const saveCallback = useCallback(debounce(debounceSave, saveInterval), []);
 
-  const { id } = props;
-
   const handleChange = editor => {
     setUnsaved(true);
     const content = editor.emitSerializedOutput();
@@ -43,7 +41,7 @@ export default function TemplateDraft(props) {
     uploadImagesAndFixUrls(content).then(() => {
       const json = JSON.stringify(content);
       if (json !== prevContent) {
-        saveCallback(id, json);
+        saveCallback(props.id, json);
         setPrevContent(json);
       } else {
         setUnsaved(false);
@@ -85,7 +83,7 @@ export default function TemplateDraft(props) {
   };
 
   useEffect(() => {
-    getTemplateByID(id)
+    getTemplateByID(props.id)
       .then(data => {
         console.log(data)
         const description = data.data.draft;
@@ -99,7 +97,7 @@ export default function TemplateDraft(props) {
       .catch(() => {
         setLoading(false);
       });
-  }, [id]);
+  }, [props.id]);
 
   const renderDraft = () => {
     if (loading) {
