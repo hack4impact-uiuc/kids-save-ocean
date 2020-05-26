@@ -92,6 +92,8 @@ export default function TemplateDraft(props) {
         if ("blocks" in json) {
           setEditorContent(json);
           setPrevContent(draft);
+          console.log(json);
+          console.log(draft);
         }
         setLoading(false);
       })
