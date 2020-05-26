@@ -894,18 +894,22 @@ export const postUpvote = async model_id => {
   }
 };
 
-export const saveTemplateName = (data, Template_ID) => {
+export const saveTemplateName = (name, Template_ID) => {
   /**
    * Edits a template's name
    * Returns UPDATE_TEMPLATE_NAME_FAIL upon failure
    */
   const requestString = `${BASE_URL}/templates/${Template_ID}/name`;
   return axios
-    .put(requestString, data, {
-      headers: {
-        "Content-Type": "application/JSON"
+    .put(
+      requestString,
+      { name },
+      {
+        headers: {
+          "Content-Type": "application/JSON"
+        }
       }
-    })
+    )
     .catch(error => {
       ({
         type: "UPDATE_TEMPLATE_NAME_FAIL",
@@ -914,18 +918,22 @@ export const saveTemplateName = (data, Template_ID) => {
     });
 };
 
-export const saveTemplatePhases = (data, Template_ID) => {
+export const saveTemplatePhases = (phases, Template_ID) => {
   /**
    * Edits a template's phases
    * Returns UPDATE_TEMPLATE_PHASES_FAIL upon failure
    */
   const requestString = `${BASE_URL}/templates/${Template_ID}/phases`;
   return axios
-    .put(requestString, data, {
-      headers: {
-        "Content-Type": "application/JSON"
+    .put(
+      requestString,
+      { phases },
+      {
+        headers: {
+          "Content-Type": "application/JSON"
+        }
       }
-    })
+    )
     .catch(error => {
       ({
         type: "UPDATE_TEMPLATE_PHASES_FAIL",

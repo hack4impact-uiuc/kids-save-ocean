@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {
-  checkAdminPrivilege,
   addTemplate,
   saveTemplateName,
   saveTemplatePhases,
@@ -19,12 +18,11 @@ import {
   Input,
   Label,
 } from "reactstrap";
-import Router from "next/router";
 import "../public/styles/editTemplate.scss";
 
 export default function EditTemplate() {
-  const [isAdmin, setIsAdmin] = useState(true);
   const [name, setName] = useState("");
+  const [mounted, setMounted] = useState(false);
   const [templateID, setTemplateID] = useState("");
   const [error, setError] = useState(false);
   const [templateDraft, setTemplateDraft] = useState("");
@@ -33,12 +31,10 @@ export default function EditTemplate() {
   const [isIdeation, setIdeation] = useState(false);
   const [isImplementation, setImplementation] = useState(false);
 
-  // var isTemplateBtnClicked = false;
   const phases = ["Inspiration", "Ideation", "Implementation"];
-  const successStatus = 200;
 
   useEffect(() => {
-    const getInitialDisplay = async () => {
+    const setDisplay = async () => {
       const currentTemplates = await getTemplates();
       setTemplates(currentTemplates);
 
@@ -49,13 +45,16 @@ export default function EditTemplate() {
         setIdeation(false);
         setImplementation(false);
       } else {
-        setTemplateID(currentTemplates.data[0]._id);
+        let result;
 
-        const result = await getTemplateByID(currentTemplates.data[0]._id);
+        if (!mounted) {
+          setTemplateID(currentTemplates.data[0]._id);
+          setMounted(true);
 
-        console.log(currentTemplates.data[0]); //
-        console.log(currentTemplates.data[0].draft); //
-        console.log(currentTemplates.data[0].draft[2]); //
+          result = await getTemplateByID(currentTemplates.data[0]._id);
+        } else {
+          result = await getTemplateByID(templateID);
+        }
 
         if (result.data !== undefined && result) {
           if (result.data.name !== undefined) {
@@ -63,28 +62,10 @@ export default function EditTemplate() {
           } else {
             setName("");
           }
-          if (
-            result.data.phases !== undefined &&
-            result.data.phases !== null &&
-            result.data.phases !== []
-          ) {
-            result.data.phases.map((phase) => {
-              if (phase === phases[0]) {
-                setInspiration(true);
-              } else {
-                setInspiration(false);
-              }
-              if (phase === phases[1]) {
-                setIdeation(true);
-              } else {
-                setIdeation(false);
-              }
-              if (phase === phases[2]) {
-                setImplementation(true);
-              } else {
-                setImplementation(false);
-              }
-            });
+          if (result.data.phases !== undefined) {
+            setInspiration(result.data.phases.includes(phases[0]));
+            setIdeation(result.data.phases.includes(phases[1]));
+            setImplementation(result.data.phases.includes(phases[2]));
           } else {
             setInspiration(false);
             setIdeation(false);
@@ -94,108 +75,29 @@ export default function EditTemplate() {
       }
     };
 
-    getInitialDisplay();
-  }, []);
-
-  useEffect(() => {
-    const getUpdatedDisplay = async () => {
-      const currentTemplates = await getTemplates();
-      setTemplates(await getTemplates());
-
-      if (currentTemplates.data.length == 0) {
-        setName("");
-        setInspiration(false);
-        setIdeation(false);
-        setImplementation(false);
-      } else {
-        // setTemplateID(templateID);
-        const result = await getTemplateByID(templateID);
-
-        if (result.data !== undefined && result) {
-          if (result.data.name !== undefined) {
-            setName(await result.data.name);
-          } else {
-            setName("");
-          }
-          if (
-            result.data.phases !== undefined &&
-            result.data.phases !== null &&
-            result.data.phases !== []
-          ) {
-            result.data.phases.map((phase) => {
-              if (phase === phases[0]) {
-                setInspiration(true);
-              } else {
-                setInspiration(false);
-              }
-              if (phase === phases[1]) {
-                setIdeation(true);
-              } else {
-                setIdeation(false);
-              }
-              if (phase === phases[2]) {
-                setImplementation(true);
-              } else {
-                setImplementation(false);
-              }
-            });
-          } else {
-            setInspiration(false);
-            setIdeation(false);
-            setImplementation(false);
-          }
-        }
-      }
-    };
-
-    getUpdatedDisplay();
+    setDisplay();
   }, [templateID]);
 
   const handleID = (clickedTemplateID) => {
     setTemplateID(clickedTemplateID);
-    // isTemplateBtnClicked = true;
   };
 
   const handleTemplateDraftChange = () => {};
 
-  // useEffect(() => {
-  //   const checkPriv = async () => {
-  //     const raw_priv = await checkAdminPrivilege(templateID);
-  //     const isAdmin = await raw_priv.json();
-  //     if (isAdmin.status === successStatus) {
-  //       setIsAdmin(true);
-  //     } else {
-  //       setIsAdmin(false);
-  //       Router.push("/login");
-  //     }
-  //   };
-  //   checkPriv();
-  // }, []);
-
   const handleNewStage = async (e) => {
     e.preventDefault();
-    // for future: check admin before creating
-    // if (isAdmin) {
     const emptyTemplate = {
       name: "",
       draft: "",
       phases: [],
     };
     const addResult = await addTemplate(emptyTemplate);
-    console.log(addResult);
-    // check if successful, if so, move to the new template page
-    // }
     const currentTemplates = await getTemplates();
     setTemplates(currentTemplates);
   };
 
-  const handleDelete = async (e) => {
-    e.preventDefault();
-    // for future: check admin before deleting
-    // if (isAdmin) {
+  const handleDelete = async () => {
     const deleteResult = await deleteTemplate(templateID);
-    // check if successful, if so, refresh page
-    // }
     const currentTemplates = await getTemplates();
     setTemplates(currentTemplates);
   };
@@ -207,9 +109,7 @@ export default function EditTemplate() {
     setImplementation(false);
   };
 
-  const handleSaveAll = async (e) => {
-    e.preventDefault();
-
+  const handleSaveAll = async () => {
     if (!name || (!isInspiration && !isIdeation && !isImplementation)) {
       setError(true);
       return;
@@ -230,33 +130,13 @@ export default function EditTemplate() {
     if (isImplementation) {
       selectedPhases.push(phases[2]);
     }
-
-    console.log(name);
-    console.log(selectedPhases);
-
-    let result = {
-      name,
-    };
-    const nameResult = await saveTemplateName(result, templateID);
-    let phaseResult = {
-      phases: selectedPhases,
-    };
-
-    console.log(result);
-    console.log(phaseResult);
-
-    const phasesResult = await saveTemplatePhases(phaseResult, templateID);
-
-    console.log(nameResult);
-    console.log(phasesResult);
-
-    Router.push("/editTemplate#saved");
-    // check if name and phase results are successful, if so, refresh page, otherwise give alert
+    saveTemplateName(name, templateID);
+    saveTemplatePhases(selectedPhases, templateID);
   };
 
   return (
     <div>
-      {isAdmin && (
+      {
         <div className="edit-template-div">
           <Head title="" />
           <div className="header-template">Templates</div>
@@ -364,7 +244,7 @@ export default function EditTemplate() {
             </Form>
           </Container>
         </div>
-      )}
+      }
     </div>
   );
 }
