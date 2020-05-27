@@ -7,7 +7,7 @@ import {
   CardTitle,
   CardSubtitle,
   CardText,
-  CardImg,
+  CardImg
 } from "reactstrap";
 import { getUpdates, getUser } from "../utils/apiWrapper";
 import { Head, InfiniteScroller, Loader } from "../components";
@@ -103,11 +103,11 @@ export default function Feed() {
           setHasMore(false);
         }
         setNextIdx(nextUpdates.length);
-        nextUpdates.map((update) => {
+        nextUpdates.map(update => {
           const dateObj = new Date(parseInt(update.date));
           update.date = dateObj.toLocaleDateString("en-US", {
             month: "long",
-            day: "numeric",
+            day: "numeric"
           });
           update.numStagesUpdated = Math.floor(
             Math.random() * randomUpdatesLimit
@@ -123,7 +123,7 @@ export default function Feed() {
               randomUpdatesLimit *
               randomUpdatesLimit
           );
-          setUpdates((prevState) => [...prevState, update]);
+          setUpdates(prevState => [...prevState, update]);
         });
         setWillMount(false);
         setIsFetching(false);
@@ -211,7 +211,7 @@ export default function Feed() {
       </Container>
       <Container className="feed-wrapper">
         {willMount && <Loader />}
-        {updates.map((update) => (
+        {updates.map(update => (
           <Fragment key={update._id}>
             <Card className="feed-card">
               <CardBody className="feed-card-body">

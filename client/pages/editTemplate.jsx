@@ -5,7 +5,7 @@ import {
   saveTemplatePhases,
   deleteTemplate,
   getTemplateByID,
-  getTemplates,
+  getTemplates
 } from "../utils/apiWrapper";
 import { Head, TemplateDraft } from "../components";
 import {
@@ -16,7 +16,7 @@ import {
   Form,
   FormGroup,
   Input,
-  Label,
+  Label
 } from "reactstrap";
 import "../public/styles/editTemplate.scss";
 
@@ -25,22 +25,21 @@ export default function EditTemplate() {
   const [mounted, setMounted] = useState(false);
   const [templateID, setTemplateID] = useState("");
   const [error, setError] = useState(false);
-  const [templateDraft, setTemplateDraft] = useState("");
   const [templates, setTemplates] = useState([]);
   const [isInspiration, setInspiration] = useState(false);
   const [isIdeation, setIdeation] = useState(false);
   const [isImplementation, setImplementation] = useState(false);
 
   const phases = ["Inspiration", "Ideation", "Implementation"];
+  const implementationIndex = 2;
 
   useEffect(() => {
     const setDisplay = async () => {
       const currentTemplates = await getTemplates();
       setTemplates(currentTemplates);
 
-      if (currentTemplates.data.length == 0) {
+      if (currentTemplates.data.length === 0) {
         setName("");
-        setTemplateDraft("");
         setInspiration(false);
         setIdeation(false);
         setImplementation(false);
@@ -65,7 +64,9 @@ export default function EditTemplate() {
           if (result.data.phases !== undefined) {
             setInspiration(result.data.phases.includes(phases[0]));
             setIdeation(result.data.phases.includes(phases[1]));
-            setImplementation(result.data.phases.includes(phases[2]));
+            setImplementation(
+              result.data.phases.includes(phases[implementationIndex])
+            );
           } else {
             setInspiration(false);
             setIdeation(false);
@@ -78,38 +79,36 @@ export default function EditTemplate() {
     setDisplay();
   }, [templateID]);
 
-  const handleID = (clickedTemplateID) => {
+  const handleID = clickedTemplateID => {
     setTemplateID(clickedTemplateID);
   };
 
-  const handleTemplateDraftChange = () => {};
-
-  const handleNewStage = async (e) => {
+  const handleNewStage = async e => {
     e.preventDefault();
     const emptyTemplate = {
       name: "",
       draft: "",
-      phases: [],
+      phases: []
     };
-    const addResult = await addTemplate(emptyTemplate);
+    await addTemplate(emptyTemplate);
     const currentTemplates = await getTemplates();
     setTemplates(currentTemplates);
   };
 
   const handleDelete = async () => {
-    const deleteResult = await deleteTemplate(templateID);
+    await deleteTemplate(templateID);
     const currentTemplates = await getTemplates();
     setTemplates(currentTemplates);
   };
 
-  const handleClose = async () => {
+  const handleClose = () => {
     setName("");
     setInspiration(false);
     setIdeation(false);
     setImplementation(false);
   };
 
-  const handleSaveAll = async () => {
+  const handleSaveAll = () => {
     if (!name || (!isInspiration && !isIdeation && !isImplementation)) {
       setError(true);
       return;
@@ -128,7 +127,7 @@ export default function EditTemplate() {
     }
 
     if (isImplementation) {
-      selectedPhases.push(phases[2]);
+      selectedPhases.push(phases[implementationIndex]);
     }
     saveTemplateName(name, templateID);
     saveTemplatePhases(selectedPhases, templateID);
@@ -152,11 +151,12 @@ export default function EditTemplate() {
             </Row>
             <Row>
               {templates.data &&
-                templates.data.map((template) => (
+                templates.data.map(template => (
                   <Button
+                    key={template._id}
                     className="stage-button"
                     color="white"
-                    onClick={(e) => handleID(template._id)}
+                    onClick={() => handleID(template._id)}
                   >
                     {template.name}
                   </Button>
@@ -177,15 +177,12 @@ export default function EditTemplate() {
                 value={name}
                 id="template-title"
                 placeholder="Stage Title"
-                onChange={(e) => setName(e.target.value)}
+                onChange={e => setName(e.target.value)}
                 required
               ></Input>
               <Row className="main-template-subtitle">Template</Row>
               <Container className="draft-container">
-                <TemplateDraft
-                  id={templateID}
-                  onChange={handleTemplateDraftChange}
-                />
+                <TemplateDraft id={templateID} />
               </Container>
               <div className="stages-txt">Which stages?</div>
               <div className="format-checkboxes">
@@ -194,7 +191,7 @@ export default function EditTemplate() {
                     <Input
                       type="checkbox"
                       checked={isInspiration}
-                      onChange={(e) => setInspiration(!isInspiration)}
+                      onChange={() => setInspiration(!isInspiration)}
                     />{" "}
                     Inspiration
                   </Label>
@@ -204,7 +201,7 @@ export default function EditTemplate() {
                     <Input
                       type="checkbox"
                       checked={isIdeation}
-                      onChange={(e) => setIdeation(!isIdeation)}
+                      onChange={() => setIdeation(!isIdeation)}
                     />{" "}
                     Ideation
                   </Label>
@@ -214,7 +211,7 @@ export default function EditTemplate() {
                     <Input
                       type="checkbox"
                       checked={isImplementation}
-                      onChange={(e) => setImplementation(!isImplementation)}
+                      onChange={() => setImplementation(!isImplementation)}
                     />
                     Implementation
                   </Label>

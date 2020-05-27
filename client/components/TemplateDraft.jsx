@@ -20,7 +20,7 @@ if (!firebase.apps.length) {
 }
 const storageRef = firebase.storage().ref();
 
-export default function TemplateDraft(props) {
+export default function TemplateDraft({ id }) {
   const [unsaved, setUnsaved] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -28,8 +28,8 @@ export default function TemplateDraft(props) {
   const [editorContent, setEditorContent] = useState(null);
 
   const saveInterval = 1000;
-  const debounceSave = (id, json) => {
-    saveTemplateDraft(id, json);
+  const debounceSave = (id_, json) => {
+    saveTemplateDraft(id_, json);
     setUnsaved(false);
   };
   const saveCallback = useCallback(debounce(debounceSave, saveInterval), []);
@@ -41,7 +41,7 @@ export default function TemplateDraft(props) {
     uploadImagesAndFixUrls(content).then(() => {
       const json = JSON.stringify(content);
       if (json !== prevContent) {
-        saveCallback(props.id, json);
+        saveCallback(id, json);
         setPrevContent(json);
       } else {
         setUnsaved(false);
@@ -61,7 +61,7 @@ export default function TemplateDraft(props) {
       }
 
       const blob = await fetch(url).then((r) => r.blob());
-      const imageRef = storageRef.child(`${props.id}/${block.key}`);
+      const imageRef = storageRef.child(`${id}/${block.key}`);
 
       await imageRef.put(blob).then(async function(snapshot) {
         await snapshot.ref.getDownloadURL().then(function(url) {
@@ -81,7 +81,7 @@ export default function TemplateDraft(props) {
   };
 
   useEffect(() => {
-    getTemplateByID(props.id)
+    getTemplateByID(id)
       .then((data) => {
         const description = data.data.draft;
         setPrevContent(description);
@@ -94,7 +94,7 @@ export default function TemplateDraft(props) {
       .catch(() => {
         setLoading(false);
       });
-  }, [props.id]);
+  }, [id]);
 
   const renderDraft = () => {
     if (loading) {
