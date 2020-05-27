@@ -5,7 +5,7 @@ import {
   saveTemplatePhases,
   deleteTemplate,
   getTemplateByID,
-  getTemplates,
+  getTemplates
 } from "../utils/apiWrapper";
 import { Head, TemplateDraft } from "../components";
 import {
@@ -16,7 +16,7 @@ import {
   Form,
   FormGroup,
   Input,
-  Label,
+  Label
 } from "reactstrap";
 import "../public/styles/editTemplate.scss";
 
@@ -79,16 +79,16 @@ export default function EditTemplate() {
     setDisplay();
   }, [templateID]);
 
-  const handleID = (clickedTemplateID) => {
+  const handleID = clickedTemplateID => {
     setTemplateID(clickedTemplateID);
   };
 
-  const handleNewStage = async (e) => {
+  const handleNewStage = async e => {
     e.preventDefault();
     const emptyTemplate = {
       name: "",
       draft: "",
-      phases: [],
+      phases: []
     };
     await addTemplate(emptyTemplate);
     const currentTemplates = await getTemplates();
@@ -151,7 +151,7 @@ export default function EditTemplate() {
             </Row>
             <Row>
               {templates.data &&
-                templates.data.map((template) => (
+                templates.data.map(template => (
                   <Button
                     key={template._id}
                     className="stage-button"
@@ -177,7 +177,7 @@ export default function EditTemplate() {
                 value={name}
                 id="template-title"
                 placeholder="Stage Title"
-                onChange={(e) => setName(e.target.value)}
+                onChange={e => setName(e.target.value)}
                 required
               ></Input>
               <Row className="main-template-subtitle">Template</Row>

@@ -9,7 +9,7 @@ const TemplateSchema = require("../public/schema/templateSchema.js")
 router.post(
   "/",
   validate({
-    body: TemplateSchema,
+    body: TemplateSchema
   }),
   function(req, res) {
     const db = req.db;
@@ -22,7 +22,7 @@ router.post(
         res.sendStatus(500);
       } else {
         res.json({
-          success: `${data.name} added!`,
+          success: `${data.name} added!`
         });
       }
     });
@@ -37,10 +37,10 @@ router.delete("/:template_ID", function(req, res) {
   const collection = db.get("templates");
   collection
     .findOneAndDelete({ _id: id })
-    .then((template) =>
+    .then(template =>
       template !== null
         ? res.json({
-            success: `${id} deleted!`,
+            success: `${id} deleted!`
           })
         : res.sendStatus(404)
     )
@@ -63,7 +63,7 @@ router.get("/:template_ID", function(req, res) {
   const collection = db.get("templates");
   collection
     .findOne({ _id: id })
-    .then((template) =>
+    .then(template =>
       template !== null ? res.send(template) : res.sendStatus(404)
     )
     .catch(() => res.sendStatus(500));
@@ -80,11 +80,11 @@ router.put("/:template_ID", function(req, res) {
   collection
     .findOneAndUpdate(
       {
-        _id: template_ID,
+        _id: template_ID
       },
       { $set: { draft, phases, name, creatorID } }
     )
-    .then((template) =>
+    .then(template =>
       template !== null
         ? res.json({ success: `${template_ID} updated!` })
         : res.sendStatus(404)
@@ -107,11 +107,11 @@ router.put("/:template_ID/draft", function(req, res) {
   collection
     .findOneAndUpdate(
       {
-        _id: template_ID,
+        _id: template_ID
       },
       { $set: { draft } }
     )
-    .then((template) =>
+    .then(template =>
       template !== null
         ? res.json({ success: `${template_ID} updated!` })
         : res.sendStatus(404)
@@ -134,11 +134,11 @@ router.put("/:template_ID/name", function(req, res) {
   collection
     .findOneAndUpdate(
       {
-        _id: template_ID,
+        _id: template_ID
       },
       { $set: { name } }
     )
-    .then((template) =>
+    .then(template =>
       template !== null
         ? res.json({ success: `${template_ID} updated!` })
         : res.sendStatus(404)
@@ -161,11 +161,11 @@ router.put("/:template_ID/phases", function(req, res) {
   collection
     .findOneAndUpdate(
       {
-        _id: template_ID,
+        _id: template_ID
       },
       { $set: { phases } }
     )
-    .then((template) =>
+    .then(template =>
       template !== null
         ? res.json({ success: `${template_ID} updated!` })
         : res.sendStatus(404)
