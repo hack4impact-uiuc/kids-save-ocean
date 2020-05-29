@@ -736,6 +736,128 @@ export const getComments = model_id => {
   }));
 };
 
+export const addTemplate = data => {
+  /**
+   * Adds a template
+   * Returns POST_TEMPLATE_FAIL upon failure
+   */
+  const requestString = `${BASE_URL}/templates`;
+  return axios
+    .post(requestString, data, {
+      headers: {
+        "Content-Type": "application/JSON"
+      }
+    })
+    .catch(error => {
+      ({
+        type: "POST_TEMPLATE_FAIL",
+        error
+      });
+    });
+};
+
+export const deleteTemplate = templateID => {
+  /**
+   * Deletes a template
+   * Returns DELETE_TEMPLATE_FAIL upon failure
+   */
+  const requestString = `${BASE_URL}/templates/${templateID}`;
+  return axios.delete(requestString).catch(error => {
+    ({
+      type: "DELETE_TEMPLATE_FAIL",
+      error
+    });
+  });
+};
+
+export const getTemplates = () => {
+  /**
+   * Returns all templates
+   * Returns GET_TEMPLATE_FAIL upon failure
+   */
+  const requestString = `${BASE_URL}/templates`;
+  return axios
+    .get(requestString, {
+      headers: {
+        "Content-Type": "application/JSON"
+      }
+    })
+    .catch(error => {
+      ({
+        type: "GET_TEMPLATE_FAIL",
+        error
+      });
+    });
+};
+
+export const getTemplateByID = templateID => {
+  /**
+   * Returns template given ID
+   * Returns GET_TEMPLATE_ID_FAIL upon failure
+   */
+  const requestString = `${BASE_URL}/templates/${templateID}`;
+  return axios
+    .get(requestString, {
+      headers: {
+        "Content-Type": "application/JSON",
+        "x-access-token": localStorage.getItem("token")
+      }
+    })
+    .catch(error => {
+      ({
+        type: "GET_TEMPLATE_ID_FAIL",
+        error
+      });
+    });
+};
+
+export const saveTemplate = (data, Template_ID) => {
+  /**
+   * Edits a template
+   * Returns UPDATE_TEMPLATE_FAIL upon failure
+   */
+  const requestString = `${BASE_URL}/templates/${Template_ID}`;
+  return axios
+    .put(requestString, data, {
+      headers: {
+        "Content-Type": "application/JSON",
+        "x-access-token": localStorage.getItem("token")
+      }
+    })
+    .catch(error => {
+      ({
+        type: "UPDATE_TEMPLATE_FAIL",
+        error
+      });
+    });
+};
+
+export const saveTemplateDraft = (Template_ID, draft) => {
+  /**
+   * Edits a template's draft
+   * Returns UPDATE_TEMPLATE_DRAFT_FAIL upon failure
+   */
+  const requestString = `${BASE_URL}/templates/${Template_ID}/draft`;
+  return axios
+    .put(
+      requestString,
+      { draft },
+      {
+        headers: {
+          "Content-Type": "application/JSON",
+          "x-access-token": localStorage.getItem("token")
+        }
+      }
+    )
+
+    .catch(error => {
+      ({
+        type: "SAVE_TEMPLATE_DRAFT_FAIL",
+        error
+      });
+    });
+};
+
 export const getCommentCount = model_id => {
   const requestString = `${BASE_URL}/comment/${model_id}/count`;
   return axios.get(requestString).catch(error => ({
@@ -764,6 +886,54 @@ export const postUpvote = async model_id => {
         error
       }));
   }
+};
+
+export const saveTemplateName = (name, Template_ID) => {
+  /**
+   * Edits a template's name
+   * Returns UPDATE_TEMPLATE_NAME_FAIL upon failure
+   */
+  const requestString = `${BASE_URL}/templates/${Template_ID}/name`;
+  return axios
+    .put(
+      requestString,
+      { name },
+      {
+        headers: {
+          "Content-Type": "application/JSON"
+        }
+      }
+    )
+    .catch(error => {
+      ({
+        type: "UPDATE_TEMPLATE_NAME_FAIL",
+        error
+      });
+    });
+};
+
+export const saveTemplatePhases = (phases, Template_ID) => {
+  /**
+   * Edits a template's phases
+   * Returns UPDATE_TEMPLATE_PHASES_FAIL upon failure
+   */
+  const requestString = `${BASE_URL}/templates/${Template_ID}/phases`;
+  return axios
+    .put(
+      requestString,
+      { phases },
+      {
+        headers: {
+          "Content-Type": "application/JSON"
+        }
+      }
+    )
+    .catch(error => {
+      ({
+        type: "UPDATE_TEMPLATE_PHASES_FAIL",
+        error
+      });
+    });
 };
 
 export const getUpvotes = model_id => {

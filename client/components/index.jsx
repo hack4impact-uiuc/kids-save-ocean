@@ -8,6 +8,7 @@ import AddStage from "./AddStage";
 import PhaseEdit from "./PhaseEdit";
 import ProjectForm from "./ProjectForm";
 import Stage from "./Stage";
+import TemplateDraft from "./TemplateDraft";
 import TipCard from "./TipCard";
 import UpvotesSection from "./UpvotesSection";
 import InfiniteScroller from "./InfiniteScroller";
@@ -24,6 +25,7 @@ export {
   AddStage,
   PhaseEdit,
   Stage,
+  TemplateDraft,
   TipCard,
   InfiniteScroller,
   UpvotesSection,
