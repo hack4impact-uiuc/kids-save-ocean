@@ -18,7 +18,6 @@ export const getModels = (sdg_query, searchPage = null) => {
   } else {
     requestString = `${BASE_URL}/models`;
   }
-  console.log(requestString);
   return axios
     .get(requestString, {
       headers: {
@@ -737,7 +736,6 @@ export const getComments = model_id => {
   }));
 };
 
-// TEMPLATE WRAPPERS -----------
 export const addTemplate = data => {
   /**
    * Adds a template
@@ -758,12 +756,12 @@ export const addTemplate = data => {
     });
 };
 
-export const deleteTemplate = Template_ID => {
+export const deleteTemplate = templateID => {
   /**
    * Deletes a template
    * Returns DELETE_TEMPLATE_FAIL upon failure
    */
-  const requestString = `${BASE_URL}/templates/${Template_ID}`;
+  const requestString = `${BASE_URL}/templates/${templateID}`;
   return axios.delete(requestString).catch(error => {
     ({
       type: "DELETE_TEMPLATE_FAIL",
@@ -792,12 +790,12 @@ export const getTemplates = () => {
     });
 };
 
-export const getTemplateByID = Template_ID => {
+export const getTemplateByID = templateID => {
   /**
    * Returns template given ID
    * Returns GET_TEMPLATE_ID_FAIL upon failure
    */
-  const requestString = `${BASE_URL}/templates/${Template_ID}`;
+  const requestString = `${BASE_URL}/templates/${templateID}`;
   return axios
     .get(requestString, {
       headers: {

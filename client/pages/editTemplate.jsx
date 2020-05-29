@@ -31,6 +31,8 @@ export default function EditTemplate() {
   const [isImplementation, setImplementation] = useState(false);
 
   const phases = ["Inspiration", "Ideation", "Implementation"];
+  const inspirationIndex = 0;
+  const ideationIndex = 1;
   const implementationIndex = 2;
 
   useEffect(() => {
@@ -55,15 +57,17 @@ export default function EditTemplate() {
           result = await getTemplateByID(templateID);
         }
 
-        if (result.data !== undefined && result) {
+        if (result && result.data !== undefined) {
           if (result.data.name !== undefined) {
             setName(result.data.name);
           } else {
             setName("");
           }
           if (result.data.phases !== undefined) {
-            setInspiration(result.data.phases.includes(phases[0]));
-            setIdeation(result.data.phases.includes(phases[1]));
+            setInspiration(
+              result.data.phases.includes(phases[inspirationIndex])
+            );
+            setIdeation(result.data.phases.includes(phases[ideationIndex]));
             setImplementation(
               result.data.phases.includes(phases[implementationIndex])
             );
@@ -77,14 +81,13 @@ export default function EditTemplate() {
     };
 
     setDisplay();
-  }, [templateID]);
+  }, [templateID, mounted]);
 
   const handleID = clickedTemplateID => {
     setTemplateID(clickedTemplateID);
   };
 
-  const handleNewStage = async e => {
-    e.preventDefault();
+  const handleNewStage = async () => {
     const emptyTemplate = {
       name: "",
       draft: "",
@@ -119,11 +122,11 @@ export default function EditTemplate() {
     let selectedPhases = [];
 
     if (isInspiration) {
-      selectedPhases.push(phases[0]);
+      selectedPhases.push(phases[inspirationIndex]);
     }
 
     if (isIdeation) {
-      selectedPhases.push(phases[1]);
+      selectedPhases.push(phases[ideationIndex]);
     }
 
     if (isImplementation) {

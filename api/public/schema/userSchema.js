@@ -1,5 +1,5 @@
 const schema = {
-  id: "/TemplateSchema",
+  id: "/UserSchema",
   type: "object",
   properties: {
     email: {

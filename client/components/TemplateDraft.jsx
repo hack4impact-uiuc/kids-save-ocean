@@ -101,7 +101,7 @@ export default function TemplateDraft({ id }) {
 
   const renderDraft = () => {
     if (loading) {
-      return undefined;
+      return null;
     }
 
     if (editorContent === null) {

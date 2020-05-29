@@ -33,7 +33,7 @@ router.post(
 router.delete("/:template_ID", function(req, res) {
   // CHECK AUTH
   const db = req.db;
-  let id = req.params.template_ID;
+  const id = req.params.template_ID;
   const collection = db.get("templates");
   collection
     .findOneAndDelete({ _id: id })
@@ -59,7 +59,7 @@ router.get("/", function(req, res) {
 // get specific template by id (clicking on template in dropdown menu)
 router.get("/:template_ID", function(req, res) {
   const db = req.db;
-  let id = req.params.template_ID;
+  const id = req.params.template_ID;
   const collection = db.get("templates");
   collection
     .findOne({ _id: id })
