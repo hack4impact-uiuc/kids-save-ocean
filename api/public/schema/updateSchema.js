@@ -4,10 +4,10 @@ const schema = {
   properties: {
     updateType: {
       type: "string",
-      enum: ["project", "profile"],
+      enum: ["stage", "profile", "project"],
       required: true
     },
-    email: {
+    username: {
       type: "string",
       required: true
     },
