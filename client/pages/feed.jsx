@@ -10,7 +10,7 @@ import {
   CardImg
 } from "reactstrap";
 import { getUpdates, getUser } from "../utils/apiWrapper";
-import { Head, InfiniteScroller, Loader } from "../components";
+import { Head, InfiniteScroller, Loader, FeedItem } from "../components";
 import "../public/styles/feed.scss";
 
 export default function Feed() {
@@ -209,7 +209,7 @@ export default function Feed() {
       <Container className="feed-wrapper">
         {willMount && <Loader />}
         {updates.map(update => (
-          <FeedItem update={update} />
+          <FeedItem key={update._id} update={update} />
         ))}
         {updates.length !== 0 && hasMore && !willMount && (
           <div className="loading-text">Loading...</div>

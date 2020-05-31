@@ -1,27 +1,36 @@
 import React, { Fragment } from "react";
-import { Card, CardBody, CardTitle, CardSubtitle, CardText } from "reactstrap";
+import { Card, CardBody, CardTitle, CardText } from "reactstrap";
 
 export default function FeedItem(props) {
   const { update } = props;
+  const charLimit = 240;
+
+  const feedDescription = type => {
+    if (type === "project") {
+      return (
+        <div className="feed-card-title-text">
+          <strong>{update.username}</strong> created{" "}
+          <strong>{update.description}</strong>
+        </div>
+      );
+    } else if (type === "stage") {
+      return (
+        <div className="feed-card-title-text">
+          <strong>{update.username}</strong> updated their{" "}
+          <strong>{update.description}</strong> stage
+        </div>
+      );
+    }
+    return "Invalid type";
+  };
+
   return (
-    <Fragment key={update._id}>
+    <Fragment>
       <Card className="feed-card">
         <CardBody className="feed-card-body">
           <CardTitle className="feed-card-title">
             <div className="feed-card-profile-pic"></div>
-            {update.type === "project" ? (
-              <div className="feed-card-title-text">
-                <strong>{update.username}</strong> created{" "}
-                <strong>{update.description}</strong>
-              </div>
-            ) : update.type === "stage" ? (
-              <div className="feed-card-title-text">
-                <strong>{update.username}</strong> updated their{" "}
-                <strong>{update.description}</strong> stage
-              </div>
-            ) : (
-              "Invalid type"
-            )}
+            {feedDescription(update.type)}
           </CardTitle>
           {update.subDescription && (
             <CardText className="feed-card-description">
