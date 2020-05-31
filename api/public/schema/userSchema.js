@@ -22,6 +22,10 @@ const schema = {
       type: "boolean",
       required: true
     },
+    admin: {
+      type: "boolean",
+      required: false
+    },
     createdProjects: {
       type: "array",
       items: {
@@ -51,7 +55,7 @@ const schema = {
       required: true
     },
     lastCheckedNotifs: {
-      type: "date",
+      type: "number",
       required: true
     }
   }
