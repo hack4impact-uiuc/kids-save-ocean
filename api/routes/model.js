@@ -133,7 +133,7 @@ router.post(
       const email = req.user.email;
       const username = await getUsername(db, email);
       const update = {
-        updateType: "project",
+        type: "project",
         username: username,
         projectId: currProjectId,
         description: data.name,
@@ -474,7 +474,7 @@ router.put(
     const email = req.user.email;
     const username = await getUsername(db, email);
     const update = {
-      updateType: "stage",
+      type: "stage",
       username: username,
       projectId: model_ID,
       description: stageName,

@@ -2,7 +2,7 @@ const schema = {
   id: "/UpdateSchema",
   type: "object",
   properties: {
-    updateType: {
+    type: {
       type: "string",
       enum: ["stage", "profile", "project"],
       required: true
