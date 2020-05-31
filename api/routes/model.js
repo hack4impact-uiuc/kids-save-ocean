@@ -125,9 +125,8 @@ router.post(
       const project = await collection.insert(data, function(err) {
         if (err) {
           return res.sendStatus(500);
-        } else {
-          currProjectId = data._id;
         }
+        currProjectId = data._id;
       });
 
       const updates = db.get("updates");
@@ -142,7 +141,7 @@ router.post(
       };
 
       try {
-        validate({ body: UpdateSchema })
+        validate({ body: UpdateSchema });
         updates.insert(update);
       } catch (err) {
         return err;
@@ -469,7 +468,7 @@ router.put(
           return res.sendStatus(404);
         }
       })
-      .catch(() => { return res.sendStatus(500) });
+      .catch(() => res.sendStatus(500));
 
     const updates = db.get("updates");
     const email = req.user.email;
@@ -484,7 +483,7 @@ router.put(
     };
 
     try {
-      validate({ body: UpdateSchema })
+      validate({ body: UpdateSchema });
       updates.update(
         {
           description: stageName,
