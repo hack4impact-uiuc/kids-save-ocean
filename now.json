@@ -26,7 +26,7 @@
       "use": "@now/next"
     },
     {
-      "src": "api/*.js",
+      "src": "api/app.js",
       "use": "@now/node"
     },
     {
