@@ -81,7 +81,6 @@ app.use(function(err, req, res, next) {
   let responseData;
 
   if (err.name === "JsonSchemaValidation") {
-
     console.log(err.message);
 
     res.status(400);
