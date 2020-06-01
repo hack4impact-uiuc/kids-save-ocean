@@ -99,7 +99,7 @@ router.get("/userInfo", checkToken, async (req, res) => {
 router.post("/", validate({ body: UserSchema }), async (req, res) => {
   const { db } = req;
   const collection = db.get("users");
-  const { email, username, country, birthday } = req.body;
+  const { email, username, country, birthday, lastCheckedNotifs } = req.body;
   let { anon } = req.body;
   if (!anon) {
     anon = false;
@@ -115,7 +115,7 @@ router.post("/", validate({ body: UserSchema }), async (req, res) => {
     followingProjects: [],
     followingUsers: [],
     followers: [],
-    lastCheckedNotifs: Date.now()
+    lastCheckedNotifs
   };
   try {
     const resp = await collection.insert(newUser);
@@ -367,7 +367,7 @@ router.get("/updates/:numUpdates/:currentIndex", checkToken, async function(
 
   const user = await userCollection.findOne({ email });
   if (!user) {
-    res.status(NOT_FOUND).send({
+    return res.status(NOT_FOUND).send({
       success: false,
       message: "User not found."
     });

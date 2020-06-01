@@ -77,6 +77,29 @@ app.use(function(req, res, next) {
   next(createError(404));
 });
 
+app.use(function(err, req, res, next) {
+  let responseData;
+
+  if (err.name === "JsonSchemaValidation") {
+    console.log(err.message);
+
+    res.status(400);
+
+    responseData = {
+      statusText: "Bad Request",
+      jsonSchemaValidation: true,
+      validations: err.validations
+    };
+
+    if (req.xhr || req.get("Content-Type") === "application/json") {
+      res.json(responseData);
+    }
+  } else {
+    // pass error to next error middleware handler
+    next(err);
+  }
+});
+
 // error handler
 app.use(function(err, req, res) {
   // set locals, only providing error in development

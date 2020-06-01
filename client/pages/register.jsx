@@ -101,7 +101,8 @@ export default function RegisterPage() {
           createdProjects: [],
           followingProjects: [],
           followingUsers: [],
-          followers: []
+          followers: [],
+          lastCheckedNotifs: Date.now()
         };
         const ksoUserResp = await createUser(newUser);
         const ksoUserRes = await ksoUserResp.json();
