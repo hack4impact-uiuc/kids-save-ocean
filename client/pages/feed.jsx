@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   Container,
@@ -10,16 +10,13 @@ import {
   CardImg
 } from "reactstrap";
 import { getUpdates, getUser } from "../utils/apiWrapper";
-import { Head, InfiniteScroller, Loader } from "../components";
+import { Head, InfiniteScroller, Loader, FeedItem } from "../components";
 import "../public/styles/feed.scss";
 
 export default function Feed() {
   const maxUpdatesAtOnce = 20;
   const maxUpdatesTotal = 100;
-  const numWordsName = 2;
-  const stageWord = 3;
   const randomUpdatesLimit = 10;
-  const charLimit = 240;
   const numFeatures = 12;
   const timeout = 1500;
 
@@ -212,62 +209,7 @@ export default function Feed() {
       <Container className="feed-wrapper">
         {willMount && <Loader />}
         {updates.map(update => (
-          <Fragment key={update._id}>
-            <Card className="feed-card">
-              <CardBody className="feed-card-body">
-                <CardTitle className="feed-card-title">
-                  <div className="feed-card-profile-pic"></div>
-                  {update.description && (
-                    <div className="feed-card-title-text">
-                      <strong>
-                        {update.description
-                          .split(" ")
-                          .slice(0, numWordsName)
-                          .join(" ")}
-                      </strong>{" "}
-                      updated their{" "}
-                      <strong>
-                        {update.description
-                          .split(" ")
-                          .slice(numWordsName, stageWord)}
-                      </strong>{" "}
-                      stage
-                    </div>
-                  )}
-                </CardTitle>
-                <CardSubtitle className="feed-card-subtitle">
-                  <strong>Updated</strong>{" "}
-                  {update.numStagesUpdated ? update.numStagesUpdated : "3 "}{" "}
-                  stages of{" "}
-                  {update.stageUpdated ? update.stageUpdated : "Inspiration"}
-                </CardSubtitle>
-                {update.subDescription && (
-                  <CardText className="feed-card-description">
-                    {update.subDescription.length > charLimit
-                      ? update.subDescription.slice(0, charLimit).concat("...")
-                      : update.subDescription}
-                  </CardText>
-                )}
-                <div className="feed-card-footer">
-                  <div className="feed-card-date">{update.date}</div>
-                  <div className="feed-card-interactions">
-                    {update.numComments ? update.numComments : "0"}
-                    <img
-                      className="feed-card-comment-icon"
-                      src="/feed-images/comment-icon.svg"
-                      alt="comment"
-                    />
-                    {update.numUpvotes ? update.numUpvotes : "0"}
-                    <img
-                      className="feed-card-like-icon"
-                      src="/feed-images/like-icon.svg"
-                      alt="like"
-                    />
-                  </div>
-                </div>
-              </CardBody>
-            </Card>
-          </Fragment>
+          <FeedItem key={update._id} update={update} />
         ))}
         {updates.length !== 0 && hasMore && !willMount && (
           <div className="loading-text">Loading...</div>

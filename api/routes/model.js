@@ -11,6 +11,7 @@ const {
 } = require("../utils/user_utils");
 
 const ModelSchema = require("../public/schema/projectSchema.js").projectSchema;
+const UpdateSchema = require("../public/schema/updateSchema.js").updateSchema;
 
 const {
   stakeholdersSchema,
@@ -123,24 +124,24 @@ router.post(
       // Check if data includes proper fields
       const project = await collection.insert(data, function(err) {
         if (err) {
-          res.sendStatus(500);
-        } else {
-          currProjectId = data._id;
+          return res.sendStatus(500);
         }
+        currProjectId = data._id;
       });
 
       const updates = db.get("updates");
       const email = req.user.email;
       const username = await getUsername(db, email);
       const update = {
-        updateType: "project",
-        email: email,
+        type: "project",
+        username: username,
         projectId: currProjectId,
-        description: `${username} created ${data.name}`,
+        description: data.name,
         date: Date.now()
       };
 
       try {
+        validate({ body: UpdateSchema });
         updates.insert(update);
       } catch (err) {
         return err;
@@ -464,7 +465,7 @@ router.put(
       )
       .then(model => {
         if (model === null) {
-          res.sendStatus(404);
+          return res.sendStatus(404);
         }
       })
       .catch(() => res.sendStatus(500));
@@ -473,18 +474,19 @@ router.put(
     const email = req.user.email;
     const username = await getUsername(db, email);
     const update = {
-      updateType: "project",
-      email: email,
+      type: "stage",
+      username: username,
       projectId: model_ID,
-      description: `${username} updated their ${stageName} stage`,
-      subDescription: `${subDescription}`,
+      description: stageName,
+      subDescription: subDescription,
       date: Date.now()
     };
 
     try {
+      validate({ body: UpdateSchema });
       updates.update(
         {
-          description: `${username} updated their ${stageName} stage`,
+          description: stageName,
           projectId: model_ID
         },
         {

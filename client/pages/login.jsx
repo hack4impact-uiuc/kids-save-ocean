@@ -32,7 +32,6 @@ export default function Login() {
       setErrorMessage(resp.message);
     } else {
       localStorage.setItem("token", resp.token);
-      localStorage.setItem("google", false);
       Router.push("/feed");
     }
   };

@@ -13,6 +13,7 @@ import TipCard from "./TipCard";
 import UpvotesSection from "./UpvotesSection";
 import InfiniteScroller from "./InfiniteScroller";
 import WrappedMessage from "./WrappedMessage";
+import FeedItem from "./FeedItem";
 
 export {
   CommentsSection,
@@ -20,6 +21,7 @@ export {
   Gantt,
   Head,
   Loader,
+  FeedItem,
   NavBar,
   ProjectForm,
   AddStage,
