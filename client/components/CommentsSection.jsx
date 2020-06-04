@@ -17,6 +17,7 @@ export default function CommentsSection(props) {
   const { projectId } = props;
   const [comments, setComments] = useState([]);
   const [fetching, setFetching] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(fetchComments, [fetchComments]);
 
@@ -33,23 +34,37 @@ export default function CommentsSection(props) {
   const fetchComments = useCallback(() => {
     setFetching(true);
     getComments(projectId).then((response) => {
-      const { comments } = response.data;
-      setComments(comments);
-      setFetching(false);
+      try {
+        const { comments } = response.data;
+        setComments(comments);
+        setFetching(false);
+      } catch {
+        setError(true);
+      }
     });
   }, [projectId]);
 
   const post = (content) => {
-    postComment(projectId, content).then(fetchComments);
+    postComment(projectId, content)
+      .then(fetchComments)
+      .catch(() => setError(true));
   };
 
   const postThread = (content, index) => {
-    postCommentThread(projectId, index, content).then(fetchComments);
+    postCommentThread(projectId, index, content)
+      .then(fetchComments)
+      .catch(() => setError(true));
   };
 
   return (
     <div>
       <h1 className="comment-header">Comments</h1>
+      {error && (
+        <p>
+          An error was encountered - please contact Hack4Impact UIUC with
+          details.
+        </p>
+      )}
       <Col>{renderComments(comments)}</Col>
       <hr />
       {localStorage.getItem("token") && !fetching && (

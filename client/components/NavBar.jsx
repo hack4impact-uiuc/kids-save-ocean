@@ -71,10 +71,10 @@ export default WrappedMessage(function NavBar(props) {
       const validUser = await checkValidUser(false);
       if (validUser) {
         const updateRes = await getUpdates(NOTIF_LIMIT, 0);
-        const updateObj = updateRes.data.data;
         if (updateRes.status >= ERROR_STATUS) {
           props.setError("An error occured while retrieving notifications.");
         } else {
+          const updateObj = updateRes.data.data;
           if (updateObj.shouldNotif) {
             setDisplayNotifDot(true);
           }

@@ -23,6 +23,7 @@ const storageRef = firebase.storage().ref();
 export default function Draft(props) {
   const [unsaved, setUnsaved] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   const [prevContent, setPrevContent] = useState(null);
   const [editorContent, setEditorContent] = useState(null);
@@ -68,26 +69,30 @@ export default function Draft(props) {
   };
 
   const uploadImagesAndFixUrls = async (content) => {
-    for (const block of content.blocks) {
-      if (block.type !== "image") {
-        continue;
-      }
+    try {
+      for (const block of content.blocks) {
+        if (block.type !== "image") {
+          continue;
+        }
 
-      const { url } = block.data;
-      if (!url.startsWith("blob:")) {
-        continue;
-      }
+        const { url } = block.data;
+        if (!url.startsWith("blob:")) {
+          continue;
+        }
 
-      const blob = await fetch(url).then((r) => r.blob());
-      const imageRef = storageRef.child(
-        `${props.modelId}/${props.phaseName}/${props.stageName}/${block.key}`
-      );
+        const blob = await fetch(url).then((r) => r.blob());
+        const imageRef = storageRef.child(
+          `${props.modelId}/${props.phaseName}/${props.stageName}/${block.key}`
+        );
 
-      await imageRef.put(blob).then(async function (snapshot) {
-        await snapshot.ref.getDownloadURL().then(function (url) {
-          block.data.url = url;
+        await imageRef.put(blob).then(async function (snapshot) {
+          await snapshot.ref.getDownloadURL().then(function (url) {
+            block.data.url = url;
+          });
         });
-      });
+      }
+    } catch {
+      setError(true);
     }
   };
 
@@ -103,16 +108,21 @@ export default function Draft(props) {
   useEffect(() => {
     getDescription(id, phaseName, stageName)
       .then((data) => {
-        const description = data.data.description;
-        setPrevContent(description);
-        const json = JSON.parse(description);
-        if ("blocks" in json) {
-          setEditorContent(json);
+        try {
+          const description = data.data.description;
+          setPrevContent(description);
+          const json = JSON.parse(description);
+          if ("blocks" in json) {
+            setEditorContent(json);
+          }
+          setLoading(false);
+        } catch {
+          setError(true);
         }
-        setLoading(false);
       })
       .catch(() => {
         setLoading(false);
+        setError(true);
       });
   }, [id, phaseName, stageName]);
 
@@ -123,6 +133,15 @@ export default function Draft(props) {
 
     if (read_only && editorContent === null) {
       return <p>{prevContent}</p>;
+    }
+
+    if (error) {
+      return (
+        <p>
+          An error was encountered - please contact Hack4Impact UIUC with
+          details.
+        </p>
+      );
     }
 
     return (

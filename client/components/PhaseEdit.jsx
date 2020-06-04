@@ -6,6 +6,7 @@ import Stage from "./Stage";
 import AddStage from "./AddStage";
 import PhaseDetailEdit from "./PhaseDetailEdit";
 
+//TODO: make the getters a single request
 import {
   getPhaseStakeholder,
   updatePhaseStakeholder,
