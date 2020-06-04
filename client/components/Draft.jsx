@@ -83,8 +83,8 @@ export default function Draft(props) {
         `${props.modelId}/${props.phaseName}/${props.stageName}/${block.key}`
       );
 
-      await imageRef.put(blob).then(async function(snapshot) {
-        await snapshot.ref.getDownloadURL().then(function(url) {
+      await imageRef.put(blob).then(async function (snapshot) {
+        await snapshot.ref.getDownloadURL().then(function (url) {
           block.data.url = url;
         });
       });

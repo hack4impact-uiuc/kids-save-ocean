@@ -65,9 +65,9 @@ export default function TemplateDraft({ id }) {
       const imageRef = storageRef.child(`${id}/${block.key}`);
 
       await imageRef.put(blob);
-      (async function(snapshot) {
+      (async function (snapshot) {
         await snapshot.ref.getDownloadURL();
-        (function(url) {
+        (function (url) {
           block.data.url = url;
         });
       });

@@ -11,7 +11,7 @@ import {
   getUser,
   getFollowingProjects,
   getCreatedProjects,
-  updateUser
+  updateUser,
 } from "../utils/apiWrapper";
 import { checkValidUser } from "../utils/validator";
 
@@ -72,17 +72,17 @@ export default function Profile() {
     }
   }, [username, birthday, country, user, hasUser]);
 
-  const toggleSectionDetails = e => {
+  const toggleSectionDetails = (e) => {
     e.preventDefault();
     setCurrSection("Details");
   };
 
-  const toggleSectionUserProj = e => {
+  const toggleSectionUserProj = (e) => {
     e.preventDefault();
     setCurrSection("Your Projects");
   };
 
-  const toggleSectionSavedProj = e => {
+  const toggleSectionSavedProj = (e) => {
     e.preventDefault();
     setCurrSection("Saved Projects");
   };
@@ -92,7 +92,7 @@ export default function Profile() {
     const changes = {
       username: username,
       birthday: birthday,
-      country: country.label
+      country: country.label,
     };
 
     const resp = await updateUser(changes);
@@ -160,7 +160,7 @@ export default function Profile() {
                 style={{
                   marginTop: "3%",
                   marginBottom: "3%",
-                  marginLeft: "5.3333333%"
+                  marginLeft: "5.3333333%",
                 }}
               >
                 <strong>Welcome to your profile, {user.username}!</strong>
@@ -178,7 +178,7 @@ export default function Profile() {
                   <Input
                     placeholder={username}
                     value={username}
-                    onInput={e => setUsername(e.target.value)}
+                    onInput={(e) => setUsername(e.target.value)}
                   />
                 </div>
                 <h2 style={{ marginTop: "2%", marginLeft: "5.3333333%" }}>
@@ -191,7 +191,7 @@ export default function Profile() {
                   <Input
                     placeholder={birthday}
                     value={birthday}
-                    onInput={e => setBirthday(e.target.value)}
+                    onInput={(e) => setBirthday(e.target.value)}
                   />
                 </div>
                 <h2 style={{ marginTop: "2%", marginLeft: "5.3333333%" }}>
@@ -232,7 +232,7 @@ export default function Profile() {
                   <h2 className="profile-projects">Your Projects</h2>
                 )}
                 <Row>
-                  {createdProjects.map(project => (
+                  {createdProjects.map((project) => (
                     <Col key={project._id} className="project-col">
                       <CardGroup>
                         <Link
@@ -251,8 +251,10 @@ export default function Profile() {
                                   {`${project.description.slice(
                                     0,
                                     DESCRIPTION_LENGTH
-                                  )}${project.description.length >
-                                    DESCRIPTION_LENGTH && "..."}`}
+                                  )}${
+                                    project.description.length >
+                                      DESCRIPTION_LENGTH && "..."
+                                  }`}
                                 </div>
                                 <br />
                                 <Row>
@@ -295,7 +297,7 @@ export default function Profile() {
                 )}
                 <Row>
                   {followedProjects &&
-                    followedProjects.map(project => (
+                    followedProjects.map((project) => (
                       <Col key={project._id} className="project-col">
                         <CardGroup>
                           <Link
@@ -314,8 +316,10 @@ export default function Profile() {
                                     {`${project.description.slice(
                                       0,
                                       DESCRIPTION_LENGTH
-                                    )}${project.description.length >
-                                      DESCRIPTION_LENGTH && "..."}`}
+                                    )}${
+                                      project.description.length >
+                                        DESCRIPTION_LENGTH && "..."
+                                    }`}
                                   </div>
                                   <br />
                                   <Row>
