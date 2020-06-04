@@ -6,7 +6,7 @@ import debounce from "lodash/debounce";
 
 import "../public/styles/wrappedmessage.scss";
 
-const WrappedMessage = WrappedComponent =>
+const WrappedMessage = (WrappedComponent) =>
   function ErrorComponent(props) {
     const [error, setError] = useState(null);
     const [success, setSuccess] = useState(null);
@@ -21,13 +21,13 @@ const WrappedMessage = WrappedComponent =>
       []
     );
 
-    const setErrorMessage = message => {
+    const setErrorMessage = (message) => {
       setSuccess(null);
       setError(message);
       disappearCallback();
     };
 
-    const setSuccessMessage = message => {
+    const setSuccessMessage = (message) => {
       setError(null);
       setSuccess(message);
       disappearCallback();
@@ -37,8 +37,8 @@ const WrappedMessage = WrappedComponent =>
       <>
         <WrappedComponent
           {...props}
-          setError={msg => setErrorMessage(msg)}
-          setSuccess={msg => setSuccessMessage(msg)}
+          setError={setErrorMessage}
+          setSuccess={setSuccessMessage}
         />
         {(success || error) && <br />}
         {error && (

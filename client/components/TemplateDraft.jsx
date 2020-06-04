@@ -13,7 +13,7 @@ const firebaseConfig = {
   apiKey: process.env.FIREBASE_APIKEY,
   authDomain: process.env.AUTH_DOMAIN,
   databaseURL: process.env.DATABASE_URL,
-  storageBucket: process.env.STORAGE_BUCKET
+  storageBucket: process.env.STORAGE_BUCKET,
 };
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
@@ -34,7 +34,7 @@ export default function TemplateDraft({ id }) {
   };
   const saveCallback = debounce(debounceSave, saveInterval);
 
-  const handleChange = editor => {
+  const handleChange = (editor) => {
     setUnsaved(true);
     const content = editor.emitSerializedOutput();
 
@@ -49,7 +49,7 @@ export default function TemplateDraft({ id }) {
     });
   };
 
-  const uploadImagesAndFixUrls = async content => {
+  const uploadImagesAndFixUrls = async (content) => {
     for (const block of content.blocks) {
       if (block.type !== "image") {
         continue;
@@ -61,7 +61,7 @@ export default function TemplateDraft({ id }) {
       }
 
       const blob = await fetch(url);
-      r => r.blob();
+      (r) => r.blob();
       const imageRef = storageRef.child(`${id}/${block.key}`);
 
       await imageRef.put(blob);
@@ -85,7 +85,7 @@ export default function TemplateDraft({ id }) {
 
   useEffect(() => {
     getTemplateByID(id)
-      .then(data => {
+      .then((data) => {
         const description = data.data.draft;
         setPrevContent(description);
         const json = JSON.parse(description);
@@ -108,12 +108,7 @@ export default function TemplateDraft({ id }) {
       return <p>{prevContent}</p>;
     }
 
-    return (
-      <Dante
-        content={editorContent}
-        onChange={editor => handleChange(editor)}
-      />
-    );
+    return <Dante content={editorContent} onChange={handleChange} />;
   };
 
   return (

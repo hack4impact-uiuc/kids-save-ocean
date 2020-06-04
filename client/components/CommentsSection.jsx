@@ -5,7 +5,7 @@ import { Col, Row } from "reactstrap";
 import {
   postComment,
   postCommentThread,
-  getComments
+  getComments,
 } from "../utils/apiWrapper";
 
 import Comment from "./Comment";
@@ -18,39 +18,33 @@ export default function CommentsSection(props) {
   const [comments, setComments] = useState([]);
   const [fetching, setFetching] = useState(true);
 
-  useEffect(() => {
-    fetchComments();
-  }, [fetchComments]);
+  useEffect(fetchComments, [fetchComments]);
 
-  const renderComments = comments =>
+  const renderComments = (comments) =>
     comments.map((comment, index) => (
       <Row key={index}>
         <Comment
           comment={comment}
-          postThread={content => postThread(content, index)}
+          postThread={(content) => postThread(content, index)}
         />
       </Row>
     ));
 
   const fetchComments = useCallback(() => {
     setFetching(true);
-    getComments(projectId).then(response => {
+    getComments(projectId).then((response) => {
       const { comments } = response.data;
       setComments(comments);
       setFetching(false);
     });
   }, [projectId]);
 
-  const post = content => {
-    postComment(projectId, content).then(() => {
-      fetchComments();
-    });
+  const post = (content) => {
+    postComment(projectId, content).then(fetchComments);
   };
 
   const postThread = (content, index) => {
-    postCommentThread(projectId, index, content).then(() => {
-      fetchComments();
-    });
+    postCommentThread(projectId, index, content).then(fetchComments);
   };
 
   return (
@@ -60,7 +54,7 @@ export default function CommentsSection(props) {
       <hr />
       {localStorage.getItem("token") && !fetching && (
         <Row>
-          <CommentEditor post={content => post(content)} />
+          <CommentEditor post={post} />
         </Row>
       )}
     </div>

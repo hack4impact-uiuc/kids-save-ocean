@@ -10,7 +10,7 @@ import {
   Container,
   Popover,
   PopoverHeader,
-  PopoverBody
+  PopoverBody,
 } from "reactstrap";
 import { ProjectForm } from "../components";
 
@@ -85,9 +85,7 @@ export default WrappedMessage(function NavBar(props) {
     populateNotifs();
   }, [props, setDisplayNotifDot, setUpdates]);
 
-  useEffect(() => {
-    toggleLoggedIn();
-  });
+  useEffect(toggleLoggedIn);
 
   function toggleLoggedIn() {
     setLoggedIn(localStorage.getItem("token"));
@@ -168,7 +166,7 @@ export default WrappedMessage(function NavBar(props) {
                   >
                     <PopoverHeader>Notifications</PopoverHeader>
                     <PopoverBody>
-                      {updates.map(update => (
+                      {updates.map((update) => (
                         <p key={update._id}>{`${update.description}.`}</p>
                       ))}
                     </PopoverBody>
