@@ -80,6 +80,11 @@ export default function ProjectPage() {
     }
   };
 
+  const setErrorMessage = () =>
+    setError(
+      "An error was encountered - please contact Hack4Impact UIUC with details."
+    );
+
   useEffect(() => {
     if (process.browser) {
       setWidth(document.body.clientWidth);
@@ -105,15 +110,21 @@ export default function ProjectPage() {
         const model = await getModelsByID(id);
         if (model) {
           setProject(model.data);
+        } else {
+          setErrorMessage();
         }
       }
       if (localStorage.getItem("token")) {
-        const resp = await getFollowingProjectsIds();
-        const res = await resp.json();
-        if (projectId && res.data.includes(projectId)) {
-          setFollowing(true);
-        } else {
-          setFollowing(false);
+        try {
+          const resp = await getFollowingProjectsIds();
+          const res = await resp.json();
+          if (projectId && res.data.includes(projectId)) {
+            setFollowing(true);
+          } else {
+            setFollowing(false);
+          }
+        } catch {
+          setErrorMessage();
         }
       }
       loadOwner(id);
@@ -182,9 +193,13 @@ export default function ProjectPage() {
           <Button
             className="project-header-buttons"
             onClick={() => {
-              duplicateModel(project._id).then((resp) =>
-                Router.push(`/projects/${resp.data.id}`)
-              );
+              duplicateModel(project._id).then((resp) => {
+                try {
+                  Router.push(`/projects/${resp.data.id}`);
+                } catch {
+                  setErrorMessage();
+                }
+              });
             }}
           >
             Build off this project

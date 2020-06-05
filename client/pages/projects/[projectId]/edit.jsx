@@ -34,7 +34,6 @@ export default WrappedMessage(function EditProjectPage(props) {
   const [isOwner, setIsOwner] = useState(false);
   const [loading, setLoading] = useState(true);
   const [activePhase, setActivePhase] = useState("inspiration");
-
   const [projTitle, setProjTitle] = useState("");
   const [description, setDescription] = useState("");
   const [grpSize, setGrpSize] = useState(false);
@@ -50,18 +49,28 @@ export default WrappedMessage(function EditProjectPage(props) {
     setDescription(description.target.value);
   };
 
+  const setErrorMessage = () =>
+    props.setError(
+      "An error was encountered - please contact Hack4Impact UIUC with details."
+    );
+
   const saveTopChanges = (name, description, groupSize) => {
     updateProject(projectId, name, description, groupSize.label)
       .then(() => props.setSuccess("Successfully updated"))
-      .catch(() => props.setError("Failed to update project"));
+      .catch(setErrorMessage);
   };
 
   const loadProject = useCallback(async () => {
-    const project = await getModelsByID(projectId);
-    setProject(project.data);
+    try {
+      const project = await getModelsByID(projectId);
+      setProject(project.data);
+      setProjTitle(project.data.name);
+      setDescription(project.data.description);
+    } catch {
+      setErrorMessage();
+    }
+
     setLoading(false);
-    setProjTitle(project.data.name);
-    setDescription(project.data.description);
 
     const groupSizeVal = groupSizeData.find(
       (x) => x.label === project.data.groupSize
@@ -72,7 +81,7 @@ export default WrappedMessage(function EditProjectPage(props) {
   const addStage = (projectId, phaseName, stageName, start, end) => {
     addModelStage(projectId, phaseName, stageName, start, end)
       .then(loadProject)
-      .catch(() => props.setError("Failed to add stage"));
+      .catch(setErrorMessage);
   };
 
   useEffect(() => {
@@ -83,6 +92,7 @@ export default WrappedMessage(function EditProjectPage(props) {
           loadProject();
         })
         .catch(() => {
+          setErrorMessage();
           setLoading(false);
         });
     };

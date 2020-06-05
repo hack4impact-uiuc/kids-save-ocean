@@ -34,6 +34,7 @@ export default function ProjectsPage() {
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedGrpSize, setSelectedGrpSize] = useState(null);
   const [selectedDifficulty, setSelectedDifficulty] = useState(null);
+  const [error, setError] = useState(true);
 
   const [userInput, setUserInput] = useState("");
 
@@ -44,9 +45,13 @@ export default function ProjectsPage() {
   useEffect(() => {
     const populateAllProjects = async () => {
       setLoading(true);
-      const response = await getModels(null, true);
-      setAllProjects(response.data);
-      setProjects(response.data);
+      try {
+        const response = await getModels(null, true);
+        setAllProjects(response.data);
+        setProjects(response.data);
+      } catch {
+        setError(true);
+      }
       setLoading(false);
     };
 
@@ -271,6 +276,12 @@ export default function ProjectsPage() {
           />
         </div>
         {loading && <Loader />}
+        {error && (
+          <p>
+            An error was encountered - please contact Hack4Impact UIUC with
+            details.
+          </p>
+        )}
         <div className="project-cards">
           <Row>
             {projects &&
