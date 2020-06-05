@@ -27,6 +27,7 @@ export default function Profile() {
   const [username, setUsername] = useState("");
   const [birthday, setBirthday] = useState("");
   const [newChanges, setNewChanges] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const getUserInfo = async () => {
@@ -38,6 +39,8 @@ export default function Profile() {
         setBirthday(resp.data.birthday);
         setCountry(resp.data.country);
         setHasUser(true);
+      } else {
+        setError(true);
       }
     };
 
@@ -47,13 +50,17 @@ export default function Profile() {
   useEffect(() => {
     async function getProjects() {
       if (hasUser && !projectParsed && user) {
-        let resp = await getCreatedProjects();
-        setCreatedProjects(resp.data);
+        try {
+          let resp = await getCreatedProjects();
+          setCreatedProjects(resp.data);
 
-        resp = await getFollowingProjects();
-        setFollowingProjects(resp.data);
+          resp = await getFollowingProjects();
+          setFollowingProjects(resp.data);
 
-        setProjectParsed(true);
+          setProjectParsed(true);
+        } catch {
+          setError(true);
+        }
       }
     }
     getProjects();
@@ -108,6 +115,12 @@ export default function Profile() {
     <>
       <Head title="Your Profile" />
       <div className="parent" style={{ marginLeft: "10%", marginRight: "10%" }}>
+        {error && (
+          <p>
+            An error was encountered - please contact Hack4Impact UIUC with
+            details.
+          </p>
+        )}
         <Row style={{ marginTop: "5%" }}>
           <Col xs="2">
             <div style={{ marginTop: "135%" }}>

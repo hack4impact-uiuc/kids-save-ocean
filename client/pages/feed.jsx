@@ -27,6 +27,7 @@ export default function Feed() {
   const [isFetching, setIsFetching] = InfiniteScroller();
   const [user, setUser] = useState({});
   const [features, setFeatures] = useState([]);
+  const [error, setError] = useState([]);
   const phases = ["Inspiration", "Ideation", "Implementation"];
 
   useEffect(() => {
@@ -35,6 +36,8 @@ export default function Feed() {
       const resp = await profile.json();
       if (resp) {
         setUser(resp.data);
+      } else {
+        setError(true);
       }
     };
     loadUserInfo();
@@ -87,44 +90,48 @@ export default function Feed() {
         return;
       }
       const nextUpdatesRes = await getUpdates(maxUpdatesAtOnce, nextIdx);
-      const nextUpdates = nextUpdatesRes.data.data.updates;
-      setTimeout(() => {
-        if (nextUpdatesRes === undefined || nextUpdates.length === 0) {
-          setWillMount(false);
-          return;
-        }
-        if (
-          nextUpdates.length < maxUpdatesAtOnce ||
-          updates.length + maxUpdatesAtOnce >= maxUpdatesTotal
-        ) {
-          setHasMore(false);
-        }
-        setNextIdx(nextUpdates.length);
-        nextUpdates.map((update) => {
-          const dateObj = new Date(parseInt(update.date));
-          update.date = dateObj.toLocaleDateString("en-US", {
-            month: "long",
-            day: "numeric",
+      try {
+        const nextUpdates = nextUpdatesRes.data.data.updates;
+        setTimeout(() => {
+          if (nextUpdatesRes === undefined || nextUpdates.length === 0) {
+            setWillMount(false);
+            return;
+          }
+          if (
+            nextUpdates.length < maxUpdatesAtOnce ||
+            updates.length + maxUpdatesAtOnce >= maxUpdatesTotal
+          ) {
+            setHasMore(false);
+          }
+          setNextIdx(nextUpdates.length);
+          nextUpdates.map((update) => {
+            const dateObj = new Date(parseInt(update.date));
+            update.date = dateObj.toLocaleDateString("en-US", {
+              month: "long",
+              day: "numeric",
+            });
+            update.numStagesUpdated = Math.floor(
+              Math.random() * randomUpdatesLimit
+            );
+            update.stageUpdated =
+              phases[Math.floor(Math.random() * phases.length)];
+            update.numComments = Math.floor(
+              Math.random() * randomUpdatesLimit * randomUpdatesLimit
+            );
+            update.numUpvotes = Math.floor(
+              Math.random() *
+                randomUpdatesLimit *
+                randomUpdatesLimit *
+                randomUpdatesLimit
+            );
+            setUpdates((prevState) => [...prevState, update]);
           });
-          update.numStagesUpdated = Math.floor(
-            Math.random() * randomUpdatesLimit
-          );
-          update.stageUpdated =
-            phases[Math.floor(Math.random() * phases.length)];
-          update.numComments = Math.floor(
-            Math.random() * randomUpdatesLimit * randomUpdatesLimit
-          );
-          update.numUpvotes = Math.floor(
-            Math.random() *
-              randomUpdatesLimit *
-              randomUpdatesLimit *
-              randomUpdatesLimit
-          );
-          setUpdates((prevState) => [...prevState, update]);
-        });
-        setWillMount(false);
-        setIsFetching(false);
-      }, timeout);
+          setWillMount(false);
+          setIsFetching(false);
+        }, timeout);
+      } catch {
+        setError(true);
+      }
     };
     loadUpdates();
   }, [isFetching, hasMore, willMount]);
@@ -208,6 +215,12 @@ export default function Feed() {
       </Container>
       <Container className="feed-wrapper">
         {willMount && <Loader />}
+        {error && (
+          <p>
+            An error was encountered - please contact Hack4Impact UIUC with
+            details.
+          </p>
+        )}
         {updates.map((update) => (
           <FeedItem key={update._id} update={update} />
         ))}

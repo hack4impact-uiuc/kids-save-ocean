@@ -25,6 +25,7 @@ export default function EditTemplate() {
   const [mounted, setMounted] = useState(false);
   const [templateID, setTemplateID] = useState("");
   const [error, setError] = useState(false);
+  const [loadError, setLoadError] = useState(false);
   const [templates, setTemplates] = useState([]);
   const [isInspiration, setInspiration] = useState(false);
   const [isIdeation, setIdeation] = useState(false);
@@ -38,45 +39,49 @@ export default function EditTemplate() {
   useEffect(() => {
     const setDisplay = async () => {
       const currentTemplates = await getTemplates();
-      setTemplates(currentTemplates);
+      try {
+        setTemplates(currentTemplates);
 
-      if (currentTemplates.data.length === 0) {
-        setName("");
-        setInspiration(false);
-        setIdeation(false);
-        setImplementation(false);
-      } else {
-        let result;
-
-        if (!mounted) {
-          setTemplateID(currentTemplates.data[0]._id);
-          setMounted(true);
-
-          result = await getTemplateByID(currentTemplates.data[0]._id);
+        if (currentTemplates.data.length === 0) {
+          setName("");
+          setInspiration(false);
+          setIdeation(false);
+          setImplementation(false);
         } else {
-          result = await getTemplateByID(templateID);
-        }
+          let result;
 
-        if (result && result.data !== undefined) {
-          if (result.data.name !== undefined) {
-            setName(result.data.name);
+          if (!mounted) {
+            setTemplateID(currentTemplates.data[0]._id);
+            setMounted(true);
+
+            result = await getTemplateByID(currentTemplates.data[0]._id);
           } else {
-            setName("");
+            result = await getTemplateByID(templateID);
           }
-          if (result.data.phases !== undefined) {
-            setInspiration(
-              result.data.phases.includes(phases[inspirationIndex])
-            );
-            setIdeation(result.data.phases.includes(phases[ideationIndex]));
-            setImplementation(
-              result.data.phases.includes(phases[implementationIndex])
-            );
-          } else {
-            setInspiration(false);
-            setIdeation(false);
-            setImplementation(false);
+
+          if (result && result.data !== undefined) {
+            if (result.data.name !== undefined) {
+              setName(result.data.name);
+            } else {
+              setName("");
+            }
+            if (result.data.phases !== undefined) {
+              setInspiration(
+                result.data.phases.includes(phases[inspirationIndex])
+              );
+              setIdeation(result.data.phases.includes(phases[ideationIndex]));
+              setImplementation(
+                result.data.phases.includes(phases[implementationIndex])
+              );
+            } else {
+              setInspiration(false);
+              setIdeation(false);
+              setImplementation(false);
+            }
           }
         }
+      } catch {
+        setLoadError(true);
       }
     };
 
@@ -138,6 +143,12 @@ export default function EditTemplate() {
         <div className="edit-template-div">
           <Head title="" />
           <div className="header-template">Templates</div>
+          {loadError && (
+            <p>
+              An error was encountered - please contact Hack4Impact UIUC with
+              details.
+            </p>
+          )}
           <Container className="template-sidebar">
             <Row>
               <Button
