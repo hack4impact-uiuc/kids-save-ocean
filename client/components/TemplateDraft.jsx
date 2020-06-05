@@ -23,6 +23,7 @@ const storageRef = firebase.storage().ref();
 export default function TemplateDraft({ id }) {
   const [unsaved, setUnsaved] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   const [prevContent, setPrevContent] = useState(null);
   const [editorContent, setEditorContent] = useState(null);
@@ -86,17 +87,21 @@ export default function TemplateDraft({ id }) {
   useEffect(() => {
     getTemplateByID(id)
       .then((data) => {
-        const description = data.data.draft;
-        setPrevContent(description);
-        const json = JSON.parse(description);
-        if ("blocks" in json) {
-          setEditorContent(json);
+        try {
+          const description = data.data.draft;
+          setPrevContent(description);
+          const json = JSON.parse(description);
+          if ("blocks" in json) {
+            setEditorContent(json);
+          }
+        } catch {
+          setError(true);
         }
-        setLoading(false);
       })
       .catch(() => {
-        setLoading(false);
-      });
+        setError(true);
+      })
+      .finally(() => setLoading(false));
   }, [id]);
 
   const renderDraft = () => {
@@ -106,6 +111,15 @@ export default function TemplateDraft({ id }) {
 
     if (editorContent === null) {
       return <p>{prevContent}</p>;
+    }
+
+    if (error) {
+      return (
+        <p>
+          An error was encountered - please contact Hack4Impact UIUC with
+          details.
+        </p>
+      );
     }
 
     return <Dante content={editorContent} onChange={handleChange} />;

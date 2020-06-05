@@ -8,19 +8,30 @@ import "../public/styles/upvotes.scss";
 export default function UpvotesSection(props) {
   const { projectId } = props;
   const [upvotes, setUpvotes] = useState(0);
+  const [error, setError] = useState(false);
 
   useEffect(fetchUpvotes, [fetchUpvotes]);
 
   const fetchUpvotes = useCallback(() => {
     getUpvotes(projectId).then((response) => {
-      const { upvotes } = response.data;
-      setUpvotes(upvotes);
+      try {
+        const { upvotes } = response.data;
+        setUpvotes(upvotes);
+      } catch {
+        setError(true);
+      }
     });
   }, [projectId]);
 
   const upvote = () => {
     postUpvote(projectId).then(fetchUpvotes);
   };
+
+  const errorMessage = (
+    <p>
+      An error was encountered - please contact Hack4Impact UIUC with details.
+    </p>
+  );
 
   return (
     <Row className="justify-content-start">
@@ -32,12 +43,12 @@ export default function UpvotesSection(props) {
             type="button"
             onClick={upvote}
           ></i>
-          {upvotes}
+          {error ? errorMessage : upvotes}
         </span>
       ) : (
         <span className="disabled">
           <i className="fa fa-thumbs-o-up fa-2x" aria-hidden="true"></i>
-          {upvotes}
+          {error ? errorMessage : upvotes}
         </span>
       )}
     </Row>
