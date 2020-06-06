@@ -27,7 +27,7 @@ export default function Feed() {
   const [isFetching, setIsFetching] = InfiniteScroller();
   const [user, setUser] = useState({});
   const [features, setFeatures] = useState([]);
-  const [error, setError] = useState([]);
+  const [error, setError] = useState(false);
   const phases = ["Inspiration", "Ideation", "Implementation"];
 
   useEffect(() => {
