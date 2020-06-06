@@ -19,7 +19,9 @@ export default function CommentsSection(props) {
   const [fetching, setFetching] = useState(true);
   const [error, setError] = useState(false);
 
-  useEffect(fetchComments, [fetchComments]);
+  useEffect(() => {
+    fetchComments();
+  }, [fetchComments]);
 
   const renderComments = (comments) =>
     comments.map((comment, index) => (

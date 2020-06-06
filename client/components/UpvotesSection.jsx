@@ -10,7 +10,9 @@ export default function UpvotesSection(props) {
   const [upvotes, setUpvotes] = useState(0);
   const [error, setError] = useState(false);
 
-  useEffect(fetchUpvotes, [fetchUpvotes]);
+  useEffect(() => {
+    fetchUpvotes();
+  }, [fetchUpvotes]);
 
   const fetchUpvotes = useCallback(() => {
     getUpvotes(projectId).then((response) => {
