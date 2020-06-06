@@ -33,7 +33,9 @@ let checkToken = (req, res, next) => {
   return false;
 };
 
-router.get("/checkToken", checkToken);
+router.get("/checkToken", function(req, res) {
+  checkToken(req, res);
+});
 
 module.exports = {
   checkToken: checkToken,
