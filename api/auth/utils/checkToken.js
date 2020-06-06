@@ -16,14 +16,14 @@ let checkToken = (req, res, next) => {
       req.decoded = decoded;
       req.user = {
         email: decoded.sub,
-        role: decoded.permission,
+        role: decoded.permission
       };
       if (next) {
         next();
       } else {
         res.json({
           success: true,
-          message: "Token valid!",
+          message: "Token valid!"
         });
       }
     });
@@ -37,5 +37,5 @@ router.get("/checkToken", checkToken);
 
 module.exports = {
   checkToken: checkToken,
-  router,
+  router
 };
