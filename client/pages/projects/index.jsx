@@ -34,7 +34,7 @@ export default function ProjectsPage() {
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedGrpSize, setSelectedGrpSize] = useState(null);
   const [selectedDifficulty, setSelectedDifficulty] = useState(null);
-  const [error, setError] = useState(true);
+  const [error, setError] = useState(false);
 
   const [userInput, setUserInput] = useState("");
 
