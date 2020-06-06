@@ -33,13 +33,16 @@ export default function StagePage() {
         <Stage read_only stageName={stage} phaseName={phase} id={projectId} />
       )}
       <div className="stage-horizontal-center">
-        <Link href="/projects/[projectId]" as={`/projects/${projectId}`} passHref>
+        <Link
+          href="/projects/[projectId]"
+          as={`/projects/${projectId}`}
+          passHref
+        >
           <a>
             <Button className="button-return-project">Return</Button>
           </a>
         </Link>
       </div>
-      
     </div>
   );
 }
