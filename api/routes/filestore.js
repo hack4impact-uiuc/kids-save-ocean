@@ -5,15 +5,15 @@ const multer = require("multer");
 
 router.get("/:filename", (req, res) => {
   const filename = req.params.filename;
-  const readStream = req.gfs.createReadStream({ filename }).on("error", err => {
-    res.send(err);
-  });
+  const readStream = req.gfs
+    .createReadStream({ filename })
+    .on("error", (err) => res.send(err));
   readStream.pipe(res);
 });
 
 router.post("/", (req, res) => {
   const upload = multer({});
-  upload.single("file")(req, res, err => {
+  upload.single("file")(req, res, (err) => {
     if (err) {
       return res
         .status(400)
@@ -30,12 +30,10 @@ router.post("/", (req, res) => {
     readableTrackStream
       .pipe(
         req.gfs.createWriteStream({
-          filename: req.body.name
+          filename: req.body.name,
         })
       )
-      .on("error", err => {
-        res.send(err);
-      })
+      .on("error", (err) => res.send(err))
       .on("finish", () => {
         res.send("Success!");
       });

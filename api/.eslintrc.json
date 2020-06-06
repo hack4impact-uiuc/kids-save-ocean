@@ -1,6 +1,6 @@
 {
-  "plugins": ["@h4iuiuc"],
-  "extends": ["plugin:@h4iuiuc/recommended"],
+  "plugins": ["@hack4impact-uiuc"],
+  "extends": ["plugin:@hack4impact-uiuc/base"],
   "rules": {
     "no-magic-numbers": "off"
   }
