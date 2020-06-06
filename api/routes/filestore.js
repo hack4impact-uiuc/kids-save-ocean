@@ -5,9 +5,9 @@ const multer = require("multer");
 
 router.get("/:filename", (req, res) => {
   const filename = req.params.filename;
-  const readStream = req.gfs.createReadStream({ filename }).on("error", err => {
-    res.send(err);
-  });
+  const readStream = req.gfs
+    .createReadStream({ filename })
+    .on("error", err => res.send(err));
   readStream.pipe(res);
 });
 
@@ -33,9 +33,7 @@ router.post("/", (req, res) => {
           filename: req.body.name
         })
       )
-      .on("error", err => {
-        res.send(err);
-      })
+      .on("error", err => res.send(err))
       .on("finish", () => {
         res.send("Success!");
       });

@@ -12,21 +12,21 @@ import {
   Alert,
   Nav,
   NavItem,
-  NavLink
+  NavLink,
 } from "reactstrap";
 import {
   getModelsByID,
   canEdit,
   addModelStage,
   deleteForm,
-  updateProject
+  updateProject,
 } from "../../../utils/apiWrapper";
 import { Head, Loader, PhaseEdit, WrappedMessage } from "../../../components";
 import groupSizeData from "../../../utils/groups";
 
 import "../../../public/styles/editProject.scss";
 
-const capitalize = str =>
+const capitalize = (str) =>
   str.length > 0 ? str.charAt(0).toUpperCase() + str.slice(1) : str;
 
 export default WrappedMessage(function EditProjectPage(props) {
@@ -34,7 +34,6 @@ export default WrappedMessage(function EditProjectPage(props) {
   const [isOwner, setIsOwner] = useState(false);
   const [loading, setLoading] = useState(true);
   const [activePhase, setActivePhase] = useState("inspiration");
-
   const [projTitle, setProjTitle] = useState("");
   const [description, setDescription] = useState("");
   const [grpSize, setGrpSize] = useState(false);
@@ -42,57 +41,58 @@ export default WrappedMessage(function EditProjectPage(props) {
   const router = useRouter();
   const { projectId } = router.query;
 
-  const handleTitleChange = projTitle => {
+  const handleTitleChange = (projTitle) => {
     setProjTitle(projTitle.target.value);
   };
 
-  const handleDescriptionChange = description => {
+  const handleDescriptionChange = (description) => {
     setDescription(description.target.value);
   };
 
-  const handleGrpSizeChange = grpSize => {
-    setGrpSize(grpSize);
-  };
-
-  const deleteProject = id => {
-    deleteForm(id);
-  };
+  const setErrorMessage = () =>
+    props.setError(
+      "An error was encountered - please contact Hack4Impact UIUC with details."
+    );
 
   const saveTopChanges = (name, description, groupSize) => {
     updateProject(projectId, name, description, groupSize.label)
       .then(() => props.setSuccess("Successfully updated"))
-      .catch(() => props.setError("Failed to update project"));
+      .catch(setErrorMessage);
   };
 
   const loadProject = useCallback(async () => {
-    const project = await getModelsByID(projectId);
-    setProject(project.data);
+    try {
+      const project = await getModelsByID(projectId);
+      setProject(project.data);
+      setProjTitle(project.data.name);
+      setDescription(project.data.description);
+    } catch {
+      setErrorMessage();
+    }
+
     setLoading(false);
-    setProjTitle(project.data.name);
-    setDescription(project.data.description);
 
     const groupSizeVal = groupSizeData.find(
-      x => x.label === project.data.groupSize
+      (x) => x.label === project.data.groupSize
     );
     setGrpSize(groupSizeVal);
   }, [projectId]);
 
   const addStage = (projectId, phaseName, stageName, start, end) => {
     addModelStage(projectId, phaseName, stageName, start, end)
-      .then(() => {
-        loadProject();
-      })
-      .catch(() => props.setError("Failed to add stage"));
+      .then(loadProject)
+      .catch(setErrorMessage);
   };
 
   useEffect(() => {
-    const loadOwner = projectId => {
+    const loadOwner = (projectId) => {
       canEdit(projectId)
         .then(() => {
           setIsOwner(true);
           loadProject();
         })
         .catch(() => {
+          setErrorMessage();
           setLoading(false);
         });
     };
@@ -102,7 +102,7 @@ export default WrappedMessage(function EditProjectPage(props) {
     }
   }, [projectId, loadProject]);
 
-  const renderProjectEdit = project => (
+  const renderProjectEdit = (project) => (
     <div>
       <Head title={project?.name} />
       {loading ? (
@@ -131,7 +131,7 @@ export default WrappedMessage(function EditProjectPage(props) {
                     options={groupSizeData}
                     placeholder="Change group size"
                     value={grpSize}
-                    onChange={handleGrpSizeChange}
+                    onChange={setGrpSize}
                   />
                   <h4 className="proj-descrip-h">Project Description</h4>
                   <textarea
@@ -156,7 +156,7 @@ export default WrappedMessage(function EditProjectPage(props) {
                         <Button
                           color="danger"
                           className="delete-btn"
-                          onClick={deleteProject}
+                          onClick={deleteForm}
                         >
                           Delete Project
                         </Button>
@@ -169,7 +169,7 @@ export default WrappedMessage(function EditProjectPage(props) {
           </Row>
           <div className="phase-edit-section">
             <Nav tabs justified>
-              {Object.keys(project?.phases).map(phase => (
+              {Object.keys(project?.phases).map((phase) => (
                 <NavItem key={phase}>
                   <NavLink
                     className={classnames(

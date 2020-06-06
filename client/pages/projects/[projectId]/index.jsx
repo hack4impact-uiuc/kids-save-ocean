@@ -9,7 +9,7 @@ import {
   Head,
   Loader,
   TipCard,
-  UpvotesSection
+  UpvotesSection,
 } from "../../../components";
 
 import {
@@ -23,7 +23,7 @@ import {
   NavItem,
   NavLink,
   TabContent,
-  TabPane
+  TabPane,
 } from "reactstrap";
 import classnames from "classnames";
 import {
@@ -32,7 +32,7 @@ import {
   duplicateModel,
   followProject,
   unfollowProject,
-  canEdit
+  canEdit,
 } from "../../../utils/apiWrapper";
 
 import "../../../public/styles/project.scss";
@@ -40,7 +40,7 @@ import "../../../public/styles/project.scss";
 // const DESCRIPTION_LENGTH = 400;
 const HUNDRED = 100;
 
-const capitalize = str =>
+const capitalize = (str) =>
   str.length > 0 ? str.charAt(0).toUpperCase() + str.slice(1) : str;
 
 export default function ProjectPage() {
@@ -80,6 +80,11 @@ export default function ProjectPage() {
     }
   };
 
+  const setErrorMessage = () =>
+    setError(
+      "An error was encountered - please contact Hack4Impact UIUC with details."
+    );
+
   useEffect(() => {
     if (process.browser) {
       setWidth(document.body.clientWidth);
@@ -87,7 +92,7 @@ export default function ProjectPage() {
   }, [setWidth]);
 
   useEffect(() => {
-    const loadOwner = projectId => {
+    const loadOwner = (projectId) => {
       canEdit(projectId)
         .then(() => {
           setIsOwner(true);
@@ -100,20 +105,26 @@ export default function ProjectPage() {
         });
     };
 
-    const load = async id => {
+    const load = async (id) => {
       if (id) {
         const model = await getModelsByID(id);
         if (model) {
           setProject(model.data);
+        } else {
+          setErrorMessage();
         }
       }
       if (localStorage.getItem("token")) {
-        const resp = await getFollowingProjectsIds();
-        const res = await resp.json();
-        if (projectId && res.data.includes(projectId)) {
-          setFollowing(true);
-        } else {
-          setFollowing(false);
+        try {
+          const resp = await getFollowingProjectsIds();
+          const res = await resp.json();
+          if (projectId && res.data.includes(projectId)) {
+            setFollowing(true);
+          } else {
+            setFollowing(false);
+          }
+        } catch {
+          setErrorMessage();
         }
       }
       loadOwner(id);
@@ -124,8 +135,8 @@ export default function ProjectPage() {
   }, [projectId]);
 
   useEffect(() => {
-    const mapGanttData = phase =>
-      project.phases[phase.toLowerCase()]?.stages.map(stage => [
+    const mapGanttData = (phase) =>
+      project.phases[phase.toLowerCase()]?.stages.map((stage) => [
         `${stage.name}-${phase}-${stage.description}`,
         stage.name,
         capitalize(phase),
@@ -133,14 +144,14 @@ export default function ProjectPage() {
         new Date(stage.enddate),
         null,
         Math.random() * HUNDRED,
-        null
+        null,
       ]);
 
     if (project) {
       setGanttData({
         inspiration: mapGanttData("inspiration"),
         ideation: mapGanttData("ideation"),
-        implementation: mapGanttData("implementation")
+        implementation: mapGanttData("implementation"),
       });
     }
   }, [project]);
@@ -182,9 +193,13 @@ export default function ProjectPage() {
           <Button
             className="project-header-buttons"
             onClick={() => {
-              duplicateModel(project._id).then(resp =>
-                Router.push(`/projects/${resp.data.id}`)
-              );
+              duplicateModel(project._id).then((resp) => {
+                try {
+                  Router.push(`/projects/${resp.data.id}`);
+                } catch {
+                  setErrorMessage();
+                }
+              });
             }}
           >
             Build off this project
@@ -196,7 +211,7 @@ export default function ProjectPage() {
     return buttons;
   };
 
-  const renderStageModal = description => {
+  const renderStageModal = (description) => {
     const basicElement = <p>{description}</p>;
     try {
       const contentObj = JSON.parse(description);
@@ -251,7 +266,7 @@ export default function ProjectPage() {
               <p className="project-info">{project.description}</p>
               <hr />
               <Nav tabs justified>
-                {Object.keys(project.phases).map(phase => (
+                {Object.keys(project.phases).map((phase) => (
                   <NavItem key={phase}>
                     <NavLink
                       className={classnames(
@@ -269,13 +284,13 @@ export default function ProjectPage() {
               </Nav>
               {ganttData && (
                 <TabContent activeTab={activePhase}>
-                  {Object.keys(project.phases).map(phase => (
+                  {Object.keys(project.phases).map((phase) => (
                     <TabPane key={phase} tabId={phase}>
                       <Gantt
                         data={ganttData[phase]}
                         trackHeight={60}
                         width={width}
-                        selectCallback={selection => {
+                        selectCallback={(selection) => {
                           setActiveStage(
                             project.phases[activePhase].stages[selection[0].row]
                           );

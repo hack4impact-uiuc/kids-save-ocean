@@ -10,7 +10,7 @@ import {
   Container,
   Popover,
   PopoverHeader,
-  PopoverBody
+  PopoverBody,
 } from "reactstrap";
 import { ProjectForm } from "../components";
 
@@ -71,10 +71,10 @@ export default WrappedMessage(function NavBar(props) {
       const validUser = await checkValidUser(false);
       if (validUser) {
         const updateRes = await getUpdates(NOTIF_LIMIT, 0);
-        const updateObj = updateRes.data.data;
         if (updateRes.status >= ERROR_STATUS) {
           props.setError("An error occured while retrieving notifications.");
         } else {
+          const updateObj = updateRes.data.data;
           if (updateObj.shouldNotif) {
             setDisplayNotifDot(true);
           }
@@ -85,9 +85,7 @@ export default WrappedMessage(function NavBar(props) {
     populateNotifs();
   }, [props, setDisplayNotifDot, setUpdates]);
 
-  useEffect(() => {
-    toggleLoggedIn();
-  });
+  useEffect(toggleLoggedIn);
 
   function toggleLoggedIn() {
     setLoggedIn(localStorage.getItem("token"));
@@ -168,7 +166,7 @@ export default WrappedMessage(function NavBar(props) {
                   >
                     <PopoverHeader>Notifications</PopoverHeader>
                     <PopoverBody>
-                      {updates.map(update => (
+                      {updates.map((update) => (
                         <p key={update._id}>{`${update.description}.`}</p>
                       ))}
                     </PopoverBody>

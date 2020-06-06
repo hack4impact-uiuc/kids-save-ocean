@@ -6,13 +6,14 @@ import Stage from "./Stage";
 import AddStage from "./AddStage";
 import PhaseDetailEdit from "./PhaseDetailEdit";
 
+//TODO: make the getters a single request
 import {
   getPhaseStakeholder,
   updatePhaseStakeholder,
   getPhaseChallenges,
   updatePhaseChallenges,
   getPhaseInsights,
-  updatePhaseInsights
+  updatePhaseInsights,
 } from "../utils/apiWrapper";
 
 export default function PhaseEdit(props) {
@@ -26,7 +27,7 @@ export default function PhaseEdit(props) {
             phaseName={phaseName}
             detailName={"stakeholders"}
             getPhaseDetail={() => getPhaseStakeholder(projectId, phaseName)}
-            updatePhaseDetail={stakeholders =>
+            updatePhaseDetail={(stakeholders) =>
               updatePhaseStakeholder(projectId, phaseName, stakeholders)
             }
           />
@@ -37,7 +38,7 @@ export default function PhaseEdit(props) {
             phaseName={phaseName}
             detailName={"challenges"}
             getPhaseDetail={() => getPhaseChallenges(projectId, phaseName)}
-            updatePhaseDetail={challenges =>
+            updatePhaseDetail={(challenges) =>
               updatePhaseChallenges(projectId, phaseName, challenges)
             }
           />
@@ -48,7 +49,7 @@ export default function PhaseEdit(props) {
             phaseName={phaseName}
             detailName={"insights"}
             getPhaseDetail={() => getPhaseInsights(projectId, phaseName)}
-            updatePhaseDetail={insights =>
+            updatePhaseDetail={(insights) =>
               updatePhaseInsights(projectId, phaseName, insights)
             }
           />
@@ -56,7 +57,7 @@ export default function PhaseEdit(props) {
       </Row>
       <Row>
         <div className="col-12 stages">
-          {phaseObj?.stages.map(value => (
+          {phaseObj?.stages.map((value) => (
             <Stage
               readonly={false}
               stageName={value.name}

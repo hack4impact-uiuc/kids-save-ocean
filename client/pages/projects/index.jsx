@@ -15,7 +15,7 @@ import {
   Container,
   Input,
   Row,
-  Alert
+  Alert,
 } from "reactstrap";
 
 import "../../public/styles/projects.scss";
@@ -34,19 +34,24 @@ export default function ProjectsPage() {
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedGrpSize, setSelectedGrpSize] = useState(null);
   const [selectedDifficulty, setSelectedDifficulty] = useState(null);
+  const [error, setError] = useState(false);
 
   const [userInput, setUserInput] = useState("");
 
-  const handleSearchChange = userInput => {
+  const handleSearchChange = (userInput) => {
     setUserInput(userInput.target.value);
   };
 
   useEffect(() => {
     const populateAllProjects = async () => {
       setLoading(true);
-      const response = await getModels(null, true);
-      setAllProjects(response.data);
-      setProjects(response.data);
+      try {
+        const response = await getModels(null, true);
+        setAllProjects(response.data);
+        setProjects(response.data);
+      } catch {
+        setError(true);
+      }
       setLoading(false);
     };
 
@@ -87,7 +92,7 @@ export default function ProjectsPage() {
           selectedUNGoals !== null &&
           selectedUNGoals.length <= models[i].sdg.length
         ) {
-          const matches = models[i].sdg.filter(sdg =>
+          const matches = models[i].sdg.filter((sdg) =>
             sdgSelectedNums.includes(sdg)
           );
 
@@ -136,7 +141,7 @@ export default function ProjectsPage() {
 
     const populateSearchFilteredProjects = () => {
       const options = {
-        keys: ["name", "description"]
+        keys: ["name", "description"],
       };
 
       let searchFilteredModels = [];
@@ -211,7 +216,7 @@ export default function ProjectsPage() {
     selectedDifficulty,
     userInput,
     visAlert,
-    allProjects
+    allProjects,
   ]);
 
   return (
@@ -271,10 +276,16 @@ export default function ProjectsPage() {
           />
         </div>
         {loading && <Loader />}
+        {error && (
+          <p>
+            An error was encountered - please contact Hack4Impact UIUC with
+            details.
+          </p>
+        )}
         <div className="project-cards">
           <Row>
             {projects &&
-              projects.map(project => (
+              projects.map((project) => (
                 <Col key={project._id} className="project-col">
                   <CardGroup>
                     <Link

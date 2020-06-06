@@ -11,7 +11,7 @@ import {
   getUser,
   getFollowingProjects,
   getCreatedProjects,
-  updateUser
+  updateUser,
 } from "../utils/apiWrapper";
 import { checkValidUser } from "../utils/validator";
 
@@ -27,6 +27,7 @@ export default function Profile() {
   const [username, setUsername] = useState("");
   const [birthday, setBirthday] = useState("");
   const [newChanges, setNewChanges] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const getUserInfo = async () => {
@@ -38,6 +39,8 @@ export default function Profile() {
         setBirthday(resp.data.birthday);
         setCountry(resp.data.country);
         setHasUser(true);
+      } else {
+        setError(true);
       }
     };
 
@@ -47,13 +50,17 @@ export default function Profile() {
   useEffect(() => {
     async function getProjects() {
       if (hasUser && !projectParsed && user) {
-        let resp = await getCreatedProjects();
-        setCreatedProjects(resp.data);
+        try {
+          let resp = await getCreatedProjects();
+          setCreatedProjects(resp.data);
 
-        resp = await getFollowingProjects();
-        setFollowingProjects(resp.data);
+          resp = await getFollowingProjects();
+          setFollowingProjects(resp.data);
 
-        setProjectParsed(true);
+          setProjectParsed(true);
+        } catch {
+          setError(true);
+        }
       }
     }
     getProjects();
@@ -72,17 +79,17 @@ export default function Profile() {
     }
   }, [username, birthday, country, user, hasUser]);
 
-  const toggleSectionDetails = e => {
+  const toggleSectionDetails = (e) => {
     e.preventDefault();
     setCurrSection("Details");
   };
 
-  const toggleSectionUserProj = e => {
+  const toggleSectionUserProj = (e) => {
     e.preventDefault();
     setCurrSection("Your Projects");
   };
 
-  const toggleSectionSavedProj = e => {
+  const toggleSectionSavedProj = (e) => {
     e.preventDefault();
     setCurrSection("Saved Projects");
   };
@@ -92,7 +99,7 @@ export default function Profile() {
     const changes = {
       username: username,
       birthday: birthday,
-      country: country.label
+      country: country.label,
     };
 
     const resp = await updateUser(changes);
@@ -108,6 +115,12 @@ export default function Profile() {
     <>
       <Head title="Your Profile" />
       <div className="parent" style={{ marginLeft: "10%", marginRight: "10%" }}>
+        {error && (
+          <p>
+            An error was encountered - please contact Hack4Impact UIUC with
+            details.
+          </p>
+        )}
         <Row style={{ marginTop: "5%" }}>
           <Col xs="2">
             <div style={{ marginTop: "135%" }}>
@@ -160,7 +173,7 @@ export default function Profile() {
                 style={{
                   marginTop: "3%",
                   marginBottom: "3%",
-                  marginLeft: "5.3333333%"
+                  marginLeft: "5.3333333%",
                 }}
               >
                 <strong>Welcome to your profile, {user.username}!</strong>
@@ -178,7 +191,7 @@ export default function Profile() {
                   <Input
                     placeholder={username}
                     value={username}
-                    onInput={e => setUsername(e.target.value)}
+                    onInput={(e) => setUsername(e.target.value)}
                   />
                 </div>
                 <h2 style={{ marginTop: "2%", marginLeft: "5.3333333%" }}>
@@ -191,7 +204,7 @@ export default function Profile() {
                   <Input
                     placeholder={birthday}
                     value={birthday}
-                    onInput={e => setBirthday(e.target.value)}
+                    onInput={(e) => setBirthday(e.target.value)}
                   />
                 </div>
                 <h2 style={{ marginTop: "2%", marginLeft: "5.3333333%" }}>
@@ -232,7 +245,7 @@ export default function Profile() {
                   <h2 className="profile-projects">Your Projects</h2>
                 )}
                 <Row>
-                  {createdProjects.map(project => (
+                  {createdProjects.map((project) => (
                     <Col key={project._id} className="project-col">
                       <CardGroup>
                         <Link
@@ -251,8 +264,10 @@ export default function Profile() {
                                   {`${project.description.slice(
                                     0,
                                     DESCRIPTION_LENGTH
-                                  )}${project.description.length >
-                                    DESCRIPTION_LENGTH && "..."}`}
+                                  )}${
+                                    project.description.length >
+                                      DESCRIPTION_LENGTH && "..."
+                                  }`}
                                 </div>
                                 <br />
                                 <Row>
@@ -295,7 +310,7 @@ export default function Profile() {
                 )}
                 <Row>
                   {followedProjects &&
-                    followedProjects.map(project => (
+                    followedProjects.map((project) => (
                       <Col key={project._id} className="project-col">
                         <CardGroup>
                           <Link
@@ -314,8 +329,10 @@ export default function Profile() {
                                     {`${project.description.slice(
                                       0,
                                       DESCRIPTION_LENGTH
-                                    )}${project.description.length >
-                                      DESCRIPTION_LENGTH && "..."}`}
+                                    )}${
+                                      project.description.length >
+                                        DESCRIPTION_LENGTH && "..."
+                                    }`}
                                   </div>
                                   <br />
                                   <Row>
