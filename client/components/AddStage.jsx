@@ -24,11 +24,7 @@ export default WrappedMessage(function AddStage({ addStage, phase, setError }) {
       setTemplate(null);
 
       response.data.map(template => {
-        if (
-          template.phases.includes(
-            capitalize(phase)
-          )
-        ) {
+        if (template.phases.includes(capitalize(phase))) {
           setAllTemplates(allTemplates => allTemplates.concat(template));
           setTemplateNames(templateNames =>
             templateNames.concat({
@@ -43,7 +39,8 @@ export default WrappedMessage(function AddStage({ addStage, phase, setError }) {
     populateTemplates();
   }, [phase]);
 
-  const capitalize = str => str.length > 0 ? str.charAt(0).toUpperCase() + str.slice(1) : str;
+  const capitalize = str =>
+    str.length > 0 ? str.charAt(0).toUpperCase() + str.slice(1) : str;
 
   const submit = (stageName, startdate, enddate) => {
     if (stageName === "" || startdate === "" || enddate === "") {
