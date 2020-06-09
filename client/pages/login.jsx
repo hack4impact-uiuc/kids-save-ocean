@@ -23,7 +23,7 @@ export default function Login() {
     setHeight(window.innerHeight);
   }, []);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     const result = await login(email, password);
     const resp = await result.json();
@@ -72,7 +72,7 @@ export default function Login() {
                         maxLength="64"
                         pattern={EMAIL_REGEX}
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        onChange={e => setEmail(e.target.value)}
                         required
                       />
                     </FormGroup>
@@ -93,7 +93,7 @@ export default function Login() {
                         minLength="8"
                         maxLength="64"
                         value={password}
-                        onChange={(e) => setPassword(e.target.value)}
+                        onChange={e => setPassword(e.target.value)}
                         required
                       />
                     </FormGroup>

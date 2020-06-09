@@ -23,12 +23,12 @@ export default function Comment(props) {
     </div>
   );
 
-  const renderThread = (thread) =>
-    thread.map((comment) =>
+  const renderThread = thread =>
+    thread.map(comment =>
       renderBlock(comment.authorName, comment.createdAt, comment.content)
     );
 
-  const postThreadHelper = (content) => {
+  const postThreadHelper = content => {
     postThread(content);
     setReplyOpen(false);
   };
@@ -40,7 +40,7 @@ export default function Comment(props) {
       <div className="thread">{renderThread(comment.thread)}</div>
 
       {replyOpen ? (
-        <CommentEditor post={(content) => postThreadHelper(content)} />
+        <CommentEditor post={content => postThreadHelper(content)} />
       ) : (
         <Button onClick={() => setReplyOpen(true)}>Reply</Button>
       )}

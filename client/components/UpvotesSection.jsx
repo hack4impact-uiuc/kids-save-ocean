@@ -14,7 +14,7 @@ export default function UpvotesSection(props) {
   }, [fetchUpvotes]);
 
   const fetchUpvotes = useCallback(() => {
-    getUpvotes(projectId).then((response) => {
+    getUpvotes(projectId).then(response => {
       const { upvotes } = response.data;
       setUpvotes(upvotes);
     });

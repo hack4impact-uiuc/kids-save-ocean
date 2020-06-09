@@ -21,9 +21,9 @@ export default function Gantt(props) {
           { type: "date", label: "End Date" },
           { type: "number", label: "Duration" },
           { type: "number", label: "Percent Complete" },
-          { type: "string", label: "Dependencies" },
+          { type: "string", label: "Dependencies" }
         ],
-        ...data,
+        ...data
       ]}
       chartEvents={[
         {
@@ -33,17 +33,17 @@ export default function Gantt(props) {
             if (selection.length === 1) {
               selectCallback(selection);
             }
-          },
-        },
+          }
+        }
       ]}
       options={{
         gantt: {
           trackHeight,
           labelStyle: {
             fontName: "Open Sans",
-            fontSize: 16,
-          },
-        },
+            fontSize: 16
+          }
+        }
       }}
     />
   );

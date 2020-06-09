@@ -12,21 +12,21 @@ import {
   Alert,
   Nav,
   NavItem,
-  NavLink,
+  NavLink
 } from "reactstrap";
 import {
   getModelsByID,
   canEdit,
   addModelStage,
   deleteForm,
-  updateProject,
+  updateProject
 } from "../../../utils/apiWrapper";
 import { Head, Loader, PhaseEdit, WrappedMessage } from "../../../components";
 import groupSizeData from "../../../utils/groups";
 
 import "../../../public/styles/editProject.scss";
 
-const capitalize = (str) =>
+const capitalize = str =>
   str.length > 0 ? str.charAt(0).toUpperCase() + str.slice(1) : str;
 
 export default WrappedMessage(function EditProjectPage(props) {
@@ -42,19 +42,19 @@ export default WrappedMessage(function EditProjectPage(props) {
   const router = useRouter();
   const { projectId } = router.query;
 
-  const handleTitleChange = (projTitle) => {
+  const handleTitleChange = projTitle => {
     setProjTitle(projTitle.target.value);
   };
 
-  const handleDescriptionChange = (description) => {
+  const handleDescriptionChange = description => {
     setDescription(description.target.value);
   };
 
-  const handleGrpSizeChange = (grpSize) => {
+  const handleGrpSizeChange = grpSize => {
     setGrpSize(grpSize);
   };
 
-  const deleteProject = (id) => {
+  const deleteProject = id => {
     deleteForm(id);
   };
 
@@ -72,7 +72,7 @@ export default WrappedMessage(function EditProjectPage(props) {
     setDescription(project.data.description);
 
     const groupSizeVal = groupSizeData.find(
-      (x) => x.label === project.data.groupSize
+      x => x.label === project.data.groupSize
     );
     setGrpSize(groupSizeVal);
   }, [projectId]);
@@ -86,7 +86,7 @@ export default WrappedMessage(function EditProjectPage(props) {
   };
 
   useEffect(() => {
-    const loadOwner = (projectId) => {
+    const loadOwner = projectId => {
       canEdit(projectId)
         .then(() => {
           setIsOwner(true);
@@ -102,7 +102,7 @@ export default WrappedMessage(function EditProjectPage(props) {
     }
   }, [projectId, loadProject]);
 
-  const renderProjectEdit = (project) => (
+  const renderProjectEdit = project => (
     <div>
       <Head title={project?.name} />
       {loading ? (
@@ -169,7 +169,7 @@ export default WrappedMessage(function EditProjectPage(props) {
           </Row>
           <div className="phase-edit-section">
             <Nav tabs justified>
-              {Object.keys(project?.phases).map((phase) => (
+              {Object.keys(project?.phases).map(phase => (
                 <NavItem key={phase}>
                   <NavLink
                     className={classnames(

@@ -11,7 +11,7 @@ export default [
           depth: 0,
           inlineStyleRanges: [],
           entityRanges: [],
-          data: {},
+          data: {}
         },
         {
           key: "e8tqt",
@@ -40,9 +40,9 @@ export default [
               author_url:
                 "https://www.youtube.com/channel/UC3twB-W7ScjFsv61d623Qfw",
               thumbnail_url: "https://i.ytimg.com/vi/musmgKEPY2o/hqdefault.jpg",
-              author_name: "IDEO.org",
-            },
-          },
+              author_name: "IDEO.org"
+            }
+          }
         },
         {
           key: "akvk7",
@@ -51,11 +51,11 @@ export default [
           depth: 0,
           inlineStyleRanges: [],
           entityRanges: [],
-          data: {},
-        },
+          data: {}
+        }
       ],
-      entityMap: {},
-    },
+      entityMap: {}
+    }
   },
   {
     name: "Choose a project challenge",
@@ -69,7 +69,7 @@ export default [
           depth: 0,
           inlineStyleRanges: [],
           entityRanges: [],
-          data: {},
+          data: {}
         },
         {
           key: "9d6jd",
@@ -79,11 +79,11 @@ export default [
           depth: 0,
           inlineStyleRanges: [],
           entityRanges: [],
-          data: {},
-        },
+          data: {}
+        }
       ],
-      entityMap: {},
-    },
+      entityMap: {}
+    }
   },
   {
     name: "Plan research methods",
@@ -97,7 +97,7 @@ export default [
           depth: 0,
           inlineStyleRanges: [],
           entityRanges: [],
-          data: {},
+          data: {}
         },
         {
           key: "9d6jd",
@@ -107,11 +107,11 @@ export default [
           depth: 0,
           inlineStyleRanges: [],
           entityRanges: [],
-          data: {},
-        },
+          data: {}
+        }
       ],
-      entityMap: {},
-    },
+      entityMap: {}
+    }
   },
   {
     name: "Build your interview plan",
@@ -125,7 +125,7 @@ export default [
           depth: 0,
           inlineStyleRanges: [],
           entityRanges: [],
-          data: {},
+          data: {}
         },
         {
           key: "9d6jd",
@@ -135,7 +135,7 @@ export default [
           depth: 0,
           inlineStyleRanges: [],
           entityRanges: [],
-          data: {},
+          data: {}
         },
         {
           key: "3d80h",
@@ -145,11 +145,11 @@ export default [
           depth: 0,
           inlineStyleRanges: [],
           entityRanges: [],
-          data: {},
-        },
+          data: {}
+        }
       ],
-      entityMap: {},
-    },
+      entityMap: {}
+    }
   },
   {
     name: "Additional research methods",
@@ -163,7 +163,7 @@ export default [
           depth: 0,
           inlineStyleRanges: [],
           entityRanges: [],
-          data: {},
+          data: {}
         },
         {
           key: "9d6jd",
@@ -173,11 +173,11 @@ export default [
           depth: 0,
           inlineStyleRanges: [],
           entityRanges: [],
-          data: {},
-        },
+          data: {}
+        }
       ],
-      entityMap: {},
-    },
+      entityMap: {}
+    }
   },
   {
     name: "Summarize everything you've learned",
@@ -191,7 +191,7 @@ export default [
           depth: 0,
           inlineStyleRanges: [],
           entityRanges: [],
-          data: {},
+          data: {}
         },
         {
           key: "9d6jd",
@@ -201,11 +201,11 @@ export default [
           depth: 0,
           inlineStyleRanges: [],
           entityRanges: [],
-          data: {},
-        },
+          data: {}
+        }
       ],
-      entityMap: {},
-    },
+      entityMap: {}
+    }
   },
   {
     name: "Generate ideas based on what you've learned",
@@ -219,7 +219,7 @@ export default [
           depth: 0,
           inlineStyleRanges: [],
           entityRanges: [],
-          data: {},
+          data: {}
         },
         {
           key: "9d6jd",
@@ -229,11 +229,11 @@ export default [
           depth: 0,
           inlineStyleRanges: [],
           entityRanges: [],
-          data: {},
-        },
+          data: {}
+        }
       ],
-      entityMap: {},
-    },
+      entityMap: {}
+    }
   },
   {
     name: "Select promising ideas",
@@ -247,7 +247,7 @@ export default [
           depth: 0,
           inlineStyleRanges: [],
           entityRanges: [],
-          data: {},
+          data: {}
         },
         {
           key: "9d6jd",
@@ -257,11 +257,11 @@ export default [
           depth: 0,
           inlineStyleRanges: [],
           entityRanges: [],
-          data: {},
-        },
+          data: {}
+        }
       ],
-      entityMap: {},
-    },
+      entityMap: {}
+    }
   },
   {
     name: "Imagine a prototype to quickly test your idea",
@@ -275,7 +275,7 @@ export default [
           depth: 0,
           inlineStyleRanges: [],
           entityRanges: [],
-          data: {},
+          data: {}
         },
         {
           key: "9d6jd",
@@ -285,11 +285,11 @@ export default [
           depth: 0,
           inlineStyleRanges: [],
           entityRanges: [],
-          data: {},
-        },
+          data: {}
+        }
       ],
-      entityMap: {},
-    },
+      entityMap: {}
+    }
   },
   {
     name: "Build a prototype",
@@ -303,7 +303,7 @@ export default [
           depth: 0,
           inlineStyleRanges: [],
           entityRanges: [],
-          data: {},
+          data: {}
         },
         {
           key: "9d6jd",
@@ -313,11 +313,11 @@ export default [
           depth: 0,
           inlineStyleRanges: [],
           entityRanges: [],
-          data: {},
-        },
+          data: {}
+        }
       ],
-      entityMap: {},
-    },
+      entityMap: {}
+    }
   },
   {
     name: "Test the prototype on your intended users",
@@ -331,7 +331,7 @@ export default [
           depth: 0,
           inlineStyleRanges: [],
           entityRanges: [],
-          data: {},
+          data: {}
         },
         {
           key: "9d6jd",
@@ -341,11 +341,11 @@ export default [
           depth: 0,
           inlineStyleRanges: [],
           entityRanges: [],
-          data: {},
-        },
+          data: {}
+        }
       ],
-      entityMap: {},
-    },
+      entityMap: {}
+    }
   },
   {
     name: "Use the feedback to improve your idea",
@@ -359,7 +359,7 @@ export default [
           depth: 0,
           inlineStyleRanges: [],
           entityRanges: [],
-          data: {},
+          data: {}
         },
         {
           key: "9d6jd",
@@ -369,11 +369,11 @@ export default [
           depth: 0,
           inlineStyleRanges: [],
           entityRanges: [],
-          data: {},
-        },
+          data: {}
+        }
       ],
-      entityMap: {},
-    },
+      entityMap: {}
+    }
   },
   {
     name: "Understand target",
@@ -387,7 +387,7 @@ export default [
           depth: 0,
           inlineStyleRanges: [],
           entityRanges: [],
-          data: {},
+          data: {}
         },
         {
           key: "9d6jd",
@@ -397,11 +397,11 @@ export default [
           depth: 0,
           inlineStyleRanges: [],
           entityRanges: [],
-          data: {},
-        },
+          data: {}
+        }
       ],
-      entityMap: {},
-    },
+      entityMap: {}
+    }
   },
   {
     name: "Create action plan",
@@ -415,7 +415,7 @@ export default [
           depth: 0,
           inlineStyleRanges: [],
           entityRanges: [],
-          data: {},
+          data: {}
         },
         {
           key: "9d6jd",
@@ -425,11 +425,11 @@ export default [
           depth: 0,
           inlineStyleRanges: [],
           entityRanges: [],
-          data: {},
-        },
+          data: {}
+        }
       ],
-      entityMap: {},
-    },
+      entityMap: {}
+    }
   },
   {
     name: "Launch solution",
@@ -443,7 +443,7 @@ export default [
           depth: 0,
           inlineStyleRanges: [],
           entityRanges: [],
-          data: {},
+          data: {}
         },
         {
           key: "9d6jd",
@@ -453,11 +453,11 @@ export default [
           depth: 0,
           inlineStyleRanges: [],
           entityRanges: [],
-          data: {},
-        },
+          data: {}
+        }
       ],
-      entityMap: {},
-    },
+      entityMap: {}
+    }
   },
   {
     name: "Keep getting feedback - use it to strengthen your solution",
@@ -471,7 +471,7 @@ export default [
           depth: 0,
           inlineStyleRanges: [],
           entityRanges: [],
-          data: {},
+          data: {}
         },
         {
           key: "9d6jd",
@@ -481,11 +481,11 @@ export default [
           depth: 0,
           inlineStyleRanges: [],
           entityRanges: [],
-          data: {},
-        },
+          data: {}
+        }
       ],
-      entityMap: {},
-    },
+      entityMap: {}
+    }
   },
   {
     name: "Scale towards impact",
@@ -499,7 +499,7 @@ export default [
           depth: 0,
           inlineStyleRanges: [],
           entityRanges: [],
-          data: {},
+          data: {}
         },
         {
           key: "9d6jd",
@@ -509,11 +509,11 @@ export default [
           depth: 0,
           inlineStyleRanges: [],
           entityRanges: [],
-          data: {},
-        },
+          data: {}
+        }
       ],
-      entityMap: {},
-    },
+      entityMap: {}
+    }
   },
   {
     name: "Get funding and help improve the world",
@@ -527,7 +527,7 @@ export default [
           depth: 0,
           inlineStyleRanges: [],
           entityRanges: [],
-          data: {},
+          data: {}
         },
         {
           key: "9d6jd",
@@ -537,10 +537,10 @@ export default [
           depth: 0,
           inlineStyleRanges: [],
           entityRanges: [],
-          data: {},
-        },
+          data: {}
+        }
       ],
-      entityMap: {},
-    },
-  },
+      entityMap: {}
+    }
+  }
 ];

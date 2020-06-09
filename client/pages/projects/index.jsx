@@ -15,7 +15,7 @@ import {
   Container,
   Input,
   Row,
-  Alert,
+  Alert
 } from "reactstrap";
 
 import "../../public/styles/projects.scss";
@@ -37,7 +37,7 @@ export default function ProjectsPage() {
 
   const [userInput, setUserInput] = useState("");
 
-  const handleSearchChange = (userInput) => {
+  const handleSearchChange = userInput => {
     setUserInput(userInput.target.value);
   };
 
@@ -87,7 +87,7 @@ export default function ProjectsPage() {
           selectedUNGoals !== null &&
           selectedUNGoals.length <= models[i].sdg.length
         ) {
-          const matches = models[i].sdg.filter((sdg) =>
+          const matches = models[i].sdg.filter(sdg =>
             sdgSelectedNums.includes(sdg)
           );
 
@@ -136,7 +136,7 @@ export default function ProjectsPage() {
 
     const populateSearchFilteredProjects = () => {
       const options = {
-        keys: ["name", "description"],
+        keys: ["name", "description"]
       };
 
       let searchFilteredModels = [];
@@ -211,7 +211,7 @@ export default function ProjectsPage() {
     selectedDifficulty,
     userInput,
     visAlert,
-    allProjects,
+    allProjects
   ]);
 
   return (
@@ -274,7 +274,7 @@ export default function ProjectsPage() {
         <div className="project-cards">
           <Row>
             {projects &&
-              projects.map((project) => (
+              projects.map(project => (
                 <Col key={project._id} className="project-col">
                   <CardGroup>
                     <Link

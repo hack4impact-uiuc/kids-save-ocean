@@ -5,7 +5,7 @@ import { Col, Row } from "reactstrap";
 import {
   postComment,
   postCommentThread,
-  getComments,
+  getComments
 } from "../utils/apiWrapper";
 
 import Comment from "./Comment";
@@ -22,26 +22,26 @@ export default function CommentsSection(props) {
     fetchComments();
   }, [fetchComments]);
 
-  const renderComments = (comments) =>
+  const renderComments = comments =>
     comments.map((comment, index) => (
       <Row key={index}>
         <Comment
           comment={comment}
-          postThread={(content) => postThread(content, index)}
+          postThread={content => postThread(content, index)}
         />
       </Row>
     ));
 
   const fetchComments = useCallback(() => {
     setFetching(true);
-    getComments(projectId).then((response) => {
+    getComments(projectId).then(response => {
       const { comments } = response.data;
       setComments(comments);
       setFetching(false);
     });
   }, [projectId]);
 
-  const post = (content) => {
+  const post = content => {
     postComment(projectId, content).then(() => {
       fetchComments();
     });
@@ -60,7 +60,7 @@ export default function CommentsSection(props) {
       <hr />
       {localStorage.getItem("token") && !fetching && (
         <Row>
-          <CommentEditor post={(content) => post(content)} />
+          <CommentEditor post={content => post(content)} />
         </Row>
       )}
     </div>
