@@ -18,7 +18,7 @@ export default WrappedMessage(function AddStage({ addStage, phase, setError }) {
   useEffect(() => {
     const populateTemplates = async () => {
       const response = await getTemplates();
-      console.log(response.data);
+
       setAllTemplates([]);
       setTemplateNames([]);
       setTemplate(null);
@@ -26,7 +26,7 @@ export default WrappedMessage(function AddStage({ addStage, phase, setError }) {
       response.data.map(template => {
         if (
           template.phases.includes(
-            phase.charAt(0).toUpperCase() + phase.slice(1)
+            capitalize(phase)
           )
         ) {
           setAllTemplates(allTemplates => allTemplates.concat(template));
@@ -42,6 +42,8 @@ export default WrappedMessage(function AddStage({ addStage, phase, setError }) {
 
     populateTemplates();
   }, [phase]);
+
+  const capitalize = str => str.length > 0 ? str.charAt(0).toUpperCase() + str.slice(1) : str;
 
   const submit = (stageName, startdate, enddate) => {
     if (stageName === "" || startdate === "" || enddate === "") {
