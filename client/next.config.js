@@ -7,6 +7,6 @@ module.exports = {
     FIREBASE_APIKEY: process.env.FIREBASE_APIKEY,
     AUTH_DOMAIN: process.env.AUTH_DOMAIN,
     DATABASE_URL: process.env.DATABASE_URL,
-    STORAGE_BUCKET: process.env.STORAGE_BUCKET,
-  },
+    STORAGE_BUCKET: process.env.STORAGE_BUCKET
+  }
 };

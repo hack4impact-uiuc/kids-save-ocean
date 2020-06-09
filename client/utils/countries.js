@@ -242,5 +242,5 @@ export default [
   { label: "Western Sahara", value: "EH" },
   { label: "Yemen", value: "YE" },
   { label: "Zambia", value: "ZM" },
-  { label: "Zimbabwe", value: "ZW" },
+  { label: "Zimbabwe", value: "ZW" }
 ];

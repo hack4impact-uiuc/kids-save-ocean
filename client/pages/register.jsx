@@ -6,7 +6,7 @@ import {
   verifyPIN,
   resendPIN,
   createUser,
-  getSecurityQuestions,
+  getSecurityQuestions
 } from "../utils/apiWrapper";
 import { Alert, Form, Button, FormGroup, Input, Row, Col } from "reactstrap";
 import { Head } from "../components";
@@ -54,7 +54,7 @@ export default function RegisterPage() {
       for (let i = 0; i < json.questions.length; i++) {
         let body = {
           label: json.questions[i],
-          value: i,
+          value: i
         };
         questions.push(body);
       }
@@ -62,7 +62,7 @@ export default function RegisterPage() {
     }
     populateQuestions();
   }, []);
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     if (
       password === password2 &&
@@ -102,7 +102,7 @@ export default function RegisterPage() {
           followingProjects: [],
           followingUsers: [],
           followers: [],
-          lastCheckedNotifs: Date.now(),
+          lastCheckedNotifs: Date.now()
         };
         const ksoUserResp = await createUser(newUser);
         const ksoUserRes = await ksoUserResp.json();
@@ -133,7 +133,7 @@ export default function RegisterPage() {
     }
   };
 
-  const handlePINVerify = async (e) => {
+  const handlePINVerify = async e => {
     e.preventDefault();
     const result = await verifyPIN(pin);
     const response = await result.json();
@@ -143,7 +143,7 @@ export default function RegisterPage() {
     }
   };
 
-  const handlePINResend = async (e) => {
+  const handlePINResend = async e => {
     e.preventDefault();
     const result = await resendPIN();
     const response = await result.json();
@@ -152,7 +152,7 @@ export default function RegisterPage() {
   const options = [{ value: "student", label: "student" }];
   const anonOptions = [
     { value: true, label: "Anonymous Account" },
-    { value: false, label: "Visible Account" },
+    { value: false, label: "Visible Account" }
   ];
 
   return (
@@ -195,7 +195,7 @@ export default function RegisterPage() {
                           minLength="8"
                           maxLength="64"
                           value={username}
-                          onChange={(e) => setUsername(e.target.value)}
+                          onChange={e => setUsername(e.target.value)}
                           required
                         />
                       </FormGroup>
@@ -217,7 +217,7 @@ export default function RegisterPage() {
                           maxLength="64"
                           pattern={EMAIL_REGEX}
                           value={email}
-                          onChange={(e) => setEmail(e.target.value)}
+                          onChange={e => setEmail(e.target.value)}
                           required
                         />
                       </FormGroup>
@@ -238,7 +238,7 @@ export default function RegisterPage() {
                           minLength="8"
                           maxLength="64"
                           value={password}
-                          onChange={(e) => setPassword(e.target.value)}
+                          onChange={e => setPassword(e.target.value)}
                           required
                         />
                       </FormGroup>
@@ -260,7 +260,7 @@ export default function RegisterPage() {
                           minLength="8"
                           maxLength="64"
                           value={password2}
-                          onChange={(e) => setPassword2(e.target.value)}
+                          onChange={e => setPassword2(e.target.value)}
                           required
                         />
                       </FormGroup>
@@ -298,7 +298,7 @@ export default function RegisterPage() {
                           placeholder="dd/mm/yyyy"
                           minLength="10"
                           maxLength="10"
-                          onChange={(e) => setBirthday(e.target.value)}
+                          onChange={e => setBirthday(e.target.value)}
                         />
                       </FormGroup>
                     </Form>
@@ -356,7 +356,7 @@ export default function RegisterPage() {
                           maxLength="64"
                           pattern={EMAIL_REGEX}
                           value={securityQuestionAnswer}
-                          onChange={(e) =>
+                          onChange={e =>
                             setSecurityQuestionAnswer(e.target.value)
                           }
                           required
@@ -431,7 +431,7 @@ export default function RegisterPage() {
                             maxLength="10"
                             minLength="4"
                             value={pin}
-                            onChange={(e) => setPin(e.target.value)}
+                            onChange={e => setPin(e.target.value)}
                             required
                           />
                         </FormGroup>

@@ -19,9 +19,9 @@
   padding-top: 20px;
 }
 
-.stage-horizontal-center {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+.button-return-project {
+  left: 50%;
+  position: absolute;
+  transform: translateX(-50%);
+  margin-bottom: 1rem;
 }
