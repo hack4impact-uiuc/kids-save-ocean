@@ -23,7 +23,7 @@ export default WrappedMessage(function AddStage({ addStage, phase, setError }) {
       setTemplateNames([]);
       setTemplate(null);
 
-      response.data.map(template => {
+      response.data.forEach(template => {
         if (template.phases.includes(capitalize(phase))) {
           setAllTemplates(allTemplates => allTemplates.concat(template));
           setTemplateNames(templateNames =>
