@@ -1,30 +1,56 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Col, Input, Row, FormGroup, Label } from "reactstrap";
+import Select from "react-select";
 
 import WrappedMessage from "./WrappedMessage";
 
 import "../public/styles/addstage.scss";
+import { getTemplates } from "../utils/apiWrapper";
 
-export default WrappedMessage(function AddStage(props) {
+export default WrappedMessage(function AddStage({ addStage, phase, setError }) {
   const [startdate, setStartdate] = useState("");
   const [enddate, setEnddate] = useState("");
   const [stageName, setStageName] = useState("");
+  const [templateNames, setTemplateNames] = useState([]);
+  const [allTemplates, setAllTemplates] = useState([]);
+  const [template, setTemplate] = useState(null);
+
+  useEffect(() => {
+    const populateTemplates = async () => {
+      const response = await getTemplates();
+      console.log(response.data)
+      setAllTemplates([]);
+      setTemplateNames([]);
+      setTemplate(null)
+
+      response.data.map(template => {
+        if (template.phases.includes(phase.charAt(0).toUpperCase() + phase.slice(1))) {
+          setAllTemplates(allTemplates => allTemplates.concat(template));
+          setTemplateNames(templateNames => templateNames.concat({label: template.name, value: templateNames.length}));
+        }
+      })
+
+    };
+
+    populateTemplates();
+  }, [phase]);
 
   const submit = (stageName, startdate, enddate) => {
     if (stageName === "" || startdate === "" || enddate === "") {
-      props.setError("Missing required fields");
+      setError("Missing required fields");
       return;
     }
 
-    props.addStage(stageName, startdate, enddate);
+    template ? addStage(stageName, startdate, enddate, allTemplates[template.value]) : addStage(stageName, startdate, enddate);
     setStartdate("");
     setEnddate("");
     setStageName("");
+    setTemplate(null);
   };
 
   return (
     <Row className="add-stage">
-      <Col sm="4">
+      <Col sm="3">
         <FormGroup>
           <Label>Stage Name</Label>
           <Input
@@ -58,6 +84,19 @@ export default WrappedMessage(function AddStage(props) {
         </FormGroup>
       </Col>
       <Col sm="2">
+        <FormGroup>
+          <Label>Optional: Template</Label>
+          <Select
+              isClearable
+              className="select-template"
+              options={templateNames}
+              placeholder="Blank"
+              onChange={setTemplate}
+              value={template}
+            />
+          </FormGroup>
+      </Col>
+      <Col sm="1">
         <Button
           className="button-add-stage"
           onClick={() => submit(stageName, startdate, enddate)}
