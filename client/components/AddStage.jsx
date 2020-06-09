@@ -30,7 +30,7 @@ export default WrappedMessage(function AddStage(props) {
           <Input
             className="form-input"
             placeholder="Enter a stage name"
-            onChange={(e) => setStageName(e.target.value)}
+            onChange={e => setStageName(e.target.value)}
             value={stageName}
           />
         </FormGroup>
@@ -41,7 +41,7 @@ export default WrappedMessage(function AddStage(props) {
           <Input
             type="date"
             className="form-input"
-            onChange={(e) => setStartdate(e.target.value)}
+            onChange={e => setStartdate(e.target.value)}
             value={startdate}
           />
         </FormGroup>
@@ -52,7 +52,7 @@ export default WrappedMessage(function AddStage(props) {
           <Input
             type="date"
             className="form-input"
-            onChange={(e) => setEnddate(e.target.value)}
+            onChange={e => setEnddate(e.target.value)}
             value={enddate}
           />
         </FormGroup>

@@ -15,7 +15,7 @@ export default function CommentEditor(props) {
   return (
     <div className="comment-editor">
       <Dante
-        onChange={(editor) => setContent(editor.emitSerializedOutput())}
+        onChange={editor => setContent(editor.emitSerializedOutput())}
         widgets={[]}
       />
       <Button className="comment-btn" onClick={submitComment}>

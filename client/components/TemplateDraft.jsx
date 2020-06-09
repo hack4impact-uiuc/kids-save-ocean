@@ -13,7 +13,7 @@ const firebaseConfig = {
   apiKey: process.env.FIREBASE_APIKEY,
   authDomain: process.env.AUTH_DOMAIN,
   databaseURL: process.env.DATABASE_URL,
-  storageBucket: process.env.STORAGE_BUCKET,
+  storageBucket: process.env.STORAGE_BUCKET
 };
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
@@ -23,7 +23,6 @@ const storageRef = firebase.storage().ref();
 export default function TemplateDraft({ id }) {
   const [unsaved, setUnsaved] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
 
   const [prevContent, setPrevContent] = useState(null);
   const [editorContent, setEditorContent] = useState(null);
@@ -35,7 +34,7 @@ export default function TemplateDraft({ id }) {
   };
   const saveCallback = debounce(debounceSave, saveInterval);
 
-  const handleChange = (editor) => {
+  const handleChange = editor => {
     setUnsaved(true);
     const content = editor.emitSerializedOutput();
 
@@ -50,7 +49,7 @@ export default function TemplateDraft({ id }) {
     });
   };
 
-  const uploadImagesAndFixUrls = async (content) => {
+  const uploadImagesAndFixUrls = async content => {
     for (const block of content.blocks) {
       if (block.type !== "image") {
         continue;
@@ -62,13 +61,13 @@ export default function TemplateDraft({ id }) {
       }
 
       const blob = await fetch(url);
-      (r) => r.blob();
+      r => r.blob();
       const imageRef = storageRef.child(`${id}/${block.key}`);
 
       await imageRef.put(blob);
-      (async function (snapshot) {
+      (async function(snapshot) {
         await snapshot.ref.getDownloadURL();
-        (function (url) {
+        (function(url) {
           block.data.url = url;
         });
       });
@@ -86,22 +85,18 @@ export default function TemplateDraft({ id }) {
 
   useEffect(() => {
     getTemplateByID(id)
-      .then((data) => {
-        try {
-          const description = data.data.draft;
-          setPrevContent(description);
-          const json = JSON.parse(description);
-          if ("blocks" in json) {
-            setEditorContent(json);
-          }
-        } catch {
-          setError(true);
+      .then(data => {
+        const description = data.data.draft;
+        setPrevContent(description);
+        const json = JSON.parse(description);
+        if ("blocks" in json) {
+          setEditorContent(json);
         }
+        setLoading(false);
       })
       .catch(() => {
-        setError(true);
-      })
-      .finally(() => setLoading(false));
+        setLoading(false);
+      });
   }, [id]);
 
   const renderDraft = () => {
@@ -113,16 +108,12 @@ export default function TemplateDraft({ id }) {
       return <p>{prevContent}</p>;
     }
 
-    if (error) {
-      return (
-        <p>
-          An error was encountered - please contact Hack4Impact UIUC with
-          details.
-        </p>
-      );
-    }
-
-    return <Dante content={editorContent} onChange={handleChange} />;
+    return (
+      <Dante
+        content={editorContent}
+        onChange={editor => handleChange(editor)}
+      />
+    );
   };
 
   return (

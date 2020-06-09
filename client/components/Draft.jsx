@@ -13,7 +13,7 @@ const firebaseConfig = {
   apiKey: process.env.FIREBASE_APIKEY,
   authDomain: process.env.AUTH_DOMAIN,
   databaseURL: process.env.DATABASE_URL,
-  storageBucket: process.env.STORAGE_BUCKET,
+  storageBucket: process.env.STORAGE_BUCKET
 };
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
@@ -23,7 +23,6 @@ const storageRef = firebase.storage().ref();
 export default function Draft(props) {
   const [unsaved, setUnsaved] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
 
   const [prevContent, setPrevContent] = useState(null);
   const [editorContent, setEditorContent] = useState(null);
@@ -41,7 +40,7 @@ export default function Draft(props) {
 
   const { id, phaseName, stageName, read_only } = props;
 
-  const handleChange = (editor) => {
+  const handleChange = editor => {
     if (read_only) {
       return;
     }
@@ -68,31 +67,27 @@ export default function Draft(props) {
     });
   };
 
-  const uploadImagesAndFixUrls = async (content) => {
-    try {
-      for (const block of content.blocks) {
-        if (block.type !== "image") {
-          continue;
-        }
-
-        const { url } = block.data;
-        if (!url.startsWith("blob:")) {
-          continue;
-        }
-
-        const blob = await fetch(url).then((r) => r.blob());
-        const imageRef = storageRef.child(
-          `${props.modelId}/${props.phaseName}/${props.stageName}/${block.key}`
-        );
-
-        await imageRef.put(blob).then(async function (snapshot) {
-          await snapshot.ref.getDownloadURL().then(function (url) {
-            block.data.url = url;
-          });
-        });
+  const uploadImagesAndFixUrls = async content => {
+    for (const block of content.blocks) {
+      if (block.type !== "image") {
+        continue;
       }
-    } catch {
-      setError(true);
+
+      const { url } = block.data;
+      if (!url.startsWith("blob:")) {
+        continue;
+      }
+
+      const blob = await fetch(url).then(r => r.blob());
+      const imageRef = storageRef.child(
+        `${props.modelId}/${props.phaseName}/${props.stageName}/${block.key}`
+      );
+
+      await imageRef.put(blob).then(async function(snapshot) {
+        await snapshot.ref.getDownloadURL().then(function(url) {
+          block.data.url = url;
+        });
+      });
     }
   };
 
@@ -107,22 +102,17 @@ export default function Draft(props) {
 
   useEffect(() => {
     getDescription(id, phaseName, stageName)
-      .then((data) => {
-        try {
-          const description = data.data.description;
-          setPrevContent(description);
-          const json = JSON.parse(description);
-          if ("blocks" in json) {
-            setEditorContent(json);
-          }
-          setLoading(false);
-        } catch {
-          setError(true);
+      .then(data => {
+        const description = data.data.description;
+        setPrevContent(description);
+        const json = JSON.parse(description);
+        if ("blocks" in json) {
+          setEditorContent(json);
         }
+        setLoading(false);
       })
       .catch(() => {
         setLoading(false);
-        setError(true);
       });
   }, [id, phaseName, stageName]);
 
@@ -135,20 +125,11 @@ export default function Draft(props) {
       return <p>{prevContent}</p>;
     }
 
-    if (error) {
-      return (
-        <p>
-          An error was encountered - please contact Hack4Impact UIUC with
-          details.
-        </p>
-      );
-    }
-
     return (
       <Dante
         read_only={read_only}
         content={editorContent}
-        onChange={handleChange}
+        onChange={editor => handleChange(editor)}
       />
     );
   };
