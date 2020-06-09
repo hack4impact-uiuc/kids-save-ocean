@@ -55,7 +55,7 @@
     "svg-loaders-react": "^2.2.1"
   },
   "devDependencies": {
-    "@h4iuiuc/eslint-plugin": "^1.1.7",
+    "@h4iuiuc/eslint-plugin": "^1.1.11",
     "eslint": "^6.8.0",
     "prettier": "^1.19.1"
   }
