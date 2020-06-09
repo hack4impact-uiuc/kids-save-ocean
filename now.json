@@ -1,7 +1,7 @@
 {
   "version": 2,
   "name": "kids-save-ocean",
-  "alias": ["kids-save-ocean.now.sh", "fatemaker.now.sh"],
+  "alias": "kids-save-ocean.now.sh",
   "build": {
     "env": {
       "BACKEND_URL": "@kso_backend_url",
