@@ -18,18 +18,26 @@ export default WrappedMessage(function AddStage({ addStage, phase, setError }) {
   useEffect(() => {
     const populateTemplates = async () => {
       const response = await getTemplates();
-      console.log(response.data)
+      console.log(response.data);
       setAllTemplates([]);
       setTemplateNames([]);
-      setTemplate(null)
+      setTemplate(null);
 
-      response.data.map(template => {
-        if (template.phases.includes(phase.charAt(0).toUpperCase() + phase.slice(1))) {
-          setAllTemplates(allTemplates => allTemplates.concat(template));
-          setTemplateNames(templateNames => templateNames.concat({label: template.name, value: templateNames.length}));
+      response.data.map((template) => {
+        if (
+          template.phases.includes(
+            phase.charAt(0).toUpperCase() + phase.slice(1)
+          )
+        ) {
+          setAllTemplates((allTemplates) => allTemplates.concat(template));
+          setTemplateNames((templateNames) =>
+            templateNames.concat({
+              label: template.name,
+              value: templateNames.length,
+            })
+          );
         }
-      })
-
+      });
     };
 
     populateTemplates();
@@ -41,7 +49,9 @@ export default WrappedMessage(function AddStage({ addStage, phase, setError }) {
       return;
     }
 
-    template ? addStage(stageName, startdate, enddate, allTemplates[template.value]) : addStage(stageName, startdate, enddate);
+    template
+      ? addStage(stageName, startdate, enddate, allTemplates[template.value])
+      : addStage(stageName, startdate, enddate);
     setStartdate("");
     setEnddate("");
     setStageName("");
@@ -56,7 +66,7 @@ export default WrappedMessage(function AddStage({ addStage, phase, setError }) {
           <Input
             className="form-input"
             placeholder="Enter a stage name"
-            onChange={e => setStageName(e.target.value)}
+            onChange={(e) => setStageName(e.target.value)}
             value={stageName}
           />
         </FormGroup>
@@ -67,7 +77,7 @@ export default WrappedMessage(function AddStage({ addStage, phase, setError }) {
           <Input
             type="date"
             className="form-input"
-            onChange={e => setStartdate(e.target.value)}
+            onChange={(e) => setStartdate(e.target.value)}
             value={startdate}
           />
         </FormGroup>
@@ -78,7 +88,7 @@ export default WrappedMessage(function AddStage({ addStage, phase, setError }) {
           <Input
             type="date"
             className="form-input"
-            onChange={e => setEnddate(e.target.value)}
+            onChange={(e) => setEnddate(e.target.value)}
             value={enddate}
           />
         </FormGroup>
@@ -87,14 +97,14 @@ export default WrappedMessage(function AddStage({ addStage, phase, setError }) {
         <FormGroup>
           <Label>Optional: Template</Label>
           <Select
-              isClearable
-              className="select-template"
-              options={templateNames}
-              placeholder="Blank"
-              onChange={setTemplate}
-              value={template}
-            />
-          </FormGroup>
+            isClearable
+            className="select-template"
+            options={templateNames}
+            placeholder="Blank"
+            onChange={setTemplate}
+            value={template}
+          />
+        </FormGroup>
       </Col>
       <Col sm="1">
         <Button
