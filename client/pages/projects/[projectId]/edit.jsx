@@ -77,8 +77,15 @@ export default WrappedMessage(function EditProjectPage(props) {
     setGrpSize(groupSizeVal);
   }, [projectId]);
 
-  const addStage = (projectId, phaseName, stageName, start, end) => {
-    addModelStage(projectId, phaseName, stageName, start, end)
+  const addStage = (projectId, phaseName, stageName, start, end, template) => {
+    addModelStage(
+      projectId,
+      phaseName,
+      stageName,
+      start,
+      end,
+      template ? template.draft : ""
+    )
       .then(() => {
         loadProject();
       })

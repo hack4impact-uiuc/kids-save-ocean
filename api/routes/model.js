@@ -410,7 +410,7 @@ router.post(
     const collection = db.get("projects");
     const { model_ID, phaseName, stageName } = req.params;
 
-    const { startdate, enddate } = req.body;
+    const { startdate, enddate, description } = req.body;
     if (startdate === undefined || enddate === undefined) {
       res.sendStatus(400);
       return;
@@ -419,7 +419,7 @@ router.post(
     const userEmail = req.decoded.sub;
     const userId = await getUserId(db, userEmail);
 
-    const newStage = { name: stageName, description: "", startdate, enddate };
+    const newStage = { name: stageName, description, startdate, enddate };
 
     collection
       .findOneAndUpdate(
@@ -448,7 +448,7 @@ router.put(
     const description = req.body.description;
     const subDescription = req.body.subDescription;
     if (description === undefined) {
-      res.sendStatus(400);
+      return res.sendStatus(400);
     }
 
     const userEmail = req.decoded.sub;

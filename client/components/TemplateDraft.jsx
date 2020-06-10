@@ -60,17 +60,12 @@ export default function TemplateDraft({ id }) {
         continue;
       }
 
-      const blob = await fetch(url);
-      r => r.blob();
+      const blob = await fetch(url).then(r => r.blob());
       const imageRef = storageRef.child(`${id}/${block.key}`);
 
-      await imageRef.put(blob);
-      (async function(snapshot) {
-        await snapshot.ref.getDownloadURL();
-        (function(url) {
-          block.data.url = url;
-        });
-      });
+      const snapshot = await imageRef.put(blob);
+      const fixedURL = await snapshot.ref.getDownloadURL();
+      block.data.url = fixedURL;
     }
   };
 

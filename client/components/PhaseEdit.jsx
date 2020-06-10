@@ -12,8 +12,7 @@ import {
   getPhaseChallenges,
   updatePhaseChallenges,
   getPhaseInsights,
-  updatePhaseInsights,
-  saveDescription
+  updatePhaseInsights
 } from "../utils/apiWrapper";
 
 export default function PhaseEdit(props) {
@@ -69,16 +68,14 @@ export default function PhaseEdit(props) {
           <AddStage
             phase={phaseName}
             addStage={(stageName, startdate, enddate, template = null) => {
-              addStage(projectId, phaseName, stageName, startdate, enddate);
-              if (template) {
-                saveDescription(
-                  projectId,
-                  phaseName,
-                  stageName,
-                  template.draft,
-                  `Used template ${template.name}`
-                );
-              }
+              addStage(
+                projectId,
+                phaseName,
+                stageName,
+                startdate,
+                enddate,
+                template
+              );
             }}
           />
         </div>

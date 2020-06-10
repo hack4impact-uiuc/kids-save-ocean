@@ -157,12 +157,13 @@ export const addModelStage = (
   phaseName,
   stageName,
   startdate,
-  enddate
+  enddate,
+  description
 ) => {
   const requestString = `${BASE_URL}/models/${model_id}/${phaseName}/stages/${stageName}`;
   return axios.post(
     requestString,
-    { startdate, enddate },
+    { startdate, enddate, description },
     {
       headers: {
         "Content-Type": "application/JSON",
