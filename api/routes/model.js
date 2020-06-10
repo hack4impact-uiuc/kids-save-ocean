@@ -468,9 +468,7 @@ router.put(
           return res.sendStatus(404);
         }
       })
-      .catch(() => {
-        return res.sendStatus(500)
-      });
+      .catch(() => res.sendStatus(500));
 
     const updates = db.get("updates");
     const email = req.user.email;

@@ -78,7 +78,14 @@ export default WrappedMessage(function EditProjectPage(props) {
   }, [projectId]);
 
   const addStage = (projectId, phaseName, stageName, start, end, template) => {
-    addModelStage(projectId, phaseName, stageName, start, end, template ? template.draft : "")
+    addModelStage(
+      projectId,
+      phaseName,
+      stageName,
+      start,
+      end,
+      template ? template.draft : ""
+    )
       .then(() => {
         loadProject();
       })
