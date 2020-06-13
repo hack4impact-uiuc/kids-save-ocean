@@ -18,9 +18,31 @@ import {
   Input,
   Label
 } from "reactstrap";
+import { checkIsAdmin } from "../utils/validator";
 import "../public/styles/editTemplate.scss";
 
 export default function EditTemplate() {
+  // let isAdmin;
+  // const checkAdmin = async () => {
+  //   isAdmin = await checkIsAdmin();
+  //   console.log(isAdmin);
+  //   console.log("ran")
+  // }
+
+  // checkAdmin();
+  // if (!isAdmin) {
+  //   return (
+  //     <div>
+  //     {
+  //       <div className="edit-template-div">
+  //         <Head title="" />
+  //         <p>Only admins may view this page.</p>
+  //         </div>
+  //     }
+  //   </div>
+  //   )
+  // }
+
   const [name, setName] = useState("");
   const [mounted, setMounted] = useState(false);
   const [templateID, setTemplateID] = useState("");
