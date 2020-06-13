@@ -2,6 +2,7 @@ import { Button, Col, Input, Row, CardGroup, Card, CardText } from "reactstrap";
 import { Head } from "../components";
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import "../public/styles/profile.scss";
 import Select from "react-select";
 import countryData from "../utils/countries";
@@ -16,6 +17,9 @@ import {
 import { checkValidUser } from "../utils/validator";
 
 export default function Profile() {
+  const router = useRouter();
+  const querySection = router.query.section;
+
   const [user, setUser] = useState("");
   const [createdProjects, setCreatedProjects] = useState([]);
   const [followedProjects, setFollowingProjects] = useState([]);
@@ -44,6 +48,16 @@ export default function Profile() {
 
     getUserInfo();
   }, []);
+
+  useEffect(() => {
+    if (querySection === "details") {
+      setCurrSection("Details");
+    } else if (querySection === "your-projects") {
+      setCurrSection("Your Projects");
+    } else if (querySection === "saved-projects") {
+      setCurrSection("Saved Projects");
+    }
+  }, [querySection]);
 
   useEffect(() => {
     async function getProjects() {
