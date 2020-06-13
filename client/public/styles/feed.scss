@@ -15,7 +15,6 @@ body {
   position: fixed;
   margin-top: 1.75rem;
   padding: 0;
-  height: 27rem;
   z-index: 1;
   width: auto;
 }
@@ -43,7 +42,7 @@ body {
   background-color: #fff;
   border-radius: 4px;
   width: 21.6875rem;
-  height: 27.1875rem;
+  padding: 2rem;
 }
 .user-profile-pic {
   background-color: #ffcc66;
@@ -67,14 +66,10 @@ body {
   font-weight: lighter;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
-  margin-left: 2.5rem;
-  margin-right: 2.5rem;
-}
-.follower-count {
-  float: left;
-}
-.following-count {
-  float: right;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
 }
 
 .progress-div {
