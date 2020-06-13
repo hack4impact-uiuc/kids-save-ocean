@@ -196,8 +196,9 @@ export default WrappedMessage(function NavBar(props) {
                         <Link
                           href="/projects/[projectId]"
                           as={`/projects/${update.projectId}`}
+                          key={update._id}
                         >
-                          <a key={update._id}>
+                          <a>
                             <p>
                               {update.type === "stage"
                                 ? `${update.username} updated their ${update.description} stage.`
