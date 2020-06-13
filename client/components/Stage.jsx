@@ -9,7 +9,7 @@ export default function Stage(props) {
 
   return (
     <>
-      <div className="title">
+      <div id={`${phaseName}-${stageName}`} className="title">
         <Label>
           <h6 className="header2-text">
             <strong>{stageName}</strong>

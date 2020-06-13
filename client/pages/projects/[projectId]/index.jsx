@@ -130,7 +130,7 @@ export default function ProjectPage() {
         stage.name,
         capitalize(phase),
         new Date(stage.startdate),
-        new Date(stage.enddate),
+        stage.enddate ? new Date(stage.enddate) : new Date(),
         null,
         Math.random() * HUNDRED,
         null
@@ -251,39 +251,53 @@ export default function ProjectPage() {
               <p className="project-info">{project.description}</p>
               <hr />
               <Nav tabs justified>
-                {Object.keys(project.phases).map(phase => (
-                  <NavItem key={phase}>
-                    <NavLink
-                      className={classnames(
-                        { active: activePhase === phase },
-                        "tab"
-                      )}
-                      onClick={() => {
-                        setActivePhase(phase);
-                      }}
-                    >
-                      {capitalize(phase)}
-                    </NavLink>
-                  </NavItem>
-                ))}
+                {Object.keys(project.phases)
+                  .filter(
+                    phase =>
+                      ganttData[phase] !== undefined &&
+                      ganttData[phase.length > 0]
+                  )
+                  .map(phase => (
+                    <NavItem key={phase}>
+                      <NavLink
+                        className={classnames(
+                          { active: activePhase === phase },
+                          "tab"
+                        )}
+                        onClick={() => {
+                          setActivePhase(phase);
+                        }}
+                      >
+                        {capitalize(phase)}
+                      </NavLink>
+                    </NavItem>
+                  ))}
               </Nav>
               {ganttData && (
                 <TabContent activeTab={activePhase}>
-                  {Object.keys(project.phases).map(phase => (
-                    <TabPane key={phase} tabId={phase}>
-                      <Gantt
-                        data={ganttData[phase]}
-                        trackHeight={60}
-                        width={width}
-                        selectCallback={selection => {
-                          setActiveStage(
-                            project.phases[activePhase].stages[selection[0].row]
-                          );
-                          toggleModal();
-                        }}
-                      />
-                    </TabPane>
-                  ))}
+                  {Object.keys(project.phases)
+                    .filter(
+                      phase =>
+                        ganttData[phase] !== undefined &&
+                        ganttData[phase.length > 0]
+                    )
+                    .map(phase => (
+                      <TabPane key={phase} tabId={phase}>
+                        <Gantt
+                          data={ganttData[phase]}
+                          trackHeight={60}
+                          width={width}
+                          selectCallback={selection => {
+                            setActiveStage(
+                              project.phases[activePhase].stages[
+                                selection[0].row
+                              ]
+                            );
+                            toggleModal();
+                          }}
+                        />
+                      </TabPane>
+                    ))}
                 </TabContent>
               )}
               <div className="tipcard-cols">
