@@ -5,7 +5,7 @@ import {
   Card,
   // CardBody,
   CardTitle,
-  CardSubtitle,
+  CardSubtitle
   // CardText,
   // CardImg
 } from "reactstrap";

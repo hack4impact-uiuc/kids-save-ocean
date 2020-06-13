@@ -4,16 +4,16 @@ import Link from "next/link";
 import {
   Button,
   // Carousel,
-  CarouselItem,
+  // CarouselItem,
   // CarouselControl,
   Container,
   Row,
   Col,
   Card,
-  CardDeck,
-  CardTitle,
+  // CardDeck,
+  // CardTitle,
   CardText,
-  CardBody,
+  // CardBody,
   CardGroup,
   CardImg
 } from "reactstrap";
@@ -28,13 +28,13 @@ export default function Home() {
   const [validUser, setIsValidUser] = useState(false);
   const [isFlipped, setFlipped] = useState([]);
   const [goals, setGoals] = useState([]);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [animating, setAnimating] = useState(false);
-  const numSlides = 5;
-  const numCardsPerSlide = 3;
+  // const [activeIndex, setActiveIndex] = useState(0);
+  // const [animating, setAnimating] = useState(false);
+  // const numSlides = 5;
+  // const numCardsPerSlide = 3;
   const cardOpacity = 0.9;
   const isRevolving = true;
-  const slideIndices = [...Array(numSlides).keys()];
+  // const slideIndices = [...Array(numSlides).keys()];
 
   useEffect(() => {
     let sdgs = [...UNGoals];
