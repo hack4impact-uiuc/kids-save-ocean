@@ -26,7 +26,7 @@ export const checkIsAdmin = async () => {
     return false;
   }
 
-  const user = await getUser();
-  
-  return true;
+  const userResp = await getUser();
+
+  return userResp.data.user.admin;
 };
