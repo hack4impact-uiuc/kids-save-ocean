@@ -35,7 +35,6 @@ export default WrappedMessage(function EditProjectPage(props) {
   const [isOwner, setIsOwner] = useState(false);
   const [loading, setLoading] = useState(true);
   const [activePhase, setActivePhase] = useState("inspiration");
-
   const [projTitle, setProjTitle] = useState("");
   const [description, setDescription] = useState("");
   const [grpSize, setGrpSize] = useState(false);
@@ -78,19 +77,32 @@ export default WrappedMessage(function EditProjectPage(props) {
     setGrpSize(groupSizeVal);
   }, [projectId]);
 
-  const addStage = (projectId, phaseName, stageName, start, end, template) => {
-    addModelStage(
-      projectId,
-      phaseName,
-      stageName,
-      start,
-      end,
-      template ? template.draft : ""
-    )
-      .then(() => {
-        loadProject();
-      })
-      .catch(() => props.setError("Failed to add stage"));
+  const addStage = async (
+    projectId,
+    phaseName,
+    stageName,
+    start,
+    end,
+    template
+  ) => {
+    try {
+      await addModelStage(
+        projectId,
+        phaseName,
+        stageName,
+        start,
+        end,
+        template ? template.draft : ""
+      );
+      await loadProject();
+      document.getElementById(`${phaseName}-${stageName}`)?.scrollIntoView({
+        block: "end",
+        inline: "nearest",
+        behavior: "smooth"
+      });
+    } catch {
+      props.setError("Failed to add stage");
+    }
   };
 
   useEffect(() => {
