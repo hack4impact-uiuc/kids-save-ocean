@@ -1,4 +1,8 @@
 const express = require("express");
+const { checkToken } = require("../auth/utils/checkToken.js");
+const guard = require("express-jwt-permissions")({
+  permissionsProperty: "role"
+});
 const router = express.Router();
 const validate = require("express-jsonschema").validate;
 
@@ -8,6 +12,8 @@ const TemplateSchema = require("../public/schema/templateSchema.js")
 // create template (when tho? first save of draft!)
 router.post(
   "/",
+  checkToken,
+  guard.check("admin"),
   validate({
     body: TemplateSchema
   }),
@@ -30,7 +36,10 @@ router.post(
 );
 
 // delete template by ID (delete button)
-router.delete("/:template_ID", function(req, res) {
+router.delete("/:template_ID", checkToken, guard.check("admin"), function(
+  req,
+  res
+) {
   // CHECK AUTH
   const db = req.db;
   const id = req.params.template_ID;
@@ -72,7 +81,10 @@ router.get("/:template_ID", function(req, res) {
 // TODO: Change all of these into one put function
 
 // edit entire template by ID (hitting save and exit)
-router.put("/:template_ID", function(req, res) {
+router.put("/:template_ID", checkToken, guard.check("admin"), function(
+  req,
+  res
+) {
   const db = req.db;
   const collection = db.get("templates");
   const { template_ID } = req.params;
@@ -93,7 +105,10 @@ router.put("/:template_ID", function(req, res) {
 });
 
 // edit draft of template by ID (what draftjs will do for template draft)
-router.put("/:template_ID/draft", function(req, res) {
+router.put("/:template_ID/draft", checkToken, guard.check("admin"), function(
+  req,
+  res
+) {
   const db = req.db;
   const collection = db.get("templates");
   const { template_ID } = req.params;
@@ -120,7 +135,10 @@ router.put("/:template_ID/draft", function(req, res) {
 });
 
 // edit name of template by ID (what draftjs will do for name draft)
-router.put("/:template_ID/name", function(req, res) {
+router.put("/:template_ID/name", checkToken, guard.check("admin"), function(
+  req,
+  res
+) {
   const db = req.db;
   const collection = db.get("templates");
   const { template_ID } = req.params;
@@ -147,7 +165,10 @@ router.put("/:template_ID/name", function(req, res) {
 });
 
 // edit phases of template by ID (what draftjs will do for phase selectors)
-router.put("/:template_ID/phases", function(req, res) {
+router.put("/:template_ID/phases", checkToken, guard.check("admin"), function(
+  req,
+  res
+) {
   const db = req.db;
   const collection = db.get("templates");
   const { template_ID } = req.params;

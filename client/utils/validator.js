@@ -1,5 +1,5 @@
 import Router from "next/router";
-import { checkToken } from "./apiWrapper";
+import { checkToken, getUser } from "./apiWrapper";
 
 const UNAUTHORIZED = 403;
 
@@ -19,4 +19,13 @@ export const checkValidUser = async (redir = true) => {
     return false;
   }
   return true;
+};
+
+export const checkIsAdmin = async () => {
+  if (!localStorage.getItem("token")) {
+    return false;
+  }
+
+  const userResp = await getUser();
+  return userResp.data.user.admin;
 };
