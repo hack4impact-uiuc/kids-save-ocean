@@ -31,11 +31,13 @@ export default function Profile() {
   useEffect(() => {
     const getUserInfo = async () => {
       if (await checkValidUser()) {
-        const user = await getUser();
-        setUser(user.data);
-        setUsername(user.data.username);
-        setBirthday(user.data.birthday);
-        setCountry(user.data.country);
+        const resp = await getUser();
+        const user = resp.data.user;
+        
+        setUser(user);
+        setUsername(user.username);
+        setBirthday(user.birthday);
+        setCountry(user.country);
         setHasUser(true);
       }
     };
@@ -98,7 +100,7 @@ export default function Profile() {
 
     if (resp.status === SUCCESS) {
       const newUser = await getUser();
-      setUser(newUser.data);
+      setUser(newUser.data.user);
     }
   };
 

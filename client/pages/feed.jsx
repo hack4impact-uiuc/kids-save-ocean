@@ -33,7 +33,7 @@ export default function Feed() {
     const loadUserInfo = async () => {
       const profile = await getUser();
       if (profile) {
-        setUser(profile.data);
+        setUser(profile.data.user);
       }
     };
     loadUserInfo();

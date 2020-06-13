@@ -39,7 +39,7 @@ router.get("/userInfo", checkToken, async (req, res) => {
     res.status(SUCCESS).send({
       success: true,
       message: "User retrieved successfully.",
-      data: user
+      user
     });
   } catch (err) {
     return err;
