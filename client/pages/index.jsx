@@ -3,17 +3,17 @@ import { Head } from "../components";
 import Link from "next/link";
 import {
   Button,
-  Carousel,
-  CarouselItem,
-  CarouselControl,
+  // Carousel,
+  // CarouselItem,
+  // CarouselControl,
   Container,
   Row,
   Col,
   Card,
-  CardDeck,
-  CardTitle,
+  // CardDeck,
+  // CardTitle,
   CardText,
-  CardBody,
+  // CardBody,
   CardGroup,
   CardImg
 } from "reactstrap";
@@ -28,13 +28,13 @@ export default function Home() {
   const [validUser, setIsValidUser] = useState(false);
   const [isFlipped, setFlipped] = useState([]);
   const [goals, setGoals] = useState([]);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [animating, setAnimating] = useState(false);
-  const numSlides = 5;
-  const numCardsPerSlide = 3;
+  // const [activeIndex, setActiveIndex] = useState(0);
+  // const [animating, setAnimating] = useState(false);
+  // const numSlides = 5;
+  // const numCardsPerSlide = 3;
   const cardOpacity = 0.9;
   const isRevolving = true;
-  const slideIndices = [...Array(numSlides).keys()];
+  // const slideIndices = [...Array(numSlides).keys()];
 
   useEffect(() => {
     let sdgs = [...UNGoals];
@@ -47,23 +47,23 @@ export default function Home() {
     setGoals(sdgs);
   }, []);
 
-  const next = () => {
-    if (animating) {
-      return;
-    }
-    const nextIndex =
-      activeIndex === slideIndices.length - 1 ? 0 : activeIndex + 1;
-    setActiveIndex(nextIndex);
-  };
+  // const next = () => {
+  //   if (animating) {
+  //     return;
+  //   }
+  //   const nextIndex =
+  //     activeIndex === slideIndices.length - 1 ? 0 : activeIndex + 1;
+  //   setActiveIndex(nextIndex);
+  // };
 
-  const previous = () => {
-    if (animating) {
-      return;
-    }
-    const nextIndex =
-      activeIndex === 0 ? slideIndices.length - 1 : activeIndex - 1;
-    setActiveIndex(nextIndex);
-  };
+  // const previous = () => {
+  //   if (animating) {
+  //     return;
+  //   }
+  //   const nextIndex =
+  //     activeIndex === 0 ? slideIndices.length - 1 : activeIndex - 1;
+  //   setActiveIndex(nextIndex);
+  // };
 
   const handleClick = (e, value) => {
     e.preventDefault();
@@ -71,118 +71,119 @@ export default function Home() {
     flips[value - 1] = !flips[value - 1];
     setFlipped(flips);
   };
-  const slides = slideIndices.map(slideIndex => (
-    <CarouselItem
-      onExiting={() => setAnimating(true)}
-      onExited={() => setAnimating(false)}
-      key={slideIndex}
-    >
-      <CardDeck className="hp-featured-card-deck">
-        <Card className="hp-featured-card">
-          <CardImg
-            src="/homepage-images/feature-img.png"
-            alt="Card image cap"
-            className="hp-card-img"
-          ></CardImg>
-          <CardBody className="hp-featured-body">
-            <CardTitle className="hp-featured-caption-title">
-              <strong>
-                Sustainablility Rules! {slideIndex * numCardsPerSlide + 1}
-              </strong>
-            </CardTitle>
-            <CardText className="hp-featured-description">
-              A project to help your school become more sustainable and
-              responsible.
-            </CardText>
-            <div className="hp-featured-footer">
-              <div className="hp-featured-interactions">
-                123{" "}
-                <img
-                  className="hp-featured-comment-icon"
-                  src="/feed-images/comment-icon.svg"
-                  alt="comment"
-                />
-                123
-                <img
-                  className="hp-featured-like-icon"
-                  src="/feed-images/like-icon.svg"
-                  alt="like"
-                />
-              </div>
-            </div>
-          </CardBody>
-        </Card>
-        <Card className="hp-featured-card">
-          <CardImg
-            src="/homepage-images/feature-img.png"
-            alt="Card image cap"
-            className="hp-card-img"
-          ></CardImg>
-          <CardBody className="hp-featured-body">
-            <CardTitle className="hp-featured-caption-title">
-              <strong>
-                Sustainablility Rules! {(slideIndex + 1) * numCardsPerSlide - 1}
-              </strong>
-            </CardTitle>
-            <CardText className="hp-featured-description">
-              A project to help your school become more sustainable and
-              responsible.
-            </CardText>
-            <div className="hp-featured-footer">
-              <div className="hp-featured-interactions">
-                123{" "}
-                <img
-                  className="hp-featured-comment-icon"
-                  src="/feed-images/comment-icon.svg"
-                  alt="comment"
-                />
-                123
-                <img
-                  className="hp-featured-like-icon"
-                  src="/feed-images/like-icon.svg"
-                  alt="like"
-                />
-              </div>
-            </div>
-          </CardBody>
-        </Card>
-        <Card className="hp-featured-card">
-          <CardImg
-            src="/homepage-images/feature-img.png"
-            alt="Card image cap"
-            className="hp-card-img"
-          ></CardImg>
-          <CardBody className="hp-featured-body">
-            <CardTitle className="hp-featured-caption-title">
-              <strong>
-                Sustainablility Rules! {(slideIndex + 1) * numCardsPerSlide}
-              </strong>
-            </CardTitle>
-            <CardText className="hp-featured-description">
-              A project to help your school become more sustainable and
-              responsible.
-            </CardText>
-            <div className="hp-featured-footer">
-              <div className="hp-featured-interactions">
-                123{" "}
-                <img
-                  className="hp-featured-comment-icon"
-                  src="/feed-images/comment-icon.svg"
-                  alt="comment"
-                />
-                123
-                <img
-                  className="hp-featured-like-icon"
-                  src="/feed-images/like-icon.svg"
-                  alt="like"
-                />
-              </div>
-            </div>
-          </CardBody>
-        </Card>
-      </CardDeck>
-    </CarouselItem>
-  ));
+
+  // const slides = slideIndices.map(slideIndex => (
+  //   <CarouselItem
+  //     onExiting={() => setAnimating(true)}
+  //     onExited={() => setAnimating(false)}
+  //     key={slideIndex}
+  //   >
+  //     <CardDeck className="hp-featured-card-deck">
+  //       <Card className="hp-featured-card">
+  //         <CardImg
+  //           src="/homepage-images/feature-img.png"
+  //           alt="Card image cap"
+  //           className="hp-card-img"
+  //         ></CardImg>
+  //         <CardBody className="hp-featured-body">
+  //           <CardTitle className="hp-featured-caption-title">
+  //             <strong>
+  //               Sustainablility Rules! {slideIndex * numCardsPerSlide + 1}
+  //             </strong>
+  //           </CardTitle>
+  //           <CardText className="hp-featured-description">
+  //             A project to help your school become more sustainable and
+  //             responsible.
+  //           </CardText>
+  //           <div className="hp-featured-footer">
+  //             <div className="hp-featured-interactions">
+  //               123{" "}
+  //               <img
+  //                 className="hp-featured-comment-icon"
+  //                 src="/feed-images/comment-icon.svg"
+  //                 alt="comment"
+  //               />
+  //               123
+  //               <img
+  //                 className="hp-featured-like-icon"
+  //                 src="/feed-images/like-icon.svg"
+  //                 alt="like"
+  //               />
+  //             </div>
+  //           </div>
+  //         </CardBody>
+  //       </Card>
+  //       <Card className="hp-featured-card">
+  //         <CardImg
+  //           src="/homepage-images/feature-img.png"
+  //           alt="Card image cap"
+  //           className="hp-card-img"
+  //         ></CardImg>
+  //         <CardBody className="hp-featured-body">
+  //           <CardTitle className="hp-featured-caption-title">
+  //             <strong>
+  //               Sustainablility Rules! {(slideIndex + 1) * numCardsPerSlide - 1}
+  //             </strong>
+  //           </CardTitle>
+  //           <CardText className="hp-featured-description">
+  //             A project to help your school become more sustainable and
+  //             responsible.
+  //           </CardText>
+  //           <div className="hp-featured-footer">
+  //             <div className="hp-featured-interactions">
+  //               123{" "}
+  //               <img
+  //                 className="hp-featured-comment-icon"
+  //                 src="/feed-images/comment-icon.svg"
+  //                 alt="comment"
+  //               />
+  //               123
+  //               <img
+  //                 className="hp-featured-like-icon"
+  //                 src="/feed-images/like-icon.svg"
+  //                 alt="like"
+  //               />
+  //             </div>
+  //           </div>
+  //         </CardBody>
+  //       </Card>
+  //       <Card className="hp-featured-card">
+  //         <CardImg
+  //           src="/homepage-images/feature-img.png"
+  //           alt="Card image cap"
+  //           className="hp-card-img"
+  //         ></CardImg>
+  //         <CardBody className="hp-featured-body">
+  //           <CardTitle className="hp-featured-caption-title">
+  //             <strong>
+  //               Sustainablility Rules! {(slideIndex + 1) * numCardsPerSlide}
+  //             </strong>
+  //           </CardTitle>
+  //           <CardText className="hp-featured-description">
+  //             A project to help your school become more sustainable and
+  //             responsible.
+  //           </CardText>
+  //           <div className="hp-featured-footer">
+  //             <div className="hp-featured-interactions">
+  //               123{" "}
+  //               <img
+  //                 className="hp-featured-comment-icon"
+  //                 src="/feed-images/comment-icon.svg"
+  //                 alt="comment"
+  //               />
+  //               123
+  //               <img
+  //                 className="hp-featured-like-icon"
+  //                 src="/feed-images/like-icon.svg"
+  //                 alt="like"
+  //               />
+  //             </div>
+  //           </div>
+  //         </CardBody>
+  //       </Card>
+  //     </CardDeck>
+  //   </CarouselItem>
+  // ));
 
   useEffect(() => {
     const checkCurrUser = async () => {
@@ -241,7 +242,7 @@ export default function Home() {
           </Col>
         </Row>
       </Container>
-      <div className="home-featured-box">
+      {/* <div className="home-featured-box">
         <div className="home-featured-title">Featured Projects</div>
         <Carousel
           activeIndex={activeIndex}
@@ -261,7 +262,7 @@ export default function Home() {
             onClickHandler={next}
           />
         </Carousel>
-      </div>
+      </div> */}
       <Container className="home-sdg-box">
         <div className="home-sdg-title">The Sustainable Development Goals</div>
         <div className="home-sdg-desc">
