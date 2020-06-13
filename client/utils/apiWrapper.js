@@ -21,17 +21,17 @@ export const getModels = (sdg_query, searchPage = null) => {
   return axios
     .get(requestString, {
       headers: {
-        "Content-Type": "application/JSON",
-      },
+        "Content-Type": "application/JSON"
+      }
     })
-    .catch((error) => {
+    .catch(error => {
       ({
         type: "GET_MODEL_FAIL",
-        error,
+        error
       });
     });
 };
-export const getModelsByID = (Model_ID) => {
+export const getModelsByID = Model_ID => {
   /**
    * Returns model given ID
    * Returns GET_MODEL_ID_FAIL upon failure
@@ -40,13 +40,13 @@ export const getModelsByID = (Model_ID) => {
   return axios
     .get(requestString, {
       headers: {
-        "Content-Type": "application/JSON",
-      },
+        "Content-Type": "application/JSON"
+      }
     })
-    .catch((error) => {
+    .catch(error => {
       ({
         type: "GET_MODEL_ID_FAIL",
-        error,
+        error
       });
     });
 };
@@ -59,13 +59,13 @@ export const getFollowingProjects = async () => {
       .get(requestString, {
         headers: {
           "Content-Type": "application/JSON",
-          "x-access-token": localStorage.getItem("token"),
-        },
+          "x-access-token": localStorage.getItem("token")
+        }
       })
-      .catch((error) => {
+      .catch(error => {
         ({
           type: "GET_MODEL_ID_FAIL",
-          error,
+          error
         });
       });
   }
@@ -79,13 +79,13 @@ export const getCreatedProjects = async () => {
       .get(requestString, {
         headers: {
           "Content-Type": "application/JSON",
-          "x-access-token": localStorage.getItem("token"),
-        },
+          "x-access-token": localStorage.getItem("token")
+        }
       })
-      .catch((error) => {
+      .catch(error => {
         ({
           type: "GET_MODEL_ID_FAIL",
-          error,
+          error
         });
       });
   }
@@ -103,18 +103,18 @@ export const getUpdates = async (numUpdates, currentIndex) => {
       .get(requestString, {
         headers: {
           "Content-Type": "application/JSON",
-          "x-access-token": localStorage.getItem("token"),
-        },
+          "x-access-token": localStorage.getItem("token")
+        }
       })
-      .catch((error) => {
+      .catch(error => {
         ({
           type: "GET_UPDATES_FAIL",
-          error,
+          error
         });
       });
   }
 };
-export const addModel = async (data) => {
+export const addModel = async data => {
   /**
    * Adds a model
    * Returns POST_MODEL_FAIL upon failure
@@ -126,13 +126,13 @@ export const addModel = async (data) => {
       .post(requestString, data, {
         headers: {
           "Content-Type": "application/JSON",
-          "x-access-token": localStorage.getItem("token"),
-        },
+          "x-access-token": localStorage.getItem("token")
+        }
       })
-      .catch((error) => {
+      .catch(error => {
         ({
           type: "POST_MODEL_FAIL",
-          error,
+          error
         });
       });
   }
@@ -146,8 +146,8 @@ export const updateProject = (model_id, name, description, groupSize) => {
     {
       headers: {
         "Content-Type": "application/JSON",
-        "x-access-token": localStorage.getItem("token"),
-      },
+        "x-access-token": localStorage.getItem("token")
+      }
     }
   );
 };
@@ -167,8 +167,8 @@ export const addModelStage = (
     {
       headers: {
         "Content-Type": "application/JSON",
-        "x-access-token": localStorage.getItem("token"),
-      },
+        "x-access-token": localStorage.getItem("token")
+      }
     }
   );
 };
@@ -186,8 +186,8 @@ export const updatePhaseStakeholder = (model_id, phaseName, stakeholders) => {
     {
       headers: {
         "Content-Type": "application/JSON",
-        "x-access-token": localStorage.getItem("token"),
-      },
+        "x-access-token": localStorage.getItem("token")
+      }
     }
   );
 };
@@ -205,8 +205,8 @@ export const updatePhaseChallenges = (model_id, phaseName, challenges) => {
     {
       headers: {
         "Content-Type": "application/JSON",
-        "x-access-token": localStorage.getItem("token"),
-      },
+        "x-access-token": localStorage.getItem("token")
+      }
     }
   );
 };
@@ -224,13 +224,13 @@ export const updatePhaseInsights = (model_id, phaseName, insights) => {
     {
       headers: {
         "Content-Type": "application/JSON",
-        "x-access-token": localStorage.getItem("token"),
-      },
+        "x-access-token": localStorage.getItem("token")
+      }
     }
   );
 };
 
-export const deleteForm = async (Model_ID) => {
+export const deleteForm = async Model_ID => {
   /**
    * Deletes a model
    * Returns DELETE_MODEL_FAIL upon failure
@@ -242,13 +242,13 @@ export const deleteForm = async (Model_ID) => {
       .delete(requestString, {
         headers: {
           "Content-Type": "application/JSON",
-          "x-access-token": localStorage.getItem("token"),
-        },
+          "x-access-token": localStorage.getItem("token")
+        }
       })
-      .catch((error) => {
+      .catch(error => {
         ({
           type: "DELETE_MODEL_FAIL",
-          error,
+          error
         });
       });
   }
@@ -270,8 +270,8 @@ export const register = (
         password: passwordInput,
         questionIdx,
         securityQuestionAnswer: answer,
-        role,
-      }),
+        role
+      })
     });
   } catch (err) {
     return err;
@@ -285,8 +285,8 @@ export const login = (emailInput, passwordInput) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         email: emailInput,
-        password: passwordInput,
-      }),
+        password: passwordInput
+      })
     });
   } catch (err) {
     return err;
@@ -299,8 +299,8 @@ export const verify = () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        token: localStorage.getItem("token"),
-      },
+        token: localStorage.getItem("token")
+      }
     });
   } catch (err) {
     return err;
@@ -313,8 +313,8 @@ export const getSecurityQuestions = () => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        token: localStorage.getItem("token"),
-      },
+        token: localStorage.getItem("token")
+      }
     });
   } catch (err) {
     return err;
@@ -327,27 +327,27 @@ export const setSecurityQuestion = (questionIdx, answer, password) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        token: localStorage.getItem("token"),
+        token: localStorage.getItem("token")
       },
       body: JSON.stringify({
         questionIdx,
         answer,
-        password,
-      }),
+        password
+      })
     });
   } catch (err) {
     return err;
   }
 };
 
-export const getSecurityQuestionForUser = (email) => {
+export const getSecurityQuestionForUser = email => {
   try {
     return fetch(`${BASE_URL}/auth/securityQuestionForUser`, {
       method: "POST",
       body: JSON.stringify({
-        email,
+        email
       }),
-      headers: { email: email, "Content-Type": "application/json" },
+      headers: { email: email, "Content-Type": "application/json" }
     });
   } catch (err) {
     return err;
@@ -362,8 +362,8 @@ export const submitSecurityQuestionAnswer = (email, answer, questionIdx) => {
       body: JSON.stringify({
         email,
         answer,
-        questionIdx,
-      }),
+        questionIdx
+      })
     });
   } catch (err) {
     return err;
@@ -379,8 +379,8 @@ export const resetPassword = (pin, email, password, answer) => {
         pin,
         email,
         password,
-        answer,
-      }),
+        answer
+      })
     });
   } catch (err) {
     return err;
@@ -393,12 +393,12 @@ export const changePassword = (currentPassword, newPassword) => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        token: localStorage.getItem("token"),
+        token: localStorage.getItem("token")
       },
       body: JSON.stringify({
         currentPassword,
-        newPassword,
-      }),
+        newPassword
+      })
     });
   } catch (err) {
     return err;
@@ -412,8 +412,8 @@ export const getUsersForRolesPage = () => {
       headers: {
         "Content-Type": "application/json",
         token: localStorage.getItem("token"),
-        google: localStorage.getItem("google") ? true : false,
-      },
+        google: localStorage.getItem("google") ? true : false
+      }
     });
   } catch (err) {
     return err;
@@ -427,47 +427,47 @@ export const changeRole = (userEmail, newRole, password) => {
       headers: {
         "Content-Type": "application/json",
         token: localStorage.getItem("token"),
-        google: localStorage.getItem("google") ? true : false,
+        google: localStorage.getItem("google") ? true : false
       },
       body: JSON.stringify({
         userEmail,
         newRole,
-        password,
-      }),
+        password
+      })
     });
   } catch (err) {
     return err;
   }
 };
 
-export const google = (tokenId) => {
+export const google = tokenId => {
   try {
     return fetch(`${BASE_URL}/auth/google`, {
       method: "POST",
       headers: {
         Accept: "application/json",
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        tokenId: tokenId,
-      }),
+        tokenId: tokenId
+      })
     });
   } catch (err) {
     return err;
   }
 };
 
-export const verifyPIN = (pin) => {
+export const verifyPIN = pin => {
   try {
     return fetch(`${BASE_URL}/auth/verifyEmail`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        token: localStorage.getItem("token"),
+        token: localStorage.getItem("token")
       },
       body: JSON.stringify({
-        pin,
-      }),
+        pin
+      })
     });
   } catch (err) {
     return err;
@@ -480,8 +480,8 @@ export const resendPIN = () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        token: localStorage.getItem("token"),
-      },
+        token: localStorage.getItem("token")
+      }
     });
   } catch (err) {
     return err;
@@ -497,24 +497,24 @@ export const userInfo = async () => {
         headers: {
           "Content-Type": "application/JSON",
           token: localStorage.getItem("token"),
-          google: localStorage.getItem("google") ? true : false,
-        },
+          google: localStorage.getItem("google") ? true : false
+        }
       })
-      .catch((error) => {
+      .catch(error => {
         ({
           type: "GET_USER_FAIL",
-          error,
+          error
         });
       });
   }
 };
 
-export const canEdit = (model_id) => {
+export const canEdit = model_id => {
   const requestString = `${BASE_URL}/models/${model_id}/canEdit`;
   return axios.get(requestString, {
     headers: {
-      "x-access-token": localStorage.getItem("token"),
-    },
+      "x-access-token": localStorage.getItem("token")
+    }
   });
 };
 
@@ -535,22 +535,22 @@ export const saveDescription = async (
         {
           headers: {
             "Content-Type": "application/JSON",
-            "x-access-token": localStorage.getItem("token"),
-          },
+            "x-access-token": localStorage.getItem("token")
+          }
         }
       )
-      .catch((error) => ({
+      .catch(error => ({
         type: "SAVE_DESCRIPTION_FAIL",
-        error,
+        error
       }));
   }
 };
 
 export const getDescription = (model_id, phaseName, stageName) => {
   const requestString = `${BASE_URL}/models/${model_id}/${phaseName}/${stageName}/description`;
-  return axios.get(requestString).catch((error) => ({
+  return axios.get(requestString).catch(error => ({
     type: "GET_DESCRIPTION_FAIL",
-    error,
+    error
   }));
 };
 
@@ -562,8 +562,8 @@ export const getUser = async () => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "x-access-token": localStorage.getItem("token"),
-        },
+          "x-access-token": localStorage.getItem("token")
+        }
       });
     } catch (err) {
       return err;
@@ -571,16 +571,16 @@ export const getUser = async () => {
   }
 };
 
-export const createUser = async (newUser) => {
+export const createUser = async newUser => {
   const validUser = await checkValidUser();
   if (validUser) {
     try {
       return fetch(`${BASE_URL}/users`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json"
         },
-        body: JSON.stringify(newUser),
+        body: JSON.stringify(newUser)
       });
     } catch (err) {
       return err;
@@ -588,7 +588,7 @@ export const createUser = async (newUser) => {
   }
 };
 
-export const updateUser = async (data) => {
+export const updateUser = async data => {
   const validUser = await checkValidUser();
   if (validUser) {
     const requestString = `${BASE_URL}/users/userInfo`;
@@ -596,13 +596,13 @@ export const updateUser = async (data) => {
       .put(requestString, data, {
         headers: {
           "Content-Type": "application/JSON",
-          "x-access-token": localStorage.getItem("token"),
-        },
+          "x-access-token": localStorage.getItem("token")
+        }
       })
-      .catch((error) => {
+      .catch(error => {
         ({
           type: "UPDATE_USER_FAIL",
-          error,
+          error
         });
       });
   }
@@ -616,8 +616,8 @@ export const deleteUser = async () => {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          "x-access-token": localStorage.getItem("token"),
-        },
+          "x-access-token": localStorage.getItem("token")
+        }
       });
     } catch (err) {
       return err;
@@ -633,8 +633,8 @@ export const getFollowingProjectsIds = async () => {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-          "x-access-token": localStorage.getItem("token"),
-        },
+          "x-access-token": localStorage.getItem("token")
+        }
       });
     } catch (err) {
       return err;
@@ -642,7 +642,7 @@ export const getFollowingProjectsIds = async () => {
   }
 };
 
-export const followProject = async (projId) => {
+export const followProject = async projId => {
   const validUser = await checkValidUser();
   if (validUser) {
     try {
@@ -650,9 +650,9 @@ export const followProject = async (projId) => {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          "x-access-token": localStorage.getItem("token"),
+          "x-access-token": localStorage.getItem("token")
         },
-        body: JSON.stringify({ projId }),
+        body: JSON.stringify({ projId })
       });
     } catch (err) {
       return err;
@@ -660,7 +660,7 @@ export const followProject = async (projId) => {
   }
 };
 
-export const unfollowProject = async (projId) => {
+export const unfollowProject = async projId => {
   const validUser = await checkValidUser();
   if (validUser) {
     try {
@@ -668,9 +668,9 @@ export const unfollowProject = async (projId) => {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          "x-access-token": localStorage.getItem("token"),
+          "x-access-token": localStorage.getItem("token")
         },
-        body: JSON.stringify({ projId }),
+        body: JSON.stringify({ projId })
       });
     } catch (err) {
       return err;
@@ -687,18 +687,18 @@ export const postComment = async (model_id, commentBody) => {
         requestString,
         {
           commentLocation: model_id,
-          comment: commentBody,
+          comment: commentBody
         },
         {
           headers: {
             "Content-Type": "application/JSON",
-            "x-access-token": localStorage.getItem("token"),
-          },
+            "x-access-token": localStorage.getItem("token")
+          }
         }
       )
-      .catch((error) => ({
+      .catch(error => ({
         type: "SAVE_COMMENT_FAIL",
-        error,
+        error
       }));
   }
 };
@@ -713,31 +713,31 @@ export const postCommentThread = async (model_id, parentIndex, commentBody) => {
         {
           commentLocation: `${model_id}`,
           commentIndex: parentIndex,
-          comment: commentBody,
+          comment: commentBody
         },
         {
           headers: {
             "Content-Type": "application/JSON",
-            "x-access-token": localStorage.getItem("token"),
-          },
+            "x-access-token": localStorage.getItem("token")
+          }
         }
       )
-      .catch((error) => ({
+      .catch(error => ({
         type: "SAVE_COMMENT_FAIL",
-        error,
+        error
       }));
   }
 };
 
-export const getComments = (model_id) => {
+export const getComments = model_id => {
   const requestString = `${BASE_URL}/comment/${model_id}`;
-  return axios.get(requestString).catch((error) => ({
+  return axios.get(requestString).catch(error => ({
     type: "GET_COMMENT_FAIL",
-    error,
+    error
   }));
 };
 
-export const addTemplate = (data) => {
+export const addTemplate = data => {
   /**
    * Adds a template
    * Returns POST_TEMPLATE_FAIL upon failure
@@ -746,27 +746,27 @@ export const addTemplate = (data) => {
   return axios
     .post(requestString, data, {
       headers: {
-        "Content-Type": "application/JSON",
-      },
+        "Content-Type": "application/JSON"
+      }
     })
-    .catch((error) => {
+    .catch(error => {
       ({
         type: "POST_TEMPLATE_FAIL",
-        error,
+        error
       });
     });
 };
 
-export const deleteTemplate = (templateID) => {
+export const deleteTemplate = templateID => {
   /**
    * Deletes a template
    * Returns DELETE_TEMPLATE_FAIL upon failure
    */
   const requestString = `${BASE_URL}/templates/${templateID}`;
-  return axios.delete(requestString).catch((error) => {
+  return axios.delete(requestString).catch(error => {
     ({
       type: "DELETE_TEMPLATE_FAIL",
-      error,
+      error
     });
   });
 };
@@ -780,18 +780,18 @@ export const getTemplates = () => {
   return axios
     .get(requestString, {
       headers: {
-        "Content-Type": "application/JSON",
-      },
+        "Content-Type": "application/JSON"
+      }
     })
-    .catch((error) => {
+    .catch(error => {
       ({
         type: "GET_TEMPLATE_FAIL",
-        error,
+        error
       });
     });
 };
 
-export const getTemplateByID = (templateID) => {
+export const getTemplateByID = templateID => {
   /**
    * Returns template given ID
    * Returns GET_TEMPLATE_ID_FAIL upon failure
@@ -801,13 +801,13 @@ export const getTemplateByID = (templateID) => {
     .get(requestString, {
       headers: {
         "Content-Type": "application/JSON",
-        "x-access-token": localStorage.getItem("token"),
-      },
+        "x-access-token": localStorage.getItem("token")
+      }
     })
-    .catch((error) => {
+    .catch(error => {
       ({
         type: "GET_TEMPLATE_ID_FAIL",
-        error,
+        error
       });
     });
 };
@@ -822,13 +822,13 @@ export const saveTemplate = (data, Template_ID) => {
     .put(requestString, data, {
       headers: {
         "Content-Type": "application/JSON",
-        "x-access-token": localStorage.getItem("token"),
-      },
+        "x-access-token": localStorage.getItem("token")
+      }
     })
-    .catch((error) => {
+    .catch(error => {
       ({
         type: "UPDATE_TEMPLATE_FAIL",
-        error,
+        error
       });
     });
 };
@@ -846,28 +846,28 @@ export const saveTemplateDraft = (Template_ID, draft) => {
       {
         headers: {
           "Content-Type": "application/JSON",
-          "x-access-token": localStorage.getItem("token"),
-        },
+          "x-access-token": localStorage.getItem("token")
+        }
       }
     )
 
-    .catch((error) => {
+    .catch(error => {
       ({
         type: "SAVE_TEMPLATE_DRAFT_FAIL",
-        error,
+        error
       });
     });
 };
 
-export const getCommentCount = (model_id) => {
+export const getCommentCount = model_id => {
   const requestString = `${BASE_URL}/comment/${model_id}/count`;
-  return axios.get(requestString).catch((error) => ({
+  return axios.get(requestString).catch(error => ({
     type: "GET_COMMENT_FAIL",
-    error,
+    error
   }));
 };
 
-export const postUpvote = async (model_id) => {
+export const postUpvote = async model_id => {
   const validUser = await checkValidUser();
   if (validUser) {
     const requestString = `${BASE_URL}/upvote`;
@@ -878,13 +878,13 @@ export const postUpvote = async (model_id) => {
         {
           headers: {
             "Content-Type": "application/JSON",
-            "x-access-token": localStorage.getItem("token"),
-          },
+            "x-access-token": localStorage.getItem("token")
+          }
         }
       )
-      .catch((error) => ({
+      .catch(error => ({
         type: "SAVE_UPVOTE_FAIL",
-        error,
+        error
       }));
   }
 };
@@ -901,14 +901,14 @@ export const saveTemplateName = (name, Template_ID) => {
       { name },
       {
         headers: {
-          "Content-Type": "application/JSON",
-        },
+          "Content-Type": "application/JSON"
+        }
       }
     )
-    .catch((error) => {
+    .catch(error => {
       ({
         type: "UPDATE_TEMPLATE_NAME_FAIL",
-        error,
+        error
       });
     });
 };
@@ -925,23 +925,23 @@ export const saveTemplatePhases = (phases, Template_ID) => {
       { phases },
       {
         headers: {
-          "Content-Type": "application/JSON",
-        },
+          "Content-Type": "application/JSON"
+        }
       }
     )
-    .catch((error) => {
+    .catch(error => {
       ({
         type: "UPDATE_TEMPLATE_PHASES_FAIL",
-        error,
+        error
       });
     });
 };
 
-export const getUpvotes = (model_id) => {
+export const getUpvotes = model_id => {
   const requestString = `${BASE_URL}/upvote/${model_id}`;
-  return axios.get(requestString).catch((error) => ({
+  return axios.get(requestString).catch(error => ({
     type: "GET_UPVOTE_FAIL",
-    error,
+    error
   }));
 };
 
@@ -951,13 +951,13 @@ export const checkToken = () => {
     .get(requestString, {
       headers: {
         "Content-Type": "application/JSON",
-        "x-access-token": localStorage.getItem("token"),
-      },
+        "x-access-token": localStorage.getItem("token")
+      }
     })
-    .catch((error) => error.response);
+    .catch(error => error.response);
 };
 
-export const duplicateModel = (model_id) => {
+export const duplicateModel = model_id => {
   const requestString = `${BASE_URL}/duplicate/${model_id}`;
   return axios
     .post(
@@ -966,13 +966,13 @@ export const duplicateModel = (model_id) => {
       {
         headers: {
           "Content-Type": "application/JSON",
-          "x-access-token": localStorage.getItem("token"),
-        },
+          "x-access-token": localStorage.getItem("token")
+        }
       }
     )
-    .catch((error) => ({
+    .catch(error => ({
       type: "DUPLICATE_MODEL_FAIL",
-      error,
+      error
     }));
 };
 
@@ -989,12 +989,12 @@ export const updateLastCheckedNotifDate = async () => {
       {
         headers: {
           "Content-Type": "application/JSON",
-          "x-access-token": localStorage.getItem("token"),
-        },
+          "x-access-token": localStorage.getItem("token")
+        }
       }
     )
-    .catch((error) => ({
+    .catch(error => ({
       type: "NOTIF_UPDATE_FAIL",
-      error,
+      error
     }));
 };
