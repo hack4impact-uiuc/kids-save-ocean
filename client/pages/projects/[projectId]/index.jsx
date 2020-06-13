@@ -129,8 +129,8 @@ export default function ProjectPage() {
         `${stage.name}-${phase}-${stage.description}`,
         stage.name,
         capitalize(phase),
-        stage.startdate !== undefined ? new Date(stage.startdate) : new Date(),
-        new Date(stage.enddate),
+        new Date(stage.startdate),
+        stage.enddate !== undefined ? new Date(stage.enddate) : new Date(),
         null,
         Math.random() * HUNDRED,
         null
