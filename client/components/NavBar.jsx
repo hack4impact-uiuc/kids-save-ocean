@@ -86,12 +86,8 @@ export default WrappedMessage(function NavBar(props) {
   }, [props, setDisplayNotifDot, setUpdates]);
 
   useEffect(() => {
-    toggleLoggedIn();
-  });
-
-  function toggleLoggedIn() {
     setLoggedIn(localStorage.getItem("token"));
-  }
+  }, [process.browser && Router.pathname]);
 
   function toggleNavbar() {
     setCollapsed(!isCollapsed);

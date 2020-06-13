@@ -31,12 +31,13 @@ export default function Profile() {
   useEffect(() => {
     const getUserInfo = async () => {
       if (await checkValidUser()) {
-        const response = await getUser();
-        const resp = await response.json();
-        setUser(resp.data);
-        setUsername(resp.data.username);
-        setBirthday(resp.data.birthday);
-        setCountry(resp.data.country);
+        const resp = await getUser();
+        const userResp = resp.data.user;
+
+        setUser(userResp);
+        setUsername(userResp.username);
+        setBirthday(userResp.birthday);
+        setCountry(userResp.country);
         setHasUser(true);
       }
     };
@@ -98,9 +99,8 @@ export default function Profile() {
     const resp = await updateUser(changes);
 
     if (resp.status === SUCCESS) {
-      const newUserResp = await getUser();
-      const newUser = await newUserResp.json();
-      setUser(newUser.data);
+      const newUser = await getUser();
+      setUser(newUser.data.user);
     }
   };
 
