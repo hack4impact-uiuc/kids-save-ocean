@@ -751,7 +751,8 @@ export const addTemplate = data => {
   return axios
     .post(requestString, data, {
       headers: {
-        "Content-Type": "application/JSON"
+        "Content-Type": "application/JSON",
+        "x-access-token": localStorage.getItem("token")
       }
     })
     .catch(error => {
@@ -768,12 +769,19 @@ export const deleteTemplate = templateID => {
    * Returns DELETE_TEMPLATE_FAIL upon failure
    */
   const requestString = `${BASE_URL}/templates/${templateID}`;
-  return axios.delete(requestString).catch(error => {
-    ({
-      type: "DELETE_TEMPLATE_FAIL",
-      error
+  return axios
+    .delete(requestString, {
+      headers: {
+        "Content-Type": "application/JSON",
+        "x-access-token": localStorage.getItem("token")
+      }
+    })
+    .catch(error => {
+      ({
+        type: "DELETE_TEMPLATE_FAIL",
+        error
+      });
     });
-  });
 };
 
 export const getTemplates = () => {
@@ -906,7 +914,8 @@ export const saveTemplateName = (name, Template_ID) => {
       { name },
       {
         headers: {
-          "Content-Type": "application/JSON"
+          "Content-Type": "application/JSON",
+          "x-access-token": localStorage.getItem("token")
         }
       }
     )
@@ -930,7 +939,8 @@ export const saveTemplatePhases = (phases, Template_ID) => {
       { phases },
       {
         headers: {
-          "Content-Type": "application/JSON"
+          "Content-Type": "application/JSON",
+          "x-access-token": localStorage.getItem("token")
         }
       }
     )
