@@ -32,9 +32,8 @@ export default function Feed() {
   useEffect(() => {
     const loadUserInfo = async () => {
       const profile = await getUser();
-      const resp = await profile.json();
-      if (resp) {
-        setUser(resp.data);
+      if (profile) {
+        setUser(profile.data);
       }
     };
     loadUserInfo();
