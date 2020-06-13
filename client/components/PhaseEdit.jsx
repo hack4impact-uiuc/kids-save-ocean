@@ -18,7 +18,37 @@ import {
 export default function PhaseEdit(props) {
   const { projectId, phaseName, phaseObj, addStage } = props;
   return (
-    <div>
+    <>
+      <Row>
+        <div className="col-12 stages">
+          <h2>Add a stage</h2>
+          <AddStage
+            phase={phaseName}
+            addStage={(stageName, startdate, enddate, template = null) => {
+              addStage(
+                projectId,
+                phaseName,
+                stageName,
+                startdate,
+                enddate,
+                template
+              );
+            }}
+          />
+
+          <h2>Existing stages</h2>
+          {phaseObj?.stages.map((value) => (
+            <Stage
+              readonly={false}
+              stageName={value.name}
+              phaseName={phaseName}
+              id={projectId}
+              key={`${phaseName}-${value.name}`}
+            />
+          ))}
+        </div>
+        <hr className="header-row-ep" />
+      </Row>
       <Row>
         <Col sm="4">
           <PhaseDetailEdit
@@ -54,34 +84,6 @@ export default function PhaseEdit(props) {
           />
         </Col>
       </Row>
-      <Row>
-        <div className="col-12 stages">
-          <AddStage
-            phase={phaseName}
-            addStage={(stageName, startdate, enddate, template = null) => {
-              addStage(
-                projectId,
-                phaseName,
-                stageName,
-                startdate,
-                enddate,
-                template
-              );
-            }}
-          />
-
-          {phaseObj?.stages.map((value) => (
-            <Stage
-              readonly={false}
-              stageName={value.name}
-              phaseName={phaseName}
-              id={projectId}
-              key={`${phaseName}-${value.name}`}
-            />
-          ))}
-        </div>
-        <hr className="header-row-ep" />
-      </Row>
-    </div>
+    </>
   );
 }
