@@ -19,7 +19,7 @@ import "../public/styles/navbar.scss";
 import { getUpdates, updateLastCheckedNotifDate } from "../utils/apiWrapper";
 import WrappedMessage from "./WrappedMessage";
 import Router from "next/router";
-import { checkValidUser } from "../utils/validator";
+import { checkValidUser, checkIsAdmin } from "../utils/validator";
 
 export default WrappedMessage(function NavBar(props) {
   const [isTop, setTop] = useState(true);
@@ -86,12 +86,14 @@ export default WrappedMessage(function NavBar(props) {
   }, [props, setDisplayNotifDot, setUpdates]);
 
   useEffect(() => {
-    toggleLoggedIn();
-  });
+    const updateAccountStatus = async () => {
+      setLoggedIn(localStorage.getItem("token"));
+      let admin = await checkIsAdmin();
+      console.log(admin);
+    };
 
-  function toggleLoggedIn() {
-    setLoggedIn(localStorage.getItem("token"));
-  }
+    updateAccountStatus();
+  }, [process.browser && Router.pathname]);
 
   function toggleNavbar() {
     setCollapsed(!isCollapsed);
