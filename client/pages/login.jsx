@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import Router from "next/router";
 import { login } from "../utils/apiWrapper";
@@ -19,6 +19,23 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
+  const handleSubmit = useCallback(
+    async e => {
+      e.preventDefault();
+
+      const result = await login(email, password);
+      const resp = await result.json();
+
+      if (!resp.token) {
+        setErrorMessage(resp.message);
+      } else {
+        localStorage.setItem("token", resp.token);
+        Router.push("/feed");
+      }
+    },
+    [email, password]
+  );
+
   useEffect(() => {
     const listener = e => {
       if (e.code === "Enter" || e.code === "NumpadEnter") {
@@ -31,25 +48,11 @@ export default function Login() {
     return () => {
       document.removeEventListener("keydown", listener);
     };
-  }, [email, password]);
+  }, [email, password, handleSubmit]);
 
   useEffect(() => {
     setHeight(window.innerHeight);
   }, []);
-
-  const handleSubmit = async e => {
-    e.preventDefault();
-
-    const result = await login(email, password);
-    const resp = await result.json();
-
-    if (!resp.token) {
-      setErrorMessage(resp.message);
-    } else {
-      localStorage.setItem("token", resp.token);
-      Router.push("/feed");
-    }
-  };
 
   return (
     <div>
