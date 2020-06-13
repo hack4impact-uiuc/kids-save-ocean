@@ -241,7 +241,7 @@ export default function Home() {
           </Col>
         </Row>
       </Container>
-      <div className="home-featured-box">
+      {/* <div className="home-featured-box">
         <div className="home-featured-title">Featured Projects</div>
         <Carousel
           activeIndex={activeIndex}
@@ -261,7 +261,7 @@ export default function Home() {
             onClickHandler={next}
           />
         </Carousel>
-      </div>
+      </div> */}
       <Container className="home-sdg-box">
         <div className="home-sdg-title">The Sustainable Development Goals</div>
         <div className="home-sdg-desc">
