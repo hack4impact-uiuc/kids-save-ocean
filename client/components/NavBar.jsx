@@ -29,6 +29,7 @@ export default WrappedMessage(function NavBar(props) {
   const [updates, setUpdates] = useState([]);
   const [displayNotifDot, setDisplayNotifDot] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [modal, setModal] = useState(false);
   const waitTime = 200;
 
@@ -88,8 +89,9 @@ export default WrappedMessage(function NavBar(props) {
   useEffect(() => {
     const updateAccountStatus = async () => {
       setLoggedIn(localStorage.getItem("token"));
-      let admin = await checkIsAdmin();
-      console.log(admin);
+
+      const admin = await checkIsAdmin();
+      setIsAdmin(admin);
     };
 
     updateAccountStatus();
@@ -118,6 +120,24 @@ export default WrappedMessage(function NavBar(props) {
         <NavbarToggler onClick={toggleNavbar} />
         <Collapse navbar isOpen={!isCollapsed}>
           <Nav navbar className="ml-auto">
+            {isAdmin && (
+              <NavItem>
+                <Col className="button-col">
+                  <Link href="/template">
+                    <a>
+                      <Button className="button-create" color="#ffcc66">
+                        Templates
+                      </Button>
+                    </a>
+                  </Link>
+                </Col>
+              </NavItem>
+            )}
+            {isAdmin && (
+              <NavItem>
+                <Col lg={{ size: 1 }} className="divider"></Col>
+              </NavItem>
+            )}
             <NavItem>
               <Col className="button-col">
                 <Link href="/projects">
