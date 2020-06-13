@@ -9,21 +9,24 @@ export default [
   {
     label: "Zero Hunger",
     value: "2",
-    description: "End hunger, achieve food security and improved nutrition and promote sustainable agriculture.",
+    description:
+      "End hunger, achieve food security and improved nutrition and promote sustainable agriculture.",
     color: "#dda63a",
     imageLink: "/sdg-images/2.png"
   },
   {
     label: "Good Health and Well-Being",
     value: "3",
-    description: "Ensure healthy lives and promote well-being for all at all ages.",
+    description:
+      "Ensure healthy lives and promote well-being for all at all ages.",
     color: "#4d9e37",
     imageLink: "/sdg-images/3.png"
   },
   {
     label: "Quality Education",
     value: "4",
-    description: "Ensure inclusive and quality education for all and promote lifelong learning.",
+    description:
+      "Ensure inclusive and quality education for all and promote lifelong learning.",
     color: "#c41b2f",
     imageLink: "/sdg-images/4.png"
   },
@@ -44,21 +47,24 @@ export default [
   {
     label: "Affordable and Clean Energy",
     value: "7",
-    description: "Ensure access to affordable, reliable, sustainable and modern energy for all.",
+    description:
+      "Ensure access to affordable, reliable, sustainable and modern energy for all.",
     color: "#fcc207",
     imageLink: "/sdg-images/7.png"
   },
   {
     label: "Decent Work and Economic Growth",
     value: "8",
-    description: "Promote inclusive and sustainable economic growth, employment and decent work for all.",
+    description:
+      "Promote inclusive and sustainable economic growth, employment and decent work for all.",
     color: "#a31942",
     imageLink: "/sdg-images/8.png"
   },
   {
     label: "Industry, Innovation and Infrastructure",
     value: "9",
-    description: "Build resilient infrastructure, promote sustainable industrialization and foster innovation.",
+    description:
+      "Build resilient infrastructure, promote sustainable industrialization and foster innovation.",
     color: "#fc6a27",
     imageLink: "/sdg-images/9.png"
   },
@@ -93,14 +99,16 @@ export default [
   {
     label: "Life Below Water",
     value: "14",
-    description: "Conserve and sustainably use the oceans, seas and marine resources.",
+    description:
+      "Conserve and sustainably use the oceans, seas and marine resources.",
     color: "#0996d9",
     imageLink: "/sdg-images/14.png"
   },
   {
     label: "Life On Land",
     value: "15",
-    description: "Sustainably manage forests, combat desertification, halt and reverse land degradation, halt biodiversity loss.",
+    description:
+      "Sustainably manage forests, combat desertification, halt and reverse land degradation, halt biodiversity loss.",
     color: "#57bf2b",
     imageLink: "/sdg-images/15.png"
   },
@@ -114,7 +122,8 @@ export default [
   {
     label: "Partnerships for the Goals",
     value: "17",
-    description: "Revitalize the global partnership for sustainable development.",
+    description:
+      "Revitalize the global partnership for sustainable development.",
     color: "#1b476b",
     imageLink: "/sdg-images/17.png"
   }
