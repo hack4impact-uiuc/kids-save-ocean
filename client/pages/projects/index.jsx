@@ -217,6 +217,14 @@ export default function ProjectsPage() {
   return (
     <>
       <Head title="Project Explorer" />
+      <Container className="projects-search-header-box">
+        <div className="projects-search-title">Discover Projects</div>
+        <img
+          className="projects-search-header-img"
+          src="/search-page-images/man.svg"
+          alt="Search person"
+        ></img>
+      </Container>
       <Container>
         {visAlert && (
           <Alert color="danger">
