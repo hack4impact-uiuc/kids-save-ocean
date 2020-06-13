@@ -7,7 +7,7 @@ import {
   CardTitle,
   CardSubtitle,
   CardText,
-  CardImg
+  CardImg,
 } from "reactstrap";
 import { getUpdates, getUser } from "../utils/apiWrapper";
 import { Head, InfiniteScroller, Loader, FeedItem } from "../components";
@@ -99,11 +99,11 @@ export default function Feed() {
           setHasMore(false);
         }
         setNextIdx(nextUpdates.length);
-        nextUpdates.map(update => {
+        nextUpdates.map((update) => {
           const dateObj = new Date(parseInt(update.date));
           update.date = dateObj.toLocaleDateString("en-US", {
             month: "long",
-            day: "numeric"
+            day: "numeric",
           });
           update.numStagesUpdated = Math.floor(
             Math.random() * randomUpdatesLimit
@@ -119,7 +119,7 @@ export default function Feed() {
               randomUpdatesLimit *
               randomUpdatesLimit
           );
-          setUpdates(prevState => [...prevState, update]);
+          setUpdates((prevState) => [...prevState, update]);
         });
         setWillMount(false);
         setIsFetching(false);
@@ -135,21 +135,21 @@ export default function Feed() {
         <Card className="user-card">
           <div className="user-profile-pic"></div>
           <CardTitle className="user-profile-name">
-            <strong>@{user ? user.username : "Ashwin S."}</strong>
+            <strong>@{user ?? user.username}</strong>
           </CardTitle>
           <CardSubtitle className="follow-counters">
             <div className="follower-count">
               <strong>
-                {user.followingUsers ? user.followingUsers.length : "300"}
-              </strong>{" "}
-              followers
+                {`${
+                  user.followingUsers ? user.followingUsers.length : "0"
+                } following`}
+              </strong>
             </div>
             <div className="following-count">
-              <strong>{user.followers ? user.followers.length : "300"}</strong>{" "}
-              following
+              {`${user.followers ? user.followers.length : "0"} followers`}
             </div>
           </CardSubtitle>
-          <div className="progress-div">
+          {/* <div className="progress-div">
             <div className="progress-labels">
               <strong>Current Project</strong>
               <div className="progress-label-percent">
@@ -159,7 +159,7 @@ export default function Feed() {
             <div className="progress-bar">
               <div className="progress-fill"></div>
             </div>
-          </div>
+          </div> */}
           <div className="user-projects-row">
             <img
               className="project-ribbon-icon"
@@ -171,7 +171,7 @@ export default function Feed() {
             </a>
             <div className="user-projects-count">
               <strong>
-                {user.followingProjects ? user.followingProjects.length : "76"}
+                {user.followingProjects ? user.followingProjects.length : "0"}
               </strong>
             </div>
           </div>
@@ -185,7 +185,7 @@ export default function Feed() {
               <strong>Updates</strong>
             </a>
             <div className="user-projects-count">
-              <strong>31</strong>
+              <strong>{updates.length}</strong>
             </div>
           </div>
           <div className="user-projects-row">
@@ -199,7 +199,7 @@ export default function Feed() {
             </a>
             <div className="user-projects-count">
               <strong>
-                {user.createdProjects ? user.createdProjects.length : "13"}
+                {user.createdProjects ? user.createdProjects.length : "0"}
               </strong>
             </div>
           </div>
@@ -207,7 +207,7 @@ export default function Feed() {
       </Container>
       <Container className="feed-wrapper">
         {willMount && <Loader />}
-        {updates.map(update => (
+        {updates.map((update) => (
           <FeedItem key={update._id} update={update} />
         ))}
         {updates.length !== 0 && hasMore && !willMount && (
