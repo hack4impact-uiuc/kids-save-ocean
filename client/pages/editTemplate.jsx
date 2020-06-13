@@ -146,7 +146,7 @@ export default function EditTemplate() {
             <Row>
               <Button
                 onClick={handleNewStage}
-                className="add-stage"
+                className="add-stage-button"
                 color="white"
               >
                 Add New Stage

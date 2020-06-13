@@ -12,7 +12,8 @@ import {
   Alert,
   Nav,
   NavItem,
-  NavLink
+  NavLink,
+  Jumbotron
 } from "reactstrap";
 import {
   getModelsByID,
@@ -34,7 +35,6 @@ export default WrappedMessage(function EditProjectPage(props) {
   const [isOwner, setIsOwner] = useState(false);
   const [loading, setLoading] = useState(true);
   const [activePhase, setActivePhase] = useState("inspiration");
-
   const [projTitle, setProjTitle] = useState("");
   const [description, setDescription] = useState("");
   const [grpSize, setGrpSize] = useState(false);
@@ -77,19 +77,32 @@ export default WrappedMessage(function EditProjectPage(props) {
     setGrpSize(groupSizeVal);
   }, [projectId]);
 
-  const addStage = (projectId, phaseName, stageName, start, end, template) => {
-    addModelStage(
-      projectId,
-      phaseName,
-      stageName,
-      start,
-      end,
-      template ? template.draft : ""
-    )
-      .then(() => {
-        loadProject();
-      })
-      .catch(() => props.setError("Failed to add stage"));
+  const addStage = async (
+    projectId,
+    phaseName,
+    stageName,
+    start,
+    end,
+    template
+  ) => {
+    try {
+      await addModelStage(
+        projectId,
+        phaseName,
+        stageName,
+        start,
+        end,
+        template ? template.draft : ""
+      );
+      await loadProject();
+      document.getElementById(`${phaseName}-${stageName}`)?.scrollIntoView({
+        block: "end",
+        inline: "nearest",
+        behavior: "smooth"
+      });
+    } catch {
+      props.setError("Failed to add stage");
+    }
   };
 
   useEffect(() => {
@@ -174,6 +187,24 @@ export default WrappedMessage(function EditProjectPage(props) {
               </Row>
             </Col>
           </Row>
+          <Jumbotron className="edit-project-instructions">
+            <h2>Stage editor</h2>
+            <p>
+              Use the below sections to add new stages to your project by phase.
+              New stages can be filled out from templates that will help guide
+              you through the design process, whether it be through interviews,
+              a pilot, or other techniques. The editors allow for interactive
+              text editing and formatting, and you can even embed images, video,
+              or link to external content from sites like YouTube and Twitter.
+            </p>
+
+            <p>
+              Click on the phase you want to add a stage to, and fill out the
+              details for the stage(s) you want to edit. For smaller-scale
+              information, feel free to use the Stakeholders, Challenges, or
+              Insights sections at the bottom of the page.
+            </p>
+          </Jumbotron>
           <div className="phase-edit-section">
             <Nav tabs justified>
               {Object.keys(project?.phases).map(phase => (

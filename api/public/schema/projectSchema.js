@@ -300,7 +300,7 @@ const schema = {
                   },
                   enddate: {
                     type: "string",
-                    required: true
+                    required: false
                   }
                 }
               }

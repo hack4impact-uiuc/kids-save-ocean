@@ -557,14 +557,19 @@ export const getDescription = (model_id, phaseName, stageName) => {
 export const getUser = async () => {
   const validUser = await checkValidUser();
   if (validUser) {
+    const requestString = `${BASE_URL}/users/userInfo`;
     try {
-      return fetch(`${BASE_URL}/users/userInfo`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "x-access-token": localStorage.getItem("token")
-        }
-      });
+      return axios
+        .get(requestString, {
+          headers: {
+            "Content-Type": "application/JSON",
+            "x-access-token": localStorage.getItem("token")
+          }
+        })
+        .catch(error => ({
+          type: "SAVE_DESCRIPTION_FAIL",
+          error
+        }));
     } catch (err) {
       return err;
     }

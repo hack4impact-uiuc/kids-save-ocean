@@ -43,7 +43,7 @@ export default WrappedMessage(function AddStage({ addStage, phase, setError }) {
     str.length > 0 ? str.charAt(0).toUpperCase() + str.slice(1) : str;
 
   const submit = (stageName, startdate, enddate) => {
-    if (stageName === "" || startdate === "" || enddate === "") {
+    if (stageName === "" || startdate === "") {
       setError("Missing required fields");
       return;
     }
@@ -83,7 +83,7 @@ export default WrappedMessage(function AddStage({ addStage, phase, setError }) {
       </Col>
       <Col sm="3">
         <FormGroup>
-          <Label>End Date</Label>
+          <Label>Optional: End Date</Label>
           <Input
             type="date"
             className="form-input"

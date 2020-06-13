@@ -86,12 +86,8 @@ export default WrappedMessage(function NavBar(props) {
   }, [props, setDisplayNotifDot, setUpdates]);
 
   useEffect(() => {
-    toggleLoggedIn();
-  });
-
-  function toggleLoggedIn() {
     setLoggedIn(localStorage.getItem("token"));
-  }
+  }, [process.browser && Router.pathname]);
 
   function toggleNavbar() {
     setCollapsed(!isCollapsed);
@@ -103,7 +99,7 @@ export default WrappedMessage(function NavBar(props) {
     >
       <ProjectForm isModalActivated={modal}></ProjectForm>
       <Container className="container-nav">
-        <Link href="/">
+        <Link href={loggedIn ? "/feed" : "/"}>
           <a>
             <img
               className="logo-settings"
