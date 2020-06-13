@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
 import Link from "next/link";
 import Select from "react-select";
 import classnames from "classnames";
@@ -54,8 +54,9 @@ export default WrappedMessage(function EditProjectPage(props) {
     setGrpSize(grpSize);
   };
 
-  const deleteProject = id => {
-    deleteForm(id);
+  const deleteProject = () => {
+    deleteForm(projectId);
+    Router.push("/projects");
   };
 
   const saveTopChanges = (name, description, groupSize) => {
@@ -225,12 +226,14 @@ export default WrappedMessage(function EditProjectPage(props) {
             </Nav>
             <br />
             <Col>
-              <PhaseEdit
-                phaseObj={project?.phases[activePhase]}
-                projectId={projectId}
-                phaseName={activePhase}
-                addStage={addStage}
-              />
+              {projectId && (
+                <PhaseEdit
+                  phaseObj={project?.phases[activePhase]}
+                  projectId={projectId}
+                  phaseName={activePhase}
+                  addStage={addStage}
+                />
+              )}
             </Col>
           </div>
           <Link
