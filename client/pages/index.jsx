@@ -314,7 +314,7 @@ export default function Home() {
                       className="sdg-card-back-img"
                     />
                     <CardText className="sdg-card-desc">
-                      SDG {sdg.value} Description
+                      {sdg.description}
                     </CardText>
                   </Card>
                 </CardGroup>

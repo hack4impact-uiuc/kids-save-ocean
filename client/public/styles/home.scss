@@ -164,8 +164,10 @@ body {
 }
 .sdg-card-desc {
   position: absolute;
-  top: 42.5%;
-  left: 10%;
+  margin-left: .25rem;
+  margin-right: .25rem;
+  margin-top: 1rem;
+  text-align: center;
   color: white;
 }
 .hp-featured-card-deck {
