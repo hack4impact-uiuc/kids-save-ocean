@@ -226,12 +226,12 @@ export default WrappedMessage(function EditProjectPage(props) {
             </Nav>
             <br />
             <Col>
-              <PhaseEdit
+              {projectId && <PhaseEdit
                 phaseObj={project?.phases[activePhase]}
                 projectId={projectId}
                 phaseName={activePhase}
                 addStage={addStage}
-              />
+              />}
             </Col>
           </div>
           <Link
