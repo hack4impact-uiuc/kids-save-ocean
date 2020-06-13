@@ -221,7 +221,7 @@ export default function Feed() {
           </div>
         )}
       </Container>
-      <Container className="featured-sidebar">
+      {/* <Container className="featured-sidebar">
         <div className="featured-title">
           <strong>Featured</strong>
         </div>
@@ -231,7 +231,7 @@ export default function Feed() {
             <strong>See More</strong>
           </a>
         </Link>
-      </Container>
+      </Container> */}
     </div>
   );
 }
