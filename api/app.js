@@ -100,6 +100,13 @@ app.use(function(err, req, res, next) {
   }
 });
 
+app.use(function(err, req, res, next) {
+  if (err.code === "permission_denied") {
+    console.log(err);
+    res.status(403).send("Forbidden");
+  }
+});
+
 // error handler
 app.use(function(err, req, res) {
   // set locals, only providing error in development
