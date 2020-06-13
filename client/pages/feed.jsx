@@ -148,7 +148,9 @@ export default function Feed() {
               </strong>
             </div>
             <div className="following-count">
-              {`${user.followers ? user.followers.length : "0"} followers`}
+              <strong>
+                {`${user.followers ? user.followers.length : "0"} followers`}
+              </strong>
             </div>
           </CardSubtitle>
           {/* <div className="progress-div">
@@ -163,7 +165,24 @@ export default function Feed() {
             </div>
           </div> */}
           <div className="user-projects-row">
-            <Link href="/profile" as="/profile?section=saved-projects">
+            <Link href="/profile">
+              <a>
+                <img
+                  className="project-ribbon-icon"
+                  src="/feed-images/project-icon.svg"
+                  alt="proj-icon"
+                />
+                <strong className="user-projects-label">My Projects</strong>
+                <div className="user-projects-count">
+                  <strong>
+                    {user.createdProjects ? user.createdProjects.length : "0"}
+                  </strong>
+                </div>
+              </a>
+            </Link>
+          </div>
+          <div className="user-projects-row">
+            <Link href="/profile">
               <a>
                 <img
                   className="project-ribbon-icon"
@@ -181,7 +200,7 @@ export default function Feed() {
               </a>
             </Link>
           </div>
-          <div className="user-projects-row">
+          {/* <div className="user-projects-row">
             <img
               className="project-ribbon-icon"
               src="/feed-images/project-icon.svg"
@@ -193,24 +212,7 @@ export default function Feed() {
             <div className="user-projects-count">
               <strong>{updates.length}</strong>
             </div>
-          </div>
-          <div className="user-projects-row">
-            <Link href="/profile" as="/profile?section=your-projects">
-              <a>
-                <img
-                  className="project-ribbon-icon"
-                  src="/feed-images/project-icon.svg"
-                  alt="proj-icon"
-                />
-                <strong className="user-projects-label">My Projects</strong>
-                <div className="user-projects-count">
-                  <strong>
-                    {user.createdProjects ? user.createdProjects.length : "0"}
-                  </strong>
-                </div>
-              </a>
-            </Link>
-          </div>
+          </div> */}
         </Card>
       </Container>
       <Container className="feed-wrapper">
