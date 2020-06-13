@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
 import { Card, CardBody, CardTitle, CardText } from "reactstrap";
+import Link from "next/link";
 
 export default function FeedItem(props) {
   const { update } = props;
@@ -25,39 +26,41 @@ export default function FeedItem(props) {
   };
 
   return (
-    <Fragment>
-      <Card className="feed-card">
-        <CardBody className="feed-card-body">
-          <CardTitle className="feed-card-title">
-            <div className="feed-card-profile-pic"></div>
-            {feedDescription(update.type)}
-          </CardTitle>
-          {update.subDescription && (
-            <CardText className="feed-card-description">
-              {update.subDescription.length > charLimit
-                ? update.subDescription.slice(0, charLimit).concat("...")
-                : update.subDescription}
-            </CardText>
-          )}
-          <div className="feed-card-footer">
-            <div className="feed-card-date">{update.date}</div>
-            <div className="feed-card-interactions">
-              {update.numComments ? update.numComments : "0"}
-              <img
-                className="feed-card-comment-icon"
-                src="/feed-images/comment-icon.svg"
-                alt="comment"
-              />
-              {update.numUpvotes ? update.numUpvotes : "0"}
-              <img
-                className="feed-card-like-icon"
-                src="/feed-images/like-icon.svg"
-                alt="like"
-              />
+    <Link href="/projects/[projectId]" as={`/projects/${update.projectId}`}>
+      <a className="feed-card">
+        <Card>
+          <CardBody className="feed-card-body">
+            <CardTitle className="feed-card-title">
+              <div className="feed-card-profile-pic"></div>
+              {feedDescription(update.type)}
+            </CardTitle>
+            {update.subDescription && (
+              <CardText className="feed-card-description">
+                {update.subDescription.length > charLimit
+                  ? update.subDescription.slice(0, charLimit).concat("...")
+                  : update.subDescription}
+              </CardText>
+            )}
+            <div className="feed-card-footer">
+              <div className="feed-card-date">{update.date}</div>
+              <div className="feed-card-interactions">
+                {update.numComments ? update.numComments : "0"}
+                <img
+                  className="feed-card-comment-icon"
+                  src="/feed-images/comment-icon.svg"
+                  alt="comment"
+                />
+                {update.numUpvotes ? update.numUpvotes : "0"}
+                <img
+                  className="feed-card-like-icon"
+                  src="/feed-images/like-icon.svg"
+                  alt="like"
+                />
+              </div>
             </div>
-          </div>
-        </CardBody>
-      </Card>
-    </Fragment>
+          </CardBody>
+        </Card>
+      </a>
+    </Link>
   );
 }

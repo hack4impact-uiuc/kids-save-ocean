@@ -21,10 +21,11 @@ body {
 }
 .feed-wrapper {
   margin-top: 1.75rem;
-  width: auto;
+  width: 100%;
   height: auto;
-  margin-left: 21.6875rem;
-  margin-right: 8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .featured-sidebar {
   background-color: rgba(224, 228, 230, 0.6);
@@ -131,11 +132,13 @@ body {
 .feed-card {
   background-color: #fff;
   border-radius: 4px;
-  width: 45.3125rem;
-  height: 14.625rem;
+  width: 100%;
   margin-bottom: 1rem;
+  border: 1px solid #ddd;
+  color: inherit;
 }
 .feed-card:hover {
+  text-decoration: none;
   border: 1px solid #ffcc66;
 }
 .feed-card-body {
