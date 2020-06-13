@@ -2,8 +2,8 @@ import axios from "axios";
 import fetch from "isomorphic-unfetch";
 import { checkValidUser } from "./validator";
 
-// const BASE_URL = process.env.BACKEND_URL ?? "http://localhost:5000/api";
-const BASE_URL = process.env.BACKEND_URL ?? "http://52.240.158.249:5000/api"; // leave this in, this is Arpan's url
+const BASE_URL = process.env.BACKEND_URL ?? "http://localhost:5000/api";
+// const BASE_URL = process.env.BACKEND_URL ?? "http://52.240.158.249:5000/api"; // leave this in, this is Arpan's url
 
 export const getModels = (sdg_query, searchPage = null) => {
   /**
