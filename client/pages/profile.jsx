@@ -32,12 +32,12 @@ export default function Profile() {
     const getUserInfo = async () => {
       if (await checkValidUser()) {
         const resp = await getUser();
-        const user = resp.data.user;
+        const userResp = resp.data.user;
 
-        setUser(user);
-        setUsername(user.username);
-        setBirthday(user.birthday);
-        setCountry(user.country);
+        setUser(userResp);
+        setUsername(userResp.username);
+        setBirthday(userResp.birthday);
+        setCountry(userResp.country);
         setHasUser(true);
       }
     };
