@@ -255,7 +255,7 @@ export default function ProjectPage() {
                   .filter(
                     phase =>
                       ganttData[phase] !== undefined &&
-                      ganttData[phase.length > 0]
+                      ganttData[phase].length > 0
                   )
                   .map(phase => (
                     <NavItem key={phase}>
@@ -279,7 +279,7 @@ export default function ProjectPage() {
                     .filter(
                       phase =>
                         ganttData[phase] !== undefined &&
-                        ganttData[phase.length > 0]
+                        ganttData[phase].length > 0
                     )
                     .map(phase => (
                       <TabPane key={phase} tabId={phase}>
