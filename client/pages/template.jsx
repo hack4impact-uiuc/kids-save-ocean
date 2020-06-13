@@ -41,10 +41,10 @@ export default function EditTemplate() {
     const checkAdmin = async () => {
       const admin = await checkIsAdmin();
       setIsAdmin(admin);
-    }
+    };
 
     checkAdmin();
-  }, [])
+  }, []);
 
   useEffect(() => {
     const setDisplay = async () => {
@@ -152,110 +152,118 @@ export default function EditTemplate() {
       {
         <div className="edit-template-div">
           <Head title="" />
-          {!isAdmin ? <p>Only admins may view this page.</p> : 
+          {!isAdmin ? (
+            <p>Only admins may view this page.</p>
+          ) : (
             <div>
-            <div className="header-template">Templates</div>
-            <Container className="template-sidebar">
-              <Row>
-                <Button
-                  onClick={handleNewStage}
-                  className="add-stage-button"
-                  color="white"
-                >
-                  Add New Stage
-                </Button>
-              </Row>
-              <Row>
-                {templates.data &&
-                  templates.data.map(template => (
-                    <Button
-                      key={template._id}
-                      className="stage-button"
-                      color="white"
-                      onClick={() => handleID(template._id)}
-                    >
-                      {template.name}
-                    </Button>
-                  ))}
-              </Row>
-            </Container>
-            <Container className="main-template-container">
-              {error && (
-                <Alert color="danger">
-                  You have not filled out one or more fields. Please fill out all
-                  shown fields and resave.
-                </Alert>
-              )}
-              <Form>
-                <Input
-                  type="text"
-                  className="main-template-title"
-                  value={name}
-                  id="template-title"
-                  placeholder="Stage Title"
-                  onChange={e => setName(e.target.value)}
-                  required
-                ></Input>
-                <Row className="main-template-subtitle">Template</Row>
-                <Container className="draft-container">
-                  <TemplateDraft id={templateID} />
-                </Container>
-                <div className="stages-txt">Which stages?</div>
-                <div className="format-checkboxes">
-                  <FormGroup check inline className="stage-chk">
-                    <Label check>
-                      <Input
-                        type="checkbox"
-                        checked={isInspiration}
-                        onChange={() => setInspiration(!isInspiration)}
-                      />{" "}
-                      Inspiration
-                    </Label>
-                  </FormGroup>
-                  <FormGroup check inline className="stage-chk">
-                    <Label check>
-                      <Input
-                        type="checkbox"
-                        checked={isIdeation}
-                        onChange={() => setIdeation(!isIdeation)}
-                      />{" "}
-                      Ideation
-                    </Label>
-                  </FormGroup>
-                  <FormGroup check inline className="stage-chk">
-                    <Label check>
-                      <Input
-                        type="checkbox"
-                        checked={isImplementation}
-                        onChange={() => setImplementation(!isImplementation)}
-                      />
-                      Implementation
-                    </Label>
-                  </FormGroup>
-                </div>
+              <div className="header-template">Templates</div>
+              <Container className="template-sidebar">
                 <Row>
-                  <div className="bottom-buttons">
-                    <Button
-                      onClick={handleDelete}
-                      className="btn-1"
-                      color="danger"
-                    >
-                      Delete
-                    </Button>
-                    <Button onClick={handleClose} className="btn-2" color="light">
-                      Close
-                    </Button>
-                    <Button
-                      onClick={handleSaveAll}
-                      className="btn-3"
-                      color="primary"
-                    >
-                      Save Change
-                    </Button>
-                  </div>
+                  <Button
+                    onClick={handleNewStage}
+                    className="add-stage-button"
+                    color="white"
+                  >
+                    Add New Stage
+                  </Button>
                 </Row>
-              </Form>
-            </Container></div>}
+                <Row>
+                  {templates.data &&
+                    templates.data.map(template => (
+                      <Button
+                        key={template._id}
+                        className="stage-button"
+                        color="white"
+                        onClick={() => handleID(template._id)}
+                      >
+                        {template.name}
+                      </Button>
+                    ))}
+                </Row>
+              </Container>
+              <Container className="main-template-container">
+                {error && (
+                  <Alert color="danger">
+                    You have not filled out one or more fields. Please fill out
+                    all shown fields and resave.
+                  </Alert>
+                )}
+                <Form>
+                  <Input
+                    type="text"
+                    className="main-template-title"
+                    value={name}
+                    id="template-title"
+                    placeholder="Stage Title"
+                    onChange={e => setName(e.target.value)}
+                    required
+                  ></Input>
+                  <Row className="main-template-subtitle">Template</Row>
+                  <Container className="draft-container">
+                    <TemplateDraft id={templateID} />
+                  </Container>
+                  <div className="stages-txt">Which stages?</div>
+                  <div className="format-checkboxes">
+                    <FormGroup check inline className="stage-chk">
+                      <Label check>
+                        <Input
+                          type="checkbox"
+                          checked={isInspiration}
+                          onChange={() => setInspiration(!isInspiration)}
+                        />{" "}
+                        Inspiration
+                      </Label>
+                    </FormGroup>
+                    <FormGroup check inline className="stage-chk">
+                      <Label check>
+                        <Input
+                          type="checkbox"
+                          checked={isIdeation}
+                          onChange={() => setIdeation(!isIdeation)}
+                        />{" "}
+                        Ideation
+                      </Label>
+                    </FormGroup>
+                    <FormGroup check inline className="stage-chk">
+                      <Label check>
+                        <Input
+                          type="checkbox"
+                          checked={isImplementation}
+                          onChange={() => setImplementation(!isImplementation)}
+                        />
+                        Implementation
+                      </Label>
+                    </FormGroup>
+                  </div>
+                  <Row>
+                    <div className="bottom-buttons">
+                      <Button
+                        onClick={handleDelete}
+                        className="btn-1"
+                        color="danger"
+                      >
+                        Delete
+                      </Button>
+                      <Button
+                        onClick={handleClose}
+                        className="btn-2"
+                        color="light"
+                      >
+                        Close
+                      </Button>
+                      <Button
+                        onClick={handleSaveAll}
+                        className="btn-3"
+                        color="primary"
+                      >
+                        Save Change
+                      </Button>
+                    </div>
+                  </Row>
+                </Form>
+              </Container>
+            </div>
+          )}
         </div>
       }
     </div>
