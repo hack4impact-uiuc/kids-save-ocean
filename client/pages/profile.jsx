@@ -33,7 +33,7 @@ export default function Profile() {
       if (await checkValidUser()) {
         const resp = await getUser();
         const user = resp.data.user;
-        
+
         setUser(user);
         setUsername(user.username);
         setBirthday(user.birthday);

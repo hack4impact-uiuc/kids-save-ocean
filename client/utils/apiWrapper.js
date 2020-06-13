@@ -560,19 +560,16 @@ export const getUser = async () => {
     const requestString = `${BASE_URL}/users/userInfo`;
     try {
       return axios
-      .get(
-        requestString,
-        {
+        .get(requestString, {
           headers: {
             "Content-Type": "application/JSON",
             "x-access-token": localStorage.getItem("token")
           }
-        }
-      )
-      .catch(error => ({
-        type: "SAVE_DESCRIPTION_FAIL",
-        error
-      }));
+        })
+        .catch(error => ({
+          type: "SAVE_DESCRIPTION_FAIL",
+          error
+        }));
     } catch (err) {
       return err;
     }

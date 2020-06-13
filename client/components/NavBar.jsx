@@ -29,7 +29,6 @@ export default WrappedMessage(function NavBar(props) {
   const [updates, setUpdates] = useState([]);
   const [displayNotifDot, setDisplayNotifDot] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
   const [modal, setModal] = useState(false);
   const waitTime = 200;
 
@@ -46,7 +45,6 @@ export default WrappedMessage(function NavBar(props) {
     localStorage.removeItem("token");
     Router.replace("/");
   };
-
   async function handleCreate() {
     const isLoggedIn = await checkValidUser();
     if (isLoggedIn) {
@@ -56,7 +54,6 @@ export default WrappedMessage(function NavBar(props) {
       }, waitTime);
     }
   }
-
   useEffect(() => {
     if (process.browser) {
       document.addEventListener("scroll", () => {
@@ -102,7 +99,7 @@ export default WrappedMessage(function NavBar(props) {
     >
       <ProjectForm isModalActivated={modal}></ProjectForm>
       <Container className="container-nav">
-        <Link href="/">
+        <Link href={loggedIn ? "/feed" : "/"}>
           <a>
             <img
               className="logo-settings"
