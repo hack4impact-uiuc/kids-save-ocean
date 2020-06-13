@@ -225,7 +225,8 @@ export default function ProjectsPage() {
           alt="Search person"
         ></img>
       </Container>
-      <Container>
+      <Container className="project-search-main-container">
+        <div className="project-search-elements">
         {visAlert && (
           <Alert color="danger">
             <div justify="center" align="middle">
@@ -333,6 +334,7 @@ export default function ProjectsPage() {
                 </Col>
               ))}
           </Row>
+        </div>
         </div>
       </Container>
       <div className="padding"></div>
