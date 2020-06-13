@@ -3,11 +3,11 @@ import Link from "next/link";
 import {
   Container,
   Card,
-  CardBody,
+  // CardBody,
   CardTitle,
   CardSubtitle,
-  CardText,
-  CardImg
+  // CardText,
+  // CardImg
 } from "reactstrap";
 import { getUpdates, getUser } from "../utils/apiWrapper";
 import { Head, InfiniteScroller, Loader, FeedItem } from "../components";
@@ -17,7 +17,7 @@ export default function Feed() {
   const maxUpdatesAtOnce = 20;
   const maxUpdatesTotal = 100;
   const randomUpdatesLimit = 10;
-  const numFeatures = 12;
+  // const numFeatures = 12;
   const timeout = 1500;
 
   const [nextIdx, setNextIdx] = useState(0);
@@ -26,7 +26,7 @@ export default function Feed() {
   const [updates, setUpdates] = useState([]);
   const [isFetching, setIsFetching] = InfiniteScroller();
   const [user, setUser] = useState({});
-  const [features, setFeatures] = useState([]);
+  // const [features, setFeatures] = useState([]);
   const phases = ["Inspiration", "Ideation", "Implementation"];
 
   useEffect(() => {
@@ -39,46 +39,46 @@ export default function Feed() {
     loadUserInfo();
   }, []);
 
-  useEffect(() => {
-    const indices = [...Array(numFeatures).keys()];
-    const featuredProjs = indices.map(function(index) {
-      return (
-        <Card key={index} className="featured-card">
-          <CardImg
-            width="100%"
-            src="/homepage-images/stock-ocean.jpg"
-            alt="Card image cap"
-          ></CardImg>
-          <CardBody className="featured-body">
-            <CardTitle className="featured-caption-title">
-              <strong>Sustainable Recycling Project</strong>
-            </CardTitle>
-            <CardText className="featured-description">
-              A project which helps people take over the world and save it at
-              the same time.
-            </CardText>
-            <div className="featured-footer">
-              <div className="featured-interactions">
-                123{" "}
-                <img
-                  className="featured-comment-icon"
-                  src="/feed-images/comment-icon.svg"
-                  alt="comment"
-                />
-                123
-                <img
-                  className="featured-like-icon"
-                  src="/feed-images/like-icon.svg"
-                  alt="like"
-                />
-              </div>
-            </div>
-          </CardBody>
-        </Card>
-      );
-    });
-    setFeatures(featuredProjs);
-  }, []);
+  // useEffect(() => {
+  //   const indices = [...Array(numFeatures).keys()];
+  //   const featuredProjs = indices.map(function(index) {
+  //     return (
+  //       <Card key={index} className="featured-card">
+  //         <CardImg
+  //           width="100%"
+  //           src="/homepage-images/stock-ocean.jpg"
+  //           alt="Card image cap"
+  //         ></CardImg>
+  //         <CardBody className="featured-body">
+  //           <CardTitle className="featured-caption-title">
+  //             <strong>Sustainable Recycling Project</strong>
+  //           </CardTitle>
+  //           <CardText className="featured-description">
+  //             A project which helps people take over the world and save it at
+  //             the same time.
+  //           </CardText>
+  //           <div className="featured-footer">
+  //             <div className="featured-interactions">
+  //               123{" "}
+  //               <img
+  //                 className="featured-comment-icon"
+  //                 src="/feed-images/comment-icon.svg"
+  //                 alt="comment"
+  //               />
+  //               123
+  //               <img
+  //                 className="featured-like-icon"
+  //                 src="/feed-images/like-icon.svg"
+  //                 alt="like"
+  //               />
+  //             </div>
+  //           </div>
+  //         </CardBody>
+  //       </Card>
+  //     );
+  //   });
+  //   setFeatures(featuredProjs);
+  // }, []);
 
   useEffect(() => {
     const loadUpdates = async () => {
