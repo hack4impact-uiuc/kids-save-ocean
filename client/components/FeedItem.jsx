@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { Card, CardBody, CardTitle, CardText } from "reactstrap";
 import Link from "next/link";
 
@@ -6,7 +6,7 @@ export default function FeedItem(props) {
   const { update } = props;
   const charLimit = 240;
 
-  const feedDescription = type => {
+  const feedDescription = (type) => {
     if (type === "project") {
       return (
         <div className="feed-card-title-text">
