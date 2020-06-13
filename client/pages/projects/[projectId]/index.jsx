@@ -130,7 +130,7 @@ export default function ProjectPage() {
         stage.name,
         capitalize(phase),
         new Date(stage.startdate),
-        new Date(stage.enddate),
+        stage.enddate ? new Date(stage.enddate) : new Date(),
         null,
         Math.random() * HUNDRED,
         null
