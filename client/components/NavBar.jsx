@@ -188,10 +188,24 @@ export default WrappedMessage(function NavBar(props) {
                       updateLastCheckedNotifDate();
                     }}
                   >
-                    <PopoverHeader>Notifications</PopoverHeader>
+                    <PopoverHeader className="notification-header">
+                      Notifications
+                    </PopoverHeader>
                     <PopoverBody>
                       {updates.map(update => (
-                        <p key={update._id}>{`${update.description}.`}</p>
+                        <Link
+                          href="/projects/[projectId]"
+                          as={`/projects/${update.projectId}`}
+                          key={update._id}
+                        >
+                          <a>
+                            <p>
+                              {update.type === "stage"
+                                ? `${update.username} updated their ${update.description} stage.`
+                                : `${update.username} created ${update.description}`}
+                            </p>
+                          </a>
+                        </Link>
                       ))}
                     </PopoverBody>
                   </Popover>

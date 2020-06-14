@@ -15,16 +15,16 @@ body {
   position: fixed;
   margin-top: 1.75rem;
   padding: 0;
-  height: 27rem;
   z-index: 1;
   width: auto;
 }
 .feed-wrapper {
   margin-top: 1.75rem;
-  width: auto;
+  width: 100%;
   height: auto;
-  margin-left: 21.6875rem;
-  margin-right: 8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .featured-sidebar {
   background-color: rgba(224, 228, 230, 0.6);
@@ -42,7 +42,7 @@ body {
   background-color: #fff;
   border-radius: 4px;
   width: 21.6875rem;
-  height: 27.1875rem;
+  padding: 2rem;
 }
 .user-profile-pic {
   background-color: #ffcc66;
@@ -66,14 +66,10 @@ body {
   font-weight: lighter;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
-  margin-left: 2.5rem;
-  margin-right: 2.5rem;
-}
-.follower-count {
-  float: left;
-}
-.following-count {
-  float: right;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
 }
 
 .progress-div {
@@ -131,11 +127,13 @@ body {
 .feed-card {
   background-color: #fff;
   border-radius: 4px;
-  width: 45.3125rem;
-  height: 14.625rem;
+  width: 100%;
   margin-bottom: 1rem;
+  border: 1px solid #ddd;
+  color: inherit;
 }
 .feed-card:hover {
+  text-decoration: none;
   border: 1px solid #ffcc66;
 }
 .feed-card-body {
@@ -268,6 +266,10 @@ body {
   padding-bottom: 1rem;
 }
 .loading-text {
+  text-align: center;
+}
+
+.notification-header {
   text-align: center;
 }
 
