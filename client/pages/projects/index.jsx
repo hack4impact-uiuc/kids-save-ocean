@@ -227,65 +227,64 @@ export default function ProjectsPage() {
       </Container>
       <Container className="project-search-main-container">
         <div className="project-search-elements">
-        {visAlert && (
-          <Alert color="danger">
-            <div justify="center" align="middle">
-              No projects matching search
-            </div>
-          </Alert>
-        )}
+          {visAlert && (
+            <Alert color="danger">
+              <div justify="center" align="middle">
+                No projects matching search
+              </div>
+            </Alert>
+          )}
 
-        <div className="search-bar">
-          <Input
-            type="text"
-            className="input"
-            id="user-input"
-            placeholder="Find a project"
-            onChange={handleSearchChange}
-            value={userInput}
-          />
-        </div>
-        <div className="dropdowns">
-          <Select
-            isMulti
-            className="un-goals-list"
-            options={UNGoalData}
-            placeholder="Select UN Goals"
-            onChange={setSelectedUNGoals}
-            value={selectedUNGoals}
-          />
-          <Select
-            isClearable
-            className="country-list"
-            options={countryData}
-            placeholder="Search country"
-            onChange={setSelectedCountry}
-            value={selectedCountry}
-          />
-          <Select
-            isClearable
-            className="grp-sizes-list"
-            options={groupSizeData}
-            placeholder="Select group size"
-            onChange={setSelectedGrpSize}
-            value={selectedGrpSize}
-          />
-          <Select
-            isClearable
-            className="difficulty-list"
-            options={levelData}
-            placeholder="Select difficulty"
-            onChange={setSelectedDifficulty}
-            value={selectedDifficulty}
-          />
-        </div>
-        {loading && <Loader />}
-        <div className="project-cards">
-          <Row>
-            {projects &&
-              projects.map(project => (
-                <Col key={project._id} className="project-col">
-                  <CardGroup>
+          <div className="search-bar">
+            <Input
+              type="text"
+              className="input"
+              id="user-input"
+              placeholder="Find a project"
+              onChange={handleSearchChange}
+              value={userInput}
+            />
+          </div>
+          <div className="dropdowns">
+            <Select
+              isMulti
+              className="un-goals-list"
+              options={UNGoalData}
+              placeholder="Select UN Goals"
+              onChange={setSelectedUNGoals}
+              value={selectedUNGoals}
+            />
+            <Select
+              isClearable
+              className="country-list"
+              options={countryData}
+              placeholder="Search country"
+              onChange={setSelectedCountry}
+              value={selectedCountry}
+            />
+            <Select
+              isClearable
+              className="grp-sizes-list"
+              options={groupSizeData}
+              placeholder="Select group size"
+              onChange={setSelectedGrpSize}
+              value={selectedGrpSize}
+            />
+            <Select
+              isClearable
+              className="difficulty-list"
+              options={levelData}
+              placeholder="Select difficulty"
+              onChange={setSelectedDifficulty}
+              value={selectedDifficulty}
+            />
+          </div>
+          {loading && <Loader />}
+          <div className="project-cards">
+            <Row>
+              {projects &&
+                projects.map(project => (
+                  <Col key={project._id} className="project-col">
                     <Link
                       href="/projects/[projectId]"
                       as={`/projects/${project._id}`}
@@ -330,11 +329,10 @@ export default function ProjectsPage() {
                         </Card>
                       </a>
                     </Link>
-                  </CardGroup>
-                </Col>
-              ))}
-          </Row>
-        </div>
+                  </Col>
+                ))}
+            </Row>
+          </div>
         </div>
       </Container>
       <div className="padding"></div>

@@ -2,7 +2,7 @@
   position: relative;
   width: 100%;
   height: 12rem;
-  background-color: #74D8C2;
+  background-color: #74d8c2;
   padding: 0 !important;
   max-width: none !important;
   z-index: -1;
@@ -16,13 +16,12 @@
   font-size: 3rem;
   margin-left: 2rem;
   margin-top: 2rem;
-
 }
 
 .projects-search-header-img {
-  float: right;
-  margin-right: 2rem;
+  right: 0;
   z-index: -1;
+  position: fixed;
 }
 
 .project-search-main-container {
@@ -31,6 +30,7 @@
   padding-left: 5rem;
   padding-right: 5rem;
   box-sizing: border-box;
+  min-height: 100vh;
   max-width: 100%;
 }
 
@@ -39,6 +39,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: start;
 }
 
 .projects-search-title {
@@ -71,7 +72,8 @@
 .dropdowns {
   display: flex;
   flex-shrink: 3;
-  justify-content: space-between;
+  justify-content: space-evenly;
+  width: 100%;
 }
 
 .un-goals-list,
@@ -85,6 +87,13 @@
 
 .project-cards {
   display: flex;
+
+  .col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 .project-card {
@@ -96,6 +105,7 @@
   font-size: 13px;
   padding: 1em;
   color: #000;
+  margin-right: 0;
 
   .project-card-name {
     font-size: 24px;
