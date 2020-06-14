@@ -157,7 +157,7 @@ router.post(
   }
 );
 
-router.delete("/:model_ID", checkToken, async function(req, res) {
+router.delete("/:model_ID", checkToken, function(req, res) {
   const db = req.db;
   const model_ID = req.params.model_ID;
   const collection = db.get("projects");
@@ -189,14 +189,14 @@ router.delete("/:model_ID", checkToken, async function(req, res) {
       { multi: true }
     )
     .catch(() => res.sendStatus(500));
-  
-  const objectId = new ObjectID(model_ID)
+
+  const objectId = new ObjectID(model_ID);
   userCollection
     .update(
       { createdProjects: objectId },
       { $pull: { createdProjects: objectId } }
     )
-    .catch(() => res.sendStatus(500));  
+    .catch(() => res.sendStatus(500));
   res.json({
     success: `${model_ID} deleted!`
   });
