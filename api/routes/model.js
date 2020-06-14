@@ -18,6 +18,7 @@ const {
   challengesSchema,
   insightsSchema
 } = require("../public/schema/phaseDetailSchema.js");
+const { ObjectID } = require("mongodb");
 
 const SUCCESS = 200;
 
@@ -158,20 +159,47 @@ router.post(
 
 router.delete("/:model_ID", checkToken, function(req, res) {
   const db = req.db;
-  let id = req.params.model_ID;
+  const model_ID = req.params.model_ID;
   const collection = db.get("projects");
   collection
-    .findOneAndDelete({ _id: id })
-    .then(model =>
-      model !== null
-        ? res.json({
-            success: `${id} deleted!`
-          })
-        : res.sendStatus(404)
+    .findOneAndDelete({ _id: model_ID })
+    .then(model => {
+      if (model === null) {
+        return res.sendStatus(404);
+      }
+    })
+    .catch(() => res.sendStatus(500));
+
+  const updatesCollection = db.get("updates");
+  updatesCollection
+    .remove(
+      {
+        projectId: model_ID
+      },
+      { many: true }
     )
     .catch(() => res.sendStatus(500));
 
-  // TODO: Remove project from userFollwowing if it gets deleted
+  const userCollection = db.get("users");
+
+  userCollection
+    .update(
+      { followingProjects: model_ID },
+      { $pull: { followingProjects: model_ID } },
+      { multi: true }
+    )
+    .catch(() => res.sendStatus(500));
+
+  const objectId = new ObjectID(model_ID);
+  userCollection
+    .update(
+      { createdProjects: objectId },
+      { $pull: { createdProjects: objectId } }
+    )
+    .catch(() => res.sendStatus(500));
+  res.json({
+    success: `${model_ID} deleted!`
+  });
 });
 
 router.put(
