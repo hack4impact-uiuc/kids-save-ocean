@@ -7,16 +7,7 @@ import UNGoalData from "../../utils/goals";
 import groupSizeData from "../../utils/groups";
 import levelData from "../../utils/levels";
 import { getModels } from "../../utils/apiWrapper";
-import {
-  Card,
-  CardGroup,
-  CardText,
-  Col,
-  Container,
-  Input,
-  Row,
-  Alert
-} from "reactstrap";
+import { Card, CardText, Col, Container, Input, Row, Alert } from "reactstrap";
 
 import "../../public/styles/projects.scss";
 import "../../../api/public/schema/projectSchema";
