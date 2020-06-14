@@ -36,7 +36,9 @@
 
 .project-search-elements {
   width: 95%;
-  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .projects-search-title {
@@ -88,7 +90,7 @@
 .project-card {
   display: flex;
   height: 13rem;
-  width: 20rem;
+  width: 24rem;
   cursor: pointer;
   margin-top: 2em;
   font-size: 13px;
