@@ -7,14 +7,9 @@ import { Head } from "../components";
 import "../public/styles/login.scss";
 
 export default function Login() {
-  // constants
   const EMAIL_REGEX =
     "([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)@([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+).([a-zA-Z]{2,3}).?([a-zA-Z]{0,3})";
 
-  const defaultHeight = 1000;
-
-  // state
-  const [height, setHeight] = useState(defaultHeight);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -50,10 +45,6 @@ export default function Login() {
     };
   }, [email, password, handleSubmit]);
 
-  useEffect(() => {
-    setHeight(window.innerHeight);
-  }, []);
-
   return (
     <div>
       <Head />
@@ -61,14 +52,19 @@ export default function Login() {
       <div>
         <Row className="parentRow">
           <Col className="columnLeft" xs="6">
-            <div className="motto" style={{ height: `${height}px` }}>
+            <div className="motto">
               <strong>
                 Change your community, <br /> Change the world.
                 <br /> <br /> Join FateMaker today.
               </strong>
             </div>
+            <img
+              className="login-man-img"
+              src="/search-page-images/man.svg"
+              alt="Login person"
+            ></img>
           </Col>
-          <Col xs="6">
+          <Col className="columnRight" xs="6">
             <div className="login-outer">
               <h1 className="auth-card-title">
                 <strong> Login to FateMaker!</strong>
@@ -82,6 +78,7 @@ export default function Login() {
                   <Form>
                     <FormGroup>
                       <Input
+                        className="login-email-input"
                         type="email"
                         name="email"
                         id="exampleEmail"
@@ -103,6 +100,7 @@ export default function Login() {
                   <Form>
                     <FormGroup>
                       <Input
+                        className="login-password-input"
                         type="password"
                         name="password"
                         minLength="8"

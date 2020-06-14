@@ -4,7 +4,13 @@
     
   }
   .fontAll {
-    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    font-family: Arvo;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 48px;
+    line-height: 59px;
+    display: flex;
+    align-items: center;
     color: #003366;
   }
   .titlePage{
@@ -110,13 +116,17 @@
   color: #003366;
 }
 .columnLeft{
-  background: #FFCC66;
+  background: #74D8C2;
   height: 120%;
   color: #003366 ;
   font-weight: bolder;
   font-size: 144px;
-  text-shadow: 4px 4px 2px white;
 }
+
+.columnRight {
+  background: white;
+}
+
 .motto{
   font-size: 3rem;
   margin-top: 5%;
@@ -154,4 +164,14 @@
     margin-left: 10%;
     margin-right: 10%;
     margin-top: 30%;
+}
+
+.auth-card-title {
+  padding-bottom: 2rem;
+}
+
+.login-email-input, .login-password-input {
+  border: .1rem solid #33CCCC;
+  box-sizing: border-box;
+  border-radius: 15px;
 }
