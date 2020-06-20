@@ -81,9 +81,7 @@ export default function Login() {
           </Col>
           <Col className="columnRight" xs="6">
             <div className="login-outer">
-              <h1 className="auth-card-title">
-                Login to FateMaker!
-              </h1>
+              <h1 className="auth-card-title">Login to FateMaker!</h1>
               {errorMessage && <Alert color="danger">{errorMessage}</Alert>}
               <Row align="middle" justify="center">
                 <Col xs="2" align="right" className=" vertAlign textField">

@@ -23,10 +23,8 @@ export default function RegisterPage() {
     "([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)@([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+).([a-zA-Z]{2,3}).?([a-zA-Z]{0,3})";
   const SUCCESS = 200;
   const INVALID = -1;
-  const defaultHeight = 1000;
 
   // state related to auth user
-  const [height, setHeight] = useState(defaultHeight);
   const [anon, setAnon] = useState(false);
   const [person, setPerson] = useState("");
   const [secQuestions, setSecQuestions] = useState([]);
@@ -43,9 +41,6 @@ export default function RegisterPage() {
   const [successfulSubmit, setSuccessfulSubmit] = useState(false);
   const [questionIdx, setQuestionIdx] = useState(INVALID);
 
-  useEffect(() => {
-    setHeight(window.innerHeight);
-  }, []);
   useEffect(() => {
     let questions = [];
     async function populateQuestions() {
@@ -161,7 +156,7 @@ export default function RegisterPage() {
 
       <div>
         <Row className="parentRow">
-        <Col className="columnLeft" xs="6">
+          <Col className="columnLeft" xs="6">
             <div className="motto">
               <strong>
                 Change your community, <br /> Change the world.
@@ -342,9 +337,9 @@ export default function RegisterPage() {
                               ...base,
                               border: 0,
                               // This line disable the blue border
-                              boxShadow: 'none'
+                              boxShadow: "none"
                             })
-                        }}
+                          }}
                         />
                       </FormGroup>
                     </Form>
@@ -414,7 +409,11 @@ export default function RegisterPage() {
                 </Row>
 
                 <Row>
-                  <Button size="m" onClick={handleSubmit} className="login-register-left-btn">
+                  <Button
+                    size="m"
+                    onClick={handleSubmit}
+                    className="login-register-left-btn"
+                  >
                     <div className=" vertAlign textField">Register</div>
                   </Button>
 
