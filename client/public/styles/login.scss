@@ -1,7 +1,6 @@
 .auth-card-wrapper {
     display: flex;
     justify-content: center;
-    
   }
 
   .titlePage{
@@ -26,10 +25,11 @@
   
   .login-left-btn {
     float: left;
-    width: 45%;
+    width: 25%;
     margin-right: 10%;
     margin-top: 1em;
     background-color: #FFCC66;
+    border-radius: 15px;
     color: #003366;
     border: none;
   }
@@ -42,9 +42,10 @@
   
   .login-right-btn {
     float: right;
-    width: 45%;
+    width: 25%;
     margin-top: 1em;
     background-color: #FFCC66;
+    border-radius: 15px;
     color: #003366;
     border: none;
   }
@@ -139,7 +140,31 @@ body, html {
 .login-man-img {
   bottom: 0;
   position: fixed;
-  margin-bottom: 0;
+  margin-bottom: 5rem;
+  left: 10%;
+  transform: translateX(-10%);
+}
+
+.login-tree-img {
+  bottom: -50px;
+  left: -40%;
+  transform: translateX(35%);
+  position: fixed;
+}
+
+.login-tree-img2 {
+  bottom: -50px;
+  left: 18%;
+  transform: translateX(-14%);
+  position: fixed;
+}
+
+.login-sun-img {
+  top: 4rem;
+  left: 40%;
+  transform: translateX(-40%);
+  position: fixed;
+  z-index: -1;
 }
 
 .motto{
@@ -180,10 +205,14 @@ body, html {
 }
 
 .login-outer {
-    width: 80%;
-    margin-left: 10%;
-    margin-right: 10%;
-    margin-top: 30%;
+  font-family: Arvo;
+  font-style: normal;
+  font-weight: normal;
+  color: #003366;
+  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-top: 30%;
 }
 
 .auth-card-title {

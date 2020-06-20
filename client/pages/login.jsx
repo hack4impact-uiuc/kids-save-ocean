@@ -63,11 +63,26 @@ export default function Login() {
               src="/search-page-images/man.svg"
               alt="Login person"
             ></img>
+            <img
+              className="login-tree-img"
+              src="/login-register-images/trees.svg"
+              alt="Trees"
+            ></img>
+            <img
+              className="login-tree-img2"
+              src="/login-register-images/trees.svg"
+              alt="Trees"
+            ></img>
+            <img
+              className="login-sun-img"
+              src="/login-register-images/sun.svg"
+              alt="Trees"
+            ></img>
           </Col>
           <Col className="columnRight" xs="6">
             <div className="login-outer">
               <h1 className="auth-card-title">
-                <strong> Login to FateMaker!</strong>
+                Login to FateMaker!
               </h1>
               {errorMessage && <Alert color="danger">{errorMessage}</Alert>}
               <Row align="middle" justify="center">
