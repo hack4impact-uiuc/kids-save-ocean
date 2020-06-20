@@ -86,7 +86,7 @@ export default function Login() {
               </h1>
               {errorMessage && <Alert color="danger">{errorMessage}</Alert>}
               <Row align="middle" justify="center">
-                <Col xs="3" align="right" className=" vertAlign textField">
+                <Col xs="2" align="right" className=" vertAlign textField">
                   Email
                 </Col>
                 <Col xs="9">
@@ -108,7 +108,7 @@ export default function Login() {
                 </Col>
               </Row>
               <Row>
-                <Col xs="3" align="right" className=" vertAlign textField">
+                <Col xs="2" align="right" className=" vertAlign textField">
                   Password
                 </Col>
                 <Col xs="9">

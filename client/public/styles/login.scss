@@ -26,7 +26,8 @@
   .login-left-btn {
     float: left;
     width: 25%;
-    margin-right: 10%;
+    margin-right: 7%;
+    margin-left: 25%;
     margin-top: 1em;
     background-color: #FFCC66;
     border-radius: 15px;
@@ -64,6 +65,7 @@
   
   .forgot-password {
     margin-top: 2em;
+    margin-left: 44%;
   }
   
   .google-btn-wrapper {
@@ -161,8 +163,8 @@ body, html {
 
 .login-sun-img {
   top: 4rem;
-  left: 40%;
-  transform: translateX(-40%);
+  left: 44%;
+  transform: translateX(-44%);
   position: fixed;
   z-index: -1;
 }
