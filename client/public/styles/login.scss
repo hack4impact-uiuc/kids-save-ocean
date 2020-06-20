@@ -19,11 +19,18 @@
   
   .auth-card-title {
     text-align: center;
-    padding-top: 0em;
-    
+    padding-top: 0;
+    padding-bottom: 2rem;
+  }
+
+  .auth-card-title-register {
+    text-align: center;
+    padding-top: 0;
+    padding-bottom: 2rem;
+    margin-top: -7rem;
   }
   
-  .login-left-btn {
+  .login-register-left-btn {
     float: left;
     width: 25%;
     margin-right: 7%;
@@ -35,13 +42,13 @@
     border: none;
   }
   
-  .login-left-btn:hover {
+  .login-register-left-btn:hover {
     background-color: #003366;
     color:  #FFCC66;
     border: none;
   }
   
-  .login-right-btn {
+  .login-register-right-btn {
     float: right;
     width: 25%;
     margin-top: 1em;
@@ -51,7 +58,7 @@
     border: none;
   }
   
-  .login-right-btn:hover {
+  .login-register-right-btn:hover {
     background-color: #003366;
     color:  #FFCC66;
     border: none;
@@ -145,6 +152,7 @@ body, html {
   margin-bottom: 5rem;
   left: 10%;
   transform: translateX(-10%);
+  z-index: -1;
 }
 
 .login-tree-img {
@@ -177,7 +185,7 @@ body, html {
 }
 
 .vertAlign {
-  margin-top: 1.5%;
+  margin-top: 1%;
   margin-bottom: 2%;
 }
 
@@ -217,12 +225,10 @@ body, html {
   margin-top: 30%;
 }
 
-.auth-card-title {
-  padding-bottom: 2rem;
-}
-
-.login-email-input, .login-password-input {
-  border: .1rem solid #33CCCC;
+.login-register-input {
   box-sizing: border-box;
-  border-radius: 15px;
+  box-shadow: none !important;
+  outline-color: #33CCCC !important; 
+  outline-style: auto !important; 
+  outline-width: .1rem !important;
 }

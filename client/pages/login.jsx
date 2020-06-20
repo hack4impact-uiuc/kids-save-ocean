@@ -93,7 +93,7 @@ export default function Login() {
                   <Form>
                     <FormGroup>
                       <Input
-                        className="login-email-input"
+                        className="login-register-input"
                         type="email"
                         name="email"
                         id="exampleEmail"
@@ -115,7 +115,7 @@ export default function Login() {
                   <Form>
                     <FormGroup>
                       <Input
-                        className="login-password-input"
+                        className="login-register-input"
                         type="password"
                         name="password"
                         minLength="8"
@@ -133,7 +133,7 @@ export default function Login() {
                 <Button
                   size="m"
                   onClick={handleSubmit}
-                  className="login-left-btn"
+                  className="login-register-left-btn"
                 >
                   <div className=" vertAlign textField">Login</div>
                 </Button>
@@ -141,7 +141,7 @@ export default function Login() {
                 <Button
                   size="m"
                   onClick={() => Router.push("/register")}
-                  className="login-right-btn"
+                  className="login-register-right-btn"
                 >
                   <div className=" vertAlign textField">Register</div>
                 </Button>
