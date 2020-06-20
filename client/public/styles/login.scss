@@ -3,16 +3,7 @@
     justify-content: center;
     
   }
-  .fontAll {
-    font-family: Arvo;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 48px;
-    line-height: 59px;
-    display: flex;
-    align-items: center;
-    color: #003366;
-  }
+
   .titlePage{
     font-size: 3rem;
     margin-top: 5%;
@@ -111,20 +102,34 @@
     background-color: blue;
     height: 5%;
 }
-.parentRow{
-  font: "Arvo";
-  color: #003366;
-}
+
 .columnLeft{
   background: #74D8C2;
-  height: 120%;
-  color: #003366 ;
-  font-weight: bolder;
-  font-size: 144px;
+  height: 100vh;
+  position: relative;
+  max-height: 100% !important;
+  box-sizing: border-box;
+  font-family: Arvo;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 48px;
+  display: flex;
+  color: #003366;
+  z-index: -1;
 }
 
 .columnRight {
   background: white;
+}
+
+.parentRow {
+  margin-right: 0;
+  margin-left: 0;
+}
+
+.login-man-img {
+  bottom: 0;
+  position: fixed;
 }
 
 .motto{
@@ -139,7 +144,7 @@
 }
 .colBoxes{
   text-align: center;
-   margin-top: 20%;
+  margin-top: 20%;
 }
 .rowInput{
   width: 60%;
