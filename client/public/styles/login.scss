@@ -1,123 +1,121 @@
 .auth-card-wrapper {
-    display: flex;
-    justify-content: center;
-    
-  }
-  .fontAll {
-    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-    color: #003366;
-  }
-  .titlePage{
-    font-size: 3rem;
-    margin-top: 5%;
-    margin-left: 5%;
-    margin-right: 5%;
-    margin-bottom: 7.5%;
-    color: #003366 ;
-  }
-  .auth-card {
-    width: 75%;
-    height: 60%;
-    margin-top: 3em;
-  }
-  
-  .auth-card-title {
-    text-align: center;
-    padding-top: 0em;
-    
-  }
-  
-  .login-left-btn {
-    float: left;
-    width: 45%;
-    margin-right: 10%;
-    margin-top: 1em;
-    background-color: #FFCC66;
-    color: #003366;
-    border: none;
-  }
-  
-  .login-left-btn:hover {
-    background-color: #003366;
-    color:  #FFCC66;
-    border: none;
-  }
-  
-  .login-right-btn {
-    float: right;
-    width: 45%;
-    margin-top: 1em;
-    background-color: #FFCC66;
-    color: #003366;
-    border: none;
-  }
-  
-  .login-right-btn:hover {
-    background-color: #003366;
-    color:  #FFCC66;
-    border: none;
-  }
-  
-  .mid-btn {
-    float: middle;
-    width: 100%;
-    margin-top: 1em;
-  }
-  
-  .forgot-password {
-    margin-top: 2em;
-  }
-  
-  .google-btn-wrapper {
-    display: flex;
-    justify-content: center;
-    float: middle;
-    margin-top: 1em;
-  }
-  
-  .security-select {
-    margin: 0em 1em 1em 0em;
-  }
-  
-  .back-to-login {
-    text-align: center;
-    margin-bottom: 1em;
-  }
-  .home-block-1-ep {
-    margin-right: 5%;
-    margin-left: 5%;
-    margin-top: 5%;
-    background-image: radial-gradient(
-        50% 141%,
-        rgba(11, 47, 129, 0.6) 1%,
-        rgba(43, 134, 161, 0.651) 100%
-      ),
-      url("/asset/images/splash.jpg");
-    background-size: cover;
-    background-position: center;
-    height: auto;
-    width: auto;
-    opacity: 1;
-    align-content: middle;
-  }
-.stock-photo{
-    margin-top: 1%;
-    background-color: blue;
-    height: 5%;
+  display: flex;
+  justify-content: center;
 }
-.parentRow{
+.fontAll {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  color: #003366;
+}
+.titlePage {
+  font-size: 3rem;
+  margin-top: 5%;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-bottom: 7.5%;
+  color: #003366;
+}
+.auth-card {
+  width: 75%;
+  height: 60%;
+  margin-top: 3em;
+}
+
+.auth-card-title {
+  text-align: center;
+  padding-top: 0em;
+}
+
+.login-left-btn {
+  float: left;
+  width: 45%;
+  margin-right: 10%;
+  margin-top: 1em;
+  background-color: #ffcc66;
+  color: #003366;
+  border: none;
+}
+
+.login-left-btn:hover {
+  background-color: #003366;
+  color: #ffcc66;
+  border: none;
+}
+
+.login-right-btn {
+  float: right;
+  width: 45%;
+  margin-top: 1em;
+  background-color: #ffcc66;
+  color: #003366;
+  border: none;
+}
+
+.login-right-btn:hover {
+  background-color: #003366;
+  color: #ffcc66;
+  border: none;
+}
+
+.mid-btn {
+  float: middle;
+  width: 100%;
+  margin-top: 1em;
+}
+
+.forgot-password {
+  margin-top: 2em;
+}
+
+.google-btn-wrapper {
+  display: flex;
+  justify-content: center;
+  float: middle;
+  margin-top: 1em;
+}
+
+.security-select {
+  margin: 0em 1em 1em 0em;
+}
+
+.back-to-login {
+  text-align: center;
+  margin-bottom: 1em;
+}
+.home-block-1-ep {
+  margin-right: 5%;
+  margin-left: 5%;
+  margin-top: 5%;
+  background-image: radial-gradient(
+      50% 141%,
+      rgba(11, 47, 129, 0.6) 1%,
+      rgba(43, 134, 161, 0.651) 100%
+    ),
+    url("/asset/images/splash.jpg");
+  background-size: cover;
+  background-position: center;
+  height: auto;
+  width: auto;
+  opacity: 1;
+  align-content: middle;
+}
+.stock-photo {
+  margin-top: 1%;
+  background-color: blue;
+  height: 5%;
+}
+.parentRow {
   font: "Arvo";
   color: #003366;
 }
-.columnLeft{
-  background: #FFCC66;
+.columnLeft {
+  background: #ffcc66;
   height: 120%;
-  color: #003366 ;
+  color: #003366;
   font-weight: bolder;
   font-size: 144px;
   text-shadow: 4px 4px 2px white;
 }
-.motto{
+.motto {
   font-size: 3rem;
   margin-top: 5%;
   margin-left: 5%;
@@ -127,11 +125,11 @@
   margin-top: 1.5%;
   margin-bottom: 2%;
 }
-.colBoxes{
+.colBoxes {
   text-align: center;
-   margin-top: 20%;
+  margin-top: 20%;
 }
-.rowInput{
+.rowInput {
   width: 60%;
   margin-left: 20%;
   margin-right: 20%;
@@ -140,18 +138,18 @@
 .suButton {
   margin-left: auto;
   margin-right: auto;
-  background: #FFCC66;
+  background: #ffcc66;
   color: #003366;
   border: transparent;
   margin-top: 3.5%;
 }
 .textField {
-  font-size: 1.0rem;
+  font-size: 1rem;
 }
 
 .login-outer {
-    width: 80%;
-    margin-left: 10%;
-    margin-right: 10%;
-    margin-top: 30%;
+  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-top: 30%;
 }
