@@ -1,43 +1,41 @@
 .comment {
-    border-left: 0.1em solid black;
-    padding-left: 0.5em;
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
-    width: 100%;
+  border-left: 0.1em solid black;
+  padding-left: 0.5em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  width: 100%;
 }
 
 .comment .block {
-    width: 100%;
+  width: 100%;
 }
 
 .comment .thread {
-    margin-left: 0.5em;
-    border-left: 0.1em solid black;
-    padding-left: 0.5em;
+  margin-left: 0.5em;
+  border-left: 0.1em solid black;
+  padding-left: 0.5em;
 }
 
 .comment .thread .block {
-    border-bottom: 0.1em solid grey;
+  border-bottom: 0.1em solid grey;
 }
 
 .comment .thread .block:last-child {
-    border-bottom: none;
+  border-bottom: none;
 }
 
 .comment .block .header {
-    display: flex;
-    justify-content: space-between;
-    color: #aaa;
+  display: flex;
+  justify-content: space-between;
+  color: #aaa;
 }
 
 .comment .block .header .author {
-    
 }
 
 .comment .block .header .time {
-    
 }
 
 .comment-editor {
-    width: 100%;
+  width: 100%;
 }
