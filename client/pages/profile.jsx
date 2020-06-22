@@ -80,12 +80,12 @@ export default function Profile() {
 
   const toggleSectionUserProj = e => {
     e.preventDefault();
-    setCurrSection("Your Projects");
+    setCurrSection("Created");
   };
 
   const toggleSectionSavedProj = e => {
     e.preventDefault();
-    setCurrSection("Saved Projects");
+    setCurrSection("Following");
   };
 
   const saveChanges = async () => {
@@ -119,7 +119,11 @@ export default function Profile() {
                 >
                   <h4>
                     {" "}
-                    <strong> Details </strong>{" "}
+                    {section === "Details" ? (
+                      <strong className="profile-highlighted"> Details </strong>
+                    ) : (
+                      <strong> Details </strong>
+                    )}{" "}
                   </h4>
                 </a>
               </div>
@@ -131,7 +135,11 @@ export default function Profile() {
                 >
                   <h4>
                     {" "}
-                    <strong> Your Projects </strong>{" "}
+                    {section === "Created" ? (
+                      <strong className="profile-highlighted"> Created </strong>
+                    ) : (
+                      <strong> Created </strong>
+                    )}{" "}
                   </h4>
                 </a>{" "}
               </div>
@@ -143,7 +151,11 @@ export default function Profile() {
                 >
                   <h4>
                     {" "}
-                    <strong>Saved Projects</strong>{" "}
+                    {section === "Following" ? (
+                      <strong className="profile-highlighted">Following</strong>
+                    ) : (
+                      <strong>Following</strong>
+                    )}{" "}
                   </h4>
                 </a>
               </div>
@@ -221,7 +233,7 @@ export default function Profile() {
                 </Row>
               </div>
             )}
-            {section === "Your Projects" && (
+            {section === "Created" && (
               <div>
                 {createdProjects.length === 0 && (
                   <h3 className="profile-projects">
@@ -229,7 +241,7 @@ export default function Profile() {
                   </h3>
                 )}
                 {createdProjects.length > 0 && (
-                  <h2 className="profile-projects">Your Projects</h2>
+                  <h2 className="profile-projects">Created</h2>
                 )}
                 <Row>
                   {createdProjects.map(project => (
@@ -283,7 +295,7 @@ export default function Profile() {
                 </Row>
               </div>
             )}
-            {section === "Saved Projects" && (
+            {section === "Following" && (
               <div>
                 {followedProjects.length === 0 && (
                   <h3 className="profile-projects">
@@ -291,7 +303,7 @@ export default function Profile() {
                   </h3>
                 )}
                 {followedProjects.length > 0 && (
-                  <h2 className="profile-projects">Saved Projects</h2>
+                  <h2 className="profile-projects">Following</h2>
                 )}
                 <Row>
                   {followedProjects &&
