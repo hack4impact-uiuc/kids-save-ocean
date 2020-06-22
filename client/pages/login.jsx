@@ -49,7 +49,7 @@ export default function Login() {
     <div>
       <Head />
 
-      <div>
+      <div className="login-register-main">
         <Row className="parentRow">
           <Col className="columnLeft" xs="6">
             <div className="motto">

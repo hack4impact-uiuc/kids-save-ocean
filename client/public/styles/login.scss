@@ -133,14 +133,12 @@
   background: white;
 }
 
-body {
-  padding: 0;
+.parentRow {
+  margin: 0;
 }
 
-.parentRow {
-  margin-right: 0;
-  margin-left: 0;
-  margin-bottom: 0;
+.login-register-main {
+  margin-top: -4.75rem;
 }
 
 .login-man-img {
@@ -179,6 +177,7 @@ body {
   margin-top: 9rem;
   margin-left: 5%;
   margin-right: 5%;
+  text-shadow: 2px 2px 0px #FFFFFF, 5px 4px 0px rgba(0,0,0,0.15);
 }
 
 .vertAlign {
