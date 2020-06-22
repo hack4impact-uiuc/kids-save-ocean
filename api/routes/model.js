@@ -127,7 +127,7 @@ router.post(
           return res.sendStatus(500);
         }
         currProjectId = data._id;
-        
+
         const users = db.get("users");
         users
           .update(
@@ -160,7 +160,6 @@ router.post(
           data: project
         });
       });
-
     }
   }
 );
