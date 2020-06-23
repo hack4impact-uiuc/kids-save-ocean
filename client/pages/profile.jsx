@@ -31,7 +31,7 @@ export default function Profile() {
 
   useEffect(() => {
     const setSection = () => {
-      if (Router.query.dest) {
+      if (process.browser && Router.query.dest) {
         setCurrSection(Router.query.dest);
       }
     };
