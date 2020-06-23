@@ -14,7 +14,7 @@ import {
   updateUser
 } from "../utils/apiWrapper";
 import { checkValidUser } from "../utils/validator";
-import Router from 'next/router'
+import Router from "next/router";
 
 export default function Profile() {
   const [user, setUser] = useState("");
@@ -34,7 +34,7 @@ export default function Profile() {
       if (Router.query.dest) {
         setCurrSection(Router.query.dest);
       }
-    }
+    };
 
     const getUserInfo = async () => {
       if (await checkValidUser()) {
@@ -144,7 +144,10 @@ export default function Profile() {
                   <h4>
                     {" "}
                     {section === "projects" ? (
-                      <strong className="profile-highlighted"> My Projects </strong>
+                      <strong className="profile-highlighted">
+                        {" "}
+                        My Projects{" "}
+                      </strong>
                     ) : (
                       <strong> My Projects </strong>
                     )}{" "}
@@ -160,7 +163,9 @@ export default function Profile() {
                   <h4>
                     {" "}
                     {section === "saved" ? (
-                      <strong className="profile-highlighted">Saved Projects</strong>
+                      <strong className="profile-highlighted">
+                        Saved Projects
+                      </strong>
                     ) : (
                       <strong>Saved Projects</strong>
                     )}{" "}
