@@ -30,11 +30,15 @@ export default function Profile() {
   const [newChanges, setNewChanges] = useState(false);
 
   useEffect(() => {
-    const setSection = () => {
-      if (process.browser && Router.query.dest) {
-        setCurrSection(Router.query.dest);
-      }
-    };
+    if (process.browser) {
+      const setSection = () => {
+        if (Router.query.dest) {
+          setCurrSection(Router.query.dest);
+        }
+      };
+
+      setSection();
+    }
 
     const getUserInfo = async () => {
       if (await checkValidUser()) {
@@ -49,7 +53,6 @@ export default function Profile() {
       }
     };
 
-    setSection();
     getUserInfo();
   }, []);
 
