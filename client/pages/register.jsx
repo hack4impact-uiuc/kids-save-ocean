@@ -12,7 +12,7 @@ import { Alert, Form, Button, FormGroup, Input, Row, Col } from "reactstrap";
 import { Head } from "../components";
 
 // import "../public/styles/auth.scss";
-import "../public/styles/signupPage.scss";
+import "../public/styles/login.scss";
 import Select from "react-select";
 import countryData from "../utils/countries";
 
@@ -23,10 +23,8 @@ export default function RegisterPage() {
     "([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)@([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+).([a-zA-Z]{2,3}).?([a-zA-Z]{0,3})";
   const SUCCESS = 200;
   const INVALID = -1;
-  const defaultHeight = 1000;
 
   // state related to auth user
-  const [height, setHeight] = useState(defaultHeight);
   const [anon, setAnon] = useState(false);
   const [person, setPerson] = useState("");
   const [secQuestions, setSecQuestions] = useState([]);
@@ -43,9 +41,6 @@ export default function RegisterPage() {
   const [successfulSubmit, setSuccessfulSubmit] = useState(false);
   const [questionIdx, setQuestionIdx] = useState(INVALID);
 
-  useEffect(() => {
-    setHeight(window.innerHeight);
-  }, []);
   useEffect(() => {
     let questions = [];
     async function populateQuestions() {
@@ -159,37 +154,56 @@ export default function RegisterPage() {
     <div>
       <Head />
 
-      <div>
+      <div className="login-register-main">
         <Row className="parentRow">
           <Col className="columnLeft" xs="6">
-            <div className="motto" style={{ height: `${height}px` }}>
+            <div className="motto">
               <strong>
                 Change your community, <br /> Change the world.
                 <br /> <br /> Join FateMaker today.
               </strong>
             </div>
+            <img
+              className="login-man-img"
+              src="/search-page-images/man.svg"
+              alt="Login person"
+            ></img>
+            <img
+              className="login-tree-img"
+              src="/login-register-images/trees.svg"
+              alt="Trees"
+            ></img>
+            <img
+              className="login-tree-img2"
+              src="/login-register-images/trees.svg"
+              alt="Trees"
+            ></img>
+            <img
+              className="login-sun-img"
+              src="/login-register-images/sun.svg"
+              alt="Trees"
+            ></img>
           </Col>
-          <Col xs="6">
-            {/* !successfulSubmit */}
+          <Col xs="6" className="columnRight">
             {!successfulSubmit ? (
-              <div className="outer">
-                <h1 className="auth-card-title">
-                  <strong>Welcome to FateMaker!</strong>
+              <div className="login-outer">
+                <h1 className="auth-card-title-register">
+                  Welcome to FateMaker!
                 </h1>
                 {errorMessage && (
                   <Alert className="auth-alert" color="danger">
                     {errorMessage}
                   </Alert>
                 )}
-                {/* username*/}
                 <Row>
-                  <Col xs="3" align="right" className=" vertAlign textField">
-                    username
+                  <Col xs="2" align="center" className=" vertAlign textField">
+                    Username
                   </Col>
                   <Col xs="9">
                     <Form>
                       <FormGroup>
                         <Input
+                          className="login-register-input"
                           type="username"
                           name="username"
                           minLength="8"
@@ -202,15 +216,15 @@ export default function RegisterPage() {
                     </Form>
                   </Col>
                 </Row>
-                {/* email */}
                 <Row align="middle" justify="center">
-                  <Col xs="3" align="right" className=" vertAlign textField">
-                    email
+                  <Col xs="2" align="center" className=" vertAlign textField">
+                    Email
                   </Col>
                   <Col xs="9">
                     <Form>
                       <FormGroup>
                         <Input
+                          className="login-register-input"
                           type="email"
                           name="email"
                           id="exampleEmail"
@@ -224,15 +238,15 @@ export default function RegisterPage() {
                     </Form>
                   </Col>
                 </Row>
-                {/* password */}
                 <Row>
-                  <Col xs="3" align="right" className=" vertAlign textField">
-                    password
+                  <Col xs="2" align="center" className=" vertAlign textField">
+                    Password
                   </Col>
                   <Col xs="9">
                     <Form>
                       <FormGroup>
                         <Input
+                          className="login-register-input"
                           type="password"
                           name="password"
                           minLength="8"
@@ -245,16 +259,15 @@ export default function RegisterPage() {
                     </Form>
                   </Col>
                 </Row>
-
-                {/* confirm password */}
                 <Row>
-                  <Col xs="3" align="right" className=" vertAlign textField">
-                    confirm password
+                  <Col xs="2" align="center" className=" vertAlign textField">
+                    Confirm
                   </Col>
                   <Col xs="9">
                     <Form>
                       <FormGroup>
                         <Input
+                          className="login-register-input"
                           type="password"
                           name="password2"
                           minLength="8"
@@ -267,15 +280,15 @@ export default function RegisterPage() {
                     </Form>
                   </Col>
                 </Row>
-                {/* select country */}
                 <Row>
-                  <Col xs="3" align="right" className=" vertAlign textField">
-                    country
+                  <Col xs="2" align="center" className=" vertAlign textField">
+                    Country
                   </Col>
                   <Col xs="9">
                     <Form>
                       <FormGroup>
                         <Select
+                          className="login-register-input"
                           options={countryData}
                           placeholder=""
                           isClearable
@@ -286,15 +299,15 @@ export default function RegisterPage() {
                     </Form>
                   </Col>
                 </Row>
-                {/* birthday */}
                 <Row>
-                  <Col xs="3" align="right" className=" vertAlign textField">
-                    birthday
+                  <Col xs="2" align="center" className=" vertAlign textField">
+                    Birthday
                   </Col>
                   <Col xs="9">
                     <Form>
                       <FormGroup>
                         <Input
+                          className="login-register-input"
                           placeholder="dd/mm/yyyy"
                           minLength="10"
                           maxLength="10"
@@ -306,31 +319,41 @@ export default function RegisterPage() {
                   </Col>
                 </Row>
                 <Row>
-                  <Col xs="3" align="right" className=" vertAlign textField">
-                    who are you?
+                  <Col xs="2" align="center" className=" vertAlign textField">
+                    User type
                   </Col>
                   <Col xs="9">
                     <Form>
                       <FormGroup>
                         <Select
+                          className="login-register-input"
                           options={options}
                           placeholder=""
                           isClearable
                           onChange={setPerson}
                           value={person}
+                          styles={{
+                            control: base => ({
+                              ...base,
+                              border: 0,
+                              // This line disable the blue border
+                              boxShadow: "none"
+                            })
+                          }}
                         />
                       </FormGroup>
                     </Form>
                   </Col>
                 </Row>
                 <Row>
-                  <Col xs="3" align="right" className=" vertAlign textField">
-                    security question
+                  <Col xs="2" align="center" className=" vertAlign textField">
+                    Question
                   </Col>
                   <Col xs="9">
                     <Form>
                       <FormGroup>
                         <Select
+                          className="login-register-input"
                           options={secQuestions}
                           placeholder=""
                           isClearable
@@ -341,15 +364,15 @@ export default function RegisterPage() {
                     </Form>
                   </Col>
                 </Row>
-                {/* answer */}
                 <Row>
-                  <Col xs="3" align="right" className=" vertAlign textField">
-                    security answer
+                  <Col xs="2" align="center" className=" vertAlign textField">
+                    Answer
                   </Col>
                   <Col xs="9">
                     <Form>
                       <FormGroup>
                         <Input
+                          className="login-register-input"
                           type="email"
                           name="email"
                           id="exampleEmail"
@@ -365,15 +388,15 @@ export default function RegisterPage() {
                     </Form>
                   </Col>
                 </Row>
-                {/* Anonymous */}
                 <Row>
-                  <Col xs="3" align="right" className=" vertAlign textField">
-                    account type
+                  <Col xs="2" align="center" className=" vertAlign textField">
+                    Visibility
                   </Col>
                   <Col xs="9">
                     <Form>
                       <FormGroup>
                         <Select
+                          className="login-register-input"
                           options={anonOptions}
                           placeholder=""
                           isClearable
@@ -386,14 +409,18 @@ export default function RegisterPage() {
                 </Row>
 
                 <Row>
-                  <Button size="m" onClick={handleSubmit} className="left-btn">
+                  <Button
+                    size="m"
+                    onClick={handleSubmit}
+                    className="login-register-left-btn"
+                  >
                     <div className=" vertAlign textField">Register</div>
                   </Button>
 
                   <Button
                     size="m"
                     onClick={() => Router.push("/login")}
-                    className="right-btn"
+                    className="login-register-right-btn"
                   >
                     <div className=" vertAlign textField">Login</div>
                   </Button>

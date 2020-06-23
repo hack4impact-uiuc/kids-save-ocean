@@ -7,14 +7,9 @@ import { Head } from "../components";
 import "../public/styles/login.scss";
 
 export default function Login() {
-  // constants
   const EMAIL_REGEX =
     "([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)@([a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+).([a-zA-Z]{2,3}).?([a-zA-Z]{0,3})";
 
-  const defaultHeight = 1000;
-
-  // state
-  const [height, setHeight] = useState(defaultHeight);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -50,38 +45,53 @@ export default function Login() {
     };
   }, [email, password, handleSubmit]);
 
-  useEffect(() => {
-    setHeight(window.innerHeight);
-  }, []);
-
   return (
     <div>
       <Head />
 
-      <div>
+      <div className="login-register-main">
         <Row className="parentRow">
           <Col className="columnLeft" xs="6">
-            <div className="motto" style={{ height: `${height}px` }}>
+            <div className="motto">
               <strong>
                 Change your community, <br /> Change the world.
                 <br /> <br /> Join FateMaker today.
               </strong>
             </div>
+            <img
+              className="login-man-img"
+              src="/search-page-images/man.svg"
+              alt="Login person"
+            ></img>
+            <img
+              className="login-tree-img"
+              src="/login-register-images/trees.svg"
+              alt="Trees"
+            ></img>
+            <img
+              className="login-tree-img2"
+              src="/login-register-images/trees.svg"
+              alt="Trees"
+            ></img>
+            <img
+              className="login-sun-img"
+              src="/login-register-images/sun.svg"
+              alt="Trees"
+            ></img>
           </Col>
-          <Col xs="6">
+          <Col className="columnRight" xs="6">
             <div className="login-outer">
-              <h1 className="auth-card-title">
-                <strong> Login to FateMaker!</strong>
-              </h1>
+              <h1 className="auth-card-title">Login to FateMaker!</h1>
               {errorMessage && <Alert color="danger">{errorMessage}</Alert>}
               <Row align="middle" justify="center">
-                <Col xs="3" align="right" className=" vertAlign textField">
+                <Col xs="2" align="right" className=" vertAlign textField">
                   Email
                 </Col>
                 <Col xs="9">
                   <Form>
                     <FormGroup>
                       <Input
+                        className="login-register-input"
                         type="email"
                         name="email"
                         id="exampleEmail"
@@ -96,13 +106,14 @@ export default function Login() {
                 </Col>
               </Row>
               <Row>
-                <Col xs="3" align="right" className=" vertAlign textField">
+                <Col xs="2" align="right" className=" vertAlign textField">
                   Password
                 </Col>
                 <Col xs="9">
                   <Form>
                     <FormGroup>
                       <Input
+                        className="login-register-input"
                         type="password"
                         name="password"
                         minLength="8"
@@ -120,7 +131,7 @@ export default function Login() {
                 <Button
                   size="m"
                   onClick={handleSubmit}
-                  className="login-left-btn"
+                  className="login-register-left-btn"
                 >
                   <div className=" vertAlign textField">Login</div>
                 </Button>
@@ -128,7 +139,7 @@ export default function Login() {
                 <Button
                   size="m"
                   onClick={() => Router.push("/register")}
-                  className="login-right-btn"
+                  className="login-register-right-btn"
                 >
                   <div className=" vertAlign textField">Register</div>
                 </Button>

@@ -122,36 +122,43 @@ router.post(
     } else if (data.description && data.description.length > 350) {
       res.sendStatus(500);
     } else {
-      // Check if data includes proper fields
-      const project = await collection.insert(data, function(err) {
+      const project = await collection.insert(data, async function(err) {
         if (err) {
           return res.sendStatus(500);
         }
         currProjectId = data._id;
-      });
 
-      const updates = db.get("updates");
-      const email = req.user.email;
-      const username = await getUsername(db, email);
-      const update = {
-        type: "project",
-        username: username,
-        projectId: currProjectId,
-        description: data.name,
-        date: Date.now()
-      };
+        const users = db.get("users");
+        users
+          .update(
+            { email: userEmail },
+            { $push: { createdProjects: currProjectId } }
+          )
+          .catch(() => res.sendStatus(500));
 
-      try {
-        validate({ body: UpdateSchema });
-        updates.insert(update);
-      } catch (err) {
-        return err;
-      }
-      res.status(SUCCESS).send({
-        code: SUCCESS,
-        success: true,
-        message: `${data.name} added!`,
-        data: project
+        const updates = db.get("updates");
+        const email = req.user.email;
+        const username = await getUsername(db, email);
+        const update = {
+          type: "project",
+          username: username,
+          projectId: currProjectId,
+          description: data.name,
+          date: Date.now()
+        };
+
+        try {
+          validate({ body: UpdateSchema });
+          updates.insert(update);
+        } catch (err) {
+          return err;
+        }
+        res.status(SUCCESS).send({
+          code: SUCCESS,
+          success: true,
+          message: `${data.name} added!`,
+          data: project
+        });
       });
     }
   }
