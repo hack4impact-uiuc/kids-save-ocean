@@ -165,7 +165,7 @@ export default function Feed() {
             </div>
           </div> */}
           <div className="user-projects-row">
-            <Link href="/profile">
+            <Link href="/profile?dest=projects" as="/profile">
               <a>
                 <img
                   className="project-ribbon-icon"
@@ -182,7 +182,7 @@ export default function Feed() {
             </Link>
           </div>
           <div className="user-projects-row">
-            <Link href="/profile">
+            <Link href="/profile?dest=saved" as="/profile">
               <a>
                 <img
                   className="project-ribbon-icon"
