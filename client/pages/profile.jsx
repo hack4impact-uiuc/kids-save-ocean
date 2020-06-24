@@ -14,7 +14,7 @@ import {
   updateUser
 } from "../utils/apiWrapper";
 import { checkValidUser } from "../utils/validator";
-import Router from "next/router";
+import { useRouter } from "next/router";
 
 export default function Profile() {
   const [user, setUser] = useState("");
@@ -29,11 +29,13 @@ export default function Profile() {
   const [birthday, setBirthday] = useState("");
   const [newChanges, setNewChanges] = useState(false);
 
+  const router = useRouter();
+
   useEffect(() => {
     if (process.browser) {
       const setSection = () => {
-        if (Router.query.dest) {
-          setCurrSection(Router.query.dest);
+        if (router.query.dest) {
+          setCurrSection(router.query.dest);
         }
       };
 
