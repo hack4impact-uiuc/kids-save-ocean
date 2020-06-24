@@ -14,6 +14,7 @@ import {
   updateUser
 } from "../utils/apiWrapper";
 import { checkValidUser } from "../utils/validator";
+import { useRouter } from "next/router";
 
 export default function Profile() {
   const [user, setUser] = useState("");
@@ -21,14 +22,26 @@ export default function Profile() {
   const [followedProjects, setFollowingProjects] = useState([]);
   const [projectParsed, setProjectParsed] = useState(false);
   const [hasUser, setHasUser] = useState(false);
-  const [section, setCurrSection] = useState("Details");
+  const [section, setCurrSection] = useState("details");
   const DESCRIPTION_LENGTH = 150;
   const [country, setCountry] = useState("");
   const [username, setUsername] = useState("");
   const [birthday, setBirthday] = useState("");
   const [newChanges, setNewChanges] = useState(false);
 
+  const router = useRouter();
+
   useEffect(() => {
+    if (process.browser) {
+      const setSection = () => {
+        if (router.query.dest) {
+          setCurrSection(router.query.dest);
+        }
+      };
+
+      setSection();
+    }
+
     const getUserInfo = async () => {
       if (await checkValidUser()) {
         const resp = await getUser();
@@ -75,17 +88,17 @@ export default function Profile() {
 
   const toggleSectionDetails = e => {
     e.preventDefault();
-    setCurrSection("Details");
+    setCurrSection("details");
   };
 
   const toggleSectionUserProj = e => {
     e.preventDefault();
-    setCurrSection("Your Projects");
+    setCurrSection("projects");
   };
 
   const toggleSectionSavedProj = e => {
     e.preventDefault();
-    setCurrSection("Saved Projects");
+    setCurrSection("saved");
   };
 
   const saveChanges = async () => {
@@ -110,7 +123,7 @@ export default function Profile() {
       <div className="parent" style={{ marginLeft: "10%", marginRight: "10%" }}>
         <Row style={{ marginTop: "5%" }}>
           <Col xs="2">
-            <div style={{ marginTop: "135%" }}>
+            <div style={{ marginTop: "135%" }} className="profile-sections">
               <div style={{ marginTop: "15%" }}>
                 <a
                   style={{ color: "#003366" }}
@@ -119,7 +132,11 @@ export default function Profile() {
                 >
                   <h4>
                     {" "}
-                    <strong> Details </strong>{" "}
+                    {section === "details" ? (
+                      <strong className="profile-highlighted"> Details </strong>
+                    ) : (
+                      <strong className="profile-nav-text"> Details </strong>
+                    )}{" "}
                   </h4>
                 </a>
               </div>
@@ -131,7 +148,17 @@ export default function Profile() {
                 >
                   <h4>
                     {" "}
-                    <strong> Your Projects </strong>{" "}
+                    {section === "projects" ? (
+                      <strong className="profile-highlighted">
+                        {" "}
+                        My Projects{" "}
+                      </strong>
+                    ) : (
+                      <strong className="profile-nav-text">
+                        {" "}
+                        My Projects{" "}
+                      </strong>
+                    )}{" "}
                   </h4>
                 </a>{" "}
               </div>
@@ -143,7 +170,15 @@ export default function Profile() {
                 >
                   <h4>
                     {" "}
-                    <strong>Saved Projects</strong>{" "}
+                    {section === "saved" ? (
+                      <strong className="profile-highlighted">
+                        Saved Projects
+                      </strong>
+                    ) : (
+                      <strong className="profile-nav-text">
+                        Saved Projects
+                      </strong>
+                    )}{" "}
                   </h4>
                 </a>
               </div>
@@ -166,7 +201,7 @@ export default function Profile() {
                 <strong>Welcome to your profile, {user.username}!</strong>
               </div>
             </h1>
-            {section === "Details" && (
+            {section === "details" && (
               <div>
                 <h2 style={{ marginTop: "5%", marginLeft: "5.3333333%" }}>
                   Username
@@ -221,7 +256,7 @@ export default function Profile() {
                 </Row>
               </div>
             )}
-            {section === "Your Projects" && (
+            {section === "projects" && (
               <div>
                 {createdProjects.length === 0 && (
                   <h3 className="profile-projects">
@@ -229,7 +264,7 @@ export default function Profile() {
                   </h3>
                 )}
                 {createdProjects.length > 0 && (
-                  <h2 className="profile-projects">Your Projects</h2>
+                  <h2 className="profile-projects">My Projects</h2>
                 )}
                 <Row>
                   {createdProjects.map(project => (
@@ -283,7 +318,7 @@ export default function Profile() {
                 </Row>
               </div>
             )}
-            {section === "Saved Projects" && (
+            {section === "saved" && (
               <div>
                 {followedProjects.length === 0 && (
                   <h3 className="profile-projects">
