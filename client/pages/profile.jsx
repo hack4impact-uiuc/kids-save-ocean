@@ -135,7 +135,7 @@ export default function Profile() {
                     {section === "details" ? (
                       <strong className="profile-highlighted"> Details </strong>
                     ) : (
-                      <strong> Details </strong>
+                      <strong className="profile-nav-text"> Details </strong>
                     )}{" "}
                   </h4>
                 </a>
@@ -154,7 +154,7 @@ export default function Profile() {
                         My Projects{" "}
                       </strong>
                     ) : (
-                      <strong> My Projects </strong>
+                      <strong className="profile-nav-text"> My Projects </strong>
                     )}{" "}
                   </h4>
                 </a>{" "}
@@ -172,7 +172,7 @@ export default function Profile() {
                         Saved Projects
                       </strong>
                     ) : (
-                      <strong>Saved Projects</strong>
+                      <strong className="profile-nav-text">Saved Projects</strong>
                     )}{" "}
                   </h4>
                 </a>
