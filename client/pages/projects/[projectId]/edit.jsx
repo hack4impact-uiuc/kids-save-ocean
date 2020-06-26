@@ -26,7 +26,6 @@ import { Head, Loader, PhaseEdit, WrappedMessage } from "../../../components";
 import groupSizeData from "../../../utils/groups";
 
 import "../../../public/styles/editProject.scss";
-import { findIndex } from "lodash";
 
 const capitalize = str =>
   str.length > 0 ? str.charAt(0).toUpperCase() + str.slice(1) : str;
@@ -130,127 +129,127 @@ export default WrappedMessage(function EditProjectPage(props) {
       {loading ? (
         <Loader />
       ) : (
-        <>
-          <Row>
-            <Col className="home-block-col">
-              <Row className="project-metadata-block">
-                <h1 className="proj-title">
-                  <strong>Edit Project</strong>
-                </h1>
-                <div className="div-1-ep">
-                  <h4 className="proj-title-h">Project Title</h4>
-                  <input
-                    type="text"
-                    className="form-control editor-top"
-                    size="50"
-                    value={projTitle}
-                    onChange={handleTitleChange}
-                  ></input>
-                  <h4 className="num-ppl-h">How many people?</h4>
-                  <Select
-                    isClearable
-                    className="grp-sizes-list"
-                    options={groupSizeData}
-                    placeholder="Change group size"
-                    value={grpSize}
-                    onChange={handleGrpSizeChange}
-                  />
-                  <h4 className="proj-descrip-h">Project Description</h4>
-                  <textarea
-                    className="form-control editor-top"
-                    rows="4"
-                    cols="105"
-                    value={description}
-                    onChange={handleDescriptionChange}
-                  ></textarea>
-                  <Row className="justify-content-around">
-                    <Button
-                      color="primary"
-                      className="save-top-btn"
-                      onClick={() =>
-                        saveTopChanges(projTitle, description, grpSize)
-                      }
-                    >
-                      Save Changes
+          <>
+            <Row>
+              <Col className="home-block-col">
+                <Row className="project-metadata-block">
+                  <h1 className="proj-title">
+                    <strong>Edit Project</strong>
+                  </h1>
+                  <div className="div-1-ep">
+                    <h4 className="proj-title-h">Project Title</h4>
+                    <input
+                      type="text"
+                      className="form-control editor-top"
+                      size="50"
+                      value={projTitle}
+                      onChange={handleTitleChange}
+                    ></input>
+                    <h4 className="num-ppl-h">How many people?</h4>
+                    <Select
+                      isClearable
+                      className="grp-sizes-list"
+                      options={groupSizeData}
+                      placeholder="Change group size"
+                      value={grpSize}
+                      onChange={handleGrpSizeChange}
+                    />
+                    <h4 className="proj-descrip-h">Project Description</h4>
+                    <textarea
+                      className="form-control editor-top"
+                      rows="4"
+                      cols="105"
+                      value={description}
+                      onChange={handleDescriptionChange}
+                    ></textarea>
+                    <Row className="justify-content-around">
+                      <Button
+                        color="primary"
+                        className="save-top-btn"
+                        onClick={() =>
+                          saveTopChanges(projTitle, description, grpSize)
+                        }
+                      >
+                        Save Changes
                     </Button>
-                    <Link href="/projects" as="/projects" passHref>
-                      <a>
-                        <Button
-                          color="danger"
-                          className="delete-btn"
-                          onClick={deleteProject}
-                        >
-                          Delete Project
+                      <Link href="/projects" as="/projects" passHref>
+                        <a>
+                          <Button
+                            color="danger"
+                            className="delete-btn"
+                            onClick={deleteProject}
+                          >
+                            Delete Project
                         </Button>
-                      </a>
-                    </Link>
-                  </Row>
-                </div>
-              </Row>
-            </Col>
-          </Row>
-          <Jumbotron className="edit-project-instructions">
-            <h2>Stage editor</h2>
-            <p>
-              Use the below sections to add new stages to your project by phase.
-              New stages can be filled out from templates that will help guide
-              you through the design process, whether it be through interviews,
-              a pilot, or other techniques. The editors allow for interactive
-              text editing and formatting, and you can even embed images, video,
-              or link to external content from sites like YouTube and Twitter.
+                        </a>
+                      </Link>
+                    </Row>
+                  </div>
+                </Row>
+              </Col>
+            </Row>
+            <Jumbotron className="edit-project-instructions">
+              <h2>Stage editor</h2>
+              <p>
+                Use the below sections to add new stages to your project by phase.
+                New stages can be filled out from templates that will help guide
+                you through the design process, whether it be through interviews,
+                a pilot, or other techniques. The editors allow for interactive
+                text editing and formatting, and you can even embed images, video,
+                or link to external content from sites like YouTube and Twitter.
             </p>
 
-            <p>
-              Click on the phase you want to add a stage to, and fill out the
-              details for the stage(s) you want to edit. For smaller-scale
-              information, feel free to use the Stakeholders, Challenges, or
-              Insights sections at the bottom of the page.
+              <p>
+                Click on the phase you want to add a stage to, and fill out the
+                details for the stage(s) you want to edit. For smaller-scale
+                information, feel free to use the Stakeholders, Challenges, or
+                Insights sections at the bottom of the page.
             </p>
-          </Jumbotron>
-          <div className="phase-edit-section">
-            <Nav tabs justified>
-              {Object.keys(project?.phases).map(phase => (
-                <NavItem key={phase}>
-                  <NavLink
-                    className={classnames(
-                      { active: activePhase === phase },
-                      "tab"
-                    )}
-                    onClick={() => {
-                      setActivePhase(phase);
-                    }}
-                  >
-                    {capitalize(phase)}
-                  </NavLink>
-                </NavItem>
-              ))}
-            </Nav>
-            <br />
-            <Col>
-              {projectId && (
-                <PhaseEdit
-                  phaseObj={project?.phases[activePhase]}
-                  projectId={projectId}
-                  phaseName={activePhase}
-                  addStage={addStage}
-                  reload={loadProject}
-                />
-              )}
-            </Col>
-          </div>
-          <Link
-            href="/projects/[projectId]"
-            as={`/projects/${projectId}`}
-            passHref
-          >
-            <a>
-              <Button className="button-return-project" color="danger">
-                Return
+            </Jumbotron>
+            <div className="phase-edit-section">
+              <Nav tabs justified>
+                {Object.keys(project?.phases).map(phase => (
+                  <NavItem key={phase}>
+                    <NavLink
+                      className={classnames(
+                        { active: activePhase === phase },
+                        "tab"
+                      )}
+                      onClick={() => {
+                        setActivePhase(phase);
+                      }}
+                    >
+                      {capitalize(phase)}
+                    </NavLink>
+                  </NavItem>
+                ))}
+              </Nav>
+              <br />
+              <Col>
+                {projectId && (
+                  <PhaseEdit
+                    phaseObj={project?.phases[activePhase]}
+                    projectId={projectId}
+                    phaseName={activePhase}
+                    addStage={addStage}
+                    reload={loadProject}
+                  />
+                )}
+              </Col>
+            </div>
+            <Link
+              href="/projects/[projectId]"
+              as={`/projects/${projectId}`}
+              passHref
+            >
+              <a>
+                <Button className="button-return-project" color="danger">
+                  Return
               </Button>
-            </a>
-          </Link>
-        </>
-      )}
+              </a>
+            </Link>
+          </>
+        )}
     </div>
   );
 
