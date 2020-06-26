@@ -12,11 +12,21 @@ import {
   getPhaseChallenges,
   updatePhaseChallenges,
   getPhaseInsights,
-  updatePhaseInsights
+  updatePhaseInsights,
+  removeModelStage
 } from "../utils/apiWrapper";
 
 export default function PhaseEdit(props) {
-  const { projectId, phaseName, phaseObj, addStage } = props;
+  const { projectId, phaseName, phaseObj, addStage, reload } = props;
+
+  const handleDelete = async (phaseName, stageName) => {
+    const removed = await removeModelStage(projectId, phaseName, stageName);
+
+    if (removed) {
+      reload();
+    }
+  };
+
   return (
     <>
       <Row>
@@ -43,6 +53,7 @@ export default function PhaseEdit(props) {
               stageName={value.name}
               phaseName={phaseName}
               id={projectId}
+              handleDelete={() => handleDelete(phaseName, value.name)}
               key={`${phaseName}-${value.name}`}
             />
           ))}

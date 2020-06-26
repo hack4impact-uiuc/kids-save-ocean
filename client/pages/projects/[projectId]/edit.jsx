@@ -26,6 +26,7 @@ import { Head, Loader, PhaseEdit, WrappedMessage } from "../../../components";
 import groupSizeData from "../../../utils/groups";
 
 import "../../../public/styles/editProject.scss";
+import { findIndex } from "lodash";
 
 const capitalize = str =>
   str.length > 0 ? str.charAt(0).toUpperCase() + str.slice(1) : str;
@@ -232,6 +233,7 @@ export default WrappedMessage(function EditProjectPage(props) {
                   projectId={projectId}
                   phaseName={activePhase}
                   addStage={addStage}
+                  reload={loadProject}
                 />
               )}
             </Col>

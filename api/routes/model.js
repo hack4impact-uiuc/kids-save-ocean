@@ -477,6 +477,37 @@ router.post(
   }
 );
 
+router.delete("/:model_ID/:phaseName/:stageName", checkToken, async function(
+  req,
+  res
+) {
+  const db = req.db;
+  const collection = db.get("projects");
+  const { model_ID, phaseName, stageName } = req.params;
+
+  try {
+    const model = await collection.findOneAndUpdate(
+      {
+        _id: model_ID,
+        [`phases.${phaseName}.stages.name`]: stageName
+      },
+      {
+        $pull: {
+          [`phases.${phaseName}.stages`]: { name: stageName }
+        }
+      }
+    );
+
+    if (model !== null) {
+      res.json({ success: `${stageName} deleted!` });
+    } else {
+      res.sendStatus(404);
+    }
+  } catch {
+    res.sendStatus(500);
+  }
+});
+
 router.put(
   "/:model_ID/:phaseName/:stageName/description",
   checkToken,

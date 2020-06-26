@@ -5,7 +5,7 @@ import { Draft } from "../components";
 import "../public/styles/phase-stage.scss";
 
 export default function Stage(props) {
-  const { id, phaseName, stageName, read_only } = props;
+  const { id, phaseName, stageName, read_only, handleDelete } = props;
 
   return (
     <div id={`${phaseName}-${stageName}`} className="title">
@@ -15,7 +15,11 @@ export default function Stage(props) {
         </h6>
       </Label>
       {!read_only && (
-        <Button className="delete-stage-button" color="danger">
+        <Button
+          className="delete-stage-button"
+          color="danger"
+          onClick={handleDelete}
+        >
           Delete
         </Button>
       )}
