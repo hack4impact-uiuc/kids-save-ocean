@@ -15,7 +15,7 @@ FateMaker will be a platform designed to guide students through solving sustaina
 
 Kids Save Ocean is an environmental nonprofit aiming to empower children to have their voices heard in the discussion about the planet's environment. So far, their efforts have been focused on developing FateChanger, an app which educates and allows students to interact with their local government and other institutions to bring about policy change. With FateChanger launching in early 2020, FateMaker will be Kids Save Ocean's next application, with initial release targeted for Summer 2020.
 
-<h2 align="center">The Team</h2>
+<h2 align="center">The Team (Spring 2020)</h2>
 
 <table align="center">
   <tr>
