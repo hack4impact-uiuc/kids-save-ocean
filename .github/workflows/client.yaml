@@ -6,41 +6,77 @@ jobs:
   format:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
+      - name: Check out repository
+        uses: actions/checkout@v1
+
+      - name: Set up Node
+        uses: actions/setup-node@v1
         with:
           node-version: 12
-      - name: npm run format
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-cache
+
+      - name: Install dependencies
         working-directory: ./client
-        run: |
-          npm install
-          npm run format:check
+        run: npm install
+
+      - name: Check formatting
+        working-directory: ./client
+        run: npm run format:check
 
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
+      - name: Check out repository
+        uses: actions/checkout@v1
+
+      - name: Set up Node
+        uses: actions/setup-node@v1
         with:
           node-version: 12
-      - name: npm run lint
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-cache
+
+      - name: Install dependencies
         working-directory: ./client
-        run: |
-          npm install
-          npm run lint
+        run: npm install
+
+      - name: Run linter
+        working-directory: ./client
+        run: npm run lint
 
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
+     - name: Check out repository
+        uses: actions/checkout@v1
+
+      - name: Set up Node
+        uses: actions/setup-node@v1
         with:
           node-version: 12
-      - name: npm run build
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-cache
+
+      - name: Install dependencies
         working-directory: ./client
-        run: |
-          npm install
-          npm run build
+        run: npm install
+      
+      - name: Build application
+        working-directory: ./client
+        run: npm run build
         env:
           FIREBASE_APIKEY: ${{ secrets.FIREBASE_APIKEY }}
           AUTH_DOMAIN: ${{ secrets.AUTH_DOMAIN }}
