@@ -477,7 +477,7 @@ router.post(
   }
 );
 
-router.delete("/:model_ID/:phaseName/:stageName", checkToken, async function(
+router.delete("/:model_ID/:phaseName/:stageName", checkToken, async function (
   req,
   res
 ) {
@@ -489,12 +489,12 @@ router.delete("/:model_ID/:phaseName/:stageName", checkToken, async function(
     const model = await collection.findOneAndUpdate(
       {
         _id: model_ID,
-        [`phases.${phaseName}.stages.name`]: stageName
+        [`phases.${phaseName}.stages.name`]: stageName,
       },
       {
         $pull: {
-          [`phases.${phaseName}.stages`]: { name: stageName }
-        }
+          [`phases.${phaseName}.stages`]: { name: stageName },
+        },
       }
     );
 
