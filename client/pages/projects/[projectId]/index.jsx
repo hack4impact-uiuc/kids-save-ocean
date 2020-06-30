@@ -136,7 +136,7 @@ export default function ProjectPage() {
         null
       ]);
 
-    if (project) {
+    if (project !== null) {
       setGanttData({
         inspiration: mapGanttData("inspiration"),
         ideation: mapGanttData("ideation"),
@@ -250,55 +250,57 @@ export default function ProjectPage() {
               </div>
               <p className="project-info">{project.description}</p>
               <hr />
-              <Nav tabs justified>
-                {Object.keys(project.phases)
-                  .filter(
-                    phase =>
-                      ganttData[phase] !== undefined &&
-                      ganttData[phase].length > 0
-                  )
-                  .map(phase => (
-                    <NavItem key={phase}>
-                      <NavLink
-                        className={classnames(
-                          { active: activePhase === phase },
-                          "tab"
-                        )}
-                        onClick={() => {
-                          setActivePhase(phase);
-                        }}
-                      >
-                        {capitalize(phase)}
-                      </NavLink>
-                    </NavItem>
-                  ))}
-              </Nav>
               {ganttData && (
-                <TabContent activeTab={activePhase}>
-                  {Object.keys(project.phases)
-                    .filter(
-                      phase =>
-                        ganttData[phase] !== undefined &&
-                        ganttData[phase].length > 0
-                    )
-                    .map(phase => (
-                      <TabPane key={phase} tabId={phase}>
-                        <Gantt
-                          data={ganttData[phase]}
-                          trackHeight={60}
-                          width={width}
-                          selectCallback={selection => {
-                            setActiveStage(
-                              project.phases[activePhase].stages[
-                                selection[0].row
-                              ]
-                            );
-                            toggleModal();
-                          }}
-                        />
-                      </TabPane>
-                    ))}
-                </TabContent>
+                <>
+                  <Nav tabs justified>
+                    {Object.keys(project.phases)
+                      .filter(
+                        phase =>
+                          ganttData[phase] !== undefined &&
+                          ganttData[phase].length > 0
+                      )
+                      .map(phase => (
+                        <NavItem key={phase}>
+                          <NavLink
+                            className={classnames(
+                              { active: activePhase === phase },
+                              "tab"
+                            )}
+                            onClick={() => {
+                              setActivePhase(phase);
+                            }}
+                          >
+                            {capitalize(phase)}
+                          </NavLink>
+                        </NavItem>
+                      ))}
+                  </Nav>
+                  <TabContent activeTab={activePhase}>
+                    {Object.keys(project.phases)
+                      .filter(
+                        phase =>
+                          ganttData[phase] !== undefined &&
+                          ganttData[phase].length > 0
+                      )
+                      .map(phase => (
+                        <TabPane key={phase} tabId={phase}>
+                          <Gantt
+                            data={ganttData[phase]}
+                            trackHeight={60}
+                            width={width}
+                            selectCallback={selection => {
+                              setActiveStage(
+                                project.phases[activePhase].stages[
+                                  selection[0].row
+                                ]
+                              );
+                              toggleModal();
+                            }}
+                          />
+                        </TabPane>
+                      ))}
+                  </TabContent>
+                </>
               )}
               <div className="tipcard-cols">
                 <TipCard
