@@ -40,9 +40,10 @@
     "local-storage": "^2.0.0",
     "lodash": "^4.17.15",
     "medium-draft": "^0.5.18",
+    "minimist": ">=1.2.3",
     "next": "^9.3.1",
     "next-page-transitions": "^1.0.0-beta.2",
-    "node-sass": "^4.13.1",
+    "node-sass": "^4.14.1",
     "react": "^16.13.1",
     "react-card-flip": "^1.0.10",
     "react-dom": "^16.13.1",
@@ -52,12 +53,11 @@
     "react-player": "^1.15.2",
     "react-select": "^3.1.0",
     "reactstrap": "^8.4.1",
-    "svg-loaders-react": "^2.2.1",
-    "minimist": ">=1.2.3"
+    "svg-loaders-react": "^2.2.1"
   },
   "devDependencies": {
     "@h4iuiuc/eslint-plugin": "^1.1.11",
-    "eslint": "^6.8.0",
-    "prettier": "^1.19.1"
+    "eslint": "^7.3.1",
+    "prettier": "^2.0.5"
   }
 }

@@ -15,7 +15,7 @@ export default function Login() {
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = useCallback(
-    async e => {
+    async (e) => {
       e.preventDefault();
 
       const result = await login(email, password);
@@ -32,7 +32,7 @@ export default function Login() {
   );
 
   useEffect(() => {
-    const listener = e => {
+    const listener = (e) => {
       if (e.code === "Enter" || e.code === "NumpadEnter") {
         handleSubmit(e);
       }
@@ -98,7 +98,7 @@ export default function Login() {
                         maxLength="64"
                         pattern={EMAIL_REGEX}
                         value={email}
-                        onChange={e => setEmail(e.target.value)}
+                        onChange={(e) => setEmail(e.target.value)}
                         required
                       />
                     </FormGroup>
@@ -119,7 +119,7 @@ export default function Login() {
                         minLength="8"
                         maxLength="64"
                         value={password}
-                        onChange={e => setPassword(e.target.value)}
+                        onChange={(e) => setPassword(e.target.value)}
                         required
                       />
                     </FormGroup>

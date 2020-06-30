@@ -4,13 +4,13 @@ const schema = {
   properties: {
     commentLocation: {
       type: "string",
-      required: true
+      required: true,
     },
     comment: {
       type: "string",
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 };
 
 const threadSchema = {
@@ -19,20 +19,20 @@ const threadSchema = {
   properties: {
     commentLocation: {
       type: "string",
-      required: true
+      required: true,
     },
     commentIndex: {
       type: "number",
-      required: true
+      required: true,
     },
     comment: {
       type: "string",
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 };
 
 module.exports = {
   CommentSchema: schema,
-  ThreadSchema: threadSchema
+  ThreadSchema: threadSchema,
 };

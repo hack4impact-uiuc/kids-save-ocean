@@ -13,8 +13,8 @@ const schema = mongoose.Schema({
   googleAuth: "boolean",
   role: {
     type: "string",
-    enum: ["student", "teacher", "stakeholder", "admin"]
-  }
+    enum: ["student", "teacher", "stakeholder", "admin"],
+  },
 });
 
 const User = mongoose.model("User", schema);

@@ -9,7 +9,7 @@ const { googleAuth } = require("./../utils/getConfigFile");
 
 router.get(
   "/roles",
-  handleAsyncErrors(async function(req, res) {
+  handleAsyncErrors(async function (req, res) {
     if (!req.headers.token) {
       return sendResponse(res, 400, "Invalid Token");
     }
@@ -25,9 +25,7 @@ router.get(
     } else {
       // If it is a google user, it makes a request to the google API using the token and fetches the email
       const tokenInfoRes = await fetch(
-        `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${
-          req.headers.token
-        }`
+        `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${req.headers.token}`
       );
       const payload = await tokenInfoRes.json();
       // If the user is in the database it finds it or returns an error message.
@@ -42,12 +40,12 @@ router.get(
     const roles = await getRolesForUser(user.role);
     let users = [];
     await Promise.all(
-      roles.map(async role => {
+      roles.map(async (role) => {
         let usersWithRoles = await User.find({ role });
         for (let i in usersWithRoles) {
           let newUser = {
             email: usersWithRoles[i].email,
-            role: usersWithRoles[i].role
+            role: usersWithRoles[i].role,
           };
           users = users.concat(newUser);
         }
@@ -56,7 +54,7 @@ router.get(
     return res.status(200).send({
       status: 200,
       message: "Users succesfully returned",
-      user_emails: users
+      user_emails: users,
     });
   })
 );

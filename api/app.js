@@ -26,7 +26,7 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(
   express.urlencoded({
-    extended: false
+    extended: false,
   })
 );
 app.use(cookieParser());
@@ -52,7 +52,7 @@ mongo.MongoClient.connect(process.env.MONGO_DATABASE, (err, database) => {
   gfs = Grid(database.db(DATABASE_NAME), mongo);
 });
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   req.db = db;
   next();
 });
@@ -67,17 +67,17 @@ app.use("/api/comment", commentRouter);
 app.use("/api/templates", templateRouter);
 app.use("/api/upvote", upvoteRouter);
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   req.gfs = gfs;
   next();
 });
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   let responseData;
 
   if (err.name === "JsonSchemaValidation") {
@@ -88,7 +88,7 @@ app.use(function(err, req, res, next) {
     responseData = {
       statusText: "Bad Request",
       jsonSchemaValidation: true,
-      validations: err.validations
+      validations: err.validations,
     };
 
     if (req.xhr || req.get("Content-Type") === "application/json") {
@@ -100,7 +100,7 @@ app.use(function(err, req, res, next) {
   }
 });
 
-app.use(function(err, req, res) {
+app.use(function (err, req, res) {
   if (err.code === "permission_denied") {
     console.log(err);
     res.status(403).send("Forbidden");
@@ -108,7 +108,7 @@ app.use(function(err, req, res) {
 });
 
 // error handler
-app.use(function(err, req, res) {
+app.use(function (err, req, res) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};

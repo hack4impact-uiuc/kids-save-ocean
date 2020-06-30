@@ -10,7 +10,7 @@ import {
   Container,
   Popover,
   PopoverHeader,
-  PopoverBody
+  PopoverBody,
 } from "reactstrap";
 import { ProjectForm } from "../components";
 
@@ -192,7 +192,7 @@ export default WrappedMessage(function NavBar(props) {
                       Notifications
                     </PopoverHeader>
                     <PopoverBody>
-                      {updates.map(update => (
+                      {updates.map((update) => (
                         <Link
                           href="/projects/[projectId]"
                           as={`/projects/${update.projectId}`}

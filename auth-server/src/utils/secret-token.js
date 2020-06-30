@@ -3,7 +3,7 @@ const Token = require("./../models/Token");
 
 async function createToken() {
   const newToken = new Token({
-    issued: Date.now()
+    issued: Date.now(),
   });
   await newToken.save();
   return newToken;

@@ -15,7 +15,7 @@ import {
   CardText,
   // CardBody,
   CardGroup,
-  CardImg
+  CardImg,
 } from "reactstrap";
 import ReactCardFlip from "react-card-flip";
 import chroma from "chroma-js";
@@ -42,7 +42,7 @@ export default function Home() {
       label: "Sustainable Development Goals",
       value: "18",
       color: "#ffffff",
-      imageLink: "/sdg-images/sdg.png"
+      imageLink: "/sdg-images/sdg.png",
     });
     setGoals(sdgs);
   }, []);
@@ -272,7 +272,7 @@ export default function Home() {
           driving force behind the projects on FateMaker.
         </div>
         <Row className="hp-sdg-row">
-          {goals.map(sdg => (
+          {goals.map((sdg) => (
             <Col key={sdg.value} className="sdg-col" sm="2">
               <ReactCardFlip
                 key={sdg.value}
@@ -284,7 +284,7 @@ export default function Home() {
                   <Card
                     className="sdg-card"
                     tag="a"
-                    onClick={e => handleClick(e, sdg.value)}
+                    onClick={(e) => handleClick(e, sdg.value)}
                   >
                     <CardImg
                       top
@@ -299,11 +299,11 @@ export default function Home() {
                   <Card
                     className="sdg-card-back"
                     tag="a"
-                    onClick={e => handleClick(e, sdg.value)}
+                    onClick={(e) => handleClick(e, sdg.value)}
                     style={{
                       backgroundColor: chroma(sdg.color)
                         .alpha(cardOpacity)
-                        .css()
+                        .css(),
                     }}
                   >
                     <CardImg

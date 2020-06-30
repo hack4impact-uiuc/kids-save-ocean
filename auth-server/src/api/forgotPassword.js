@@ -4,7 +4,7 @@ const { check, validationResult } = require("express-validator/check");
 const { sendResponse } = require("./../utils/sendResponse");
 const {
   isGmailEnabledForForgotPassword,
-  isSecurityQuestionEnabled
+  isSecurityQuestionEnabled,
 } = require("../utils/getConfigFile");
 const { sendMail } = require("../utils/sendMail");
 const { generatePIN } = require("../utils/pinHelpers");
@@ -14,17 +14,14 @@ router.post(
   "/forgotPassword",
   [
     check("email").isEmail(),
-    check("answer")
-      .isString()
-      .isLength({ min: 1 })
-      .optional()
+    check("answer").isString().isLength({ min: 1 }).optional(),
   ],
-  handleAsyncErrors(async function(req, res) {
+  handleAsyncErrors(async function (req, res) {
     // Checks that the email and answer (optional) are in the request
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return sendResponse(res, 400, "Invalid request", {
-        errors: errors.array({ onlyFirstError: true })
+        errors: errors.array({ onlyFirstError: true }),
       });
     }
     const securityQuestionEnabled = await isSecurityQuestionEnabled();
@@ -70,7 +67,7 @@ router.post(
         from: "hack4impact.infra@gmail.com",
         to: user.email,
         subject: "Forgot Password",
-        text: "Enter the following pin on the reset page: " + user.pin
+        text: "Enter the following pin on the reset page: " + user.pin,
       };
       await sendMail(body);
       sendResponse(res, 200, "Sent password reset PIN to user if they exist");

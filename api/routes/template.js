@@ -1,7 +1,7 @@
 const express = require("express");
 const { checkToken } = require("../auth/utils/checkToken.js");
 const guard = require("express-jwt-permissions")({
-  permissionsProperty: "role"
+  permissionsProperty: "role",
 });
 const router = express.Router();
 const validate = require("express-jsonschema").validate;
@@ -15,20 +15,20 @@ router.post(
   checkToken,
   guard.check("admin"),
   validate({
-    body: TemplateSchema
+    body: TemplateSchema,
   }),
-  function(req, res) {
+  function (req, res) {
     const db = req.db;
     const collection = db.get("templates");
     const data = req.body;
 
     // Check if data includes proper fields
-    collection.insert(data, function(err) {
+    collection.insert(data, function (err) {
       if (err) {
         res.sendStatus(500);
       } else {
         res.json({
-          success: `${data.name} added!`
+          success: `${data.name} added!`,
         });
       }
     });
@@ -36,7 +36,7 @@ router.post(
 );
 
 // delete template by ID (delete button)
-router.delete("/:template_ID", checkToken, guard.check("admin"), function(
+router.delete("/:template_ID", checkToken, guard.check("admin"), function (
   req,
   res
 ) {
@@ -46,10 +46,10 @@ router.delete("/:template_ID", checkToken, guard.check("admin"), function(
   const collection = db.get("templates");
   collection
     .findOneAndDelete({ _id: id })
-    .then(template =>
+    .then((template) =>
       template !== null
         ? res.json({
-            success: `${id} deleted!`
+            success: `${id} deleted!`,
           })
         : res.sendStatus(404)
     )
@@ -57,22 +57,22 @@ router.delete("/:template_ID", checkToken, guard.check("admin"), function(
 });
 
 // get ALL templates (dropdown menus <- const of Template.jsx)
-router.get("/", function(req, res) {
+router.get("/", function (req, res) {
   const db = req.db;
   const collection = db.get("templates");
-  collection.find({}, {}, function(e, docs) {
+  collection.find({}, {}, function (e, docs) {
     res.send(docs);
   });
 });
 
 // get specific template by id (clicking on template in dropdown menu)
-router.get("/:template_ID", function(req, res) {
+router.get("/:template_ID", function (req, res) {
   const db = req.db;
   const id = req.params.template_ID;
   const collection = db.get("templates");
   collection
     .findOne({ _id: id })
-    .then(template =>
+    .then((template) =>
       template !== null ? res.send(template) : res.sendStatus(404)
     )
     .catch(() => res.sendStatus(500));
@@ -81,7 +81,7 @@ router.get("/:template_ID", function(req, res) {
 // TODO: Change all of these into one put function
 
 // edit entire template by ID (hitting save and exit)
-router.put("/:template_ID", checkToken, guard.check("admin"), function(
+router.put("/:template_ID", checkToken, guard.check("admin"), function (
   req,
   res
 ) {
@@ -92,11 +92,11 @@ router.put("/:template_ID", checkToken, guard.check("admin"), function(
   collection
     .findOneAndUpdate(
       {
-        _id: template_ID
+        _id: template_ID,
       },
       { $set: { draft, phases, name, creatorID } }
     )
-    .then(template =>
+    .then((template) =>
       template !== null
         ? res.json({ success: `${template_ID} updated!` })
         : res.sendStatus(404)
@@ -105,7 +105,7 @@ router.put("/:template_ID", checkToken, guard.check("admin"), function(
 });
 
 // edit draft of template by ID (what draftjs will do for template draft)
-router.put("/:template_ID/draft", checkToken, guard.check("admin"), function(
+router.put("/:template_ID/draft", checkToken, guard.check("admin"), function (
   req,
   res
 ) {
@@ -122,11 +122,11 @@ router.put("/:template_ID/draft", checkToken, guard.check("admin"), function(
   collection
     .findOneAndUpdate(
       {
-        _id: template_ID
+        _id: template_ID,
       },
       { $set: { draft } }
     )
-    .then(template =>
+    .then((template) =>
       template !== null
         ? res.json({ success: `${template_ID} updated!` })
         : res.sendStatus(404)
@@ -135,7 +135,7 @@ router.put("/:template_ID/draft", checkToken, guard.check("admin"), function(
 });
 
 // edit name of template by ID (what draftjs will do for name draft)
-router.put("/:template_ID/name", checkToken, guard.check("admin"), function(
+router.put("/:template_ID/name", checkToken, guard.check("admin"), function (
   req,
   res
 ) {
@@ -152,11 +152,11 @@ router.put("/:template_ID/name", checkToken, guard.check("admin"), function(
   collection
     .findOneAndUpdate(
       {
-        _id: template_ID
+        _id: template_ID,
       },
       { $set: { name } }
     )
-    .then(template =>
+    .then((template) =>
       template !== null
         ? res.json({ success: `${template_ID} updated!` })
         : res.sendStatus(404)
@@ -165,7 +165,7 @@ router.put("/:template_ID/name", checkToken, guard.check("admin"), function(
 });
 
 // edit phases of template by ID (what draftjs will do for phase selectors)
-router.put("/:template_ID/phases", checkToken, guard.check("admin"), function(
+router.put("/:template_ID/phases", checkToken, guard.check("admin"), function (
   req,
   res
 ) {
@@ -182,11 +182,11 @@ router.put("/:template_ID/phases", checkToken, guard.check("admin"), function(
   collection
     .findOneAndUpdate(
       {
-        _id: template_ID
+        _id: template_ID,
       },
       { $set: { phases } }
     )
-    .then(template =>
+    .then((template) =>
       template !== null
         ? res.json({ success: `${template_ID} updated!` })
         : res.sendStatus(404)
