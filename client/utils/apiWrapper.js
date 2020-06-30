@@ -173,6 +173,14 @@ export const addModelStage = (
   );
 };
 
+export const removeModelStage = (model_id, phaseName, stageName) =>
+  axios.delete(`${BASE_URL}/models/${model_id}/${phaseName}/${stageName}`, {
+    headers: {
+      "Content-Type": "application/JSON",
+      "x-access-token": localStorage.getItem("token"),
+    },
+  });
+
 export const getPhaseStakeholder = (model_id, phaseName) => {
   const requestString = `${BASE_URL}/models/${model_id}/${phaseName}/stakeholders`;
   return axios.get(requestString);

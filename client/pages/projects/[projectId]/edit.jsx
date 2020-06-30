@@ -232,6 +232,7 @@ export default WrappedMessage(function EditProjectPage(props) {
                   projectId={projectId}
                   phaseName={activePhase}
                   addStage={addStage}
+                  reload={loadProject}
                 />
               )}
             </Col>
