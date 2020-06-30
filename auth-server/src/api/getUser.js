@@ -4,7 +4,7 @@ const { sendResponse } = require("./../utils/sendResponse");
 const fetch = require("node-fetch");
 const { verifyUser } = require("./../utils/userVerification");
 
-router.get("/getUser", async function(req, res) {
+router.get("/getUser", async function (req, res) {
   // Return an error message if the token isn't sent
   if (!req.headers.token) {
     return sendResponse(res, 400, "Invalid Token");
@@ -20,9 +20,7 @@ router.get("/getUser", async function(req, res) {
   } else {
     // If it is a google user, makes a request to the google API with the token to get the user's email, and then checks if a user with that email exists.
     const tokenInfoRes = await fetch(
-      `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${
-        req.headers.token
-      }`
+      `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${req.headers.token}`
     );
     const payload = await tokenInfoRes.json();
     user = await User.findOne({ email: payload.email, googleAuth: true });
@@ -39,7 +37,7 @@ router.get("/getUser", async function(req, res) {
     user_email: user.email,
     user_verified: user.verified || req.headers.google,
     user_role: user.role,
-    user_id: user._id
+    user_id: user._id,
   });
 });
 

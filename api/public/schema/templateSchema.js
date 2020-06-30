@@ -4,26 +4,26 @@ const schema = {
   properties: {
     name: {
       type: "string",
-      required: false
+      required: false,
     },
     phases: {
       type: "array",
       items: {
         type: "string",
-        enum: ["Implementation", "Ideation", "Inspiration"]
+        enum: ["Implementation", "Ideation", "Inspiration"],
       },
-      required: false
+      required: false,
     },
     creatorID: {
       type: "string",
-      required: false
+      required: false,
     },
     draft: {
       type: "string",
-      required: false
-    }
-  }
+      required: false,
+    },
+  },
 };
 module.exports = {
-  templateSchema: schema
+  templateSchema: schema,
 };

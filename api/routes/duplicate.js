@@ -20,7 +20,7 @@ async function addReferences(db, srcId, destId) {
   await collection.update({ _id: destId }, { $push: { references: srcId } });
 }
 
-router.post("/:model_ID", checkToken, async function(req, res) {
+router.post("/:model_ID", checkToken, async function (req, res) {
   const db = req.db;
   const { model_ID } = req.params;
   const userEmail = req.decoded.sub;
@@ -29,12 +29,12 @@ router.post("/:model_ID", checkToken, async function(req, res) {
 
   collection.findOne(
     {
-      _id: model_ID
+      _id: model_ID,
     },
     {
-      $exists: true
+      $exists: true,
     },
-    function(err, doc) {
+    function (err, doc) {
       if (err) {
         res.sendStatus(500);
       } else {
@@ -45,7 +45,7 @@ router.post("/:model_ID", checkToken, async function(req, res) {
         delete doc["phone"];
         delete doc["referencedBy"];
         delete doc["references"];
-        collection.insert(doc, async function(err, doc) {
+        collection.insert(doc, async function (err, doc) {
           if (err) {
             res.sendStatus(500);
           } else {

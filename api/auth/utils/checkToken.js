@@ -16,14 +16,14 @@ let checkToken = (req, res, next) => {
       req.decoded = decoded;
       req.user = {
         email: decoded.sub,
-        role: decoded.permission
+        role: decoded.permission,
       };
       if (next) {
         next();
       } else {
         res.json({
           success: true,
-          message: "Token valid!"
+          message: "Token valid!",
         });
       }
     });
@@ -33,11 +33,11 @@ let checkToken = (req, res, next) => {
   return false;
 };
 
-router.get("/checkToken", function(req, res) {
+router.get("/checkToken", function (req, res) {
   checkToken(req, res);
 });
 
 module.exports = {
   checkToken: checkToken,
-  router
+  router,
 };

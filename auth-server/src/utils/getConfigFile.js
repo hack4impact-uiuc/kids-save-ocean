@@ -11,7 +11,7 @@ const getConfigFile = async () => {
   );
 };
 
-const getRolesForUser = async role => {
+const getRolesForUser = async (role) => {
   const config = await getConfigFile();
   if (config["roles"][role] != undefined) {
     return config["roles"][role];
@@ -93,5 +93,5 @@ module.exports = {
   isGmailEnabledForForgotPassword,
   getProdURI,
   getSecurityQuestions,
-  getExpiryTime
+  getExpiryTime,
 };

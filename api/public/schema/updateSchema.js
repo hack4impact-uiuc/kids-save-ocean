@@ -5,31 +5,31 @@ const schema = {
     type: {
       type: "string",
       enum: ["stage", "profile", "project"],
-      required: true
+      required: true,
     },
     username: {
       type: "string",
-      required: true
+      required: true,
     },
     projectId: {
       type: "string",
-      required: false
+      required: false,
     },
     description: {
       type: "string",
-      required: true
+      required: true,
     },
     subDescription: {
       type: "string",
-      required: false
+      required: false,
     },
     date: {
       type: "integer",
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 };
 
 module.exports = {
-  updateSchema: schema
+  updateSchema: schema,
 };

@@ -5,12 +5,12 @@ const validate = require("express-jsonschema").validate;
 const { checkToken } = require("../auth/utils/checkToken");
 const {
   CommentSchema,
-  ThreadSchema
+  ThreadSchema,
 } = require("../public/schema/commentSchema");
 
 const { getUsername } = require("../utils/user_utils");
 
-router.post("/", validate({ body: CommentSchema }), checkToken, async function(
+router.post("/", validate({ body: CommentSchema }), checkToken, async function (
   req,
   res
 ) {
@@ -28,14 +28,14 @@ router.post("/", validate({ body: CommentSchema }), checkToken, async function(
           authorName: username,
           content: comment,
           createdAt: new Date().toGMTString(),
-          thread: []
-        }
-      }
+          thread: [],
+        },
+      },
     },
     {
-      upsert: true
+      upsert: true,
     },
-    function(err) {
+    function (err) {
       if (err) {
         res.sendStatus(500);
       }
@@ -47,17 +47,17 @@ router.post("/", validate({ body: CommentSchema }), checkToken, async function(
     projects
       .findOneAndUpdate(
         {
-          _id: commentLocation
+          _id: commentLocation,
         },
         {
-          $inc: { numComments: 1 }
+          $inc: { numComments: 1 },
         }
       )
       .catch(() => res.sendStatus(500));
   }
 
   res.json({
-    success: `comment added!`
+    success: `comment added!`,
   });
 });
 
@@ -65,7 +65,7 @@ router.post(
   "/thread",
   validate({ body: ThreadSchema }),
   checkToken,
-  async function(req, res) {
+  async function (req, res) {
     const db = req.db;
     const { commentLocation, commentIndex, comment } = req.body;
     const userEmail = req.decoded.sub;
@@ -79,14 +79,14 @@ router.post(
           [`comments.${commentIndex}.thread`]: {
             authorName: username,
             content: comment,
-            createdAt: new Date().toGMTString()
-          }
-        }
+            createdAt: new Date().toGMTString(),
+          },
+        },
       },
       {
-        upsert: true
+        upsert: true,
       },
-      function(err) {
+      function (err) {
         if (err) {
           res.sendStatus(500);
         }
@@ -98,22 +98,22 @@ router.post(
       projects
         .findOneAndUpdate(
           {
-            _id: commentLocation
+            _id: commentLocation,
           },
           {
-            $inc: { numComments: 1 }
+            $inc: { numComments: 1 },
           }
         )
         .catch(() => res.sendStatus(500));
     }
 
     res.json({
-      success: `comment added!`
+      success: `comment added!`,
     });
   }
 );
 
-router.get("/:commentLocation", function(req, res) {
+router.get("/:commentLocation", function (req, res) {
   const { commentLocation } = req.params;
   const db = req.db;
   const collection = db.get("comments");
@@ -121,9 +121,9 @@ router.get("/:commentLocation", function(req, res) {
   collection.find(
     { commentLocation },
     {
-      $exists: true
+      $exists: true,
     },
-    function(e, docs) {
+    function (e, docs) {
       if (e) {
         res.sendStatus(500);
       } else {
@@ -137,7 +137,7 @@ router.get("/:commentLocation", function(req, res) {
   );
 });
 
-router.get("/:commentLocation/count", function(req, res) {
+router.get("/:commentLocation/count", function (req, res) {
   const { commentLocation } = req.params;
   const db = req.db;
   const collection = db.get("comments");
@@ -145,9 +145,9 @@ router.get("/:commentLocation/count", function(req, res) {
   collection.find(
     { commentLocation },
     {
-      $exists: true
+      $exists: true,
     },
-    function(e, docs) {
+    function (e, docs) {
       if (e) {
         res.sendStatus(500);
       } else {

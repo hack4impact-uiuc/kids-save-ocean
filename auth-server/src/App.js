@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 
 app.use("/auth", router);
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   console.error(err);
   console.log(err.stack);
   sendResponse(

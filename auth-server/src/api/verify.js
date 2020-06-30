@@ -9,7 +9,7 @@ const handleAsyncErrors = require("../utils/errorHandler");
 
 router.post(
   "/verify",
-  handleAsyncErrors(async function(req, res) {
+  handleAsyncErrors(async function (req, res) {
     // Check that there is a token in the header of the request
     if (!req.headers.token) {
       return sendResponse(res, 400, "Invalid Token");
@@ -26,14 +26,14 @@ router.post(
       // Using the user's email find them in the database and return a success message with the users role and id
       const user = await User.findOne({
         email: payload.email,
-        googleAuth: true
+        googleAuth: true,
       });
       if (user) {
         return res.status(200).send({
           status: 200,
           message: "Succesfully Google Authenticated",
           role: user.role,
-          authId: user._id
+          authId: user._id,
         });
       } else {
         // Return an error message if they aren't in the database
@@ -56,7 +56,7 @@ router.post(
         role: user.role,
         email: user.email,
         emailVerified: user.verified,
-        newToken
+        newToken,
       });
     }
 
@@ -66,7 +66,7 @@ router.post(
       message: "Valid JWT token",
       role: user.role,
       email: user.email,
-      emailVerified: user.verified
+      emailVerified: user.verified,
     });
   })
 );

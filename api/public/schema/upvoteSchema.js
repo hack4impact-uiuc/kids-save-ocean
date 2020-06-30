@@ -4,11 +4,11 @@ const schema = {
   properties: {
     upvoteLocation: {
       type: "string",
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 };
 
 module.exports = {
-  upvoteSchema: schema
+  upvoteSchema: schema,
 };

@@ -6,7 +6,7 @@ const { isSecurityQuestionEnabled } = require("../utils/getConfigFile");
 
 router.get(
   "/getSecurityQuestions",
-  handleAsyncErrors(async function(req, res) {
+  handleAsyncErrors(async function (req, res) {
     if (!(await isSecurityQuestionEnabled())) {
       return sendResponse(res, 400, "Security questions are not enabled");
     }
@@ -23,7 +23,7 @@ router.get(
     } else {
       // If they are succesfully parsed it sends a list of questions and a succesful status
       return res.status(200).send({
-        questions: questionsResponse.securityQuestions
+        questions: questionsResponse.securityQuestions,
       });
     }
   })

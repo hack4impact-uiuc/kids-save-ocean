@@ -4,63 +4,63 @@ const schema = {
   properties: {
     email: {
       type: "string",
-      required: true
+      required: true,
     },
     username: {
       type: "string",
-      required: true
+      required: true,
     },
     country: {
       type: "string",
-      required: true
+      required: true,
     },
     birthday: {
       type: "string",
-      required: true
+      required: true,
     },
     anon: {
       type: "boolean",
-      required: true
+      required: true,
     },
     admin: {
       type: "boolean",
-      required: false
+      required: false,
     },
     createdProjects: {
       type: "array",
       items: {
-        type: "string"
+        type: "string",
       },
-      required: true
+      required: true,
     },
     followingProjects: {
       type: "array",
       items: {
-        type: "string"
+        type: "string",
       },
-      required: true
+      required: true,
     },
     followingUsers: {
       type: "array",
       items: {
-        type: "string"
+        type: "string",
       },
-      required: true
+      required: true,
     },
     followers: {
       type: "array",
       items: {
-        type: "string"
+        type: "string",
       },
-      required: true
+      required: true,
     },
     lastCheckedNotifs: {
       type: "number",
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 };
 
 module.exports = {
-  userSchema: schema
+  userSchema: schema,
 };

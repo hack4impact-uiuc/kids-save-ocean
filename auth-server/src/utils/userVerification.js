@@ -18,5 +18,5 @@ async function verifyUser(token) {
 }
 
 module.exports = {
-  verifyUser
+  verifyUser,
 };

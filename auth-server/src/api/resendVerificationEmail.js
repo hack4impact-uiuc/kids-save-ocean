@@ -8,7 +8,7 @@ const handleAsyncErrors = require("../utils/errorHandler");
 const { verifyUser } = require("./../utils/userVerification");
 router.post(
   "/resendVerificationEmail",
-  handleAsyncErrors(async function(req, res) {
+  handleAsyncErrors(async function (req, res) {
     // If gmail is not enabled, it returns an error message
     const usingGmail = await googleAuth();
     if (!usingGmail) {
@@ -32,7 +32,7 @@ router.post(
       subject: "New User Verification",
       text:
         "Thanks for signing up! Please enter the following PIN on the new user confirmation page: " +
-        user.pin
+        user.pin,
     };
     try {
       await sendMail(body);

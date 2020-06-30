@@ -17,7 +17,7 @@ router.get("/", checkToken, async (req, res) => {
       code: SUCCESS,
       success: true,
       message: "Users retrieved successfully.",
-      data: users
+      data: users,
     });
   } catch (err) {
     return err;
@@ -33,13 +33,13 @@ router.get("/userInfo", checkToken, async (req, res) => {
     if (!user) {
       res.status(NOT_FOUND).send({
         success: false,
-        message: "User not found."
+        message: "User not found.",
       });
     }
     res.status(SUCCESS).send({
       success: true,
       message: "User retrieved successfully.",
-      user
+      user,
     });
   } catch (err) {
     return err;
@@ -58,12 +58,12 @@ router.get("/userInfo", checkToken, async (req, res) => {
             code: SUCCESS,
             success: true,
             message: "User retrieved successfully.",
-            data: users[0]
+            data: users[0],
           }
         : {
             code: NOT_FOUND,
             success: false,
-            message: "User not found."
+            message: "User not found.",
           };
     res.status(ret.code).send(ret);
   } catch (err) {
@@ -83,12 +83,12 @@ router.get("/userInfo", checkToken, async (req, res) => {
             code: SUCCESS,
             success: true,
             message: "User retrieved successfully.",
-            data: users[0]
+            data: users[0],
           }
         : {
             code: NOT_FOUND,
             success: false,
-            message: "User not found."
+            message: "User not found.",
           };
     res.status(ret.code).send(ret);
   } catch (err) {
@@ -115,7 +115,7 @@ router.post("/", validate({ body: UserSchema }), async (req, res) => {
     followingProjects: [],
     followingUsers: [],
     followers: [],
-    lastCheckedNotifs
+    lastCheckedNotifs,
   };
   try {
     const resp = await collection.insert(newUser);
@@ -123,7 +123,7 @@ router.post("/", validate({ body: UserSchema }), async (req, res) => {
       code: SUCCESS,
       success: true,
       message: "User successfully created.",
-      data: resp
+      data: resp,
     });
   } catch (err) {
     return err;
@@ -162,12 +162,12 @@ router.put("/userInfo", checkToken, async (req, res) => {
       ? {
           code: SUCCESS,
           success: true,
-          message: "User successfully updated."
+          message: "User successfully updated.",
         }
       : {
           code: NOT_FOUND,
           success: false,
-          message: "User not found."
+          message: "User not found.",
         };
     res.status(ret.code).send(ret);
   } catch (err) {
@@ -190,18 +190,18 @@ router.put("/userInfo/notifs", checkToken, async (req, res) => {
     if (user) {
       res.status(200).send({
         success: true,
-        message: "Updated last checked user notification date."
+        message: "Updated last checked user notification date.",
       });
     } else {
       res.status(404).send({
         success: false,
-        message: "User not found."
+        message: "User not found.",
       });
     }
   } catch (err) {
     res.status(500).send({
       success: false,
-      message: "Internal server error."
+      message: "Internal server error.",
     });
   }
 });
@@ -216,12 +216,12 @@ router.delete("/userInfo", checkToken, async (req, res) => {
       ? {
           code: SUCCESS,
           success: true,
-          message: "User successfully deleted."
+          message: "User successfully deleted.",
         }
       : {
           code: NOT_FOUND,
           success: false,
-          message: "User not found."
+          message: "User not found.",
         };
     res.status(ret.code).send(ret);
   } catch (err) {
@@ -239,13 +239,13 @@ router.get("/followingProjects", checkToken, async (req, res) => {
     if (!user) {
       res.status(404).send({
         success: false,
-        message: "User not found."
+        message: "User not found.",
       });
     }
     res.status(200).send({
       success: true,
       message: "Successfully retrived user's followingProjects.",
-      data: user.followingProjects
+      data: user.followingProjects,
     });
   } catch (err) {
     return err;
@@ -266,20 +266,20 @@ router.put("/followingProjects", checkToken, async (req, res) => {
     if (!project) {
       return res.status(NOT_FOUND).send({
         success: false,
-        message: "Project not found."
+        message: "Project not found.",
       });
     }
     const user = await userCollection.findOne({ email });
     if (!user) {
       return res.status(NOT_FOUND).send({
         success: false,
-        message: "User not found."
+        message: "User not found.",
       });
     }
     if (user.followingProjects.includes(projId)) {
       return res.status(DUPLICATE).send({
         success: false,
-        message: "Already following project."
+        message: "Already following project.",
       });
     }
     await userCollection.update(
@@ -294,7 +294,7 @@ router.put("/followingProjects", checkToken, async (req, res) => {
     );
     res.status(SUCCESS).send({
       success: true,
-      message: `Successfully started following project ${project.name}.`
+      message: `Successfully started following project ${project.name}.`,
     });
   } catch (err) {
     return err;
@@ -313,14 +313,14 @@ router.delete("/followingProjects", checkToken, async (req, res) => {
     if (!project) {
       return res.status(NOT_FOUND).send({
         success: false,
-        message: "Project not found."
+        message: "Project not found.",
       });
     }
     const user = await userCollection.findOne({ email });
     if (!user) {
       return res.status(NOT_FOUND).send({
         success: false,
-        message: "User not found."
+        message: "User not found.",
       });
     }
     await userCollection.update(
@@ -335,7 +335,7 @@ router.delete("/followingProjects", checkToken, async (req, res) => {
     );
     res.status(SUCCESS).send({
       success: true,
-      message: `Successfully unfollowed project ${project.name}.`
+      message: `Successfully unfollowed project ${project.name}.`,
     });
   } catch (err) {
     return err;
@@ -350,12 +350,12 @@ router.delete("/", async (req, res) => {
   res.status(SUCCESS).send({
     code: SUCCESS,
     success: true,
-    message: "Users successfully deleted."
+    message: "Users successfully deleted.",
   });
 });
 
 // add field
-router.get("/updates/:numUpdates/:currentIndex", checkToken, async function(
+router.get("/updates/:numUpdates/:currentIndex", checkToken, async function (
   req,
   res
 ) {
@@ -369,7 +369,7 @@ router.get("/updates/:numUpdates/:currentIndex", checkToken, async function(
   if (!user) {
     return res.status(NOT_FOUND).send({
       success: false,
-      message: "User not found."
+      message: "User not found.",
     });
   }
 
@@ -381,12 +381,12 @@ router.get("/updates/:numUpdates/:currentIndex", checkToken, async function(
 
   const feedUpdates = await updates.find(
     {
-      projectId: { $in: projectIds }
+      projectId: { $in: projectIds },
     },
     {
-      sort: { date: -1 }
+      sort: { date: -1 },
     },
-    function(e, docs) {
+    function (e, docs) {
       if (docs === null) {
         res.sendStatus(404);
       }
@@ -394,15 +394,15 @@ router.get("/updates/:numUpdates/:currentIndex", checkToken, async function(
   );
 
   const shouldNotif = feedUpdates.some(
-    update => update.date > user.lastCheckedNotifs
+    (update) => update.date > user.lastCheckedNotifs
   );
 
   res.status(SUCCESS).send({
     success: true,
     data: {
       shouldNotif,
-      updates: feedUpdates.slice(currentIndex, currentIndex + numUpdates)
-    }
+      updates: feedUpdates.slice(currentIndex, currentIndex + numUpdates),
+    },
   });
 });
 
