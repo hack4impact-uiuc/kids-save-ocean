@@ -5,10 +5,10 @@ import Router from "next/router";
 
 const SUCCESS = 200;
 
-const withAuth = WrappedComponent => {
+const withAuth = (WrappedComponent) => {
   class HOC extends React.Component {
     state = {
-      verified: false
+      verified: false,
     };
     async componentDidMount() {
       const verifyResponse = await verify();

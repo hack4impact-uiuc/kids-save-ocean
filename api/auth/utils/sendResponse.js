@@ -1,11 +1,11 @@
-const sendResponse = function(res, status, message, obj) {
+const sendResponse = function (res, status, message, obj) {
   res.status(status).send({
     status,
     message,
-    ...obj
+    ...obj,
   });
 };
 
 module.exports = {
-  sendResponse
+  sendResponse,
 };

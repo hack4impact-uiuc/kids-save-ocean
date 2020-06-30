@@ -9,7 +9,7 @@ import {
   Head,
   Loader,
   TipCard,
-  UpvotesSection
+  UpvotesSection,
 } from "../../../components";
 
 import {
@@ -23,7 +23,7 @@ import {
   NavItem,
   NavLink,
   TabContent,
-  TabPane
+  TabPane,
 } from "reactstrap";
 import classnames from "classnames";
 import {
@@ -32,7 +32,7 @@ import {
   duplicateModel,
   followProject,
   unfollowProject,
-  canEdit
+  canEdit,
 } from "../../../utils/apiWrapper";
 
 import "../../../public/styles/project.scss";
@@ -40,7 +40,7 @@ import "../../../public/styles/project.scss";
 // const DESCRIPTION_LENGTH = 400;
 const HUNDRED = 100;
 
-const capitalize = str =>
+const capitalize = (str) =>
   str.length > 0 ? str.charAt(0).toUpperCase() + str.slice(1) : str;
 
 export default function ProjectPage() {
@@ -87,7 +87,7 @@ export default function ProjectPage() {
   }, [setWidth]);
 
   useEffect(() => {
-    const loadOwner = projectId => {
+    const loadOwner = (projectId) => {
       canEdit(projectId)
         .then(() => {
           setIsOwner(true);
@@ -100,7 +100,7 @@ export default function ProjectPage() {
         });
     };
 
-    const load = async id => {
+    const load = async (id) => {
       if (id) {
         const model = await getModelsByID(id);
         if (model) {
@@ -124,8 +124,8 @@ export default function ProjectPage() {
   }, [projectId]);
 
   useEffect(() => {
-    const mapGanttData = phase =>
-      project.phases[phase.toLowerCase()]?.stages.map(stage => [
+    const mapGanttData = (phase) =>
+      project.phases[phase.toLowerCase()]?.stages.map((stage) => [
         `${stage.name}-${phase}-${stage.description}`,
         stage.name,
         capitalize(phase),
@@ -133,14 +133,14 @@ export default function ProjectPage() {
         stage.enddate ? new Date(stage.enddate) : new Date(),
         null,
         Math.random() * HUNDRED,
-        null
+        null,
       ]);
 
-    if (project) {
+    if (project !== null) {
       setGanttData({
         inspiration: mapGanttData("inspiration"),
         ideation: mapGanttData("ideation"),
-        implementation: mapGanttData("implementation")
+        implementation: mapGanttData("implementation"),
       });
     }
   }, [project]);
@@ -182,7 +182,7 @@ export default function ProjectPage() {
           <Button
             className="project-header-buttons"
             onClick={() => {
-              duplicateModel(project._id).then(resp =>
+              duplicateModel(project._id).then((resp) =>
                 Router.push(`/projects/${resp.data.id}`)
               );
             }}
@@ -196,7 +196,7 @@ export default function ProjectPage() {
     return buttons;
   };
 
-  const renderStageModal = description => {
+  const renderStageModal = (description) => {
     const basicElement = <p>{description}</p>;
     try {
       const contentObj = JSON.parse(description);
@@ -250,55 +250,57 @@ export default function ProjectPage() {
               </div>
               <p className="project-info">{project.description}</p>
               <hr />
-              <Nav tabs justified>
-                {Object.keys(project.phases)
-                  .filter(
-                    phase =>
-                      ganttData[phase] !== undefined &&
-                      ganttData[phase].length > 0
-                  )
-                  .map(phase => (
-                    <NavItem key={phase}>
-                      <NavLink
-                        className={classnames(
-                          { active: activePhase === phase },
-                          "tab"
-                        )}
-                        onClick={() => {
-                          setActivePhase(phase);
-                        }}
-                      >
-                        {capitalize(phase)}
-                      </NavLink>
-                    </NavItem>
-                  ))}
-              </Nav>
               {ganttData && (
-                <TabContent activeTab={activePhase}>
-                  {Object.keys(project.phases)
-                    .filter(
-                      phase =>
-                        ganttData[phase] !== undefined &&
-                        ganttData[phase].length > 0
-                    )
-                    .map(phase => (
-                      <TabPane key={phase} tabId={phase}>
-                        <Gantt
-                          data={ganttData[phase]}
-                          trackHeight={60}
-                          width={width}
-                          selectCallback={selection => {
-                            setActiveStage(
-                              project.phases[activePhase].stages[
-                                selection[0].row
-                              ]
-                            );
-                            toggleModal();
-                          }}
-                        />
-                      </TabPane>
-                    ))}
-                </TabContent>
+                <>
+                  <Nav tabs justified>
+                    {Object.keys(project.phases)
+                      .filter(
+                        (phase) =>
+                          ganttData[phase] !== undefined &&
+                          ganttData[phase].length > 0
+                      )
+                      .map((phase) => (
+                        <NavItem key={phase}>
+                          <NavLink
+                            className={classnames(
+                              { active: activePhase === phase },
+                              "tab"
+                            )}
+                            onClick={() => {
+                              setActivePhase(phase);
+                            }}
+                          >
+                            {capitalize(phase)}
+                          </NavLink>
+                        </NavItem>
+                      ))}
+                  </Nav>
+                  <TabContent activeTab={activePhase}>
+                    {Object.keys(project.phases)
+                      .filter(
+                        (phase) =>
+                          ganttData[phase] !== undefined &&
+                          ganttData[phase].length > 0
+                      )
+                      .map((phase) => (
+                        <TabPane key={phase} tabId={phase}>
+                          <Gantt
+                            data={ganttData[phase]}
+                            trackHeight={60}
+                            width={width}
+                            selectCallback={(selection) => {
+                              setActiveStage(
+                                project.phases[activePhase].stages[
+                                  selection[0].row
+                                ]
+                              );
+                              toggleModal();
+                            }}
+                          />
+                        </TabPane>
+                      ))}
+                  </TabContent>
+                </>
               )}
               <div className="tipcard-cols">
                 <TipCard

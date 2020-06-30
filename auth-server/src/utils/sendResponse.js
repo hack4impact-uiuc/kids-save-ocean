@@ -2,10 +2,10 @@ const sendResponse = (res, status, message, obj) => {
   res.status(status).send({
     status,
     message,
-    ...obj
+    ...obj,
   });
 };
 
 module.exports = {
-  sendResponse
+  sendResponse,
 };

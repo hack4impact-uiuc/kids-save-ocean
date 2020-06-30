@@ -13,7 +13,7 @@ const firebaseConfig = {
   apiKey: process.env.FIREBASE_APIKEY,
   authDomain: process.env.AUTH_DOMAIN,
   databaseURL: process.env.DATABASE_URL,
-  storageBucket: process.env.STORAGE_BUCKET
+  storageBucket: process.env.STORAGE_BUCKET,
 };
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
@@ -40,7 +40,7 @@ export default function Draft(props) {
 
   const { id, phaseName, stageName, read_only } = props;
 
-  const handleChange = editor => {
+  const handleChange = (editor) => {
     if (read_only) {
       return;
     }
@@ -67,7 +67,7 @@ export default function Draft(props) {
     });
   };
 
-  const uploadImagesAndFixUrls = async content => {
+  const uploadImagesAndFixUrls = async (content) => {
     for (const block of content.blocks) {
       if (block.type !== "image") {
         continue;
@@ -78,13 +78,13 @@ export default function Draft(props) {
         continue;
       }
 
-      const blob = await fetch(url).then(r => r.blob());
+      const blob = await fetch(url).then((r) => r.blob());
       const imageRef = storageRef.child(
         `${props.modelId}/${props.phaseName}/${props.stageName}/${block.key}`
       );
 
-      await imageRef.put(blob).then(async function(snapshot) {
-        await snapshot.ref.getDownloadURL().then(function(url) {
+      await imageRef.put(blob).then(async function (snapshot) {
+        await snapshot.ref.getDownloadURL().then(function (url) {
           block.data.url = url;
         });
       });
@@ -102,7 +102,7 @@ export default function Draft(props) {
 
   useEffect(() => {
     getDescription(id, phaseName, stageName)
-      .then(data => {
+      .then((data) => {
         const description = data.data.description;
         setPrevContent(description);
         const json = JSON.parse(description);
@@ -129,7 +129,7 @@ export default function Draft(props) {
       <Dante
         read_only={read_only}
         content={editorContent}
-        onChange={editor => handleChange(editor)}
+        onChange={(editor) => handleChange(editor)}
       />
     );
   };

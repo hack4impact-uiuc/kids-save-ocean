@@ -9,18 +9,14 @@ require("dotenv").config();
 
 router.post(
   "/google",
-  check("tokenId")
-    .isString()
-    .isLength({ min: 1 }),
-  check("role")
-    .isString()
-    .isLength({ min: 1 }),
-  handleAsyncErrors(async function(req, res) {
+  check("tokenId").isString().isLength({ min: 1 }),
+  check("role").isString().isLength({ min: 1 }),
+  handleAsyncErrors(async function (req, res) {
     // Check that there is a tokenId in the body of the request
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return sendResponse(res, 400, "Invalid request", {
-        errors: errors.array({ onlyFirstError: true })
+        errors: errors.array({ onlyFirstError: true }),
       });
     }
 
@@ -31,9 +27,7 @@ router.post(
 
     // Sends the tokenId to the Google API to get  the payload, which conatins the user's email
     const tokenInfoRes = await fetch(
-      `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${
-        req.body.tokenId
-      }`
+      `https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=${req.body.tokenId}`
     );
     const payload = await tokenInfoRes.json();
 
@@ -61,7 +55,7 @@ router.post(
           email: payload.email,
           password: null,
           googleAuth: true,
-          role: req.body.role
+          role: req.body.role,
         });
         await user.save();
         sendResponse(res, 200, "New Google user: " + payload.email);

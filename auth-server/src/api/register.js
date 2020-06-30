@@ -8,7 +8,7 @@ const { getSecurityQuestions } = require("./../utils/getConfigFile");
 const { generatePIN } = require("../utils/pinHelpers");
 const {
   googleAuth,
-  isSecurityQuestionEnabled
+  isSecurityQuestionEnabled,
 } = require("../utils/getConfigFile");
 const { sendMail } = require("./../utils/sendMail");
 const handleAsyncErrors = require("../utils/errorHandler");
@@ -17,19 +17,15 @@ router.post(
   "/register",
   [
     check("email").isEmail(),
-    check("password")
-      .isString()
-      .isLength({ min: 1 }),
-    check("role")
-      .isString()
-      .isLength({ min: 1 })
+    check("password").isString().isLength({ min: 1 }),
+    check("role").isString().isLength({ min: 1 }),
   ],
-  handleAsyncErrors(async function(req, res) {
+  handleAsyncErrors(async function (req, res) {
     // Checks that the request has the required fields (email, password, and role)
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return sendResponse(res, 400, "Invalid Request", {
-        errors: errors.array({ onlyFirstError: true })
+        errors: errors.array({ onlyFirstError: true }),
       });
     }
     // Ensures the user doesn't already have an account
@@ -55,7 +51,7 @@ router.post(
           "Can not read the security questions from the config file"
         );
       }
-      const question = 
+      const question =
         securityQuestionsResponse.securityQuestions[req.body.questionIdx];
       if (!question || !req.body.securityQuestionAnswer) {
         return sendResponse(
@@ -83,7 +79,7 @@ router.post(
         subject: "New User Verification",
         text:
           "Thanks for signing up! Please enter the following PIN on the new user confirmation page: " +
-          user.pin
+          user.pin,
       };
       try {
         await sendMail(body);
@@ -102,7 +98,7 @@ router.post(
       message: "User added to auth database successfully!",
       token: jwt_token,
       email: user.email,
-      role: user.role
+      role: user.role,
     });
   })
 );

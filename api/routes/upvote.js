@@ -23,14 +23,14 @@ router.post(
       {
         $set: {
           [`upvotes.${username}`]: {
-            upvote: true
-          }
-        }
+            upvote: true,
+          },
+        },
       },
       {
-        upsert: true
+        upsert: true,
       },
-      function(err) {
+      function (err) {
         if (err) {
           res.sendStatus(500);
         }
@@ -42,17 +42,17 @@ router.post(
       projects
         .findOneAndUpdate(
           {
-            _id: upvoteLocation
+            _id: upvoteLocation,
           },
           {
-            $inc: { numUpvotes: 1 }
+            $inc: { numUpvotes: 1 },
           }
         )
         .catch(() => res.sendStatus(500));
     }
 
     res.json({
-      success: `upvote added!`
+      success: `upvote added!`,
     });
   }
 );
@@ -65,9 +65,9 @@ router.get("/:upvoteLocation", (req, res) => {
   collection.find(
     { upvoteLocation },
     {
-      $exists: true
+      $exists: true,
     },
-    function(e, docs) {
+    function (e, docs) {
       if (e) {
         res.sendStatus(500);
       } else {
@@ -76,7 +76,7 @@ router.get("/:upvoteLocation", (req, res) => {
         } else {
           const { upvotes } = docs[0];
           res.json({
-            upvotes: Object.keys(upvotes).length
+            upvotes: Object.keys(upvotes).length,
           });
         }
       }

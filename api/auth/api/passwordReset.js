@@ -2,18 +2,18 @@ const fetch = require("isomorphic-fetch");
 const { SERVER_URL } = require("./../utils/globalServerUrl");
 const router = require("express").Router();
 
-router.post("/passwordReset", async function(req, res) {
+router.post("/passwordReset", async function (req, res) {
   const results = await fetch(`${SERVER_URL}/passwordReset`, {
     method: "POST",
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({
       email: req.body.email,
       pin: req.body.pin,
       password: req.body.password,
-      answer: req.body.answer
-    })
+      answer: req.body.answer,
+    }),
   });
   const parsed = await results.json();
   res.send(parsed);

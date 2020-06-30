@@ -31,5 +31,5 @@ export {
   TipCard,
   InfiniteScroller,
   UpvotesSection,
-  WrappedMessage
+  WrappedMessage,
 };

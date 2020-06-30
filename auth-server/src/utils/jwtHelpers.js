@@ -5,7 +5,7 @@ function signAuthJWT(email, role) {
     throw "Cannot create hash without email and role!";
   }
   return jwt.sign({ sub: email, permission: role }, process.env.AUTH_SECRET, {
-    expiresIn: "1d"
+    expiresIn: "1d",
   });
 }
 
@@ -51,5 +51,5 @@ module.exports = {
   signAuthJWT,
   verifyAuthJWT,
   decryptAuthJWT,
-  shouldUpdateJWT
+  shouldUpdateJWT,
 };

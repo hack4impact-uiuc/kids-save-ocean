@@ -1,7 +1,8 @@
 {
   "name": "infra-authentication-server",
   "scripts": {
-    "start": "nodemon src/startServer.js"
+    "start": "nodemon src/startServer.js",
+    "format": "prettier --write \"./**/*.{js,json,md}\""
   },
   "repository": {
     "type": "git",
@@ -32,7 +33,7 @@
     "node-pre-gyp": "^0.12.0",
     "nodemailer": "^5.1.1",
     "nodemon": "^1.19.4",
-    "prettier": "^1.17.0",
+    "prettier": "^2.0.5",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "supertest": "^3.4.2",

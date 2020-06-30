@@ -5,11 +5,11 @@ async function sendMail(mail_body) {
     user: process.env.INFRA_EMAIL,
     clientId: process.env.INFRA_CLIENT_ID,
     clientSecret: process.env.INFRA_CLIENT_SECRET,
-    refreshToken: process.env.INFRA_REFRESH_TOKEN
-  }
+    refreshToken: process.env.INFRA_REFRESH_TOKEN,
+  };
   let transporter = nodemailer.createTransport({
     service: "gmail",
-    auth
+    auth,
   });
   await transporter.sendMail(mail_body);
 }
@@ -20,7 +20,7 @@ async function sendPasswordChangeEmail(email) {
     to: email,
     subject: "Password Change Confirmation",
     text:
-      "Hi, this is a confirmation to say that your password has just been changed or reset. If you did not make this change, please reply to this email."
+      "Hi, this is a confirmation to say that your password has just been changed or reset. If you did not make this change, please reply to this email.",
   };
   await sendMail(mail_body);
 }

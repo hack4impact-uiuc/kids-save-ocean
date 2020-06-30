@@ -10,16 +10,16 @@ const stakeholdersSchema = {
         properties: {
           name: {
             type: "string",
-            required: true
+            required: true,
           },
           description: {
             type: "string",
-            required: true
-          }
-        }
-      }
-    }
-  }
+            required: true,
+          },
+        },
+      },
+    },
+  },
 };
 
 const challengesSchema = {
@@ -34,16 +34,16 @@ const challengesSchema = {
         properties: {
           name: {
             type: "string",
-            required: true
+            required: true,
           },
           description: {
             type: "string",
-            required: true
-          }
-        }
-      }
-    }
-  }
+            required: true,
+          },
+        },
+      },
+    },
+  },
 };
 
 const insightsSchema = {
@@ -58,20 +58,20 @@ const insightsSchema = {
         properties: {
           name: {
             type: "string",
-            required: true
+            required: true,
           },
           description: {
             type: "string",
-            required: true
-          }
-        }
-      }
-    }
-  }
+            required: true,
+          },
+        },
+      },
+    },
+  },
 };
 
 module.exports = {
   stakeholdersSchema: stakeholdersSchema,
   challengesSchema: challengesSchema,
-  insightsSchema: insightsSchema
+  insightsSchema: insightsSchema,
 };

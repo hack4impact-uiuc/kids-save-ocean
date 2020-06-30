@@ -3,7 +3,7 @@ import Link from "next/link";
 import {
   getSecurityQuestionForUser,
   submitSecurityQuestionAnswer,
-  resetPassword
+  resetPassword,
 } from "../utils/apiWrapper";
 import {
   Form,
@@ -14,7 +14,7 @@ import {
   Card,
   Alert,
   CardBody,
-  CardTitle
+  CardTitle,
 } from "reactstrap";
 import Router from "next/router";
 import { Head } from "../components";
@@ -38,7 +38,7 @@ export default function ForgotPasswordPage() {
   const [loadingAPI, setLoadingAPI] = useState(false);
   const [submitNewPassword, setSubmitNewPassword] = useState(false);
 
-  const handleGetSecurityQuestion = async e => {
+  const handleGetSecurityQuestion = async (e) => {
     e.preventDefault();
     const result = await getSecurityQuestionForUser(email);
     const resp = await result.json();
@@ -50,7 +50,7 @@ export default function ForgotPasswordPage() {
     }
   };
 
-  const handleSubmitSecurityAnswer = async e => {
+  const handleSubmitSecurityAnswer = async (e) => {
     e.preventDefault();
     setLoadingAPI(true);
     const result = await submitSecurityQuestionAnswer(email, answer);
@@ -64,7 +64,7 @@ export default function ForgotPasswordPage() {
     }
   };
 
-  const handleSubmitNewPassword = async e => {
+  const handleSubmitNewPassword = async (e) => {
     e.preventDefault();
     if (password !== password2) {
       setErrorMessage("Passwords don't match!");
@@ -102,7 +102,7 @@ export default function ForgotPasswordPage() {
                   <Input
                     name="pin"
                     value={pin}
-                    onChange={e => setPin(e.target.value)}
+                    onChange={(e) => setPin(e.target.value)}
                     required
                   />
                 </FormGroup>
@@ -114,7 +114,7 @@ export default function ForgotPasswordPage() {
                     minLength="8"
                     maxLength="64"
                     value={password}
-                    onChange={e => setPassword(e.target.value)}
+                    onChange={(e) => setPassword(e.target.value)}
                     required
                   />
                 </FormGroup>
@@ -126,7 +126,7 @@ export default function ForgotPasswordPage() {
                     minLength="8"
                     maxLength="64"
                     value={password2}
-                    onChange={e => setPassword2(e.target.value)}
+                    onChange={(e) => setPassword2(e.target.value)}
                     required
                   />
                 </FormGroup>
@@ -172,7 +172,7 @@ export default function ForgotPasswordPage() {
                       maxLength="64"
                       pattern={EMAIL_REGEX}
                       value={email}
-                      onChange={e => setEmail(e.target.value)}
+                      onChange={(e) => setEmail(e.target.value)}
                       required
                     />
                   </FormGroup>
@@ -211,7 +211,7 @@ export default function ForgotPasswordPage() {
                     <Input
                       type="answer"
                       name="answer"
-                      onChange={e => setAnswer(e.target.value)}
+                      onChange={(e) => setAnswer(e.target.value)}
                       required
                     />
                   </FormGroup>

@@ -7,7 +7,7 @@ import {
   Modal,
   ModalHeader,
   ModalBody,
-  ModalFooter
+  ModalFooter,
 } from "reactstrap";
 import "../public/styles/tipcard.scss";
 
@@ -36,7 +36,7 @@ export default function TipCard(props) {
           <CardTitle>{title}</CardTitle>
           <div className="tips">
             {tips &&
-              tips.map(tip => (
+              tips.map((tip) => (
                 <button
                   key={tip.name}
                   className="tip"
