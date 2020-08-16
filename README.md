@@ -22,7 +22,7 @@ Kids Save Ocean is an environmental nonprofit aiming to empower children to have
     <td align="center">
       <a href="https://www.linkedin.com/in/arpanlaha/">
         <img
-          src="https://raw.githubusercontent.com/hack4impact-uiuc/uiuc.hack4impact.org/master/static/images/people/arpan_laha.jpg"
+          src="https://raw.githubusercontent.com/hack4impact-uiuc/uiuc.hack4impact.org/master/public/images/people/arpan_laha.jpg"
           width="500px"
         />
         <br />
@@ -34,7 +34,7 @@ Kids Save Ocean is an environmental nonprofit aiming to empower children to have
     <td align="center">
       <a href="http://www.linkedin.com/in/yousef-a/">
         <img
-          src="https://raw.githubusercontent.com/hack4impact-uiuc/uiuc.hack4impact.org/master/static/images/people/yousef_ahmed.jpg"
+          src="https://raw.githubusercontent.com/hack4impact-uiuc/uiuc.hack4impact.org/master/public/images/people/yousef_ahmed.jpg"
           width="500px"
         />
         <br />
@@ -46,7 +46,7 @@ Kids Save Ocean is an environmental nonprofit aiming to empower children to have
     <td align="center">
       <a href="https://www.linkedin.com/in/zayyanfaizal/">
         <img
-          src="https://raw.githubusercontent.com/hack4impact-uiuc/uiuc.hack4impact.org/master/static/images/people/zayyan_faizal.jpg"
+          src="https://raw.githubusercontent.com/hack4impact-uiuc/uiuc.hack4impact.org/master/public/images/people/zayyan_faizal.jpg"
           width="500px"
         />
         <br />
@@ -58,7 +58,7 @@ Kids Save Ocean is an environmental nonprofit aiming to empower children to have
     <td align="center">
       <a href="https://www.linkedin.com/in/alicesf2/">
         <img
-          src="https://raw.githubusercontent.com/hack4impact-uiuc/uiuc.hack4impact.org/master/static/images/people/alice_fang.jpg"
+          src="https://raw.githubusercontent.com/hack4impact-uiuc/uiuc.hack4impact.org/master/public/images/people/alice_fang.jpg"
           width="500px"
         />
         <br />
@@ -72,7 +72,7 @@ Kids Save Ocean is an environmental nonprofit aiming to empower children to have
     <td align="center">
       <a href="http://linkedin.com/in/brandonw4/">
         <img
-          src="https://raw.githubusercontent.com/hack4impact-uiuc/uiuc.hack4impact.org/master/static/images/people/brandon_wang.jpg"
+          src="https://raw.githubusercontent.com/hack4impact-uiuc/uiuc.hack4impact.org/master/public/images/people/brandon_wang.jpg"
           width="500px"
         />
         <br />
@@ -84,7 +84,7 @@ Kids Save Ocean is an environmental nonprofit aiming to empower children to have
     <td align="center">
       <a href="https://www.linkedin.com/in/ashankbehara/">
         <img
-          src="https://raw.githubusercontent.com/hack4impact-uiuc/uiuc.hack4impact.org/master/static/images/people/ashank_behara.jpg"
+          src="https://raw.githubusercontent.com/hack4impact-uiuc/uiuc.hack4impact.org/master/public/images/people/ashank_behara.jpg"
           width="500px"
         />
         <br />
@@ -96,7 +96,7 @@ Kids Save Ocean is an environmental nonprofit aiming to empower children to have
     <td align="center">
       <a href="https://www.linkedin.com/in/ashwinsax/">
         <img
-          src="https://raw.githubusercontent.com/hack4impact-uiuc/uiuc.hack4impact.org/master/static/images/people/ashwin_saxena.jpg"
+          src="https://raw.githubusercontent.com/hack4impact-uiuc/uiuc.hack4impact.org/master/public/images/people/ashwin_saxena.jpg"
           width="500px"
         />
         <br />
@@ -108,7 +108,7 @@ Kids Save Ocean is an environmental nonprofit aiming to empower children to have
     <td align="center">
       <a href="http://linkedin.com/in/sahithimuthyala/">
         <img
-          src="https://raw.githubusercontent.com/hack4impact-uiuc/uiuc.hack4impact.org/master/static/images/people/sahithi_muthyala.jpg"
+          src="https://raw.githubusercontent.com/hack4impact-uiuc/uiuc.hack4impact.org/master/public/images/people/sahithi_muthyala.jpg"
           width="500px"
         />
         <br />
