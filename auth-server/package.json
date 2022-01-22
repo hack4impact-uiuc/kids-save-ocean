@@ -29,7 +29,7 @@
     "mocha": "^6.0.2",
     "mongoose": "5.9.*",
     "morgan": "^1.9.1",
-    "node-fetch": "^2.3.0",
+    "node-fetch": "^3.1.1",
     "node-pre-gyp": "^0.12.0",
     "nodemailer": "^5.1.1",
     "nodemon": "^1.19.4",
