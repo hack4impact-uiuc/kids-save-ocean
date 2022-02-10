@@ -43,7 +43,7 @@
     "minimist": ">=1.2.3",
     "next": "^9.3.1",
     "next-page-transitions": "^1.0.0-beta.2",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "react": "^16.13.1",
     "react-card-flip": "^1.0.10",
     "react-dom": "^16.13.1",
